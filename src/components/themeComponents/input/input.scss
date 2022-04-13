@@ -1,0 +1,25 @@
+.root-input {
+  height: 40px;
+  width: 270px;
+  border-radius: 10px;
+  background: #e2e2e2;
+  // opacity: 0.05;
+  border-radius: 10px;
+  outline: "none";
+  border: none;
+  font-family: Proxima Nova;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding: 0px !important;
+}
+
+.i-input-arrow-down {
+  position: absolute;
+  top: 10%;
+  right: 10px;
+  color: black;
+}

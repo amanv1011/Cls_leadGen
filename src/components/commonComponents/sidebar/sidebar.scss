@@ -1,0 +1,82 @@
+.sidebar-logo {
+  height: 41.07px;
+  width: 165px;
+  margin: 20px 20px 24px 30px;
+  object-fit: cover;
+}
+.sidebar-backButton {
+  position: absolute !important;
+  right: 4px;
+  top: 20px;
+  color: #ffffff;
+}
+.sidebar-icon {
+  height: 39px;
+  width: 44px;
+  margin: 22px 13px 22px 13px;
+  object-fit: cover;
+}
+.list-head {
+  height: 15px !important;
+  width: 97px !important;
+  color: #8b97a2 !important;
+  font-family: "Product Sans" !important;
+  font-size: 12px !important;
+  letter-spacing: 0 !important;
+  line-height: 15px !important;
+  margin-left: 26px !important;
+  margin-bottom: 8px !important;
+}
+.list-item {
+  height: 50px !important;
+  width: 250px !important;
+  margin: 0px 25px 0px 25px !important;
+  padding: 13px 15px 13px 15px !important;
+}
+.list-item-selected {
+  height: 50px !important;
+  width: 250px !important;
+  margin: 0px 25px 0px 25px !important;
+  padding: 13px 15px 13px 15px !important;
+  border-radius: 4px !important;
+  background-color: #1e2038 !important;
+}
+.list-item-colsed {
+  height: 50px !important;
+  width: auto !important;
+  margin: 0px 25px 0px 10px !important;
+  padding: 13px 15px 13px 15px !important;
+}
+.list-item-colsed-selected {
+  height: 50px !important;
+  width: 50px !important;
+  margin: 0px 25px 0px 10px !important;
+  padding: 13px 13px 13px 13px !important;
+  border-radius: 4px !important;
+  background-color: #1e2038 !important;
+}
+.list-item-icon {
+  height: 20px !important;
+  width: 19.45px !important;
+  color: #8b97a2 !important;
+}
+.list-item-text {
+  height: 19px !important;
+  width: auto !important;
+  color: #ffffff !important;
+  font-family: "Product Sans" !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  letter-spacing: 0.35px !important;
+  line-height: 19px !important;
+  margin-left: -16px !important;
+}
+.list-item-text-closed {
+  margin-left: 0px !important;
+}
+.list-item {
+  height: 50px !important;
+  width: 250px !important;
+  margin: 0px 25px 0px 25px !important;
+  padding: 13px 15px 13px 15px !important;
+}

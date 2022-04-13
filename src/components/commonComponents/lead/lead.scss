@@ -1,0 +1,134 @@
+.lead-container {
+  width: auto;
+  background: #ffffff;
+  height: auto;
+  box-shadow: 0px 4px 8px #d9ebf2;
+  border-radius: 15px;
+  margin-top: 12px;
+  .lead-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 45px;
+    background: #fafafa;
+    border-radius: 10px 10px 0px 0px;
+    padding: 12px;
+    box-sizing: border-box;
+    .lead-header-title {
+      font-family: Segoe UI;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 17px;
+      letter-spacing: 0em;
+      text-align: left;
+      background: #FAFAFA;
+    }
+   
+  }
+  .lead-body {
+    height: 67px;
+    width: 100%;
+    // padding-top: 10px;
+    // margin-top: 10px;
+  }
+}
+.lead-header-title-component{
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  top: 10px;
+  color: rgb(0, 58,210);
+
+  // color: #003AD2;
+  // opacity: 1;
+
+
+}
+.Response-time{
+font-style: normal;
+font-weight: 600;
+font-size: 12px;
+line-height: 15px;
+text-align: right;
+
+color: rgba(31, 65, 115, 0.5);
+
+}
+.line{
+  position: relative;
+  height: 1px;
+  background: #1F4173;
+  opacity: 0.1;
+  margin-top: 1px;
+}
+.lead-body-column{
+  float: left;
+  padding: 5px;
+  
+  margin-top: -19px;
+}
+.lead-body-column-card1{
+  width: 300px;
+  
+}
+.lead-body-column-card2{
+  width: 200px;
+  
+}
+.lead-body-column-card3{
+  width: 450px;
+  
+}
+.lead-body-column-card4{
+  width: 95px;
+  
+}
+
+.bt{
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 71px;
+  
+}
+
+.body-detail{
+
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+
+  color: #1F4173;
+
+}
+.head-body{
+ 
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+
+  color: rgba(31, 65, 115, 0.7);
+  margin-left: 7px;
+}
+
+.head-body{
+  margin-bottom: 0;
+
+
+}
+.body-detail{
+  margin-top:5px ;
+  margin-left: 7px;
+  
+}
+.lead-body-row{
+  padding-top: 3px;
+}
+
+
+  
