@@ -7,7 +7,7 @@ import moment from "moment";
 import { getPopupEnable, getPopupDisable } from "../../../redux/actions/PopupAction";
 import { useSelector, useDispatch } from "react-redux";
 import React from "react";
-import {updateLeadStatus} from '../../../redux/actions/leadActions'
+import { updateLeadStatus } from '../../../redux/actions/leadActions'
 import "./lead.scss";
 
 const Cards = (props) => {
@@ -18,11 +18,11 @@ const Cards = (props) => {
 
   var leadsData = props.leadData
 
-  let approveButton = (event) =>{
-    dispatch(updateLeadStatus(event.target.value,1))
+  let approveButton = (event) => {
+    dispatch(updateLeadStatus(event.target.value, 1))
   }
-  let rejectButton = (event) =>{
-    dispatch(updateLeadStatus(event.target.value,-1))
+  let rejectButton = (event) => {
+    dispatch(updateLeadStatus(event.target.value, -1))
   }
 
   const openPopup = (e) => {
@@ -43,11 +43,11 @@ const Cards = (props) => {
         leadsData.map((ele) => {
           return (
             <>
-              <Box   className="lead-container">
+              <Box className="lead-container">
                 <Box className="lead-header">
                   <Box onClick={openPopup} id={ele.id} className="lead-header-title">
-                    <Typography  className="lead-header-title-component">
-                      {ele.title}
+                    <Typography className="lead-header-title-component">
+                      {(ele.title.slice(0, 20))}
                     </Typography>
                   </Box>
                   <Box className="lead-header-option">
@@ -58,12 +58,12 @@ const Cards = (props) => {
 
                 </Box>
                 <hr className="line" />
-                <Box className="lead-body">
-                  <div className="lead-body-row">
+                <Box style={{display: "flex", paddingTop: "16px"}} className="lead-body">
+                  <div style={{display: "flex", width: "100%" }} className="lead-body-row1">
                     <div className="lead-body-column">
                       <div className="lead-body-column-card1">
                         <p className="head-body">Key Skills</p>
-                        <p className="body-detail">Manual Testing, Tester, Postman etc.</p>
+                        <p className="body-detail">...</p>
 
                       </div>
                     </div>
@@ -71,7 +71,7 @@ const Cards = (props) => {
                     <div className="lead-body-column">
                       <div className="lead-body-column-card2">
                         <p className="head-body">Company</p>
-                        <p className="body-detail">{ele.companyName}</p>
+                        <p className="body-detail">{ele.companyName !== null ? (ele.companyName ).slice(0, 10): "..."}</p>
 
                       </div>
                     </div>
@@ -79,21 +79,24 @@ const Cards = (props) => {
                     <div className="lead-body-column">
                       <div className="lead-body-column-card3">
                         <p className="head-body">Description</p>
-                        <p className="body-detail">{(ele.summary).slice(0, 42)}</p>
-
-                      </div>
-                    </div>
-                    <div className="lead-body-column">
-                      <div className="lead-body-column-card4">
-                        <p className="head-body">Experience</p>
-                        <p className="body-detail">0</p>
+                        <p className="body-detail" style={{ width: "13vw"}}>{(ele.summary).slice(0, 30)}</p>
 
                       </div>
                     </div>
 
-                    <div className="bt">
-                      <Button onClick={approveButton} value={ele.id} style={{ textTransform: 'none', height: "36px", width: "100px", borderRadius: "10px", marginRight: "10px", backgroundColor: "#E8F9E8", color: "#16C31E" }}>Approved</Button>
-                      <Button onClick={rejectButton} value={ele.id} style={{ textTransform: 'none', height: "36px", width: "100px", borderRadius: "10px", backgroundColor: "#FFF0EF", color: "#FF6C5F" }}> Reject</Button>
+
+
+                  </div>
+                  <div style={{display: "flex", justifyContent: "flex-end", width: "100%", marginRight: "2vw"}} className="lead-body-row2">
+                    <div className="bt" style={{ display: "flex", justifyContent: "space-around"}}>
+                      <div style={{ marginRight: "2vw"}}>
+                        
+                      <Button onClick={approveButton} value={ele.id} style={{ textTransform: 'none', height: "36px", width: "133px", borderRadius: "10px", marginRight: "10px", backgroundColor: "#E8F9E8", color: "#16C31E" }}>Approved</Button>
+                      </div>
+                      <div>
+
+                      <Button onClick={rejectButton} value={ele.id} style={{ textTransform: 'none', height: "36px", width: "133px", borderRadius: "10px", backgroundColor: "#FFF0EF", color: "#FF6C5F" }}> Reject</Button>
+                      </div>
 
                     </div>
                   </div>
