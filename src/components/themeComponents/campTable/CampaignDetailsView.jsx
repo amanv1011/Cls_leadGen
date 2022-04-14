@@ -139,7 +139,6 @@ const CampaignDetailsView = ({ open, setOpen, setViewMode, viewDetails }) => {
             onClick={handleClose}
             style={{
               width: "44px",
-              fontFamily: "Proxima Nova",
               fontStyle: "normal",
               fontWeight: 600,
               fontSize: "14px",

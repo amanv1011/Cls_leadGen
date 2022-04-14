@@ -41,7 +41,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 export default function IInput({
-  label,
   type,
   value,
   name,

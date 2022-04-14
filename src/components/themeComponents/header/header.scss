@@ -4,6 +4,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  .exportToExcel {
+    height: 40px;
+    width: 154px;
+    background: rgba(31, 65, 115, 0.5);
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #ffffff;
+    &:hover {
+      cursor: pointer;
+    }
+  }
   .tabs {
   }
   .inpt-button {
