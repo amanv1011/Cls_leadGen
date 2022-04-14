@@ -116,11 +116,31 @@ const Dashboard = ({ children }) => {
         }
       })
     }
+    
+    if(leadCount === 0){
+      leadExtracted = 0;
+    }else{
+      var leadExtracted = (leadCount / (Math.ceil(leadCount/100)*100)) * 100
+    }
 
-    let leadExtracted = (leadCount / (Math.ceil(leadCount/100)*100)) * 100
-    TodayPer = (Today / (Math.ceil(Today/100)*100)) * 100
-    WeeklyPer = (Weekly / (Math.ceil(Weekly/100)*100)) * 100
-    YesterdayPer = (Yesterday / (Math.ceil(Yesterday/100)*100)) * 100
+    
+    if(Today === 0){
+      TodayPer = 0
+    }else{
+      TodayPer = (Today / (Math.ceil(Today/100)*100)) * 100
+    }
+    
+    if(Weekly === 0){
+      WeeklyPer = 0
+    }else{
+      WeeklyPer = (Weekly / (Math.ceil(Weekly/100)*100)) * 100
+    }
+    
+    if(Yesterday === 0){
+      YesterdayPer = 0
+    }else{
+      YesterdayPer = (Yesterday / (Math.ceil(Yesterday/100)*100)) * 100
+    }
 
     // console.log();
     // console.log(leadsExtracted);

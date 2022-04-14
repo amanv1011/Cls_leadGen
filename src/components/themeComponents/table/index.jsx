@@ -69,7 +69,7 @@ const Table = (props) => {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <p className="table-heading" style={{ paddingLeft: "20px" }}>
+        <p className="table-heading" style={{ paddingLeft: "20px", paddingTop: "10px" }}>
           My Campaign(s)
         </p>
         <MoreVertIcon
