@@ -45,6 +45,7 @@ const Table = () => {
   const [viewMode, setViewMode] = useState(false);
   const [open, setOpen] = useState(true);
   const [viewDetails, setViewDetails] = useState([]);
+  const [currentSort, setCurrentSort] = useState("startdefault");
 
   useEffect(() => {
     dispatch(campaignActions.getAllCampaignsAction());
@@ -60,7 +61,6 @@ const Table = () => {
     const val = leadsListData.filter((valID) => {
       return valID.campaignId === id;
     });
-
     return val.length;
   };
 
@@ -95,7 +95,6 @@ const Table = () => {
 
   const sortingTable = (col) => {
     const dataToSort = [...campaignListData];
-
     if (order === "ascendingOrder") {
       if (col === "owner") {
         const sortedData = dataToSort.sort((a, b) => {
@@ -113,16 +112,14 @@ const Table = () => {
         setCampaignListData(sortedData);
         setOrder("descendingOrder");
       }
-
-      // if (col === "start_date" || col === "end_date") {
-      //   const sortedData = dataToSort.sort((a, b) => {
-      //     return new Date(a[col]).valueOf() - new Date(b[col]).valueOf();
-      //   });
-      //   setCampaignListData(sortedData);
-      //   setOrder("descendingOrder");
-      // }
+      if (col === "start_date" || col === "end_date") {
+        const sortedData = dataToSort.sort((a, b) => {
+          return new Date(a[col]).valueOf() - new Date(b[col]).valueOf();
+        });
+        setCampaignListData(sortedData);
+        setOrder("descendingOrder");
+      }
     }
-
     if (order === "descendingOrder") {
       console.log("order", order);
       if (col === "owner") {
@@ -141,21 +138,25 @@ const Table = () => {
         setCampaignListData(sortedData);
         setOrder("ascendingOrder");
       }
-
-      // if (col === "start_date" || col === "end_date") {
-      //   const sortedData = dataToSort.sort((a, b) => {
-      //     // console.log("new Date(b[col])", new Date(b.col));
-      //     // return new Date(b[col]).valueOf() - new Date(a[col]).valueOf();
-      //   });
-      //   setCampaignListData(sortedData);
-      //   setOrder("ascendingOrder");
-      // }
+      if (col === "start_date" || col === "end_date") {
+        const sortedData = dataToSort.sort((a, b) => {
+          // console.log("new Date(b[col])", new Date(b.col));
+          // return new Date(b[col]).valueOf() - new Date(a[col]).valueOf();
+        });
+        setCampaignListData(sortedData);
+        setOrder("ascendingOrder");
+      }
     }
   };
 
-  if (initialSearchValue) {
+  // if (initialSearchValue) {
+  //   searchingTable(initialSearchValue);
+  // }
+
+  useEffect(() => {
     searchingTable(initialSearchValue);
-  }
+  }, [initialSearchValue]);
+
   function searchingTable(searchTerm) {
     const lowerCasedValue = searchTerm.toLowerCase().trim();
     if (lowerCasedValue === "") setCampaignListData(campaignList);
@@ -190,7 +191,6 @@ const Table = () => {
         open={open}
         setOpen={setOpen}
         viewDetails={viewDetails}
-        // loader={loader}
       />
     );
   else

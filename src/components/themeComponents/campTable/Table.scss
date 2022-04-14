@@ -49,7 +49,7 @@
       background: #fafafa;
     }
     .campaign-name {
-      width: 169px;
+      width: 155px;
       padding-left: 20px;
       border-radius: 10px 0px 0px 0px;
       opacity: 1;
@@ -90,10 +90,9 @@
         margin-left: 10px;
       }
     }
-
     .status {
       width: 92px;
-      text-align: center;
+
       i {
         margin-left: 10px;
       }
@@ -146,10 +145,66 @@
       padding-top: 18px;
       padding-bottom: 18px;
       opacity: 0.7;
-      div .toolTip {
-        .MuiTooltip-popper {
-          background-color: red;
+      &.campaign-name {
+        width: 169px;
+        padding-left: 20px;
+        border-radius: 10px 0px 0px 0px;
+        opacity: 1;
+        @media screen and (max-width: 1280px) {
+          width: 152px;
         }
+      }
+      &.location {
+        width: 115px;
+        @media screen and (max-width: 1280px) {
+          width: 88px;
+        }
+      }
+      &.frequency {
+        width: 107px;
+        text-align: center;
+        i {
+          margin-left: 10px;
+        }
+      }
+      &.start-date {
+        width: 81px;
+        text-align: center;
+        i {
+          margin-left: 10px;
+        }
+      }
+      &.end-date {
+        width: 81px;
+        text-align: center;
+        i {
+          margin-left: 10px;
+        }
+      }
+      &.created-by {
+        width: 120px;
+        text-align: center;
+        i {
+          margin-left: 10px;
+        }
+      }
+      &.status {
+        width: 92px;
+        i {
+          margin-left: 10px;
+        }
+      }
+      &.green-switch {
+        width: 55px;
+        text-align: center;
+        @media screen and (max-width: 1280px) {
+          width: 40px;
+        }
+      }
+      &.actions {
+        width: 157px;
+        text-align: center;
+        border-radius: 0px 10px 0px 0px;
       }
     }
   }

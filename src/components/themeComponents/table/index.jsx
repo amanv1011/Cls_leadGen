@@ -44,25 +44,21 @@ const Table = (props) => {
 
   const onSortStart = () => {
     let nextSort;
-
     if (currentSort === "startdown") nextSort = "startup";
     else if (currentSort === "startup") nextSort = "startdefault";
     else if (currentSort === "startdefault") nextSort = "startdown";
     else if (currentSort === "endup" || "enddown" || "enddefault")
       nextSort = "startdefault";
-
     setCurrentSort(nextSort);
   };
 
   const onSortEnd = () => {
     let nextSort;
-
     if (currentSort === "enddown") nextSort = "endup";
     else if (currentSort === "endup") nextSort = "enddefault";
     else if (currentSort === "enddefault") nextSort = "enddown";
     else if (currentSort === "startup" || "startdown" || "startdefault")
       nextSort = "enddefault";
-
     setCurrentSort(nextSort);
   };
 
@@ -127,7 +123,6 @@ const Table = (props) => {
                   if (element.id === ele.campaignId) {
                     leadsCount++;
                   }
-                  
                 });
               }
 

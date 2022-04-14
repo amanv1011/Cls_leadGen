@@ -1,20 +1,6 @@
-import { getDocs } from "firebase/firestore";
-import { campgaignCollection } from "../firebase/collections";
 import * as firebaseMethods from "firebase/firestore";
+import { campgaignCollection } from "../firebase/collections";
 import { firestore } from "../firebase/firebaseInit";
-// import * as firebaseMethods from "firebase/firestore";
-// import { firestore } from "../firebase/firebaseInit";
-// import { campgaignCollection } from "../firebase/collections";
-// export const getCampaignList = async () => {
-//   try {
-//     const campaignSnaphot = await getDocs(campgaignCollection);
-//     const CompaignList = campaignSnaphot.docs.map((doc) => doc.data());
-//     console.log(CompaignList,'sdksjdksdj' );
-//     return CompaignList;
-//   } catch (err) {
-//     return err;
-//   }
-// };
 
 export const get_a_feild_in_a_document = async (
   a__campgaignId,
@@ -47,14 +33,17 @@ export const get_A_Campaign = async (a__campgaignId) => {
 
 export const getCampaignList = async () => {
   try {
-    const campaignSnaphot = await getDocs(campgaignCollection);
+    const campaignSnaphot = await firebaseMethods.getDocs(
+      firebaseMethods.query(
+        campgaignCollection,
+        firebaseMethods.orderBy("status", "desc")
+      )
+    );
     const CompaignList = campaignSnaphot.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
-    // console.log(CompaignList);
     return CompaignList;
-    
   } catch (err) {
     return err;
   }
