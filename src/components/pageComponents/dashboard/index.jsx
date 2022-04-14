@@ -127,7 +127,6 @@ const Dashboard = ({ children }) => {
     TodayPer = (Today / (Math.ceil(Today / 100) * 100)) * 100;
     WeeklyPer = (Weekly / (Math.ceil(Weekly / 100) * 100)) * 100;
     YesterdayPer = (Yesterday / (Math.ceil(Yesterday / 100) * 100)) * 100;
-
     setActiveCamp(ActiveCount);
     setLeadsExtracted(leadCount);
     setYesterdaysLeads(Yesterday);
