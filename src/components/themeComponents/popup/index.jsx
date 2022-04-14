@@ -5,6 +5,7 @@ import { Box, Modal, Button, Divider, Grid } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "./popup.scss";
 import moment from "moment";
+import IInput from "../input";
 
 const style = {
   position: "absolute",
@@ -15,7 +16,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: "910px",
   bgcolor: "#FFFFFF",
-  
+
   borderRadius: "15px",
   border: "none",
   outline: "none",
@@ -190,6 +191,14 @@ function AddCampaginModal() {
 
   return (
     <React.Fragment>
+      <input
+        type="text"
+        placeholder="Search"
+        className="addCampaignModal-inputs search-Box"
+        onChange={(event) => {
+          dispatch(campaignActions.searchInputValueAction(event.target.value));
+        }}
+      />
       <Button
         onClick={() => {
           dispatch(campaignActions.showModal());
@@ -205,7 +214,8 @@ function AddCampaginModal() {
       >
         <span
           style={{
-            fontFamily: "Proxima Nova",
+            textTransform: "none",
+            height: "17px",
             fontStyle: "normal",
             fontWeight: 600,
             fontSize: "14px",
@@ -223,8 +233,26 @@ function AddCampaginModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div style={{width: '100%'}}  >
-            <div className="addCampaignModal-title-span" ><p style={{marginTop:"0px", marginBottom:'0px', paddingLeft:'18px', paddingTop:'24px', fontSize:'18px', fontWeight:'600'}}>Add New Campaign</p></div>
+          <div style={{ width: "100%" }}>
+            <div className="addCampaignModal-title-span">
+              <p
+                style={{
+                  paddingLeft: "18px",
+                  paddingTop: "24px",
+                  fontSize: "18px",
+                  width: " fit-content",
+                  height: "22px",
+                  fontStyle: "normal",
+                  fontWeight: 600,
+                  fontSize: "18px",
+                  lineHeight: "22px",
+                  color: "#1F4173",
+                  fontWeight: 600,
+                }}
+              >
+                Add New Campaign
+              </p>
+            </div>
           </div>
           <form onSubmit={onSubmitEventhandler} style={{ margin: "20px" }}>
             <Grid container spacing={2}>
@@ -235,11 +263,15 @@ function AddCampaginModal() {
                   marginTop: "10px",
                 }}
               >
-                <label style={{fontSize: "14px"}} className="addCampaignModal-labels">Campaign Name</label>
+                <label
+                  style={{ fontSize: "14px" }}
+                  className="addCampaignModal-labels"
+                >
+                  Campaign Name
+                </label>
                 <br />
                 <input
                   type="text"
-                 
                   id="campaign-name"
                   className="addCampaignModal-inputs"
                   placeholder="Resources"
@@ -268,7 +300,7 @@ function AddCampaginModal() {
                   required
                   autoComplete="off"
                 >
-                  <option value="">Resources</option>
+                  <option value=""></option>
                   <option value="seek_aus">Seek Australia</option>
                   <option value="indeed_aus">Indeed Australia</option>
                   <option value="indeed_ca">Indeed Canada</option>
@@ -322,10 +354,9 @@ function AddCampaginModal() {
               </Grid>
 
               <Grid item xs={4}>
-                <label className="addCampaignModal-labels" >Start Date</label>
+                <label className="addCampaignModal-labels">Start Date</label>
                 <br />
                 <input
-               
                   type="date"
                   className="addCampaignModal-datePicker "
                   name="start_date"
@@ -337,12 +368,10 @@ function AddCampaginModal() {
               </Grid>
 
               <Grid item xs={4}>
-                <label className="addCampaignModal-labels" >Start Time</label>
+                <label className="addCampaignModal-labels">Start Time</label>
                 <br />
                 <input
-                
                   type="time"
-                  
                   className="addCampaignModal-datePicker "
                   name="start_time"
                   value={start_time}
@@ -394,9 +423,7 @@ function AddCampaginModal() {
                   autoComplete="off"
                 />
               </Grid>
-
-              
-
+              <Grid item xs={4}></Grid>
               <Grid item xs={4}>
                 <label className="addCampaignModal-labels">
                   Extract No. Of Pages(s)
@@ -417,7 +444,6 @@ function AddCampaginModal() {
                 />
               </Grid>
 
-              
               <Grid item xs={12}>
                 <Divider style={{ marginBottom: "30px" }} />
               </Grid>
@@ -426,7 +452,6 @@ function AddCampaginModal() {
                   display: "flex",
                   width: "100%",
                   justifyContent: "flex-end",
-                  
                 }}
               >
                 <div
@@ -439,8 +464,8 @@ function AddCampaginModal() {
                     style={{
                       borderRadius: "10px",
                       background: "#1F4173",
-                      fontFamily:'Segoe UI',
-                      textTransform:'none',
+                      fontFamily: "Segoe UI",
+                      textTransform: "none",
                       fontWeight: "600",
                       opacity: 0.5,
                     }}
@@ -453,8 +478,13 @@ function AddCampaginModal() {
                   <Button
                     type="submit"
                     variant="contained"
-                    
-                    style={{ borderRadius: "10px", background: "#003AD2", fontFamily:'Segoe UI',textTransform:'none', fontWeight: "600" }}
+                    style={{
+                      borderRadius: "10px",
+                      background: "#003AD2",
+                      fontFamily: "Segoe UI",
+                      textTransform: "none",
+                      fontWeight: "600",
+                    }}
                   >
                     {a__campgaignId ? "Update Campaign" : "Add Campaign"}
                   </Button>

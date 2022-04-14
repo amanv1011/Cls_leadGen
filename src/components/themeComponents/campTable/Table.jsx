@@ -201,88 +201,67 @@ const Table = () => {
             <table>
               <thead>
                 <tr>
+                  <th className="campaign-name">Campaign Name</th>
+                  <th className="location">Location</th>
                   <th
-                    style={{
-                      width: "169px",
-                      paddingLeft: "20px",
-                      borderRadius: "10px 0px 0px 0px",
-                      opacity: 1,
-                    }}
-                  >
-                    Campaign Name
-                  </th>
-                  <th style={{ width: "160px" }}>Location</th>
-                  <th
-                    className="headerHover"
+                    className="headerHover frequency"
                     onClick={() => {
                       sortingTable("frequency");
                     }}
-                    style={{ width: "98px" }}
                   >
                     No. of Leads
-                    <i style={{ marginLeft: "10px" }}>
+                    <i>
                       <Down />
                     </i>
                   </th>
                   <th
-                    className="headerHover"
+                    className="headerHover start-date"
                     onClick={() => {
                       sortingTable("start_date");
                     }}
-                    style={{ width: "81px", textAlign: "center" }}
                   >
                     Start Date
-                    <i style={{ marginLeft: "10px" }}>
+                    <i>
                       <Down />
                     </i>
                   </th>
                   <th
-                    className="headerHover"
+                    className="headerHover end-date"
                     onClick={() => {
                       sortingTable("end_date");
                     }}
-                    style={{ width: "81px", textAlign: "center" }}
                   >
                     End Date
-                    <i style={{ marginLeft: "10px" }}>
+                    <i>
                       <Down />
                     </i>
                   </th>
                   <th
-                    className="headerHover"
+                    className="headerHover created-by"
                     onClick={() => {
                       sortingTable("owner");
                     }}
-                    style={{ width: "120px", textAlign: "center" }}
                   >
                     Created By
-                    <i style={{ marginLeft: "10px" }}>
+                    <i>
                       <Down />
                     </i>
                   </th>
                   <th
-                    className="headerHover"
+                    className="headerHover status"
                     onClick={() => {
                       sortingTable("status");
                     }}
-                    style={{ width: "92px", textAlign: "center" }}
                   >
                     Status
-                    <i style={{ marginLeft: "10px" }}>
+                    <i>
                       <Down />
                     </i>
                   </th>
-                  <th style={{ width: "55px", textAlign: "center" }}></th>
-                  <th
-                    style={{
-                      width: "157px",
-                      textAlign: "center",
-                      borderRadius: "0px 10px 0px 0px",
-                    }}
-                  >
-                    Actions
-                  </th>
+                  <th className="green-switch"></th>
+                  <th className="actions">Actions</th>
                 </tr>
+                <tr className="bottomBorder"></tr>
               </thead>
             </table>
           </div>
@@ -307,35 +286,29 @@ const Table = () => {
                     return (
                       <React.Fragment key={campaignListItem.id}>
                         <tr>
-                          <td
-                            style={{
-                              width: "169px",
-                              paddingLeft: "20px",
-                              opacity: 1,
-                            }}
-                          >
+                          <td className="campaign-name">
                             {campaignListItem.name}
                           </td>
-                          <td style={{ width: "160px" }}>
+                          <td className="location">
                             {campaignListItem.location}
                           </td>
-                          <td style={{ width: "98px", textAlign: "center" }}>
+                          <td className="frequency">
                             {getId(campaignListItem.id)}
                           </td>
-                          <td style={{ width: "81px", textAlign: "center" }}>
+                          <td className="start-date">
                             {moment(
                               campaignListItem.start_date.toDate()
                             ).format("L")}
                           </td>
-                          <td style={{ width: "81px", textAlign: "center" }}>
+                          <td className="end-date">
                             {moment(campaignListItem.end_date.toDate()).format(
                               "L"
                             )}
                           </td>
-                          <td style={{ width: "120px", textAlign: "left" }}>
+                          <td className="created-by">
                             {campaignListItem.owner}
                           </td>
-                          <td style={{ width: "92px", textAlign: "center" }}>
+                          <td className="status">
                             {campaignListItem.status ? (
                               <Status />
                             ) : (
@@ -343,7 +316,7 @@ const Table = () => {
                             )}
                           </td>
 
-                          <td style={{ width: "55px", textAlign: "center" }}>
+                          <td className="green-switch">
                             <GreenSwitch
                               className="toggleSwitch"
                               defaultChecked={
@@ -355,13 +328,7 @@ const Table = () => {
                             />
                           </td>
 
-                          <td
-                            style={{
-                              width: "157px",
-                              borderRadius: "10px 10px 0px 0px",
-                              textAlign: "center",
-                            }}
-                          >
+                          <td className="actions">
                             <div>
                               <IconButton
                                 disabled={
