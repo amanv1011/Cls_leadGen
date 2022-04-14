@@ -42,7 +42,6 @@ const Dashboard = ({ children }) => {
   let [yesterdaysLeads, setYesterdaysLeads] = useState(0);
   let [weeklyLeadsPer, setWeeklyLeadsPer] = useState(0);
   let [weeklyLeads, setWeeklyLeads] = useState(0);
-  
 
   // const leaddata2 = dummyTabledata;
   // console.log(leaddata2);
@@ -66,81 +65,88 @@ const Dashboard = ({ children }) => {
   useEffect(() => {
     dispatch(getAllCampaignsAction());
     dispatch(getAllLeadsAction());
-    
-
-    
   }, []);
 
   useEffect(() => {
-    let ActiveCount = 0
-    let ActivePer = 0
-    let leadCount = 0
-    let Today = 0
-    let Weekly = 0
-    let Yesterday = 0
-    let TodayPer = 0
-    let WeeklyPer = 0
-    let YesterdayPer = 0
-    let currentDate = moment().format("MM/DD/YYYY")
+    let ActiveCount = 0;
+    let ActivePer = 0;
+    let leadCount = 0;
+    let Today = 0;
+    let Weekly = 0;
+    let Yesterday = 0;
+    let TodayPer = 0;
+    let WeeklyPer = 0;
+    let YesterdayPer = 0;
+    let currentDate = moment().format("MM/DD/YYYY");
 
     // leadData.map((ele) => {
     //   if(ele.status === 1){
     //     ActiveCount++
     //   }
     // })
-    if(leadData !== [] ){
+    if (leadData !== []) {
       leadData.map((ele) => {
-        if(ele.status === 1){
-          ActiveCount++
+        if (ele.status === 1) {
+          ActiveCount++;
         }
-      })
+      });
     }
 
-    if(ActiveCount === 0){
+    if (ActiveCount === 0) {
       ActivePer = 0;
-    }else{
-     ActivePer = (ActiveCount / (Math.ceil(ActiveCount/100)*100)) * 100
+    } else {
+      ActivePer = (ActiveCount / (Math.ceil(ActiveCount / 100) * 100)) * 100;
     }
 
-    if(genratedLeadData !== []){
+    if (genratedLeadData !== []) {
       genratedLeadData.map((ele) => {
-        leadCount++
-        if(moment.unix(ele.leadGeneratedDate.seconds).format("MM/DD/YYYY") === currentDate){
-          Today ++;
+        leadCount++;
+        if (
+          moment.unix(ele.leadGeneratedDate.seconds).format("MM/DD/YYYY") ===
+          currentDate
+        ) {
+          Today++;
         }
-        if(moment.unix(ele.leadGeneratedDate.seconds).format("MM/DD/YYYY") === (moment().subtract(1, 'day')).format("MM/DD/YYYY")){
-          Yesterday ++;
+        if (
+          moment.unix(ele.leadGeneratedDate.seconds).format("MM/DD/YYYY") ===
+          moment().subtract(1, "day").format("MM/DD/YYYY")
+        ) {
+          Yesterday++;
         }
-        if(moment().startOf('week') < moment.unix(ele.leadGeneratedDate.seconds).format("MM/DD/YYYY") < moment().endOf('week')){
-          Weekly ++
+        if (
+          moment().startOf("week") <
+          moment.unix(ele.leadGeneratedDate.seconds).format("MM/DD/YYYY") <
+          moment().endOf("week")
+        ) {
+          Weekly++;
         }
-      })
+      });
     }
 
-    let leadExtracted = (leadCount / (Math.ceil(leadCount/100)*100)) * 100
-    TodayPer = (Today / (Math.ceil(Today/100)*100)) * 100
-    WeeklyPer = (Weekly / (Math.ceil(Weekly/100)*100)) * 100
-    YesterdayPer = (Yesterday / (Math.ceil(Yesterday/100)*100)) * 100
+    let leadExtracted = (leadCount / (Math.ceil(leadCount / 100) * 100)) * 100;
+    TodayPer = (Today / (Math.ceil(Today / 100) * 100)) * 100;
+    WeeklyPer = (Weekly / (Math.ceil(Weekly / 100) * 100)) * 100;
+    YesterdayPer = (Yesterday / (Math.ceil(Yesterday / 100) * 100)) * 100;
 
     // console.log();
     // console.log(leadsExtracted);
     // console.log(ActivePer);
     // console.log(moment().startOf('week').format("MM/DD/YYYY"))
-    setActiveCamp(ActiveCount)
-    setLeadsExtracted(leadCount)
-    setYesterdaysLeads(Yesterday)
-    setTodaysLeads(Today)
-    setWeeklyLeads(Weekly)
+    setActiveCamp(ActiveCount);
+    setLeadsExtracted(leadCount);
+    setYesterdaysLeads(Yesterday);
+    setTodaysLeads(Today);
+    setWeeklyLeads(Weekly);
 
-    setActiveCampPer(ActivePer)
-    setLeadsExtractedPer(leadExtracted)
-    setTodaysLeadsPer(TodayPer)
-    setYesterdaysLeadsPer(YesterdayPer)
-    setWeeklyLeadsPer(WeeklyPer)
+    setActiveCampPer(ActivePer);
+    setLeadsExtractedPer(leadExtracted);
+    setTodaysLeadsPer(TodayPer);
+    setYesterdaysLeadsPer(YesterdayPer);
+    setWeeklyLeadsPer(WeeklyPer);
 
     // console.log(moment().startOf('week'));
     // console.log(moment().endOf('week'));
-  })
+  });
 
   return (
     <div className="dashboard-container">
@@ -167,9 +173,7 @@ const Dashboard = ({ children }) => {
         </Box>
         <Outlet />
         {window.location.pathname === "/app/dashboard" ? (
-          
           <>
-          
             <Box className="dash-box">
               <Box sx={{ boxShadow: 3 }} className="dash-lead-box">
                 <Circular
@@ -197,7 +201,11 @@ const Dashboard = ({ children }) => {
               </Box>
 
               <Box sx={{ boxShadow: 3 }} className="dash-lead-box">
-                <CircularChart Todays={todaysLeadsPer} Yesterdays={yesterdaysLeadsPer} Weeklys={weeklyLeadsPer} />
+                <CircularChart
+                  Todays={todaysLeadsPer}
+                  Yesterdays={yesterdaysLeadsPer}
+                  Weeklys={weeklyLeadsPer}
+                />
 
                 <div
                   style={{
@@ -282,7 +290,7 @@ const Dashboard = ({ children }) => {
               sx={{ boxShadow: 3, backgroundColor: "#FFFFFF" }}
               className="table-container"
             >
-              {leadReduxState === false && leadReduxStateErr !== null  ? (
+              {leadReduxState === false && leadReduxStateErr !== null ? (
                 <Table leadData={leadData} />
               ) : null}
               <Button

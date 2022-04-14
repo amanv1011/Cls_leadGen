@@ -5,7 +5,8 @@ import { Box, Modal, Button, Divider, Grid } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "./popup.scss";
 import moment from "moment";
-import IInput from "../input";
+import SearchIcon from "./SearchIcon";
+import PlusIcon from "./PlusIcon";
 
 const style = {
   position: "absolute",
@@ -194,11 +195,12 @@ function AddCampaginModal() {
       <input
         type="text"
         placeholder="Search"
-        className="addCampaignModal-inputs search-Box"
+        className="addCampaignModal-inputs search-box"
         onChange={(event) => {
           dispatch(campaignActions.searchInputValueAction(event.target.value));
         }}
       />
+
       <Button
         onClick={() => {
           dispatch(campaignActions.showModal());
@@ -212,6 +214,7 @@ function AddCampaginModal() {
           marginRight: "10px",
         }}
       >
+        <PlusIcon />
         <span
           style={{
             textTransform: "none",
