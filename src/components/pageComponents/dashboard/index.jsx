@@ -79,11 +79,11 @@ const Dashboard = ({ children }) => {
     let YesterdayPer = 0;
     let currentDate = moment().format("MM/DD/YYYY");
 
-    // leadData.map((ele) => {
-    //   if(ele.status === 1){
-    //     ActiveCount++
-    //   }
-    // })
+    leadData.map((ele) => {
+      if (ele.status === 1) {
+        ActiveCount++;
+      }
+    });
     if (leadData !== []) {
       leadData.map((ele) => {
         if (ele.status === 1) {
@@ -128,10 +128,6 @@ const Dashboard = ({ children }) => {
     WeeklyPer = (Weekly / (Math.ceil(Weekly / 100) * 100)) * 100;
     YesterdayPer = (Yesterday / (Math.ceil(Yesterday / 100) * 100)) * 100;
 
-    // console.log();
-    // console.log(leadsExtracted);
-    // console.log(ActivePer);
-    // console.log(moment().startOf('week').format("MM/DD/YYYY"))
     setActiveCamp(ActiveCount);
     setLeadsExtracted(leadCount);
     setYesterdaysLeads(Yesterday);
@@ -143,17 +139,12 @@ const Dashboard = ({ children }) => {
     setTodaysLeadsPer(TodayPer);
     setYesterdaysLeadsPer(YesterdayPer);
     setWeeklyLeadsPer(WeeklyPer);
-
-    // console.log(moment().startOf('week'));
-    // console.log(moment().endOf('week'));
   });
 
   return (
     <div className="dashboard-container">
       <Navbar />
       <SideBar />
-      {/* <button onClick={showData}>helloooooooooo</button>
-       <button onClick={showDataC}>hellooooooooooCammmmmm</button> */}
       <Box component="div" className="dshboard-content">
         <Box
           style={{
