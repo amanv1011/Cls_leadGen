@@ -163,7 +163,7 @@ const Dashboard = ({ children }) => {
   })
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container" style={window.location.pathname === "/app/dashboard" ? { height: "100vh"} : {height:"100%"}}>
       <Navbar />
       <SideBar />
       {/* <button onClick={showData}>helloooooooooo</button>
