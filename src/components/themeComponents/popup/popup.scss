@@ -44,20 +44,20 @@ div.addCampaign-title {
   text-align: left;
   color: #1f4173;
   padding-left: 15px;
-  &::placeholder {
-    color: #1f4173;
-    opacity: 0.5;
-  }
-  .search-box {
+  &.search-box {
     width: 280px;
     height: 40px;
+    background: #1f4173;
+    opacity: 0.05;
     font-weight: 600;
     font-size: 14px;
     line-height: 17px;
+
     color: #1f4173;
-    background: red;
-    opacity: 0.05;
-    border-radius: 10px;
+  }
+  &::placeholder {
+    color: #1f4173;
+    opacity: 0.5;
   }
 }
 

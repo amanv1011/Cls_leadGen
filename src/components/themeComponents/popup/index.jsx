@@ -8,22 +8,21 @@ import moment from "moment";
 import SearchIcon from "./SearchIcon";
 import PlusIcon from "./PlusIcon";
 
-const style = {
-  position: "absolute",
-  display: "flex",
-  flexWrap: "wrap",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "910px",
-  bgcolor: "#FFFFFF",
-
-  borderRadius: "15px",
-  border: "none",
-  outline: "none",
-};
-
 function AddCampaginModal() {
+  const style = {
+    position: "absolute",
+    display: "flex",
+    flexWrap: "wrap",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "910px",
+    bgcolor: "#FFFFFF",
+    borderRadius: "15px",
+    border: "none",
+    outline: "none",
+  };
+
   const dispatch = useDispatch();
   const statesInReduxStore = useSelector((state) => state);
 
@@ -309,12 +308,12 @@ function AddCampaginModal() {
                   <option value="indeed_ca">Indeed Canada</option>
                   <option value="indeed_uk">Indeed United Kingdom</option>
                   <option value="indeed_il">Indeed Italy</option>
-                  <option value="indeed_ae">Indeed Australia</option>
+                  <option value="indeed_ae">Indeed UAE</option>
                   <option value="indeed_fi">Indeed Finland</option>
-                  <option value="indeed_ch">Indeed Australia</option>
-                  <option value="indeed_pt">Indeed Australia</option>
-                  <option value="indeed_sg">Indeed Australia</option>
-                  <option value="linkedin_aus">Linkedin Australia</option>
+                  <option value="indeed_ch">Indeed China</option>
+                  <option value="indeed_pt">Indeed Portugal</option>
+                  <option value="indeed_sg">Indeed Singapore</option>
+                  <option value="linkedin">Linkedin</option>
                 </select>
               </Grid>
 

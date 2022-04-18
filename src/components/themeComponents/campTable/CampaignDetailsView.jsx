@@ -1,162 +1,222 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  Box,
-  Button,
-  Modal,
-  Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
   CircularProgress,
   Backdrop,
 } from "@mui/material";
-import "./Table.scss";
+import { styled } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 508,
-  height: 480,
-  bgcolor: "#E2E2E2",
-  borderRadius: "15px",
-  border: "none",
-  outline: "none",
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+
+const BootstrapDialogTitle = (props) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
 };
 
-const CampaignDetailsView = ({ open, setOpen, setViewMode, viewDetails }) => {
-  const [openLoader, setOpenLoader] = useState(true);
-  const handleCloseLoader = () => {
-    setOpenLoader(false);
-  };
-
+export default function CampaignDetailsView({
+  openDialog,
+  setOpenDialog,
+  viewDetails,
+}) {
   const handleClose = () => {
-    setOpen(false);
-    setViewMode(false);
+    setOpenDialog(false);
   };
 
   return (
     <React.Fragment>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={openLoader}
-        onClick={handleCloseLoader}
+      <BootstrapDialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={openDialog}
+        className="camapignDetailsViewModal"
       >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+        {viewDetails.map((viewDetail) => {
+          return (
+            <React.Fragment key={viewDetail.id}>
+              <BootstrapDialogTitle
+                id="customized-dialog-title"
+                onClose={handleClose}
+              >
+                {viewDetail.viewDetails.name.stringValue}
+              </BootstrapDialogTitle>
+              <DialogContent dividers>
+                <div className="main-container">
+                  <div>
+                    <div
+                      className="label-campaign-view"
+                      style={{ marginTop: 0 }}
+                    >
+                      Campaign Name
+                    </div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {viewDetail.viewDetails.name.stringValue}
+                      </div>
+                    </div>
+                  </div>
 
-      <Modal
-        open={open}
-        onClose={handleCloseLoader}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          {viewDetails.map((viewDetail) => {
-            return (
-              <React.Fragment key={viewDetail.id}>
-                <Box sx={{ flexGrow: 1 }} className="camapignDetailsViewModal">
-                  <Grid container spacing={2}>
-                    <Grid item xs={4}>
-                      Campaign Name: <br />
-                      {viewDetail.viewDetails.name.stringValue}
-                    </Grid>
+                  <div>
+                    <div
+                      className="label-campaign-view"
+                      style={{ marginTop: 0 }}
+                    >
+                      Tag(s)
+                    </div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {viewDetail.viewDetails.tags.arrayValue.values.map(
+                          (item) => `${item.stringValue} `
+                        )}
+                      </div>
+                    </div>
+                  </div>
 
-                    <Grid item xs={4}>
-                      Tag(s):
-                      <br />
-                      {viewDetail.viewDetails.tags.arrayValue.values.map(
-                        (item) => `${item.stringValue} `
-                      )}
-                    </Grid>
+                  <div>
+                    <div
+                      className="label-campaign-view"
+                      style={{ marginTop: 0 }}
+                    >
+                      Frequency
+                    </div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {viewDetail.viewDetails.frequency.integerValue}
+                      </div>
+                    </div>
+                  </div>
 
-                    <Grid item xs={4}>
-                      Frequency: {viewDetail.viewDetails.frequency.integerValue}
-                    </Grid>
+                  <div>
+                    <div className="label-campaign-view">Start Date</div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {viewDetail.viewDetails.start_date.timestampValue
+                          .toString()
+                          .slice(0, 10)}
+                      </div>
+                    </div>
+                  </div>
 
-                    <Grid item xs={4}>
-                      Start Date:
-                      <br />
-                      {viewDetail.viewDetails.start_date.timestampValue
-                        .toString()
-                        .slice(0, 10)}
-                    </Grid>
+                  <div>
+                    <div className="label-campaign-view">Start Time</div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {viewDetail.viewDetails.start_time.stringValue}
+                      </div>
+                    </div>
+                  </div>
 
-                    <Grid item xs={4}>
-                      Start Time:
-                      <br />
-                      {viewDetail.viewDetails.start_time.stringValue}
-                    </Grid>
+                  <div>
+                    <div className="label-campaign-view">End date</div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {viewDetail.viewDetails.end_date.timestampValue
+                          .toString()
+                          .slice(0, 10)}
+                      </div>
+                    </div>
+                  </div>
 
-                    <Grid item xs={4}>
-                      End date:
-                      <br />
-                      {viewDetail.viewDetails.end_date.timestampValue
-                        .toString()
-                        .slice(0, 10)}
-                    </Grid>
+                  <div>
+                    <div className="label-campaign-view">End Time</div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {" "}
+                        {viewDetail.viewDetails.end_time.stringValue}
+                      </div>
+                    </div>
+                  </div>
 
-                    <Grid item xs={4}>
-                      End Time: {viewDetail.viewDetails.end_time.stringValue}
-                    </Grid>
+                  <div>
+                    <div className="label-campaign-view">Location</div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {" "}
+                        {viewDetail.viewDetails.location.stringValue}
+                      </div>
+                    </div>
+                  </div>
 
-                    <Grid item xs={4}>
-                      Location: {viewDetail.viewDetails.location.stringValue}
-                    </Grid>
+                  <div>
+                    <div className="label-campaign-view">
+                      Extract No. Of Pages(s)
+                    </div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {" "}
+                        {viewDetail.viewDetails.pages.integerValue}
+                      </div>
+                    </div>
+                  </div>
 
-                    <Grid item xs={4}>
-                      Extract No. Of Pages(s):
-                      <br />
-                      {viewDetail.viewDetails.pages.integerValue}
-                    </Grid>
+                  <div>
+                    <div className="label-campaign-view">
+                      Status of the campaign
+                    </div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {parseInt(viewDetail.viewDetails.status.integerValue)
+                          ? "Active"
+                          : "In-Active"}
+                      </div>
+                    </div>
+                  </div>
 
-                    <Grid item xs={4}>
-                      Status of the campaign:
-                      <br />
-                      {parseInt(viewDetail.viewDetails.status.integerValue)
-                        ? "Active"
-                        : "In-Active"}
-                    </Grid>
+                  <div>
+                    <div className="label-campaign-view">Created By</div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {" "}
+                        {viewDetail.viewDetails.owner.stringValue}
+                      </div>
+                    </div>
+                  </div>
 
-                    <Grid item xs={4}>
-                      Created By: <br />
-                      {viewDetail.viewDetails.owner.stringValue}
-                    </Grid>
-
-                    <Grid item xs={4}>
-                      Last crawled Date :<br />
-                      {viewDetail.viewDetails.last_crawled_date.timestampValue
-                        .toString()
-                        .slice(0, 10)}
-                    </Grid>
-                  </Grid>
-                </Box>
-              </React.Fragment>
-            );
-          })}
-
-          <Button
-            className="closeBtn"
-            variant="primary"
-            onClick={handleClose}
-            style={{
-              width: "44px",
-              fontStyle: "normal",
-              fontWeight: 600,
-              fontSize: "14px",
-              lineHeight: "17px",
-              textAlign: "center",
-              color: "#FFFFFF",
-              height: "40px",
-              background: "#1f4173",
-              borderRadius: "10px",
-              marginBottom: "15px",
-            }}
-          >
-            Close
-          </Button>
-        </Box>
-      </Modal>
+                  <div>
+                    <div className="label-campaign-view">Last crawled Date</div>
+                    <div className="grid-campaign-view">
+                      <div className="campaign-text">
+                        {viewDetail.viewDetails.last_crawled_date.timestampValue
+                          .toString()
+                          .slice(0, 10)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </DialogContent>
+            </React.Fragment>
+          );
+        })}
+      </BootstrapDialog>
     </React.Fragment>
   );
-};
-
-export default CampaignDetailsView;
+}
