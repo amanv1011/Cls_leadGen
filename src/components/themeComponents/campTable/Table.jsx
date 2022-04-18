@@ -37,15 +37,12 @@ const Table = () => {
   const loader = statesInReduxStore.allCampaigns.loading;
   const leadsList = statesInReduxStore.allLeads.leadsList;
   const initialSearchValue = statesInReduxStore.allCampaigns.initialSearchValue;
-  const [searchTerm, setSearchTerm] = useState("");
 
   const [campaignListData, setCampaignListData] = useState([]);
   const [leadsListData, setLeadsListData] = useState([]);
   const [order, setOrder] = useState("descendingOrder");
-  const [viewMode, setViewMode] = useState(false);
-  const [open, setOpen] = useState(true);
   const [viewDetails, setViewDetails] = useState([]);
-  const [currentSort, setCurrentSort] = useState("startdefault");
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     dispatch(campaignActions.getAllCampaignsAction());
@@ -79,7 +76,7 @@ const Table = () => {
   };
 
   const Viewed = async (campaignListItemId) => {
-    setViewMode(true);
+    setOpenDialog(true);
     const mithunDominic = await dispatch(
       campaignActions.getACampaignAction(campaignListItemId)
     );
@@ -89,8 +86,6 @@ const Table = () => {
         id: mithunDominic.payload.id,
       },
     ]);
-    console.log("mithunDominic", mithunDominic);
-    setOpen(true);
   };
 
   const sortingTable = (col) => {
@@ -149,10 +144,6 @@ const Table = () => {
     }
   };
 
-  // if (initialSearchValue) {
-  //   searchingTable(initialSearchValue);
-  // }
-
   useEffect(() => {
     searchingTable(initialSearchValue);
   }, [initialSearchValue]);
@@ -174,235 +165,225 @@ const Table = () => {
   const statusUpdate = async (event, a__campgaignId) => {
     console.log("statusUpdate");
     if (event.target.checked) {
-      // console.log("checked", event.target.checked);
       await get_a_feild_in_a_document(a__campgaignId, { status: 1 });
     } else {
-      // console.log("Not checked ===", event.target.checked);
       await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
     }
     dispatch(campaignActions.getAllCampaignsAction());
   };
 
-  if (viewMode)
-    return (
+  return (
+    <React.Fragment>
+      <div>
+        <div className="outer-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th className="campaign-name">Campaign Name</th>
+                <th className="location">Location</th>
+                <th
+                  className="headerHover frequency"
+                  onClick={() => {
+                    sortingTable("frequency");
+                  }}
+                >
+                  No. of Leads
+                  <i>
+                    <Down />
+                  </i>
+                </th>
+                <th
+                  className="headerHover start-date"
+                  onClick={() => {
+                    sortingTable("start_date");
+                  }}
+                >
+                  Start Date
+                  <i>
+                    <Down />
+                  </i>
+                </th>
+                <th
+                  className="headerHover end-date"
+                  onClick={() => {
+                    sortingTable("end_date");
+                  }}
+                >
+                  End Date
+                  <i>
+                    <Down />
+                  </i>
+                </th>
+                <th
+                  className="headerHover created-by"
+                  onClick={() => {
+                    sortingTable("owner");
+                  }}
+                >
+                  Created By
+                  <i>
+                    <Down />
+                  </i>
+                </th>
+                <th
+                  className="headerHover status"
+                  onClick={() => {
+                    sortingTable("status");
+                  }}
+                >
+                  Status
+                  <i>
+                    <Down />
+                  </i>
+                </th>
+                <th className="green-switch"></th>
+                <th className="actions">Actions</th>
+              </tr>
+              <tr className="bottomBorder"></tr>
+            </thead>
+          </table>
+        </div>
+        <div className="table-wrapper">
+          {loader && (
+            <Backdrop
+              sx={{
+                color: "#003AD2",
+                zIndex: (theme) => theme.zIndex.drawer + 1,
+                backgroundColor: "transparent",
+              }}
+              open={loader}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          )}
+
+          <table id="table-to-xls">
+            <tbody>
+              {campaignListData &&
+                campaignListData.map((campaignListItem) => {
+                  return (
+                    <React.Fragment key={campaignListItem.id}>
+                      <tr>
+                        <td className="campaign-name">
+                          {campaignListItem.name}
+                        </td>
+                        <td className="location">
+                          {campaignListItem.location}
+                        </td>
+                        <td className="frequency">
+                          {getId(campaignListItem.id)}
+                        </td>
+                        <td className="start-date">
+                          {moment(campaignListItem.start_date.toDate()).format(
+                            "L"
+                          )}
+                        </td>
+                        <td className="end-date">
+                          {moment(campaignListItem.end_date.toDate()).format(
+                            "L"
+                          )}
+                        </td>
+                        <td className="created-by">{campaignListItem.owner}</td>
+                        <td className="status">
+                          {campaignListItem.status ? (
+                            <Status />
+                          ) : (
+                            <StatusInActive />
+                          )}
+                        </td>
+
+                        <td className="green-switch">
+                          <GreenSwitch
+                            className="toggleSwitch"
+                            defaultChecked={
+                              campaignListItem.status ? true : false
+                            }
+                            onClick={(event) =>
+                              statusUpdate(event, campaignListItem.id)
+                            }
+                          />
+                        </td>
+
+                        <td className="actions">
+                          <div>
+                            <IconButton
+                              disabled={
+                                getId(campaignListItem.id) ? false : true
+                              }
+                              style={
+                                getId(campaignListItem.id) === 0
+                                  ? {
+                                      pointerEvents: "auto",
+                                      cursor: "not-allowed",
+                                    }
+                                  : {}
+                              }
+                              onClick={() =>
+                                forDownloading(campaignListItem.id)
+                              }
+                            >
+                              <Download />
+                            </IconButton>
+
+                            <IconButton
+                              onClick={() => {
+                                dispatch(
+                                  campaignActions.campaignIDAction(
+                                    campaignListItem.id
+                                  )
+                                );
+                                dispatch(campaignActions.showModal());
+                              }}
+                            >
+                              <Edit />
+                            </IconButton>
+
+                            <IconButton
+                              onClick={() => Viewed(campaignListItem.id)}
+                            >
+                              <View />
+                            </IconButton>
+
+                            <IconButton
+                              disabled={
+                                getId(campaignListItem.id) ? true : false
+                              }
+                              style={
+                                getId(campaignListItem.id) === 0
+                                  ? {}
+                                  : {
+                                      pointerEvents: "auto",
+                                      cursor: "not-allowed",
+                                    }
+                              }
+                              onClick={() => {
+                                dispatch(
+                                  campaignActions.deleteCampaignsAction(
+                                    campaignListItem.id
+                                  )
+                                );
+                              }}
+                            >
+                              <Delete />
+                            </IconButton>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr className="bottomBorder"></tr>
+                    </React.Fragment>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
+      </div>
       <CampaignDetailsView
-        viewMode={viewMode}
-        setViewMode={setViewMode}
-        open={open}
-        setOpen={setOpen}
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
         viewDetails={viewDetails}
       />
-    );
-  else
-    return (
-      <React.Fragment>
-        <div>
-          <div className="outer-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th className="campaign-name">Campaign Name</th>
-                  <th className="location">Location</th>
-                  <th
-                    className="headerHover frequency"
-                    onClick={() => {
-                      sortingTable("frequency");
-                    }}
-                  >
-                    No. of Leads
-                    <i>
-                      <Down />
-                    </i>
-                  </th>
-                  <th
-                    className="headerHover start-date"
-                    onClick={() => {
-                      sortingTable("start_date");
-                    }}
-                  >
-                    Start Date
-                    <i>
-                      <Down />
-                    </i>
-                  </th>
-                  <th
-                    className="headerHover end-date"
-                    onClick={() => {
-                      sortingTable("end_date");
-                    }}
-                  >
-                    End Date
-                    <i>
-                      <Down />
-                    </i>
-                  </th>
-                  <th
-                    className="headerHover created-by"
-                    onClick={() => {
-                      sortingTable("owner");
-                    }}
-                  >
-                    Created By
-                    <i>
-                      <Down />
-                    </i>
-                  </th>
-                  <th
-                    className="headerHover status"
-                    onClick={() => {
-                      sortingTable("status");
-                    }}
-                  >
-                    Status
-                    <i>
-                      <Down />
-                    </i>
-                  </th>
-                  <th className="green-switch"></th>
-                  <th className="actions">Actions</th>
-                </tr>
-                <tr className="bottomBorder"></tr>
-              </thead>
-            </table>
-          </div>
-          <div className="table-wrapper">
-            {loader && (
-              <Backdrop
-                sx={{
-                  color: "#003AD2",
-                  zIndex: (theme) => theme.zIndex.drawer + 1,
-                  backgroundColor: "transparent",
-                }}
-                open={loader}
-              >
-                <CircularProgress color="inherit" />
-              </Backdrop>
-            )}
-
-            <table id="table-to-xls">
-              <tbody>
-                {campaignListData &&
-                  campaignListData.map((campaignListItem) => {
-                    return (
-                      <React.Fragment key={campaignListItem.id}>
-                        <tr>
-                          <td className="campaign-name">
-                            {campaignListItem.name}
-                          </td>
-                          <td className="location">
-                            {campaignListItem.location}
-                          </td>
-                          <td className="frequency">
-                            {getId(campaignListItem.id)}
-                          </td>
-                          <td className="start-date">
-                            {moment(
-                              campaignListItem.start_date.toDate()
-                            ).format("L")}
-                          </td>
-                          <td className="end-date">
-                            {moment(campaignListItem.end_date.toDate()).format(
-                              "L"
-                            )}
-                          </td>
-                          <td className="created-by">
-                            {campaignListItem.owner}
-                          </td>
-                          <td className="status">
-                            {campaignListItem.status ? (
-                              <Status />
-                            ) : (
-                              <StatusInActive />
-                            )}
-                          </td>
-
-                          <td className="green-switch">
-                            <GreenSwitch
-                              className="toggleSwitch"
-                              defaultChecked={
-                                campaignListItem.status ? true : false
-                              }
-                              onClick={(event) =>
-                                statusUpdate(event, campaignListItem.id)
-                              }
-                            />
-                          </td>
-
-                          <td className="actions">
-                            <div>
-                              <IconButton
-                                disabled={
-                                  getId(campaignListItem.id) ? false : true
-                                }
-                                style={
-                                  getId(campaignListItem.id) === 0
-                                    ? {
-                                        pointerEvents: "auto",
-                                        cursor: "not-allowed",
-                                      }
-                                    : {}
-                                }
-                                onClick={() =>
-                                  forDownloading(campaignListItem.id)
-                                }
-                              >
-                                <Download />
-                              </IconButton>
-
-                              <IconButton
-                                onClick={() => {
-                                  dispatch(
-                                    campaignActions.campaignIDAction(
-                                      campaignListItem.id
-                                    )
-                                  );
-                                  dispatch(campaignActions.showModal());
-                                }}
-                              >
-                                <Edit />
-                              </IconButton>
-
-                              <IconButton
-                                onClick={() => Viewed(campaignListItem.id)}
-                              >
-                                <View />
-                              </IconButton>
-
-                              <IconButton
-                                disabled={
-                                  getId(campaignListItem.id) ? true : false
-                                }
-                                style={
-                                  getId(campaignListItem.id) === 0
-                                    ? {}
-                                    : {
-                                        pointerEvents: "auto",
-                                        cursor: "not-allowed",
-                                      }
-                                }
-                                onClick={() => {
-                                  dispatch(
-                                    campaignActions.deleteCampaignsAction(
-                                      campaignListItem.id
-                                    )
-                                  );
-                                }}
-                              >
-                                <Delete />
-                              </IconButton>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr className="bottomBorder"></tr>
-                      </React.Fragment>
-                    );
-                  })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </React.Fragment>
-    );
+    </React.Fragment>
+  );
 };
 
 export default Table;
