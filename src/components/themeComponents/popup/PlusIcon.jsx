@@ -7,7 +7,7 @@ const PlusIcon = () => {
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 50 50"
         xmlSpace="preserve"
-        style={{ width: "30px", height: "30px", marginRight: "5px" }}
+        style={{ width: "20px", height: "20px", marginRight: "3px" }}
       >
         <path fill="none" d="M0 0h50v50H0z" />
         <path

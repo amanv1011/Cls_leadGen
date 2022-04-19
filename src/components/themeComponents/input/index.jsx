@@ -79,6 +79,7 @@ export default function IInput({
         className={classes.root}
         placeholder={placeholder}
         size="medium"
+        autoComplete="off"
       />
       {isSearch ? (
         <SearchOutlined className="i-input-arrow-down" color="black" />

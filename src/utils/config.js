@@ -29,3 +29,13 @@ export const firebaseConfig = {
   client_x509_cert_url:
     "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ypwr4%40forleads-9671d.iam.gserviceaccount.com",
 };
+
+// export const firebaseConfig = {
+//   apiKey: "AIzaSyDqcHIkxn2NHLef0xYm-ALIxLPZhwUGSXY",
+//   authDomain: "leadgentest-cbc38.firebaseapp.com",
+//   projectId: "leadgentest-cbc38",
+//   storageBucket: "leadgentest-cbc38.appspot.com",
+//   messagingSenderId: "822810778183",
+//   appId: "1:822810778183:web:e9bcfacc0f56bad2966f62",
+//   measurementId: "G-LN7QRGRNCM",
+// };

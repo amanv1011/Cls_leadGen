@@ -11,7 +11,6 @@ import Edit from "./Edit";
 import View from "./View";
 import Delete from "./Delete";
 import Down from "./Down";
-import moment from "moment";
 import * as XLSX from "xlsx";
 import * as campaignActions from "../../../redux/actions/campaignActions";
 import { getAllLeadsAction } from "../../../redux/actions/leadActions";
@@ -34,7 +33,7 @@ const Table = () => {
   const dispatch = useDispatch();
   const statesInReduxStore = useSelector((state) => state);
   const campaignList = statesInReduxStore.allCampaigns.campaignList;
-  const loader = statesInReduxStore.allCampaigns.loading;
+  const campaignLoader = statesInReduxStore.allCampaigns.loading;
   const leadsList = statesInReduxStore.allLeads.leadsList;
   const initialSearchValue = statesInReduxStore.allCampaigns.initialSearchValue;
 
@@ -54,16 +53,17 @@ const Table = () => {
     setLeadsListData(leadsList);
   }, [campaignList, leadsList]);
 
-  const getId = (id) => {
+  const getNumOfLeads = (id) => {
     const val = leadsListData.filter((valID) => {
       return valID.campaignId === id;
     });
+
     return val.length;
   };
 
   console.log("statesInReduxStore===", statesInReduxStore);
 
-  const forDownloading = (campaignListId) => {
+  const forDownloading = (campaignListId, campaignListItemName) => {
     console.log("Downloaded ===", campaignListId);
     const val = leadsListData.filter((valID) => {
       return valID.campaignId === campaignListId;
@@ -72,18 +72,19 @@ const Table = () => {
     let workBook = XLSX.utils.book_new();
     let workSheet = XLSX.utils.json_to_sheet(val);
     XLSX.utils.book_append_sheet(workBook, workSheet, "My Leads Sheet1");
-    XLSX.writeFile(workBook, "MyExcel.xlsx");
+    XLSX.writeFile(workBook, `${campaignListItemName} leads list.xlsx`);
   };
 
   const Viewed = async (campaignListItemId) => {
     setOpenDialog(true);
-    const mithunDominic = await dispatch(
+    const camapignDetails = await dispatch(
       campaignActions.getACampaignAction(campaignListItemId)
     );
     setViewDetails([
       {
-        viewDetails: mithunDominic.payload._document.data.value.mapValue.fields,
-        id: mithunDominic.payload.id,
+        viewDetails:
+          camapignDetails.payload._document.data.value.mapValue.fields,
+        id: camapignDetails.payload.id,
       },
     ]);
   };
@@ -91,56 +92,13 @@ const Table = () => {
   const sortingTable = (col) => {
     const dataToSort = [...campaignListData];
     if (order === "ascendingOrder") {
-      if (col === "owner") {
-        const sortedData = dataToSort.sort((a, b) => {
-          if (a[col].toLowerCase() > b[col].toLowerCase()) return 1;
-          if (a[col].toLowerCase() < b[col].toLowerCase()) return -1;
-          return 0;
-        });
-        setCampaignListData(sortedData);
-        setOrder("descendingOrder");
-      }
-      if (col === "frequency" || col === "status") {
-        const sortedData = dataToSort.sort((a, b) => {
-          return Number(a[col]) - Number(b[col]);
-        });
-        setCampaignListData(sortedData);
-        setOrder("descendingOrder");
-      }
-      if (col === "start_date" || col === "end_date") {
-        const sortedData = dataToSort.sort((a, b) => {
-          return new Date(a[col]).valueOf() - new Date(b[col]).valueOf();
-        });
-        setCampaignListData(sortedData);
-        setOrder("descendingOrder");
-      }
-    }
-    if (order === "descendingOrder") {
-      console.log("order", order);
-      if (col === "owner") {
-        const sortedData = dataToSort.sort((a, b) => {
-          if (a[col].toLowerCase() < b[col].toLowerCase()) return 1;
-          if (a[col].toLowerCase() > b[col].toLowerCase()) return -1;
-          return 0;
-        });
-        setCampaignListData(sortedData);
-        setOrder("ascendingOrder");
-      }
-      if (col === "frequency" || col === "status") {
-        const sortedData = dataToSort.sort((a, b) => {
-          return Number(b[col]) - Number(a[col]);
-        });
-        setCampaignListData(sortedData);
-        setOrder("ascendingOrder");
-      }
-      if (col === "start_date" || col === "end_date") {
-        const sortedData = dataToSort.sort((a, b) => {
-          // console.log("new Date(b[col])", new Date(b.col));
-          // return new Date(b[col]).valueOf() - new Date(a[col]).valueOf();
-        });
-        setCampaignListData(sortedData);
-        setOrder("ascendingOrder");
-      }
+      let sortedData = dataToSort.sort((a, b) => (a[col] < b[col] ? 1 : -1));
+      setCampaignListData(sortedData);
+      setOrder("descendingOrder");
+    } else {
+      let sortedData = dataToSort.sort((a, b) => (a[col] > b[col] ? 1 : -1));
+      setCampaignListData(sortedData);
+      setOrder("ascendingOrder");
     }
   };
 
@@ -148,18 +106,21 @@ const Table = () => {
     searchingTable(initialSearchValue);
   }, [initialSearchValue]);
 
-  function searchingTable(searchTerm) {
+  const keysInJSON = ["name", "location", "owner"];
+  console.log("campaignList", campaignList);
+
+  const searchingTable = (searchTerm) => {
     const lowerCasedValue = searchTerm.toLowerCase().trim();
     if (lowerCasedValue === "") setCampaignListData(campaignList);
     else {
-      const filteredData = campaignListData.filter((item) => {
-        return Object.keys(item).some((key) =>
+      const filteredData = campaignList.filter((item) => {
+        return keysInJSON.some((key) =>
           item[key].toString().toLowerCase().includes(lowerCasedValue)
         );
       });
       setCampaignListData(filteredData);
     }
-  }
+  };
 
   // Update status function
   const statusUpdate = async (event, a__campgaignId) => {
@@ -172,6 +133,17 @@ const Table = () => {
     dispatch(campaignActions.getAllCampaignsAction());
   };
 
+  function formatDate(date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+    return [day, month, year].join("/");
+  }
+
   return (
     <React.Fragment>
       <div>
@@ -181,17 +153,7 @@ const Table = () => {
               <tr>
                 <th className="campaign-name">Campaign Name</th>
                 <th className="location">Location</th>
-                <th
-                  className="headerHover frequency"
-                  onClick={() => {
-                    sortingTable("frequency");
-                  }}
-                >
-                  No. of Leads
-                  <i>
-                    <Down />
-                  </i>
-                </th>
+                <th className="numOfLeads">No. of Leads</th>
                 <th
                   className="headerHover start-date"
                   onClick={() => {
@@ -244,14 +206,14 @@ const Table = () => {
           </table>
         </div>
         <div className="table-wrapper">
-          {loader && (
+          {campaignLoader && (
             <Backdrop
               sx={{
                 color: "#003AD2",
                 zIndex: (theme) => theme.zIndex.drawer + 1,
                 backgroundColor: "transparent",
               }}
-              open={loader}
+              open={campaignLoader}
             >
               <CircularProgress color="inherit" />
             </Backdrop>
@@ -259,7 +221,7 @@ const Table = () => {
 
           <table id="table-to-xls">
             <tbody>
-              {campaignListData &&
+              {campaignListData.length !== 0 &&
                 campaignListData.map((campaignListItem) => {
                   return (
                     <React.Fragment key={campaignListItem.id}>
@@ -270,18 +232,14 @@ const Table = () => {
                         <td className="location">
                           {campaignListItem.location}
                         </td>
-                        <td className="frequency">
-                          {getId(campaignListItem.id)}
+                        <td className="numOfLeads">
+                          {getNumOfLeads(campaignListItem.id)}
                         </td>
                         <td className="start-date">
-                          {moment(campaignListItem.start_date.toDate()).format(
-                            "L"
-                          )}
+                          {formatDate(campaignListItem.start_date.toDate())}
                         </td>
                         <td className="end-date">
-                          {moment(campaignListItem.end_date.toDate()).format(
-                            "L"
-                          )}
+                          {formatDate(campaignListItem.end_date.toDate())}
                         </td>
                         <td className="created-by">{campaignListItem.owner}</td>
                         <td className="status">
@@ -308,10 +266,12 @@ const Table = () => {
                           <div>
                             <IconButton
                               disabled={
-                                getId(campaignListItem.id) ? false : true
+                                getNumOfLeads(campaignListItem.id)
+                                  ? false
+                                  : true
                               }
                               style={
-                                getId(campaignListItem.id) === 0
+                                getNumOfLeads(campaignListItem.id) === 0
                                   ? {
                                       pointerEvents: "auto",
                                       cursor: "not-allowed",
@@ -319,7 +279,10 @@ const Table = () => {
                                   : {}
                               }
                               onClick={() =>
-                                forDownloading(campaignListItem.id)
+                                forDownloading(
+                                  campaignListItem.id,
+                                  campaignListItem.name
+                                )
                               }
                             >
                               <Download />
@@ -346,10 +309,12 @@ const Table = () => {
 
                             <IconButton
                               disabled={
-                                getId(campaignListItem.id) ? true : false
+                                getNumOfLeads(campaignListItem.id)
+                                  ? true
+                                  : false
                               }
                               style={
-                                getId(campaignListItem.id) === 0
+                                getNumOfLeads(campaignListItem.id) === 0
                                   ? {}
                                   : {
                                       pointerEvents: "auto",

@@ -10,13 +10,10 @@ export const getLeadsList = async () => {
   return LeadsList;
 };
 
-
-
 export const approvRejectLeads = async (leadsId, leadStatus) => {
   try {
     const updateApproveReject = doc(leadsCollection, leadsId);
-    await updateDoc(updateApproveReject, {status:leadStatus });
-
+    await updateDoc(updateApproveReject, { status: leadStatus });
   } catch (err) {
     return err;
   }

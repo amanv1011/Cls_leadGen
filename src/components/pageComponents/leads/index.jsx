@@ -69,6 +69,7 @@ const Leads = () => {
               style={{ color: "rgba(92, 117,154)" }}
               placeholder={"Search"}
               isSearch={true}
+              onChangeInput={(event) => console.log(event.target.value)}
             />
             <Button
               style={{
