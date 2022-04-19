@@ -15,34 +15,15 @@ import "./leads.scss";
 import { WindowSharp } from "@mui/icons-material";
 import UnderReview from "../../commonComponents/lead/UnderReview";
 import Archive from "../../commonComponents/lead/Archive";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import LeadsHeader from "./leadsHeader";
 
 const Leads = () => {
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  // const open = Boolean(anchorEl);
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
   return (
     <Box className="leads-container">
       <Box className="leads-header">
-
-          
-      
-
-              <LeadsHeader/>
-
-              
-
-
-
-          
-      
+        <LeadsHeader />
       </Box>
       <Box className="leads-table-container">
         <Box classNAme="leads-header-container" style={{ display: "flex" }}>

@@ -7,10 +7,12 @@ import {getRejectCount} from "../../../redux/actions/approveRejectcount"
 import {getUnderreviewCount} from "../../../redux/actions/approveRejectcount"
 import {getApproveCount} from "../../../redux/actions/approveRejectcount"
 import {getArchieveCount} from "../../../redux/actions/approveRejectcount"
+import Fuse from "fuse.js";
 import PopupBox from "./PopupBox";
 const Archive = () => {
   const dispatch = useDispatch()
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList)
+  const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector((state) => state.leadsFilter.campaignName);
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
@@ -28,7 +30,14 @@ const Archive = () => {
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
-    var filterArchieve = archieveList;
+    const fuse = new Fuse(archieveList, {
+      keys: ["title", "summary", "companyName"],
+    });
+    const results = fuse.search(searchQuery);
+    var filterArchieve = searchQuery
+      ? results.map((results) => results.item)
+      : archieveList;
+    
   }
   if (
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
@@ -37,14 +46,21 @@ const Archive = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
-    var filterArchieve = [];
+    var filterArchieveResults = [];
     for (let i = 0; i < campaignID.length; i++) {
       for (let j = 0; j < archieveList.length; j++) {
         if (archieveList[j].campaignId === campaignID[i].id) {
-          filterArchieve.push(archieveList[j]);
+          filterArchieveResults.push(archieveList[j]);
         }
       }
     }
+    const fuse = new Fuse(filterArchieveResults, {
+      keys: ["title", "summary", "companyName"],
+    });
+    const results = fuse.search(searchQuery);
+    var filterArchieve = searchQuery
+      ? results.map((results) => results.item)
+      : filterArchieveResults;
   }
 
   if (
@@ -54,14 +70,21 @@ const Archive = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    var filterArchieve = [];
+    var filterArchieveResults = [];
     for (let i = 0; i < campaignID.length; i++) {
       for (let j = 0; j < archieveList.length; j++) {
         if (archieveList[j].campaignId === campaignID[i].id) {
-          filterArchieve.push(archieveList[j]);
+          filterArchieveResults.push(archieveList[j]);
         }
       }
     }
+    const fuse = new Fuse(filterArchieveResults, {
+      keys: ["title", "summary", "companyName"],
+    });
+    const results = fuse.search(searchQuery);
+    var filterArchieve = searchQuery
+      ? results.map((results) => results.item)
+      : filterArchieveResults;
   }
 
   if (
@@ -71,14 +94,21 @@ const Archive = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    var filterArchieve = [];
+    var filterArchieveResults = [];
     for (let i = 0; i < campaignID.length; i++) {
       for (let j = 0; j < archieveList.length; j++) {
         if (archieveList[j].campaignId === campaignID[i].id) {
-          filterArchieve.push(archieveList[j]);
+          filterArchieveResults.push(archieveList[j]);
         }
       }
     }
+    const fuse = new Fuse(filterArchieveResults, {
+      keys: ["title", "summary", "companyName"],
+    });
+    const results = fuse.search(searchQuery);
+    var filterArchieve = searchQuery
+      ? results.map((results) => results.item)
+      : filterArchieveResults;
   }
 
 

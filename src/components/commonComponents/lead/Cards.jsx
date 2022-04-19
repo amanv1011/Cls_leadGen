@@ -57,6 +57,7 @@ const Cards = (props) => {
 
     dispatch(getPopupEnable(leadsIdData));
   };
+  console.log(leadsData);
 
   return (
     <>

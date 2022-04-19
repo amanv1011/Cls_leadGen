@@ -163,7 +163,7 @@ const Dashboard = ({ children }) => {
 
   const leadStatus = () => {
     genratedLeadData.map((ele) => {
-      dispatch(updateLeadStatus(ele.id, 0));
+      dispatch(updateLeadStatus(ele.id, 2));
     })
   }
 

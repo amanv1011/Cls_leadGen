@@ -4,11 +4,12 @@ import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import IInput from "../../themeComponents/input";
+
 import DownArrow from "./DownArrow";
 import {
   leadsFilterCampaignName,
   leadsFilterOwnerName,
+  leadsFilterSearch,
 } from "../../../redux/actions/leadsFilter";
 
 const LeadsHeader = () => {
@@ -27,11 +28,10 @@ const LeadsHeader = () => {
   const handleCloseAllCampgainsMenu = (event) => {
     if (event.target.innerText === "") {
       dispatch(leadsFilterCampaignName("All Campaigns"));
-      setAllCampgainsFilter("All Campaigns")
+      setAllCampgainsFilter("All Campaigns");
     } else {
       dispatch(leadsFilterCampaignName(event.target.innerText));
-      setAllCampgainsFilter(event.target.innerText)
-      
+      setAllCampgainsFilter(event.target.innerText);
     }
     setAllCampgainsMenu(null);
   };
@@ -44,14 +44,19 @@ const LeadsHeader = () => {
   const handleCloseOwnerMenu = (event) => {
     if (event.target.innerText === "") {
       dispatch(leadsFilterOwnerName("All Owners"));
-      setAllOwnersFilter("All Owners")
+      setAllOwnersFilter("All Owners");
     } else {
       dispatch(leadsFilterOwnerName(event.target.innerText));
-      setAllOwnersFilter(event.target.innerText)
+      setAllOwnersFilter(event.target.innerText);
     }
 
     setOwnerMenu(null);
   };
+
+  const handleSearch = (event) => {
+    dispatch(leadsFilterSearch(event.target.value))
+  }
+
   return (
     <>
       <div
@@ -62,10 +67,27 @@ const LeadsHeader = () => {
         }}
       >
         <div style={{ display: "flex" }}>
-          <IInput
+          {/* <IInput
             style={{ color: "rgba(92, 117,154)" }}
             placeholder={"Search"}
             isSearch={true}
+          /> */}
+          <input
+            placeholder="Search"
+            type="text"
+            onChange = {handleSearch}
+            style={{
+              width: "280px",
+              height: "40px",
+              borderRadius: "10px",
+              backgroundColor: "#E7E7E7",
+              border: "none",
+              fontFamily: "Segoe UI",
+              fontWeight: "600",
+              color: "rgba(92, 117,154)",
+              fontSize: "14px",
+              paddingLeft:'10px'
+            }}
           />
           <div>
             <Button
