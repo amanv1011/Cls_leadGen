@@ -6,6 +6,7 @@ import IInput from "../../themeComponents/input";
 import { getRejectCount } from "../../../redux/actions/approveRejectcount";
 import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
 import { getApproveCount } from "../../../redux/actions/approveRejectcount";
+import {getArchieveCount} from "../../../redux/actions/approveRejectcount"
 import { useEffect, useState } from "react";
 import PopupBox from "./PopupBox";
 import "./lead.scss";
@@ -22,11 +23,14 @@ const Lead = () => {
   const approveCount = approveList.length;
   const popupStatus = useSelector((state) => state.popupStatus.popupStatus);
   const popupData = useSelector((state) => state.popupStatus.popupData);
+  const archieveList = genratedLeadData.filter((ele) => ele.status === 2)
+  const archieveCount = archieveList.length;
 
   useEffect(() => {
     dispatch(getApproveCount(approveCount));
     dispatch(getUnderreviewCount(underReviewCount));
     dispatch(getRejectCount(rejectCount));
+    dispatch(getArchieveCount(archieveCount))
   });
 
   return (
