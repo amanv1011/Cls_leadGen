@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, Modal, Button, Divider, Grid } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "./popup.scss";
-import moment from "moment";
-import SearchIcon from "./SearchIcon";
 import PlusIcon from "./PlusIcon";
 import IInput from "../input/index";
 
@@ -134,7 +132,7 @@ function AddCampaginModal() {
       start_date: Timestamp.fromDate(new Date(start_date)),
       last_crawled_date: Timestamp.fromDate(new Date(start_date)),
       owner: "Mithun Dominic",
-      status: 0,
+      status: 1,
     };
 
     if (a__campgaignId) {
@@ -173,6 +171,15 @@ function AddCampaginModal() {
             dispatch(
               campaignActions.searchInputValueAction(event.target.value)
             );
+          }}
+          className="my-input"
+          style={{
+            fontFamily: "'Proxima Nova'",
+            fontStyle: "normal",
+            fontWeight: "600",
+            fontSize: "14px",
+            lineHeight: "17px",
+            color: "#1F4173",
           }}
           autoComplete="off"
         />

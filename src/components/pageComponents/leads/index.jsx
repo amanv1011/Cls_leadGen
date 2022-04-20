@@ -16,6 +16,7 @@ import { WindowSharp } from "@mui/icons-material";
 import UnderReview from "../../commonComponents/lead/UnderReview";
 import Archive from "../../commonComponents/lead/Archive";
 import * as XLSX from "xlsx";
+import { getAllLeadsAction } from "../../../redux/actions/leadActions";
 
 const Leads = () => {
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
@@ -33,24 +34,32 @@ const Leads = () => {
   const exportLeadsToExcel = () => {
     if (window.location.pathname === "/app/dashboard/leads") {
       console.log("leads", genratedLeadData);
+      if (genratedLeadData.length === 0) {
+        return;
+      }
       downloadLeads(genratedLeadData, "All leads");
     }
     if (window.location.pathname === "/app/dashboard/leads/approve") {
-      console.log("approve", approveList);
+      if (approveList.length === 0) {
+        return;
+      }
       downloadLeads(approveList, "Approved Leads");
     }
 
     if (window.location.pathname === "/app/dashboard/leads/reject") {
-      console.log("reject", rejectList);
+      if (rejectList.length === 0) {
+        return;
+      }
       downloadLeads(rejectList, "Rejected Leads");
     }
     if (window.location.pathname === "/app/dashboard/leads/underreview") {
-      // console.log("underreview", underReviewList);
+      if (underReviewList.length === 0) {
+        return;
+      }
       downloadLeads(underReviewList, "Under Review Leads");
     }
     if (window.location.pathname === "/app/dashboard/leads/archive") {
       // console.log("archive");
-      // downloadLeads(underReviewList, "Archived Leads");
     }
   };
 
@@ -87,8 +96,7 @@ const Leads = () => {
             >
               All Campaigns{" "}
               <span style={{ marginLeft: "38px", paddingBottom: "5px" }}>
-                {" "}
-                <DownArrow />{" "}
+                <DownArrow />
               </span>
             </Button>
           </div>
