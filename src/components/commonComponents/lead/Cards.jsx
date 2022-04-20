@@ -16,6 +16,9 @@ const Cards = (props) => {
 
 
 
+
+
+
   var leadsData = props.leadData
 
   let approveButton = (event) => {
@@ -38,9 +41,19 @@ const Cards = (props) => {
   return (
 
 
+
     <>
       {
         leadsData.map((ele) => {
+          if (ele.companyName !== null) {
+            var linkedInCompany = ((ele.companyName).toLowerCase()).split(" ").join("");
+          } else {
+            var linkedInCompany = ""
+
+
+          }
+
+
           return (
             <>
               <Box className="lead-container">
@@ -52,14 +65,14 @@ const Cards = (props) => {
                   </Box>
                   <Box className="lead-header-option">
                     <span className="Response-time"> {moment.unix(ele.leadGeneratedDate.seconds).fromNow()} </span>
-                    <IconButton> < a href={ele.link}><LinkedIn /></a>  </IconButton>
+                    <IconButton> < a href={`https://www.linkedin.com/company/${linkedInCompany}/`} target="blank"><LinkedIn /></a>  </IconButton>
                     <IconButton><MoreVertIcon /></IconButton>
                   </Box>
 
                 </Box>
                 <hr className="line" />
-                <Box style={{display: "flex", paddingTop: "16px"}} className="lead-body">
-                  <div style={{display: "flex", width: "100%" }} className="lead-body-row1">
+                <Box style={{ display: "flex", paddingTop: "16px" }} className="lead-body">
+                  <div style={{ display: "flex", width: "100%" }} className="lead-body-row1">
                     <div className="lead-body-column">
                       <div className="lead-body-column-card1">
                         <p className="head-body">Key Skills</p>
@@ -71,7 +84,7 @@ const Cards = (props) => {
                     <div className="lead-body-column">
                       <div className="lead-body-column-card2">
                         <p className="head-body">Company</p>
-                        <p className="body-detail">{ele.companyName !== null ? (ele.companyName ).slice(0, 10): "..."}</p>
+                        <p className="body-detail">{ele.companyName !== null ? (ele.companyName).slice(0, 10) : "..."}</p>
 
                       </div>
                     </div>
@@ -79,7 +92,7 @@ const Cards = (props) => {
                     <div className="lead-body-column">
                       <div className="lead-body-column-card3">
                         <p className="head-body">Description</p>
-                        <p className="body-detail" style={{ width: "13vw"}}>{(ele.summary).slice(0, 30)}</p>
+                        <p className="body-detail" style={{ width: "13vw" }}>{(ele.summary).slice(0, 30)}</p>
 
                       </div>
                     </div>
@@ -87,15 +100,15 @@ const Cards = (props) => {
 
 
                   </div>
-                  <div style={{display: "flex", justifyContent: "flex-end", width: "100%", marginRight: "2vw"}} className="lead-body-row2">
-                    <div className="bt" style={{ display: "flex", justifyContent: "space-around"}}>
-                      <div style={{ marginRight: "2vw"}}>
-                        
-                      <Button onClick={approveButton} value={ele.id} style={{ textTransform: 'none', height: "36px", width: "133px", borderRadius: "10px", marginRight: "10px", backgroundColor: "#E8F9E8", color: "#16C31E" }}>Approved</Button>
+                  <div style={{ display: "flex", justifyContent: "flex-end", width: "100%", marginRight: "2vw" }} className="lead-body-row2">
+                    <div className="bt" style={{ display: "flex", justifyContent: "space-around" }}>
+                      <div style={{ marginRight: "2vw" }}>
+
+                        <Button onClick={approveButton} value={ele.id} style={{ textTransform: 'none', height: "36px", width: "133px", borderRadius: "10px", marginRight: "10px", backgroundColor: "#E8F9E8", color: "#16C31E" }}>Approved</Button>
                       </div>
                       <div>
 
-                      <Button onClick={rejectButton} value={ele.id} style={{ textTransform: 'none', height: "36px", width: "133px", borderRadius: "10px", backgroundColor: "#FFF0EF", color: "#FF6C5F" }}> Reject</Button>
+                        <Button onClick={rejectButton} value={ele.id} style={{ textTransform: 'none', height: "36px", width: "133px", borderRadius: "10px", backgroundColor: "#FFF0EF", color: "#FF6C5F" }}> Reject</Button>
                       </div>
 
                     </div>

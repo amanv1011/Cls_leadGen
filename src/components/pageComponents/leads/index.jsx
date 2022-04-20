@@ -5,16 +5,19 @@ import IButton from "../../themeComponents/button";
 import IInput from "../../themeComponents/input";
 import BasicTabs from "../../themeComponents/tabs";
 import Lead from "../../commonComponents/lead";
-import BasicDateRangePicker from "./DatePicker";
 import DownArrow from "./DownArrow";
 import DoenArrowWhite from "./DoenArrowWhite";
 import Approve from "../../commonComponents/lead/Approve";
 import Reject from "../../commonComponents/lead/Reject";
+import BasicDateRangePicker from './DatePicker';
+
 
 import "./leads.scss";
 import { WindowSharp } from "@mui/icons-material";
 import UnderReview from "../../commonComponents/lead/UnderReview";
 import Archive from "../../commonComponents/lead/Archive";
+import DateModal from "./DateModal";
+
 
 const Leads = () => {
   return (
@@ -56,29 +59,15 @@ const Leads = () => {
           </div>
 
           <div style={{ display: "flex" }}>
-            {/* <BasicDateRangePicker />
-            <div>Hellooooo</div> */}
+            <div>
+              
+            {/* <BasicDateRangePicker /> */}
+            <DateModal />
+           
+            </div>
+            
 
-            <Button
-              style={{
-                fontFamily: "Segoe UI",
-                justifyContent: "flex-start",
-                textTransform: "none",
-                height: "40px",
-                width: "181px",
-                padding: "10px",
-                borderRadius: "10px",
-                marginLeft: "10px",
-                backgroundColor: "#E7E7E7",
-                color: "rgba(92, 117,154)",
-              }}
-            >
-              Qa-cum-Tester
-              <span style={{ paddingLeft: "38px", paddingBottom: "5px" }}>
-                {" "}
-                <DownArrow />{" "}
-              </span>
-            </Button>
+            
 
             <Button
               style={{
