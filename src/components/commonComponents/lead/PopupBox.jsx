@@ -25,11 +25,11 @@ function PopuoBox(props) {
     <div>
       <Modal
         open={open}
-        aria-labelledby="modal-modal-title"
+        aria-labelledby="modal-modal-title-1"
         aria-describedby="modal-modal-description"
       >
         <Box className="popupContainer">
-          <Typography id="modal-modal-title" variant="p" component="p">
+          <Typography id="modal-modal-title-1" variant="p" component="p">
             Leads{" "}
             <IconButton onClick={handleClose} className="crossIcon">
               {" "}

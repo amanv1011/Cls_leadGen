@@ -6,7 +6,6 @@ import IButton from "../../themeComponents/button";
 import IInput from "../../themeComponents/input";
 import BasicTabs from "../../themeComponents/tabs";
 import Lead from "../../commonComponents/lead";
-import BasicDateRangePicker from "./DatePicker";
 import DownArrow from "./DownArrow";
 import DoenArrowWhite from "./DoenArrowWhite";
 import Approve from "../../commonComponents/lead/Approve";

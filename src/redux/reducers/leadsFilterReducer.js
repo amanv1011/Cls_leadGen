@@ -1,9 +1,11 @@
-import {FILTER_LEADS_CAMPAIGNNAME, FILTER_LEADS_OWNERNAME,FILTER_LEADS_SEARCH} from '../type'
+import {FILTER_LEADS_CAMPAIGNNAME, FILTER_LEADS_OWNERNAME,FILTER_LEADS_SEARCH, FILTER_LEADS_DATE} from '../type'
+import moment from 'moment'
 
 const initialState = {
     campaignName: "All Campaigns",
     ownerName: "All Owners",
-    searchQuery: ""
+    searchQuery: "",
+    filterDate: ""
 }
 
 export const leadsFilterReducer = (state = initialState, {type,payload}) =>{
@@ -14,6 +16,8 @@ export const leadsFilterReducer = (state = initialState, {type,payload}) =>{
             return{...state, ownerName: payload}
         case FILTER_LEADS_SEARCH:
             return{...state,searchQuery:payload }
+        case  FILTER_LEADS_DATE:
+            return{...state, filterDate:payload}
         default:
             return{...state}
     }

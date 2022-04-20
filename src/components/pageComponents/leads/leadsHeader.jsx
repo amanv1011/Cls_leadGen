@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-
+import DateModal from './DateModal';
 import DownArrow from "./DownArrow";
 import {
   leadsFilterCampaignName,
@@ -167,6 +167,7 @@ const LeadsHeader = () => {
           </div>
         </div>
         <div style={{ display: "flex" }}>
+          <DateModal />
           <Button
             id="basic-button"
             aria-controls={openOwnerMenu ? "basic-menu" : undefined}
