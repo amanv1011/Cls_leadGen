@@ -161,15 +161,11 @@ const Dashboard = ({ children }) => {
     setWeeklyLeadsPer(WeeklyPer);
   });
 
-  const leadStatus = () => {
-    genratedLeadData.map((ele) => {
-      dispatch(updateLeadStatus(ele.id, 2));
-    })
-  }
+
 
   return (
     <div className="dashboard-container" style={window.location.pathname === "/app/dashboard" ? { height: "100vh"} : {height:"100%"}}>
-      <button onClick={leadStatus}>heloooooooooooooooo</button>
+      
       <Navbar />
       <SideBar />
       <Box component="div" className="dshboard-content">
