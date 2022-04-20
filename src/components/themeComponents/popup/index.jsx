@@ -4,26 +4,24 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, Modal, Button, Divider, Grid } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "./popup.scss";
-import moment from "moment";
-import SearchIcon from "./SearchIcon";
 import PlusIcon from "./PlusIcon";
-
-const style = {
-  position: "absolute",
-  display: "flex",
-  flexWrap: "wrap",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "910px",
-  bgcolor: "#FFFFFF",
-
-  borderRadius: "15px",
-  border: "none",
-  outline: "none",
-};
+import IInput from "../input/index";
 
 function AddCampaginModal() {
+  const style = {
+    position: "absolute",
+    display: "flex",
+    flexWrap: "wrap",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "910px",
+    bgcolor: "#FFFFFF",
+    borderRadius: "15px",
+    border: "none",
+    outline: "none",
+  };
+
   const dispatch = useDispatch();
   const statesInReduxStore = useSelector((state) => state);
 
@@ -35,10 +33,10 @@ function AddCampaginModal() {
     source: "",
     frequency: 0,
     location: "",
-    start_date: moment().format("L"),
+    start_date: formatDate(new Date()),
     start_time: "",
-    last_crawled_date: moment().format("L"),
-    end_date: moment().format("L"),
+    last_crawled_date: formatDate(new Date()),
+    end_date: formatDate(new Date()),
     end_time: "",
     pages: 0,
   });
@@ -68,6 +66,7 @@ function AddCampaginModal() {
   };
 
   console.log("addCampaignDetails--->", addCampaignDetails);
+  console.log("tags--->", tags);
 
   useEffect(() => {
     if (source === "seek_aus") {
@@ -99,59 +98,24 @@ function AddCampaginModal() {
 
   const detailsForEdit = async () => {
     try {
-      const campaignSingle = await dispatch(
+      const documentSnapShot = await dispatch(
         campaignActions.getACampaignAction(a__campgaignId)
-      );
-      console.log(
-        "campaignSingle",
-        campaignSingle.payload._document.data.value.mapValue.fields
       );
 
       setAddCampaignDetails({
-        name: campaignSingle.payload._document.data.value.mapValue.fields.name
-          .stringValue,
-
-        source:
-          campaignSingle.payload._document.data.value.mapValue.fields.source
-            .stringValue,
-
-        frequency: parseInt(
-          campaignSingle.payload._document.data.value.mapValue.fields.frequency
-            .integerValue
+        name: documentSnapShot.payload.data().name,
+        source: documentSnapShot.payload.data().source,
+        frequency: parseInt(documentSnapShot.payload.data().frequency),
+        start_date: formatDate(
+          documentSnapShot.payload.data().start_date.toDate()
         ),
-
-        start_date:
-          campaignSingle.payload._document.data.value.mapValue.fields.start_date.timestampValue
-            .toString()
-            .slice(0, 10),
-
-        start_time:
-          campaignSingle.payload._document.data.value.mapValue.fields.start_time
-            .stringValue,
-
-        end_date:
-          campaignSingle.payload._document.data.value.mapValue.fields.end_date.timestampValue
-            .toString()
-            .slice(0, 10),
-
-        end_time:
-          campaignSingle.payload._document.data.value.mapValue.fields.end_time
-            .stringValue,
-
-        location:
-          campaignSingle.payload._document.data.value.mapValue.fields.location
-            .stringValue,
-
-        pages: parseInt(
-          campaignSingle.payload._document.data.value.mapValue.fields.pages
-            .integerValue
-        ),
+        start_time: documentSnapShot.payload.data().start_time,
+        end_date: formatDate(documentSnapShot.payload.data().end_date.toDate()),
+        end_time: documentSnapShot.payload.data().end_time,
+        location: documentSnapShot.payload.data().location,
+        pages: parseInt(documentSnapShot.payload.data().pages),
       });
-      setTags([
-        campaignSingle.payload._document.data.value.mapValue.fields.tags.arrayValue.values.map(
-          (item) => item.stringValue
-        ),
-      ]);
+      setTags([...documentSnapShot.payload.data().tags]);
     } catch (error) {
       console.log("Error while fetching the a campaign", error);
     }
@@ -168,7 +132,7 @@ function AddCampaginModal() {
       start_date: Timestamp.fromDate(new Date(start_date)),
       last_crawled_date: Timestamp.fromDate(new Date(start_date)),
       owner: "Mithun Dominic",
-      status: 0,
+      status: 1,
     };
 
     if (a__campgaignId) {
@@ -177,30 +141,49 @@ function AddCampaginModal() {
       );
       dispatch(campaignActions.getAllCampaignsAction());
       dispatch(campaignActions.campaignIDAction(""));
-      console.log("Updating", a__campgaignId);
     } else {
       dispatch(campaignActions.postCampaignsAction(newCampaign));
       dispatch(campaignActions.getAllCampaignsAction());
-      console.log("posting 1st time", a__campgaignId);
     }
-
-    console.log("Event submitted");
     dispatch(campaignActions.handleClose());
     setAddCampaignDetails({});
     setTags([]);
   };
 
+  function formatDate(date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+    return [year, month, day].join("-");
+  }
+
   return (
     <React.Fragment>
-      <input
-        type="text"
-        placeholder="Search"
-        className="addCampaignModal-inputs search-box"
-        onChange={(event) => {
-          dispatch(campaignActions.searchInputValueAction(event.target.value));
-        }}
-      />
-
+      <div className="add" style={{ display: " -webkit-inline-box" }}>
+        <IInput
+          type={"text"}
+          placeholder={"Search"}
+          isSearch={true}
+          onChangeInput={(event) => {
+            dispatch(
+              campaignActions.searchInputValueAction(event.target.value)
+            );
+          }}
+          className="my-input"
+          style={{
+            fontFamily: "'Proxima Nova'",
+            fontStyle: "normal",
+            fontWeight: "600",
+            fontSize: "14px",
+            lineHeight: "17px",
+            color: "#1F4173",
+          }}
+          autoComplete="off"
+        />
+      </div>
       <Button
         onClick={() => {
           dispatch(campaignActions.showModal());
@@ -277,7 +260,7 @@ function AddCampaginModal() {
                   type="text"
                   id="campaign-name"
                   className="addCampaignModal-inputs"
-                  placeholder="Resources"
+                  placeholder="Campaign Name"
                   name="name"
                   value={name}
                   onChange={onInputChangeHandler}
@@ -309,12 +292,12 @@ function AddCampaginModal() {
                   <option value="indeed_ca">Indeed Canada</option>
                   <option value="indeed_uk">Indeed United Kingdom</option>
                   <option value="indeed_il">Indeed Italy</option>
-                  <option value="indeed_ae">Indeed Australia</option>
+                  <option value="indeed_ae">Indeed UAE</option>
                   <option value="indeed_fi">Indeed Finland</option>
-                  <option value="indeed_ch">Indeed Australia</option>
-                  <option value="indeed_pt">Indeed Australia</option>
-                  <option value="indeed_sg">Indeed Australia</option>
-                  <option value="linkedin_aus">Linkedin Australia</option>
+                  <option value="indeed_ch">Indeed China</option>
+                  <option value="indeed_pt">Indeed Portugal</option>
+                  <option value="indeed_sg">Indeed Singapore</option>
+                  <option value="linkedin">Linkedin</option>
                 </select>
               </Grid>
 
@@ -418,7 +401,7 @@ function AddCampaginModal() {
                 <input
                   type="text"
                   className="addCampaignModal-inputs"
-                  placeholder={"eg:Calcutta, Delhi, etc.,"}
+                  placeholder="Location"
                   name="location"
                   value={location}
                   onChange={onInputChangeHandler}
@@ -435,7 +418,7 @@ function AddCampaginModal() {
                 <input
                   className="addCampaignModal-inputs"
                   type="number"
-                  placeholder="Resources"
+                  placeholder="Extract No. Of Pages(s)"
                   name="pages"
                   value={pages}
                   onChange={onInputChangeHandler}
@@ -472,7 +455,11 @@ function AddCampaginModal() {
                       fontWeight: "600",
                       opacity: 0.5,
                     }}
-                    onClick={() => dispatch(campaignActions.handleClose())}
+                    onClick={() => {
+                      dispatch(campaignActions.handleClose());
+                      setTags([]);
+                      setAddCampaignDetails({});
+                    }}
                   >
                     Cancel
                   </Button>

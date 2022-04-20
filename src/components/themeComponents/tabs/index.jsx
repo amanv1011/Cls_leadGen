@@ -6,7 +6,7 @@ import "./tabs.scss";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Route, Redirect} from 'react-router';
+import { Route, Redirect } from "react-router";
 
 export default function BasicTabs({ type }) {
   const [value, setValue] = React.useState(0);
@@ -20,7 +20,7 @@ export default function BasicTabs({ type }) {
     setValue(newValue);
   };
 
-  var [ hover, setHover] = useState(true);
+  var [hover, setHover] = useState(true);
 
   var [ leadsHover, setLeadsHover] = useState(false);
 
@@ -53,6 +53,7 @@ export default function BasicTabs({ type }) {
     }
   })
   
+  var [leadsHover, setLeadsHover] = useState(false);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -64,22 +65,39 @@ export default function BasicTabs({ type }) {
               label="Campaign"
               component={Link}
               to="/app/dashboard/campaign"
-              sx={{ textTransform: "none", color: hover ? "rgb(0,58,210)!important" :"rgb(31,65,115)!important" , fontFamily: "Segoe UI", fontSize: "16px !important" }}
+              sx={{
+                textTransform: "none",
+                color: hover
+                  ? "rgb(0,58,210)!important"
+                  : "rgb(31,65,115)!important",
+                fontFamily: "Segoe UI",
+                fontSize: "16px !important",
+              }}
               // onFocus = { () => setHover(true)}
-              // outOffFocus = { () => setHover(false)} 
-              onClick= { () => {setHover(true); setLeadsHover(false)}}
-
+              // outOffFocus = { () => setHover(false)}
+              onClick={() => {
+                setHover(true);
+                setLeadsHover(false);
+              }}
             />
             <Tab
               disableRipple
               label="Leads"
               component={Link}
               to="/app/dashboard/leads"
-              sx={{ textTransform: "none", color: leadsHover ? "rgb(0,58,210)!important" :"rgb(31,65,115)!important", fontFamily: "Segoe UI" , fontSize: "16px !important" }}
-              onClick= { () => {setHover(false); setLeadsHover(true)}}
-
+              sx={{
+                textTransform: "none",
+                color: leadsHover
+                  ? "rgb(0,58,210)!important"
+                  : "rgb(31,65,115)!important",
+                fontFamily: "Segoe UI",
+                fontSize: "16px !important",
+              }}
+              onClick={() => {
+                setHover(false);
+                setLeadsHover(true);
+              }}
             />
-            
           </Tabs>
         ) : (
           <Tabs value={valueTabs} onChange={handleChange} className="form-tabs">

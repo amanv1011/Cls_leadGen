@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#E5E5E5",
     borderRadius: "8px !important",
     color: "#1E2429",
-    fontfamily: "Product Sans",
+    fontfamily: "Proxima Nova",
     fontSize: (styleProps) =>
       styleProps.fontSize ? styleProps.fontSize : "16px",
     letterSpacing: "0.35px",
@@ -79,6 +79,7 @@ export default function IInput({
         className={classes.root}
         placeholder={placeholder}
         size="medium"
+        autoComplete="off"
       />
       {isSearch ? (
         <SearchOutlined className="i-input-arrow-down" color="black" />
