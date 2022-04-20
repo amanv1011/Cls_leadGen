@@ -71,7 +71,11 @@ const Table = () => {
     console.log("id==", campaignListId, "val===", val);
     let workBook = XLSX.utils.book_new();
     let workSheet = XLSX.utils.json_to_sheet(val);
-    XLSX.utils.book_append_sheet(workBook, workSheet, "My Leads Sheet1");
+    XLSX.utils.book_append_sheet(
+      workBook,
+      workSheet,
+      `${campaignListItemName} sheet`
+    );
     XLSX.writeFile(workBook, `${campaignListItemName} leads list.xlsx`);
   };
 
