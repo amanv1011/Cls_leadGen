@@ -18,6 +18,7 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useDispatch, useSelector } from "react-redux";
 // import dummyTabledata from '../../../utils/dummyTableData.json'
 import { Badge } from "@mui/material";
+import { updateLeadStatus } from "../../../redux/actions/leadActions"
 import moment from "moment";
 
 import { getAllCampaignsAction } from "../../../redux/actions/campaignActions";
@@ -77,6 +78,8 @@ const Dashboard = ({ children }) => {
     let TodayPer = 0;
     let WeeklyPer = 0;
     let YesterdayPer = 0;
+    let leadExtracted = 0;
+
     let currentDate = moment().format("MM/DD/YYYY");
 
     leadData.map((ele) => {
@@ -122,11 +125,29 @@ const Dashboard = ({ children }) => {
         }
       });
     }
-
-    let leadExtracted = (leadCount / (Math.ceil(leadCount / 100) * 100)) * 100;
-    TodayPer = (Today / (Math.ceil(Today / 100) * 100)) * 100;
-    WeeklyPer = (Weekly / (Math.ceil(Weekly / 100) * 100)) * 100;
-    YesterdayPer = (Yesterday / (Math.ceil(Yesterday / 100) * 100)) * 100;
+    if(leadCount === 0){
+      leadExtracted = 0;
+    }else{
+       leadExtracted = (leadCount / (Math.ceil(leadCount / 100) * 100)) * 100;
+      
+    }
+    if(Today === 0){
+      TodayPer = 0
+    }else{
+      TodayPer = (Today / (Math.ceil(Today / 100) * 100)) * 100;
+    }
+    if(Yesterday === 0){
+      YesterdayPer = 0 
+    }else{
+      YesterdayPer = (Yesterday / (Math.ceil(Yesterday / 100) * 100)) * 100;
+    }
+    if(Weekly === 0){
+      WeeklyPer = 0
+    }else{
+      WeeklyPer = (Weekly / (Math.ceil(Weekly / 100) * 100)) * 100;
+    }
+    
+    
     setActiveCamp(ActiveCount);
     setLeadsExtracted(leadCount);
     setYesterdaysLeads(Yesterday);
@@ -140,8 +161,11 @@ const Dashboard = ({ children }) => {
     setWeeklyLeadsPer(WeeklyPer);
   });
 
+
+
   return (
     <div className="dashboard-container" style={window.location.pathname === "/app/dashboard" ? { height: "100vh"} : {height:"100%"}}>
+      
       <Navbar />
       <SideBar />
       <Box component="div" className="dshboard-content">

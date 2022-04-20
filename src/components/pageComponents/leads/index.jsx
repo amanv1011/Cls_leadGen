@@ -15,6 +15,9 @@ import "./leads.scss";
 import { WindowSharp } from "@mui/icons-material";
 import UnderReview from "../../commonComponents/lead/UnderReview";
 import Archive from "../../commonComponents/lead/Archive";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import LeadsHeader from "./leadsHeader";
 import * as XLSX from "xlsx";
 import { getAllLeadsAction } from "../../../redux/actions/leadActions";
 
@@ -66,87 +69,7 @@ const Leads = () => {
   return (
     <Box className="leads-container">
       <Box className="leads-header">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          <div style={{ display: "flex" }}>
-            <IInput
-              style={{ color: "rgba(92, 117,154)" }}
-              placeholder={"Search"}
-              isSearch={true}
-              onChangeInput={(event) => console.log(event.target.value)}
-            />
-            <Button
-              style={{
-                fontFamily: "Segoe UI",
-                textTransform: "none",
-                height: "40px",
-                width: "181px",
-                justifyContent: "flex-start",
-                padding: "10px",
-                borderRadius: "10px",
-                marginLeft: "10px",
-                backgroundColor: "#E7E7E7",
-                color: "rgba(92, 117,154)",
-              }}
-            >
-              All Campaigns{" "}
-              <span style={{ marginLeft: "38px", paddingBottom: "5px" }}>
-                <DownArrow />
-              </span>
-            </Button>
-          </div>
-
-          <div style={{ display: "flex" }}>
-            {/* <BasicDateRangePicker />
-            <div>Hellooooo</div> */}
-
-            <Button
-              style={{
-                fontFamily: "Segoe UI",
-                justifyContent: "flex-start",
-                textTransform: "none",
-                height: "40px",
-                width: "181px",
-                padding: "10px",
-                borderRadius: "10px",
-                marginLeft: "10px",
-                backgroundColor: "#E7E7E7",
-                color: "rgba(92, 117,154)",
-              }}
-            >
-              Qa-cum-Tester
-              <span style={{ paddingLeft: "38px", paddingBottom: "5px" }}>
-                {" "}
-                <DownArrow />{" "}
-              </span>
-            </Button>
-
-            <Button
-              style={{
-                fontFamily: "Segoe UI",
-                justifyContent: "flex-start",
-                textTransform: "none",
-                height: "40px",
-                width: "181px",
-                padding: "10px",
-                borderRadius: "10px",
-                marginLeft: "10px",
-                backgroundColor: "#E7E7E7",
-                color: "rgba(92, 117,154)",
-              }}
-            >
-              Owner
-              <div style={{ paddingBottom: "5px", paddingLeft: "80px" }}>
-                <DownArrow />
-              </div>
-            </Button>
-          </div>
-        </div>
+        <LeadsHeader />
       </Box>
       <Box className="leads-table-container">
         <Box classNAme="leads-header-container" style={{ display: "flex" }}>

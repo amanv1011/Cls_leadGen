@@ -13,7 +13,7 @@ function CircularChart(props) {
             style={{ color: "#563BFF" }}
             className="circular-bar"
             size={100}
-            value={props.Todays}
+            value={props.Weeklys}
             thickness={3.33}
             variant="determinate"
           />
@@ -49,7 +49,7 @@ function CircularChart(props) {
             style={{ color: "#20C997" }}
             className="circular-bar"
             size={33.33}
-            value={props.Weeklys}
+            value={props.Todays}
             thickness={10}
             variant="determinate"
           />

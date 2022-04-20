@@ -11,6 +11,11 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import React from "react";
 import { updateLeadStatus } from "../../../redux/actions/leadActions";
+import approv from "../../../assets/approv.svg";
+import reject from "../../../assets/reject.svg";
+import archieve from "../../../assets/archieve.svg";
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
 import "./lead.scss";
 
 const Cards = (props) => {
@@ -24,6 +29,24 @@ const Cards = (props) => {
   let rejectButton = (event) => {
     dispatch(updateLeadStatus(event.target.value, -1));
   };
+  let archieveButton = (event) => {
+    dispatch(updateLeadStatus(event.target.value, 2));
+  };
+
+  const BootstrapTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} arrow classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.arrow}`]: {
+      color: theme.palette.common.black,
+    },
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: theme.palette.common.black,
+      fontFamily: "Segoe UI",
+      fontSize:"14px",
+      fontWeight:"600",
+      borderRadius:"8px"
+    },
+  }));
 
   const openPopup = (e) => {
     e.preventDefault();
@@ -34,12 +57,13 @@ const Cards = (props) => {
 
     dispatch(getPopupEnable(leadsIdData));
   };
+  console.log(leadsData);
 
   return (
     <>
       {leadsData.map((ele) => {
         return (
-          <React.Fragment key={ele.id}>
+          <>
             <Box className="lead-container">
               <Box className="lead-header">
                 <Box
@@ -116,45 +140,67 @@ const Cards = (props) => {
                     className="bt"
                     style={{ display: "flex", justifyContent: "space-around" }}
                   >
-                    <div style={{ marginRight: "2vw" }}>
-                      <Button
-                        onClick={approveButton}
-                        value={ele.id}
-                        style={{
-                          textTransform: "none",
-                          height: "36px",
-                          width: "133px",
-                          borderRadius: "10px",
-                          marginRight: "10px",
-                          backgroundColor: "#E8F9E8",
-                          color: "#16C31E",
-                        }}
-                      >
-                        Approved
-                      </Button>
-                    </div>
-                    <div>
-                      <Button
-                        onClick={rejectButton}
-                        value={ele.id}
-                        style={{
-                          textTransform: "none",
-                          height: "36px",
-                          width: "133px",
-                          borderRadius: "10px",
-                          backgroundColor: "#FFF0EF",
-                          color: "#FF6C5F",
-                        }}
-                      >
-                        {" "}
-                        Reject
-                      </Button>
-                    </div>
+                    {ele.status !==
+                    1 ? (
+                      <div style={{ marginRight: "1vw" }}>
+                        <BootstrapTooltip
+                          placement="top"
+                          sx={{ color: "black" }}
+                          title="Approve"
+                          arrow
+                        >
+                          <input
+                            type="image"
+                            style={{ width: "25px" }}
+                            src={approv}
+                            onClick={approveButton}
+                            value={ele.id}
+                          />
+                        </BootstrapTooltip>
+                      </div>
+                    ) : null}
+                    {ele.status !== -1 ? (
+                      <div style={{ marginRight: "1vw" }}>
+                        <BootstrapTooltip
+                          placement="top"
+                          sx={{ fontFamily:'Segoe UI'}}
+                          title="Reject"
+                          arrow
+                        >
+                          <input
+                            type="image"
+                            style={{ width: "25px" }}
+                            src={reject}
+                            onClick={rejectButton}
+                            value={ele.id}
+                          />
+                        </BootstrapTooltip>
+                      </div>
+                    ) : null}
+                    {ele.status !==
+                    2 ? (
+                      <div>
+                        <BootstrapTooltip
+                          placement="top"
+                          sx={{ color: "black" }}
+                          title="Archieve"
+                          arrow
+                        >
+                          <input
+                            type="image"
+                            style={{ width: "27.5px", paddingTop: "1px" }}
+                            src={archieve}
+                            onClick={archieveButton}
+                            value={ele.id}
+                          />
+                        </BootstrapTooltip>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </Box>
             </Box>
-          </React.Fragment>
+          </>
         );
       })}
     </>
