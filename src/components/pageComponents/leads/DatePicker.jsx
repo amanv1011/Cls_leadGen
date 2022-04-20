@@ -9,6 +9,8 @@ import Popper from '@mui/material/Popper';
 import './DatePicker.scss';
 import { Button } from "@mui/material";
 import Calendar from "./Calendar";
+import { leadsFilterDate } from '../../../redux/actions/leadsFilter';
+import { connect } from "react-redux";
 const moment = extendMoment(originalMoment);
 
 class BasicDateRangePicker extends React.Component {
@@ -18,26 +20,24 @@ class BasicDateRangePicker extends React.Component {
     const today = moment();
 
     this.state = {
-      isOpen: false,
+      isOpen: true,
       value: moment.range(today.clone().subtract(7, "days"), today.clone()),
-
-
 
     };
 
 
   }
 
-
-
   onSelect = (value, states) => {
     this.setState({ value, states });
+    this.props.leadsFilterDate(value);
+    console.log(value);
   };
 
 
-  onToggle = () => {
-    this.setState({ isOpen: !this.state.isOpen });
-  };
+  // onToggle = () => {
+  //   this.setState({ isOpen: !this.state.isOpen });
+  // };
 
   renderSelectionValue = () => {
     return (
@@ -54,10 +54,9 @@ class BasicDateRangePicker extends React.Component {
     return (
       <div>
 
-
         <div>
 
-          <Button onClick={this.onToggle} style={{ width: "300px", height: "40px", backgroundColor: "#E7E7E7", color: "#5C759A", textTransform: "none" }}>{this.renderSelectionValue()} <span className="calender" style={{ marginLeft: "20px" }}><Calendar /></span>
+          <Button onClick={this.onToggle} style={{ width: "332px", height: "40px", backgroundColor: "#E7E7E7", color: "#5C759A", textTransform: "none" }}>{this.renderSelectionValue()} 
           </Button>
 
         </div>
@@ -75,5 +74,5 @@ class BasicDateRangePicker extends React.Component {
     );
   }
 }
-
-export default BasicDateRangePicker;
+const mapDispatchToProps = {leadsFilterDate}
+export default connect(null , mapDispatchToProps) (BasicDateRangePicker) ;

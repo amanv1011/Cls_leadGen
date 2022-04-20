@@ -3,3 +3,26 @@
     z-index: 999;
     opacity: 1;
 }
+.DateRangePicker__MonthDates{
+    width: 300px;
+}
+.DateRangePicker__PaginationArrow {
+    width: 63px;
+
+}
+.DateRangePicker__MonthHeader{
+    width: 298px;
+}
+.DateRangePicker__PaginationArrowIcon--previous {
+    border-left: 8px solid transparent;
+    border-right: 8px solid #aaa;
+    right: 0px;
+}
+.DateRangePicker__PaginationArrowIcon--next {
+    border-left: 8px solid #aaa;
+    border-right: 8px solid transparent;
+    left: 20px;
+}
+.DateRangePicker{
+    padding-left: 2px;
+}

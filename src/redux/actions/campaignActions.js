@@ -29,9 +29,6 @@ export const getACampaignAction = (a__campgaignId) => {
   };
 };
 
-
-
-
 export const getAllCampaignsAction = () => {
   return async (dispatch) => {
     // dispatch(openLoader({ isLoading: true }));
@@ -39,16 +36,17 @@ export const getAllCampaignsAction = () => {
     try {
       const res = await getCampaignList();
       // dispatch(closeLoader());
-     if(res.length === undefined){
-      dispatch({
-        type: GET_CAMPAIGN_LIST_ERROR,
-        payload: res,
-      });
-     }else{
-      return dispatch({
-        type: GET_CAMPAIGN_LIST_SUCCESS,
-        payload: res,
-      });}
+      if (res.length === undefined) {
+        dispatch({
+          type: GET_CAMPAIGN_LIST_ERROR,
+          payload: res,
+        });
+      } else {
+        return dispatch({
+          type: GET_CAMPAIGN_LIST_SUCCESS,
+          payload: res,
+        });
+      }
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {
         dispatch({
