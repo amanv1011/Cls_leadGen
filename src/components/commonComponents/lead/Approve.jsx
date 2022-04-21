@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import LinkedIn from "./LinkedIn";
 import moment from "moment";
 import React from "react";
+
 import Cards from "./Cards";
 import Fuse from "fuse.js";
 import { useSelector, useDispatch } from "react-redux";
@@ -18,6 +19,7 @@ import "./lead.scss";
 const Approve = () => {
   const dispatch = useDispatch();
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
+  const searchDate = useSelector((state) => state.leadsFilter.filterDate);
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector((state) => state.leadsFilter.campaignName);
@@ -32,15 +34,46 @@ const Approve = () => {
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
-    const fuse = new Fuse(approveList, {
-      keys: ["title", "summary", "companyName"],
-    });
-    const results = fuse.search(searchQuery);
-    var filterApprov = searchQuery
-      ? results.map((results) => results.item)
-      : approveList;
+    if(searchDate === ""){
+      const fuse = new Fuse(underReviewList, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterApprov = searchQuery
+        ? results.map((results) => results.item)
+        : approveList;
+    }
+    if(searchDate !== ""){
+      
+
+      var filterApprovResults = []
+      for (let i = 0; i < approveList.length; i++){
+        const start = moment(searchDate.start).format("YYYY-MM-DD")
+        const end = moment(searchDate.end).format("YYYY-MM-DD")
+        const between =  moment.unix(approveList[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
+        const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
+        const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
+        const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
+        
+
+        if(unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd){
+          filterApprovResults.push(approveList[i])
+        }
+      }
+      const fuse = new Fuse(filterApprovResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterApprov = searchQuery
+        ? results.map((results) => results.item)
+        : filterApprovResults;
     
+      
+     
+    }
     
+
+
   }
   if (
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
@@ -49,21 +82,47 @@ const Approve = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
-    var filterApprovResults = [];
-    for (let i = 0; i < campaignID.length; i++) {
-      for (let j = 0; j < approveList.length; j++) {
-        if (approveList[j].campaignId === campaignID[i].id) {
-          filterApprovResults.push(approveList[j]);
+    if(searchDate === ""){
+      var filterApprovResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < approveList.length; j++) {
+          if (approveList[j].campaignId === campaignID[i].id) {
+            filterApprovResults.push(approveList[j]);
+          }
         }
       }
+      const fuse = new Fuse(filterApprovResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterApprov = searchQuery
+        ? results.map((results) => results.item)
+        : filterApprovResults;
     }
-    const fuse = new Fuse(filterApprovResults, {
-      keys: ["title", "summary", "companyName"],
-    });
-    const results = fuse.search(searchQuery);
-    var filterApprov = searchQuery
-      ? results.map((results) => results.item)
-      : filterApprovResults;
+    if(searchDate !== ""){
+      var filterApprovResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < approveList.length; j++) {
+          const start = moment(searchDate.start).format("YYYY-MM-DD")
+          const end = moment(searchDate.end).format("YYYY-MM-DD")
+          const between =  moment.unix(approveList[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
+          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
+          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
+          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
+          if ((approveList[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
+            filterApprovResults.push(approveList[j]);
+          }
+        }
+      }
+      const fuse = new Fuse(filterApprovResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterApprov = searchQuery
+        ? results.map((results) => results.item)
+        : filterApprovResults;
+    }
+
   }
 
   if (
@@ -73,21 +132,47 @@ const Approve = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    var filterApprovResults = [];
-    for (let i = 0; i < campaignID.length; i++) {
-      for (let j = 0; j < approveList.length; j++) {
-        if (approveList[j].campaignId === campaignID[i].id) {
-          filterApprovResults.push(approveList[j]);
+    if(searchDate === ""){
+      var filterApprovResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < approveList.length; j++) {
+          if (approveList[j].campaignId === campaignID[i].id) {
+            filterApprovResults.push(approveList[j]);
+          }
         }
       }
+      const fuse = new Fuse(filterApprovResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterApprov = searchQuery
+        ? results.map((results) => results.item)
+        : filterApprovResults;
     }
-    const fuse = new Fuse(filterApprovResults, {
-      keys: ["title", "summary", "companyName"],
-    });
-    const results = fuse.search(searchQuery);
-    var filterApprov = searchQuery
-      ? results.map((results) => results.item)
-      : filterApprovResults;
+    if(searchDate !== ""){
+      var filterApprovResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < approveList.length; j++) {
+          const start = moment(searchDate.start).format("YYYY-MM-DD")
+          const end = moment(searchDate.end).format("YYYY-MM-DD")
+          const between =  moment.unix(approveList[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
+          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
+          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
+          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
+          if ((approveList[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
+            filterApprovResults.push(approveList[j]);
+          }
+        }
+      }
+      const fuse = new Fuse(filterApprovResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterApprov = searchQuery
+        ? results.map((results) => results.item)
+        : filterApprovResults;
+    }
+
   }
 
   if (
@@ -97,23 +182,47 @@ const Approve = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    var filterApprovResults = [];
-    for (let i = 0; i < campaignID.length; i++) {
-      for (let j = 0; j < approveList.length; j++) {
-        if (approveList[j].campaignId === campaignID[i].id) {
-          filterApprovResults.push(approveList[j]);
+    if(searchDate === ""){
+      var filterApprovResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < approveList.length; j++) {
+          if (approveList[j].campaignId === campaignID[i].id) {
+            filterApprovResults.push(approveList[j]);
+          }
         }
       }
+      const fuse = new Fuse(filterApprovResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterApprov = searchQuery
+        ? results.map((results) => results.item)
+        : filterApprovResults;
     }
-    const fuse = new Fuse(filterApprovResults, {
-      keys: ["title", "summary", "companyName"],
-    });
-    const results = fuse.search(searchQuery);
-    var filterApprov = searchQuery
-      ? results.map((results) => results.item)
-      : filterApprovResults;
+    if(searchDate !== ""){
+      var filterApprovResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < approveList.length; j++) {
+          const start = moment(searchDate.start).format("YYYY-MM-DD")
+          const end = moment(searchDate.end).format("YYYY-MM-DD")
+          const between =  moment.unix(approveList[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
+          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
+          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
+          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
+          if ((approveList[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
+            filterApprovResults.push(approveList[j]);
+          }
+        }
+      }
+      const fuse = new Fuse(filterApprovResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterApprov = searchQuery
+        ? results.map((results) => results.item)
+        : filterApprovResults;
+    }
   }
-
   const archieveList = genratedLeadData.filter((ele) => ele.status === 2);
   const archieveCount = archieveList.length;
 

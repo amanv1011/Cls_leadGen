@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box } from "@mui/system";
 import IInput from "../../themeComponents/input";
 import Fuse from "fuse.js";
-
+import moment from "moment";
 import { getRejectCount } from "../../../redux/actions/approveRejectcount";
 import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
 import { getApproveCount } from "../../../redux/actions/approveRejectcount";
@@ -16,6 +16,7 @@ import "./lead.scss";
 const Lead = () => {
   const dispatch = useDispatch();
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
+  const searchDate = useSelector((state) => state.leadsFilter.filterDate);
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const rejectList = genratedLeadData.filter((ele) => ele.status === -1);
@@ -36,13 +37,46 @@ const Lead = () => {
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
-    const fuse = new Fuse(genratedLeadData, {
-      keys: ["title", "summary", "companyName"],
-    });
-    const results = fuse.search(searchQuery);
-    var filterAllLeads = searchQuery
-      ? results.map((results) => results.item)
-      : genratedLeadData;
+    if(searchDate === ""){
+      const fuse = new Fuse(genratedLeadData, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterAllLeads = searchQuery
+        ? results.map((results) => results.item)
+        : genratedLeadData;
+    }
+    if(searchDate !== ""){
+      
+
+      var filterAllResults = []
+      for (let i = 0; i < genratedLeadData.length; i++){
+        const start = moment(searchDate.start).format("YYYY-MM-DD")
+        const end = moment(searchDate.end).format("YYYY-MM-DD")
+        const between =  moment.unix(genratedLeadData[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
+        const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
+        const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
+        const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
+        
+
+        if(unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd){
+          filterAllResults.push(genratedLeadData[i])
+        }
+      }
+      const fuse = new Fuse(filterAllResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterAllLeads = searchQuery
+        ? results.map((results) => results.item)
+        : filterAllResults;
+    
+      
+     
+    }
+    
+
+
   }
   if (
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
@@ -51,21 +85,47 @@ const Lead = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
-    var filterAllResults = [];
-    for (let i = 0; i < campaignID.length; i++) {
-      for (let j = 0; j < genratedLeadData.length; j++) {
-        if (genratedLeadData[j].campaignId === campaignID[i].id) {
-          filterAllResults.push(genratedLeadData[j]);
+    if(searchDate === ""){
+      var filterAllResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < genratedLeadData.length; j++) {
+          if (genratedLeadData[j].campaignId === campaignID[i].id) {
+            filterAllResults.push(genratedLeadData[j]);
+          }
         }
       }
+      const fuse = new Fuse(filterAllResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterAllLeads = searchQuery
+        ? results.map((results) => results.item)
+        : filterAllResults;
     }
-    const fuse = new Fuse(filterAllResults, {
-      keys: ["title", "summary", "companyName"],
-    });
-    const results = fuse.search(searchQuery);
-    var filterAllLeads = searchQuery
-      ? results.map((results) => results.item)
-      : filterAllResults;
+    if(searchDate !== ""){
+      var filterAllResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < genratedLeadData.length; j++) {
+          const start = moment(searchDate.start).format("YYYY-MM-DD")
+          const end = moment(searchDate.end).format("YYYY-MM-DD")
+          const between =  moment.unix(genratedLeadData[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
+          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
+          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
+          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
+          if ((genratedLeadData[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
+            filterAllResults.push(genratedLeadData[j]);
+          }
+        }
+      }
+      const fuse = new Fuse(filterAllResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterAllLeads = searchQuery
+        ? results.map((results) => results.item)
+        : filterAllResults;
+    }
+
   }
 
   if (
@@ -75,21 +135,47 @@ const Lead = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    var filterAllResults = [];
-    for (let i = 0; i < campaignID.length; i++) {
-      for (let j = 0; j < genratedLeadData.length; j++) {
-        if (genratedLeadData[j].campaignId === campaignID[i].id) {
-          filterAllResults.push(genratedLeadData[j]);
+    if(searchDate === ""){
+      var filterAllResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < genratedLeadData.length; j++) {
+          if (genratedLeadData[j].campaignId === campaignID[i].id) {
+            filterAllResults.push(genratedLeadData[j]);
+          }
         }
       }
+      const fuse = new Fuse(filterAllResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterAllLeads = searchQuery
+        ? results.map((results) => results.item)
+        : filterAllResults;
     }
-    const fuse = new Fuse(filterAllResults, {
-      keys: ["title", "summary", "companyName"],
-    });
-    const results = fuse.search(searchQuery);
-    var filterAllLeads = searchQuery
-      ? results.map((results) => results.item)
-      : filterAllResults;
+    if(searchDate !== ""){
+      var filterAllResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < genratedLeadData.length; j++) {
+          const start = moment(searchDate.start).format("YYYY-MM-DD")
+          const end = moment(searchDate.end).format("YYYY-MM-DD")
+          const between =  moment.unix(genratedLeadData[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
+          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
+          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
+          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
+          if ((genratedLeadData[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
+            filterAllResults.push(genratedLeadData[j]);
+          }
+        }
+      }
+      const fuse = new Fuse(filterAllResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterAllLeads = searchQuery
+        ? results.map((results) => results.item)
+        : filterAllResults;
+    }
+
   }
 
   if (
@@ -99,21 +185,46 @@ const Lead = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    var filterAllResults = [];
-    for (let i = 0; i < campaignID.length; i++) {
-      for (let j = 0; j < genratedLeadData.length; j++) {
-        if (genratedLeadData[j].campaignId === campaignID[i].id) {
-          filterAllResults.push(genratedLeadData[j]);
+    if(searchDate === ""){
+      var filterAllResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < genratedLeadData.length; j++) {
+          if (genratedLeadData[j].campaignId === campaignID[i].id) {
+            filterAllResults.push(genratedLeadData[j]);
+          }
         }
       }
+      const fuse = new Fuse(filterAllResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterAllLeads = searchQuery
+        ? results.map((results) => results.item)
+        : filterAllResults;
     }
-    const fuse = new Fuse(filterAllResults, {
-      keys: ["title", "summary", "companyName"],
-    });
-    const results = fuse.search(searchQuery);
-    var filterAllLeads = searchQuery
-      ? results.map((results) => results.item)
-      : filterAllResults;
+    if(searchDate !== ""){
+      var filterAllResults = [];
+      for (let i = 0; i < campaignID.length; i++) {
+        for (let j = 0; j < genratedLeadData.length; j++) {
+          const start = moment(searchDate.start).format("YYYY-MM-DD")
+          const end = moment(searchDate.end).format("YYYY-MM-DD")
+          const between =  moment.unix(genratedLeadData[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
+          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
+          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
+          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
+          if ((genratedLeadData[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
+            filterAllResults.push(genratedLeadData[j]);
+          }
+        }
+      }
+      const fuse = new Fuse(filterAllResults, {
+        keys: ["title", "summary", "companyName"],
+      });
+      const results = fuse.search(searchQuery);
+      var filterAllLeads = searchQuery
+        ? results.map((results) => results.item)
+        : filterAllResults;
+    }
   }
 
   useEffect(() => {
