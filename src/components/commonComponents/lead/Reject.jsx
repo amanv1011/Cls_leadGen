@@ -26,10 +26,10 @@ const Reject = () => {
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
-  const underReviewList = genratedLeadData.filter((ele) => ele.status === -1);
-  const rejectCount = underReviewList.length;
-  const rejectList = genratedLeadData.filter((ele) => ele.status === 0);
-  const underReviewCount = rejectList.length;
+  const rejectList = genratedLeadData.filter((ele) => ele.status === -1);
+  const rejectCount = rejectList.length;
+  const underReviewList = genratedLeadData.filter((ele) => ele.status === 0);
+  const underReviewCount = underReviewList.length;
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
 
