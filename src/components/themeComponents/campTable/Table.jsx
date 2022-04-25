@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { CircularProgress, IconButton, Switch, Backdrop } from "@mui/material";
+import {
+  CircularProgress,
+  IconButton,
+  Switch,
+  Backdrop,
+  Tooltip,
+} from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
 import Status from "./Status";
@@ -268,73 +274,81 @@ const Table = () => {
 
                         <td className="actions">
                           <div>
-                            <IconButton
-                              disabled={
-                                getNumOfLeads(campaignListItem.id)
-                                  ? false
-                                  : true
-                              }
-                              style={
-                                getNumOfLeads(campaignListItem.id) === 0
-                                  ? {
-                                      pointerEvents: "auto",
-                                      cursor: "not-allowed",
-                                    }
-                                  : {}
-                              }
-                              onClick={() =>
-                                forDownloading(
-                                  campaignListItem.id,
-                                  campaignListItem.name
-                                )
-                              }
-                            >
-                              <Download />
-                            </IconButton>
-
-                            <IconButton
-                              onClick={() => {
-                                dispatch(
-                                  campaignActions.campaignIDAction(
-                                    campaignListItem.id
+                            <Tooltip title="Download" arrow>
+                              <IconButton
+                                disabled={
+                                  getNumOfLeads(campaignListItem.id)
+                                    ? false
+                                    : true
+                                }
+                                style={
+                                  getNumOfLeads(campaignListItem.id) === 0
+                                    ? {
+                                        pointerEvents: "auto",
+                                        cursor: "not-allowed",
+                                      }
+                                    : {}
+                                }
+                                onClick={() =>
+                                  forDownloading(
+                                    campaignListItem.id,
+                                    campaignListItem.name
                                   )
-                                );
-                                dispatch(campaignActions.showModal());
-                              }}
-                            >
-                              <Edit />
-                            </IconButton>
+                                }
+                              >
+                                <Download />
+                              </IconButton>
+                            </Tooltip>
 
-                            <IconButton
-                              onClick={() => Viewed(campaignListItem.id)}
-                            >
-                              <View />
-                            </IconButton>
+                            <Tooltip title="Edit" arrow>
+                              <IconButton
+                                onClick={() => {
+                                  dispatch(
+                                    campaignActions.campaignIDAction(
+                                      campaignListItem.id
+                                    )
+                                  );
+                                  dispatch(campaignActions.showModal());
+                                }}
+                              >
+                                <Edit />
+                              </IconButton>
+                            </Tooltip>
 
-                            <IconButton
-                              disabled={
-                                getNumOfLeads(campaignListItem.id)
-                                  ? true
-                                  : false
-                              }
-                              style={
-                                getNumOfLeads(campaignListItem.id) === 0
-                                  ? {}
-                                  : {
-                                      pointerEvents: "auto",
-                                      cursor: "not-allowed",
-                                    }
-                              }
-                              onClick={() => {
-                                dispatch(
-                                  campaignActions.deleteCampaignsAction(
-                                    campaignListItem.id
-                                  )
-                                );
-                              }}
-                            >
-                              <Delete />
-                            </IconButton>
+                            <Tooltip title="View" arrow>
+                              <IconButton
+                                onClick={() => Viewed(campaignListItem.id)}
+                              >
+                                <View />
+                              </IconButton>
+                            </Tooltip>
+
+                            <Tooltip title="Delete" arrow>
+                              <IconButton
+                                disabled={
+                                  getNumOfLeads(campaignListItem.id)
+                                    ? true
+                                    : false
+                                }
+                                style={
+                                  getNumOfLeads(campaignListItem.id) === 0
+                                    ? {}
+                                    : {
+                                        pointerEvents: "auto",
+                                        cursor: "not-allowed",
+                                      }
+                                }
+                                onClick={() => {
+                                  dispatch(
+                                    campaignActions.deleteCampaignsAction(
+                                      campaignListItem.id
+                                    )
+                                  );
+                                }}
+                              >
+                                <Delete />
+                              </IconButton>
+                            </Tooltip>
                           </div>
                         </td>
                       </tr>
