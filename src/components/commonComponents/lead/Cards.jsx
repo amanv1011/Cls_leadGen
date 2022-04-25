@@ -180,7 +180,7 @@ const Cards = (props) => {
                         <BootstrapTooltip
                           placement="top"
                           sx={{ color: "black" }}
-                          title="Archieve"
+                          title="Archive"
                           arrow
                         >
                           <input

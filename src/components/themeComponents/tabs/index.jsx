@@ -105,7 +105,7 @@ export default function BasicTabs({ type }) {
             <Tab  component={Link} to="/app/dashboard/leads/underreview" label={`Under Review( ${underreviewCount})`} sx={{ textTransform: "none" }} />
             <Tab component={Link} to="/app/dashboard/leads/approve" label={`Approved (${approveCount})`} sx={{ textTransform: "none" }} />
             <Tab component={Link} to="/app/dashboard/leads/reject" label={`Rejected (${rejectCount})`} sx={{ textTransform: "none" }} />
-            <Tab component={Link} to="/app/dashboard/leads/archive" label={`Archieve (${archieveCount})`} sx={{ textTransform: "none" }} />
+            <Tab component={Link} to="/app/dashboard/leads/archive" label={`Archive (${archieveCount})`} sx={{ textTransform: "none" }} />
           </Tabs>
         )}
       </Box>
