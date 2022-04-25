@@ -6,6 +6,8 @@ import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import DateModal from './DateModal';
 import DownArrow from "./DownArrow";
+import SearchIcon from '@mui/icons-material/Search';
+import "./leadsHeader.scss"
 import {
   leadsFilterCampaignName,
   leadsFilterOwnerName,
@@ -14,6 +16,9 @@ import {
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
+
+  const SearchInput = useRef("")
+  const emptyString = ""
 
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
@@ -53,9 +58,18 @@ const LeadsHeader = () => {
     setOwnerMenu(null);
   };
 
-  const handleSearch = (event) => {
-    dispatch(leadsFilterSearch(event.target.value))
+  const handleSearch = () => {
+    console.log(SearchInput.current.value);
+    dispatch(leadsFilterSearch(SearchInput.current.value))
+    SearchInput.current.value="";
+    console.log(SearchInput.current.value);
+
   }
+
+  useEffect(() =>{
+    SearchInput.current.value="";
+    dispatch(leadsFilterSearch(SearchInput.current.value))
+  },)
 
   return (
     <>
@@ -66,16 +80,13 @@ const LeadsHeader = () => {
           width: "100%",
         }}
       >
-        <div style={{ display: "flex" }}>
-          {/* <IInput
-            style={{ color: "rgba(92, 117,154)" }}
-            placeholder={"Search"}
-            isSearch={true}
-          /> */}
+        <div style={{ display: "flex"}}>
+          <div style={{ display: "flex", backgroundColor: "#E7E7E7", flexWrap:'wrap', height:"40px", borderRadius:'10px' }}>
           <input
             placeholder="Search"
             type="text"
-            onChange = {handleSearch}
+            className="search-input-leads"
+            ref={SearchInput}
             style={{
               width: "280px",
               height: "40px",
@@ -88,7 +99,12 @@ const LeadsHeader = () => {
               fontSize: "14px",
               paddingLeft:'10px'
             }}
+            
           />
+          <div className="search-icon" onClick={handleSearch} style={{paddingTop:'9px', paddingRight:'4px'}}><SearchIcon/></div>
+          
+          </div>
+
           <div>
             <Button
               id="basic-button"
@@ -111,10 +127,9 @@ const LeadsHeader = () => {
               }}
             >
               {allCampaignsFilter}{" "}
-              <span style={{ marginLeft: "38px", paddingBottom: "5px" }}>
-                {" "}
-                {/* <DownArrow />{" "} */}
-              </span>
+              <span style={{ paddingLeft: "45px", paddingBottom: "3px" }}>
+              <DownArrow />
+            </span>
             </Button>
             <Menu
               id="basic-menu"
@@ -189,9 +204,8 @@ const LeadsHeader = () => {
             }}
           >
             {allOwnersFilter}{" "}
-            <span style={{ marginLeft: "38px", paddingBottom: "5px" }}>
-              {" "}
-              {/* <DownArrow />{" "} */}
+            <span style={{ paddingLeft: "70px", paddingBottom: "3px" }}>
+              <DownArrow />
             </span>
           </Button>
           <Menu

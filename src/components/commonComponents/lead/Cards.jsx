@@ -42,9 +42,9 @@ const Cards = (props) => {
     [`& .${tooltipClasses.tooltip}`]: {
       backgroundColor: theme.palette.common.black,
       fontFamily: "Segoe UI",
-      fontSize:"14px",
-      fontWeight:"600",
-      borderRadius:"8px"
+      fontSize: "14px",
+      fontWeight: "600",
+      borderRadius: "8px"
     },
   }));
 
@@ -62,6 +62,13 @@ const Cards = (props) => {
   return (
     <>
       {leadsData.map((ele) => {
+
+        if (ele.companyName !== null) {
+          var linkedInCompany = ((ele.companyName).toLowerCase()).split(" ").join("");
+        } else {
+          var linkedInCompany = ""
+        }
+
         return (
           <>
             <Box className="lead-container">
@@ -80,26 +87,16 @@ const Cards = (props) => {
                     {" "}
                     {moment.unix(ele.leadGeneratedDate.seconds).fromNow()}{" "}
                   </span>
-                  <IconButton>
-                    {" "}
-                    <a href={ele.link}>
-                      <LinkedIn />
-                    </a>{" "}
-                  </IconButton>
+
+                  <IconButton> < a href={`https://www.linkedin.com/company/${linkedInCompany}/`} target="blank"><LinkedIn /></a>  </IconButton>
                   <IconButton>
                     <MoreVertIcon />
                   </IconButton>
                 </Box>
               </Box>
               <hr className="line" />
-              <Box
-                style={{ display: "flex", paddingTop: "16px" }}
-                className="lead-body"
-              >
-                <div
-                  style={{ display: "flex", width: "100%" }}
-                  className="lead-body-row1"
-                >
+              <Box style={{ display: "flex", paddingTop: "16px" }} className="lead-body">
+                <div style={{ display: "flex", width: "100%" }} className="lead-body-row1">
                   <div className="lead-body-column">
                     <div className="lead-body-column-card1">
                       <p className="head-body">Key Skills</p>
@@ -141,7 +138,7 @@ const Cards = (props) => {
                     style={{ display: "flex", justifyContent: "space-around" }}
                   >
                     {ele.status !==
-                    1 ? (
+                      1 ? (
                       <div style={{ marginRight: "1vw" }}>
                         <BootstrapTooltip
                           placement="top"
@@ -163,7 +160,7 @@ const Cards = (props) => {
                       <div style={{ marginRight: "1vw" }}>
                         <BootstrapTooltip
                           placement="top"
-                          sx={{ fontFamily:'Segoe UI'}}
+                          sx={{ fontFamily: 'Segoe UI' }}
                           title="Reject"
                           arrow
                         >
@@ -178,12 +175,12 @@ const Cards = (props) => {
                       </div>
                     ) : null}
                     {ele.status !==
-                    2 ? (
+                      2 ? (
                       <div>
                         <BootstrapTooltip
                           placement="top"
                           sx={{ color: "black" }}
-                          title="Archieve"
+                          title="Archive"
                           arrow
                         >
                           <input
