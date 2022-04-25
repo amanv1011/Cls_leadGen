@@ -54,14 +54,7 @@ class BasicDateRangePicker extends React.Component {
     return (
       <div>
 
-        <div>
-
-          <Button onClick={this.onToggle} style={{ width: "332px", height: "40px", backgroundColor: "#E7E7E7", color: "#5C759A", textTransform: "none" }}>{this.renderSelectionValue()} 
-          </Button>
-
-        </div>
-
-
+      
         {this.state.isOpen && (
           <DateRangePicker
             value={this.state.value}

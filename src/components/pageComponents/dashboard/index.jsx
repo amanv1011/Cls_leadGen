@@ -82,11 +82,7 @@ const Dashboard = ({ children }) => {
 
     let currentDate = moment().format("MM/DD/YYYY");
 
-    leadData.map((ele) => {
-      if (ele.status === 1) {
-        ActiveCount++;
-      }
-    });
+    
     if (leadData !== []) {
       leadData.map((ele) => {
         if (ele.status === 1) {
