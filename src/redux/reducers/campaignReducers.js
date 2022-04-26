@@ -28,7 +28,6 @@ export const getAllCampaignsReducer = (
         error: null,
       };
     case GET_CAMPAIGN_LIST_SUCCESS:
-      
       return {
         ...state,
         loading: false,
@@ -52,13 +51,15 @@ export const getAllCampaignsReducer = (
     case types.POST_CAMPAIGN_DATA_SUCCESS:
       return {
         ...state,
-        campaignList: [...state.campaignList, payload],
+        loading: false,
+        campaignList: [...state.campaignList, ...payload],
         error: null,
       };
 
     case types.POST_CAMPAIGN_DATA_ERROR:
       return {
         ...state,
+        loading: false,
         error: payload,
       };
 

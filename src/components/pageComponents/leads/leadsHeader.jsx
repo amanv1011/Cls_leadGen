@@ -16,16 +16,13 @@ import {
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
-
   const SearchInput = useRef("");
   const emptyString = "";
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
-
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
   );
-  // const leadsFilterDate = useSelector((state) => state.leadsFilter.filterDate);
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
 
   const [allCampgainsMenu, setAllCampgainsMenu] = React.useState(null);
@@ -35,8 +32,6 @@ const LeadsHeader = () => {
   const handleClickAllCampgainsMenu = (event) => {
     setAllCampgainsMenu(event.currentTarget);
   };
-
-  console.log("ownerNameFilter", ownerNameFilter);
 
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);
@@ -68,7 +63,6 @@ const LeadsHeader = () => {
       dispatch(leadsFilterOwnerName(event.target.innerText));
       setAllOwnersFilter(event.target.innerText);
     }
-
     setOwnerMenu(null);
   };
 

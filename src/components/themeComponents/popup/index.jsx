@@ -39,6 +39,7 @@ function AddCampaginModal() {
     end_date: formatDate(new Date()),
     end_time: "",
     pages: 0,
+    status: 0,
   });
 
   const {
@@ -51,6 +52,7 @@ function AddCampaginModal() {
     end_date,
     end_time,
     pages,
+    status,
   } = addCampaignDetails;
 
   const [tags, setTags] = useState([]);
@@ -64,9 +66,6 @@ function AddCampaginModal() {
     const newarrayValue = event.target.value;
     setTags(newarrayValue.split("," || ""));
   };
-
-  console.log("addCampaignDetails--->", addCampaignDetails);
-  console.log("tags--->", tags);
 
   useEffect(() => {
     if (source === "seek_aus") {
@@ -114,6 +113,7 @@ function AddCampaginModal() {
         end_time: documentSnapShot.payload.data().end_time,
         location: documentSnapShot.payload.data().location,
         pages: parseInt(documentSnapShot.payload.data().pages),
+        status: parseInt(documentSnapShot.payload.data().status),
       });
       setTags([...documentSnapShot.payload.data().tags]);
     } catch (error) {
@@ -132,7 +132,6 @@ function AddCampaginModal() {
       start_date: Timestamp.fromDate(new Date(start_date)),
       last_crawled_date: Timestamp.fromDate(new Date(start_date)),
       owner: "Mithun Dominic",
-      status: 1,
     };
 
     if (a__campgaignId) {
@@ -264,8 +263,8 @@ function AddCampaginModal() {
                   name="name"
                   value={name}
                   onChange={onInputChangeHandler}
-                  required
                   autoComplete="off"
+                  required
                 />
               </Grid>
 
@@ -283,8 +282,8 @@ function AddCampaginModal() {
                   name="source"
                   value={source}
                   onChange={onInputChangeHandler}
-                  required
                   autoComplete="off"
+                  required
                 >
                   <option value=""></option>
                   <option value="seek_aus">Seek Australia</option>
@@ -317,8 +316,8 @@ function AddCampaginModal() {
                   name="tags"
                   value={tags}
                   onChange={tagInputChange}
-                  required
                   autoComplete="off"
+                  required
                 />
               </Grid>
 
@@ -334,8 +333,8 @@ function AddCampaginModal() {
                   name="frequency"
                   value={frequency}
                   onChange={onInputChangeHandler}
-                  required
                   autoComplete="off"
+                  required
                 />
               </Grid>
 
@@ -348,8 +347,8 @@ function AddCampaginModal() {
                   name="start_date"
                   value={start_date}
                   onChange={onInputChangeHandler}
-                  required
                   autoComplete="off"
+                  required
                 />
               </Grid>
 
@@ -362,8 +361,8 @@ function AddCampaginModal() {
                   name="start_time"
                   value={start_time}
                   onChange={onInputChangeHandler}
-                  required
                   autoComplete="off"
+                  required
                 />
               </Grid>
 
@@ -376,8 +375,8 @@ function AddCampaginModal() {
                   name="end_date"
                   value={end_date}
                   onChange={onInputChangeHandler}
-                  required
                   autoComplete="off"
+                  required
                 />
               </Grid>
 
@@ -390,8 +389,8 @@ function AddCampaginModal() {
                   name="end_time"
                   value={end_time}
                   onChange={onInputChangeHandler}
-                  required
                   autoComplete="off"
+                  required
                 />
               </Grid>
 
@@ -405,8 +404,8 @@ function AddCampaginModal() {
                   name="location"
                   value={location}
                   onChange={onInputChangeHandler}
-                  required
                   autoComplete="off"
+                  required
                 />
               </Grid>
               <Grid item xs={4}></Grid>
@@ -422,8 +421,8 @@ function AddCampaginModal() {
                   name="pages"
                   value={pages}
                   onChange={onInputChangeHandler}
-                  required
                   autoComplete="off"
+                  required
                   style={{
                     marginBottom: "10px",
                   }}
