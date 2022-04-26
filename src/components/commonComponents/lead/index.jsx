@@ -8,7 +8,7 @@ import moment from "moment";
 import { getRejectCount } from "../../../redux/actions/approveRejectcount";
 import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
 import { getApproveCount } from "../../../redux/actions/approveRejectcount";
-import {getArchieveCount} from "../../../redux/actions/approveRejectcount"
+import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { useEffect, useState } from "react";
 import PopupBox from "./PopupBox";
 import "./lead.scss";
@@ -25,19 +25,20 @@ const Lead = () => {
   const underReviewCount = underReviewList.length;
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
-  const campaignNameFilter = useSelector((state) => state.leadsFilter.campaignName);
+  const campaignNameFilter = useSelector(
+    (state) => state.leadsFilter.campaignName
+  );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
   const popupStatus = useSelector((state) => state.popupStatus.popupStatus);
   const popupData = useSelector((state) => state.popupStatus.popupData);
-  const archieveList = genratedLeadData.filter((ele) => ele.status === 2)
+  const archieveList = genratedLeadData.filter((ele) => ele.status === 2);
   const archieveCount = archieveList.length;
-
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
-    if(searchDate === ""){
+    if (searchDate === "") {
       const fuse = new Fuse(genratedLeadData, {
         keys: ["title", "summary", "companyName"],
       });
@@ -46,21 +47,25 @@ const Lead = () => {
         ? results.map((results) => results.item)
         : genratedLeadData;
     }
-    if(searchDate !== ""){
-      
+    if (searchDate !== "") {
+      var filterAllResults = [];
+      for (let i = 0; i < genratedLeadData.length; i++) {
+        const start = moment(searchDate.start).format("YYYY-MM-DD");
+        const end = moment(searchDate.end).format("YYYY-MM-DD");
+        const between = moment
+          .unix(genratedLeadData[i].leadGeneratedDate.seconds)
+          .format("YYYY-MM-DD");
+        const unixTimestampStart = Math.floor(new Date(start).getTime() / 1000);
+        const unixTimestampBetween = Math.floor(
+          new Date(between).getTime() / 1000
+        );
+        const unixTimestampEnd = Math.floor(new Date(end).getTime() / 1000);
 
-      var filterAllResults = []
-      for (let i = 0; i < genratedLeadData.length; i++){
-        const start = moment(searchDate.start).format("YYYY-MM-DD")
-        const end = moment(searchDate.end).format("YYYY-MM-DD")
-        const between =  moment.unix(genratedLeadData[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
-        const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
-        const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
-        const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
-        
-
-        if(unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd){
-          filterAllResults.push(genratedLeadData[i])
+        if (
+          unixTimestampStart < unixTimestampBetween &&
+          unixTimestampBetween < unixTimestampEnd
+        ) {
+          filterAllResults.push(genratedLeadData[i]);
         }
       }
       const fuse = new Fuse(filterAllResults, {
@@ -70,13 +75,7 @@ const Lead = () => {
       var filterAllLeads = searchQuery
         ? results.map((results) => results.item)
         : filterAllResults;
-    
-      
-     
     }
-    
-
-
   }
   if (
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
@@ -85,7 +84,7 @@ const Lead = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
-    if(searchDate === ""){
+    if (searchDate === "") {
       var filterAllResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < genratedLeadData.length; j++) {
@@ -102,17 +101,27 @@ const Lead = () => {
         ? results.map((results) => results.item)
         : filterAllResults;
     }
-    if(searchDate !== ""){
+    if (searchDate !== "") {
       var filterAllResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < genratedLeadData.length; j++) {
-          const start = moment(searchDate.start).format("YYYY-MM-DD")
-          const end = moment(searchDate.end).format("YYYY-MM-DD")
-          const between =  moment.unix(genratedLeadData[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
-          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
-          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
-          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
-          if ((genratedLeadData[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
+          const start = moment(searchDate.start).format("YYYY-MM-DD");
+          const end = moment(searchDate.end).format("YYYY-MM-DD");
+          const between = moment
+            .unix(genratedLeadData[i].leadGeneratedDate.seconds)
+            .format("YYYY-MM-DD");
+          const unixTimestampStart = Math.floor(
+            new Date(start).getTime() / 1000
+          );
+          const unixTimestampBetween = Math.floor(
+            new Date(between).getTime() / 1000
+          );
+          const unixTimestampEnd = Math.floor(new Date(end).getTime() / 1000);
+          if (
+            genratedLeadData[j].campaignId === campaignID[i].id &&
+            unixTimestampStart < unixTimestampBetween &&
+            unixTimestampBetween < unixTimestampEnd
+          ) {
             filterAllResults.push(genratedLeadData[j]);
           }
         }
@@ -125,7 +134,6 @@ const Lead = () => {
         ? results.map((results) => results.item)
         : filterAllResults;
     }
-
   }
 
   if (
@@ -135,7 +143,7 @@ const Lead = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    if(searchDate === ""){
+    if (searchDate === "") {
       var filterAllResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < genratedLeadData.length; j++) {
@@ -152,17 +160,27 @@ const Lead = () => {
         ? results.map((results) => results.item)
         : filterAllResults;
     }
-    if(searchDate !== ""){
+    if (searchDate !== "") {
       var filterAllResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < genratedLeadData.length; j++) {
-          const start = moment(searchDate.start).format("YYYY-MM-DD")
-          const end = moment(searchDate.end).format("YYYY-MM-DD")
-          const between =  moment.unix(genratedLeadData[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
-          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
-          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
-          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
-          if ((genratedLeadData[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
+          const start = moment(searchDate.start).format("YYYY-MM-DD");
+          const end = moment(searchDate.end).format("YYYY-MM-DD");
+          const between = moment
+            .unix(genratedLeadData[i].leadGeneratedDate.seconds)
+            .format("YYYY-MM-DD");
+          const unixTimestampStart = Math.floor(
+            new Date(start).getTime() / 1000
+          );
+          const unixTimestampBetween = Math.floor(
+            new Date(between).getTime() / 1000
+          );
+          const unixTimestampEnd = Math.floor(new Date(end).getTime() / 1000);
+          if (
+            genratedLeadData[j].campaignId === campaignID[i].id &&
+            unixTimestampStart < unixTimestampBetween &&
+            unixTimestampBetween < unixTimestampEnd
+          ) {
             filterAllResults.push(genratedLeadData[j]);
           }
         }
@@ -175,7 +193,6 @@ const Lead = () => {
         ? results.map((results) => results.item)
         : filterAllResults;
     }
-
   }
 
   if (
@@ -185,7 +202,7 @@ const Lead = () => {
     var campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    if(searchDate === ""){
+    if (searchDate === "") {
       var filterAllResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < genratedLeadData.length; j++) {
@@ -202,17 +219,27 @@ const Lead = () => {
         ? results.map((results) => results.item)
         : filterAllResults;
     }
-    if(searchDate !== ""){
+    if (searchDate !== "") {
       var filterAllResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < genratedLeadData.length; j++) {
-          const start = moment(searchDate.start).format("YYYY-MM-DD")
-          const end = moment(searchDate.end).format("YYYY-MM-DD")
-          const between =  moment.unix(genratedLeadData[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
-          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
-          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
-          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
-          if ((genratedLeadData[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
+          const start = moment(searchDate.start).format("YYYY-MM-DD");
+          const end = moment(searchDate.end).format("YYYY-MM-DD");
+          const between = moment
+            .unix(genratedLeadData[i].leadGeneratedDate.seconds)
+            .format("YYYY-MM-DD");
+          const unixTimestampStart = Math.floor(
+            new Date(start).getTime() / 1000
+          );
+          const unixTimestampBetween = Math.floor(
+            new Date(between).getTime() / 1000
+          );
+          const unixTimestampEnd = Math.floor(new Date(end).getTime() / 1000);
+          if (
+            genratedLeadData[j].campaignId === campaignID[i].id &&
+            unixTimestampStart < unixTimestampBetween &&
+            unixTimestampBetween < unixTimestampEnd
+          ) {
             filterAllResults.push(genratedLeadData[j]);
           }
         }
@@ -231,11 +258,8 @@ const Lead = () => {
     dispatch(getApproveCount(approveCount));
     dispatch(getUnderreviewCount(underReviewCount));
     dispatch(getRejectCount(rejectCount));
-    dispatch(getArchieveCount(archieveCount))
+    dispatch(getArchieveCount(archieveCount));
   });
-
-
-
 
   return (
     <>

@@ -166,6 +166,11 @@
         i {
           margin-left: 10px;
         }
+        a:-webkit-any-link {
+          color: #1f4173;
+          cursor: pointer;
+          text-decoration: none;
+        }
       }
       &.start-date {
         width: 81px;

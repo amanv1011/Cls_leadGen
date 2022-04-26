@@ -4,10 +4,10 @@ import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import DateModal from './DateModal';
+import DateModal from "./DateModal";
 import DownArrow from "./DownArrow";
-import SearchIcon from '@mui/icons-material/Search';
-import "./leadsHeader.scss"
+import SearchIcon from "@mui/icons-material/Search";
+import "./leadsHeader.scss";
 import {
   leadsFilterCampaignName,
   leadsFilterOwnerName,
@@ -17,11 +17,16 @@ import {
 const LeadsHeader = () => {
   const dispatch = useDispatch();
 
-  const SearchInput = useRef("")
-  const emptyString = ""
-
+  const SearchInput = useRef("");
+  const emptyString = "";
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
+
+  const campaignNameFilter = useSelector(
+    (state) => state.leadsFilter.campaignName
+  );
+  // const leadsFilterDate = useSelector((state) => state.leadsFilter.filterDate);
+  const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
 
   const [allCampgainsMenu, setAllCampgainsMenu] = React.useState(null);
   const [allCampaignsFilter, setAllCampgainsFilter] = useState("All Campgains");
@@ -30,6 +35,15 @@ const LeadsHeader = () => {
   const handleClickAllCampgainsMenu = (event) => {
     setAllCampgainsMenu(event.currentTarget);
   };
+
+  console.log("ownerNameFilter", ownerNameFilter);
+
+  useEffect(() => {
+    setAllCampgainsFilter(campaignNameFilter);
+    setAllOwnersFilter(ownerNameFilter);
+    setAllCampgainsMenu(null);
+  }, [campaignNameFilter, ownerNameFilter]);
+
   const handleCloseAllCampgainsMenu = (event) => {
     if (event.target.innerText === "") {
       dispatch(leadsFilterCampaignName("All Campaigns"));
@@ -60,16 +74,15 @@ const LeadsHeader = () => {
 
   const handleSearch = () => {
     console.log(SearchInput.current.value);
-    dispatch(leadsFilterSearch(SearchInput.current.value))
-    SearchInput.current.value="";
+    dispatch(leadsFilterSearch(SearchInput.current.value));
+    SearchInput.current.value = "";
     console.log(SearchInput.current.value);
+  };
 
-  }
-
-  useEffect(() =>{
-    SearchInput.current.value="";
-    dispatch(leadsFilterSearch(SearchInput.current.value))
-  },)
+  useEffect(() => {
+    SearchInput.current.value = "";
+    dispatch(leadsFilterSearch(SearchInput.current.value));
+  });
 
   return (
     <>
@@ -80,29 +93,41 @@ const LeadsHeader = () => {
           width: "100%",
         }}
       >
-        <div style={{ display: "flex"}}>
-          <div style={{ display: "flex", backgroundColor: "#E7E7E7", flexWrap:'wrap', height:"40px", borderRadius:'10px' }}>
-          <input
-            placeholder="Search"
-            type="text"
-            className="search-input-leads"
-            ref={SearchInput}
+        <div style={{ display: "flex" }}>
+          <div
             style={{
-              width: "280px",
+              display: "flex",
+              backgroundColor: "#E7E7E7",
+              flexWrap: "wrap",
               height: "40px",
               borderRadius: "10px",
-              backgroundColor: "#E7E7E7",
-              border: "none",
-              fontFamily: "Segoe UI",
-              fontWeight: "600",
-              color: "rgba(92, 117,154)",
-              fontSize: "14px",
-              paddingLeft:'10px'
             }}
-            
-          />
-          <div className="search-icon" onClick={handleSearch} style={{paddingTop:'9px', paddingRight:'4px'}}><SearchIcon/></div>
-          
+          >
+            <input
+              placeholder="Search"
+              type="text"
+              className="search-input-leads"
+              ref={SearchInput}
+              style={{
+                width: "280px",
+                height: "40px",
+                borderRadius: "10px",
+                backgroundColor: "#E7E7E7",
+                border: "none",
+                fontFamily: "Segoe UI",
+                fontWeight: "600",
+                color: "rgba(92, 117,154)",
+                fontSize: "14px",
+                paddingLeft: "10px",
+              }}
+            />
+            <div
+              className="search-icon"
+              onClick={handleSearch}
+              style={{ paddingTop: "9px", paddingRight: "4px" }}
+            >
+              <SearchIcon />
+            </div>
           </div>
 
           <div>
@@ -128,8 +153,8 @@ const LeadsHeader = () => {
             >
               {allCampaignsFilter}{" "}
               <span style={{ paddingLeft: "45px", paddingBottom: "3px" }}>
-              <DownArrow />
-            </span>
+                <DownArrow />
+              </span>
             </Button>
             <Menu
               id="basic-menu"

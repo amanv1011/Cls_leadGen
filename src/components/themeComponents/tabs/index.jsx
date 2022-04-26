@@ -11,10 +11,18 @@ import { Route, Redirect } from "react-router";
 export default function BasicTabs({ type }) {
   const [value, setValue] = React.useState(0);
   const [valueTabs, setValueTabs] = useState(0);
-  const approveCount  = useSelector((state) => state.approveRejectCount.approveCount)
-  const rejectCount  = useSelector((state) => state.approveRejectCount.rejectCount)
-  const underreviewCount  = useSelector((state) => state.approveRejectCount.underreviewCount)
-  const archieveCount  = useSelector((state) => state.approveRejectCount.archieveCount)
+  const approveCount = useSelector(
+    (state) => state.approveRejectCount.approveCount
+  );
+  const rejectCount = useSelector(
+    (state) => state.approveRejectCount.rejectCount
+  );
+  const underreviewCount = useSelector(
+    (state) => state.approveRejectCount.underreviewCount
+  );
+  const archieveCount = useSelector(
+    (state) => state.approveRejectCount.archieveCount
+  );
 
   const handleChange = (e, newValue) => {
     setValue(newValue);
@@ -22,37 +30,37 @@ export default function BasicTabs({ type }) {
 
   var [hover, setHover] = useState(true);
 
-  var [ leadsHover, setLeadsHover] = useState(false);
+  var [leadsHover, setLeadsHover] = useState(false);
 
   useEffect(() => {
-    if(window.location.pathname === '/app/dashboard/campaign'){
-      setValue(0)
+    if (window.location.pathname === "/app/dashboard/campaign") {
+      setValue(0);
     }
-    if(window.location.pathname === '/app/dashboard/leads'){
-      setValue(1)
+    if (window.location.pathname === "/app/dashboard/leads") {
+      setValue(1);
     }
-    if(window.location.pathname === '/app/dashboard/leads'){
-      setValue(1)
-      setValueTabs(0)
+    if (window.location.pathname === "/app/dashboard/leads") {
+      setValue(1);
+      setValueTabs(0);
     }
-    if(window.location.pathname === '/app/dashboard/leads/underreview'){
-      setValue(1)
-      setValueTabs(1)
+    if (window.location.pathname === "/app/dashboard/leads/underreview") {
+      setValue(1);
+      setValueTabs(1);
     }
-    if(window.location.pathname === '/app/dashboard/leads/approve'){
-      setValue(1)
-      setValueTabs(2)
+    if (window.location.pathname === "/app/dashboard/leads/approve") {
+      setValue(1);
+      setValueTabs(2);
     }
-    if(window.location.pathname === '/app/dashboard/leads/reject'){
-      setValue(1)
-      setValueTabs(3)
+    if (window.location.pathname === "/app/dashboard/leads/reject") {
+      setValue(1);
+      setValueTabs(3);
     }
-    if(window.location.pathname === '/app/dashboard/leads/archive'){
-      setValue(1)
-      setValueTabs(4)
+    if (window.location.pathname === "/app/dashboard/leads/archive") {
+      setValue(1);
+      setValueTabs(4);
     }
-  })
-  
+  });
+
   var [leadsHover, setLeadsHover] = useState(false);
 
   return (
@@ -101,11 +109,36 @@ export default function BasicTabs({ type }) {
           </Tabs>
         ) : (
           <Tabs value={valueTabs} onChange={handleChange} className="form-tabs">
-            <Tab component={Link} to="/app/dashboard/leads" label="All" sx={{ textTransform: "none" }} />
-            <Tab  component={Link} to="/app/dashboard/leads/underreview" label={`Under Review( ${underreviewCount})`} sx={{ textTransform: "none" }} />
-            <Tab component={Link} to="/app/dashboard/leads/approve" label={`Approved (${approveCount})`} sx={{ textTransform: "none" }} />
-            <Tab component={Link} to="/app/dashboard/leads/reject" label={`Rejected (${rejectCount})`} sx={{ textTransform: "none" }} />
-            <Tab component={Link} to="/app/dashboard/leads/archive" label={`Archive (${archieveCount})`} sx={{ textTransform: "none" }} />
+            <Tab
+              component={Link}
+              to="/app/dashboard/leads"
+              label="All"
+              sx={{ textTransform: "none" }}
+            />
+            <Tab
+              component={Link}
+              to="/app/dashboard/leads/underreview"
+              label={`Under Review( ${underreviewCount})`}
+              sx={{ textTransform: "none" }}
+            />
+            <Tab
+              component={Link}
+              to="/app/dashboard/leads/approve"
+              label={`Approved (${approveCount})`}
+              sx={{ textTransform: "none" }}
+            />
+            <Tab
+              component={Link}
+              to="/app/dashboard/leads/reject"
+              label={`Rejected (${rejectCount})`}
+              sx={{ textTransform: "none" }}
+            />
+            <Tab
+              component={Link}
+              to="/app/dashboard/leads/archive"
+              label={`Archive (${archieveCount})`}
+              sx={{ textTransform: "none" }}
+            />
           </Tabs>
         )}
       </Box>
