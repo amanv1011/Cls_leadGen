@@ -22,6 +22,8 @@ import * as campaignActions from "../../../redux/actions/campaignActions";
 import { getAllLeadsAction } from "../../../redux/actions/leadActions";
 import { get_a_feild_in_a_document } from "../../../services/api/campaign";
 import CampaignDetailsView from "./CampaignDetailsView";
+import { Link } from "react-router-dom";
+import * as leadsFilterActions from "../../../redux/actions/leadsFilter";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -37,11 +39,16 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
 
 const Table = () => {
   const dispatch = useDispatch();
+
   const statesInReduxStore = useSelector((state) => state);
   const campaignList = statesInReduxStore.allCampaigns.campaignList;
   const campaignLoader = statesInReduxStore.allCampaigns.loading;
   const leadsList = statesInReduxStore.allLeads.leadsList;
   const initialSearchValue = statesInReduxStore.allCampaigns.initialSearchValue;
+
+  // const campaignNameFilter = statesInReduxStore.leadsFilter.campaignName;
+  // const leadsFilterDate = statesInReduxStore.leadsFilter.filterDate;
+  // const ownerNameFilter = statesInReduxStore.leadsFilter.ownerName;
 
   const [campaignListData, setCampaignListData] = useState([]);
   const [leadsListData, setLeadsListData] = useState([]);
@@ -111,6 +118,8 @@ const Table = () => {
       setOrder("ascendingOrder");
     }
   };
+
+  // console.log("campaignNameFilter", campaignNameFilter);
 
   useEffect(() => {
     searchingTable(initialSearchValue);
@@ -242,9 +251,40 @@ const Table = () => {
                         <td className="location">
                           {campaignListItem.location}
                         </td>
-                        <td className="numOfLeads">
-                          {getNumOfLeads(campaignListItem.id)}
+                        <td
+                          className="numOfLeads"
+                          onClick={() => {
+                            dispatch(
+                              leadsFilterActions.leadsFilterCampaignName(
+                                campaignListItem.name
+                              )
+                            );
+                            dispatch(
+                              leadsFilterActions.leadsFilterOwnerName(
+                                campaignListItem.owner
+                              )
+                            );
+                            // dispatch(
+                            //   leadsFilterActions.leadsFilterDate(
+                            //     campaignListItem.name
+                            //   )
+                            // );
+                          }}
+                        >
+                          <Link
+                            to={
+                              getNumOfLeads(campaignListItem.id)
+                                ? "/app/dashboard/leads"
+                                : false
+                            }
+                            disabled={
+                              getNumOfLeads(campaignListItem.id) ? true : false
+                            }
+                          >
+                            {getNumOfLeads(campaignListItem.id)}
+                          </Link>
                         </td>
+
                         <td className="start-date">
                           {formatDate(campaignListItem.start_date.toDate())}
                         </td>
@@ -259,7 +299,6 @@ const Table = () => {
                             <StatusInActive />
                           )}
                         </td>
-
                         <td className="green-switch">
                           <GreenSwitch
                             className="toggleSwitch"
@@ -271,7 +310,6 @@ const Table = () => {
                             }
                           />
                         </td>
-
                         <td className="actions">
                           <div>
                             <Tooltip title="Download" arrow>

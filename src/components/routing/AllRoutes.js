@@ -87,9 +87,7 @@ const AllRoutes = () => {
         //     <Header />
         //     <BasicTabs />
         //     <Approve />
-            
-            
-            
+
         //     </>
         //   )
         // }
