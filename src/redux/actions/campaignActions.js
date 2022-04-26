@@ -31,11 +31,9 @@ export const getACampaignAction = (a__campgaignId) => {
 
 export const getAllCampaignsAction = () => {
   return async (dispatch) => {
-    // dispatch(openLoader({ isLoading: true }));
     dispatch({ type: GET_CAMPAIGN_LIST_PENDING, loading: true });
     try {
       const res = await getCampaignList();
-      // dispatch(closeLoader());
       if (res.length === undefined) {
         dispatch({
           type: GET_CAMPAIGN_LIST_ERROR,
@@ -72,6 +70,7 @@ export const postCampaignsAction = (data) => {
         type: types.POST_CAMPAIGN_DATA_SUCCESS,
         payload: data,
       });
+      console.log("Post campaign data", data);
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {
         dispatch({
