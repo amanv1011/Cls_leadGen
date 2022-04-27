@@ -18,7 +18,7 @@
     "mobiscroll-react": "^4.0.0",
     "moment": "^2.29.2",
     "moment-range": "^4.0.2",
-    "node-sass": "^4.14.1",
+    "node-sass": "6.0",
     "react": "^17.0.2",
     "react-daterange-picker": "^2.0.1",
     "react-dates": "^21.8.0",
