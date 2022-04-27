@@ -5,8 +5,8 @@ import Box from "@mui/material/Box";
 import "./tabs.scss";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Route, Redirect } from "react-router";
+import { useSelector } from "react-redux";
+
 
 export default function BasicTabs({ type }) {
   const [value, setValue] = React.useState(0);
@@ -81,8 +81,7 @@ export default function BasicTabs({ type }) {
                 fontFamily: "Segoe UI",
                 fontSize: "16px !important",
               }}
-              // onFocus = { () => setHover(true)}
-              // outOffFocus = { () => setHover(false)}
+
               onClick={() => {
                 setHover(true);
                 setLeadsHover(false);

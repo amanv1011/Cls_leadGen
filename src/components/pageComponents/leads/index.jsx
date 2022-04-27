@@ -1,24 +1,17 @@
 import React from "react";
-import { Box, Divider } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
+import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
-import IButton from "../../themeComponents/button";
-import IInput from "../../themeComponents/input";
 import BasicTabs from "../../themeComponents/tabs";
 import Lead from "../../commonComponents/lead";
-import DownArrow from "./DownArrow";
-import DoenArrowWhite from "./DoenArrowWhite";
 import Approve from "../../commonComponents/lead/Approve";
 import Reject from "../../commonComponents/lead/Reject";
 import "./leads.scss";
-import { WindowSharp } from "@mui/icons-material";
 import UnderReview from "../../commonComponents/lead/UnderReview";
 import Archive from "../../commonComponents/lead/Archive";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import LeadsHeader from "./leadsHeader";
 import * as XLSX from "xlsx";
-import { getAllLeadsAction } from "../../../redux/actions/leadActions";
+
 
 const Leads = () => {
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
@@ -61,7 +54,7 @@ const Leads = () => {
       downloadLeads(underReviewList, "Under Review Leads");
     }
     if (window.location.pathname === "/app/dashboard/leads/archive") {
-      // console.log("archive");
+
     }
   };
 
@@ -122,7 +115,7 @@ const Leads = () => {
               <Archive />
             </>
           ) : null}
-          {/* <Lead /> */}
+         
         </Box>
       </Box>
     </Box>

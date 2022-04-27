@@ -1,7 +1,5 @@
-import { Box } from "@mui/material";
-import { display } from "@mui/system";
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import React, { useState } from "react";
 import Status from "./status";
 import "./table.scss";
@@ -11,7 +9,6 @@ import { useSelector } from "react-redux";
 
 const Table = (props) => {
   let [currentSort, setCurrentSort] = useState("startdefault");
-  let [sortColumn, setSortColumn] = useState();
   let leadData = props.leadData;
   const GenratedleadData = useSelector((state) => state.allLeads.leadsList);
 

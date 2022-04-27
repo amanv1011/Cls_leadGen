@@ -2,17 +2,12 @@ import React from "react";
 import { Navigate, useRoutes } from "react-router-dom";
 import Leads from "../pageComponents/leads";
 import Dashboard from "../pageComponents/dashboard";
-// import Login from "../pageComponents/login";
 import Header from "../themeComponents/header";
 import Campaign from "../pageComponents/campaign/index";
-import Approve from "../commonComponents/lead/Approve";
-import BasicTabs from "../themeComponents/tabs";
+
 const AllRoutes = () => {
   const allRoutes = useRoutes([
-    // {
-    //   path: "/",
-    //   element: <Login />,
-    // },
+
     {
       path: "/app/dashboard",
       element: <Dashboard />,
@@ -80,17 +75,7 @@ const AllRoutes = () => {
             </>
           ),
         },
-        // {
-        //   path: "/app/dashboard/leads/approve",
-        //   element: (
-        //     <>
-        //     <Header />
-        //     <BasicTabs />
-        //     <Approve />
 
-        //     </>
-        //   )
-        // }
       ],
     },
     {

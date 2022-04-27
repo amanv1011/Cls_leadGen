@@ -73,14 +73,11 @@ const Table = () => {
     return val.length;
   };
 
-  console.log("statesInReduxStore===", statesInReduxStore);
 
   const forDownloading = (campaignListId, campaignListItemName) => {
-    console.log("Downloaded ===", campaignListId);
     const val = leadsListData.filter((valID) => {
       return valID.campaignId === campaignListId;
     });
-    console.log("id==", campaignListId, "val===", val);
     let workBook = XLSX.utils.book_new();
     let workSheet = XLSX.utils.json_to_sheet(val);
     XLSX.utils.book_append_sheet(
@@ -119,7 +116,7 @@ const Table = () => {
   };
 
   const keysInJSON = ["name", "location", "owner"];
-  console.log("campaignList", campaignList);
+
 
   const searchingTable = (searchTerm) => {
     const lowerCasedValue = searchTerm.toLowerCase().trim();
@@ -134,9 +131,8 @@ const Table = () => {
     }
   };
 
-  // Update status function
   const statusUpdate = async (event, a__campgaignId) => {
-    console.log("statusUpdate");
+
     if (event.target.checked) {
       await get_a_feild_in_a_document(a__campgaignId, { status: 1 });
     } else {
