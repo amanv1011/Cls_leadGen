@@ -14,10 +14,10 @@ export default firebase;
 
 //test function
 const db = getDatabase();
-console.log(db);
+
 const checkDB = () => {
   if (db) {
-    console.log("firebase connected");
+    
   }
 };
 checkDB();

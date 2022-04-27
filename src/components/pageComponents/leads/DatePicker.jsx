@@ -1,14 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import DateRangePicker from "react-daterange-picker";
 import "react-daterange-picker/dist/css/react-calendar.css";
 import originalMoment from "moment";
 import { extendMoment } from "moment-range";
-import Box from '@mui/material/Box';
-
-import Popper from '@mui/material/Popper';
 import './DatePicker.scss';
-import { Button } from "@mui/material";
-import Calendar from "./Calendar";
 import { leadsFilterDate } from '../../../redux/actions/leadsFilter';
 import { connect } from "react-redux";
 const moment = extendMoment(originalMoment);
@@ -25,7 +20,6 @@ class BasicDateRangePicker extends React.Component {
 
     };
 
-
   }
 
   onSelect = (value, states) => {
@@ -33,11 +27,6 @@ class BasicDateRangePicker extends React.Component {
     this.props.leadsFilterDate(value);
     console.log(value);
   };
-
-
-  // onToggle = () => {
-  //   this.setState({ isOpen: !this.state.isOpen });
-  // };
 
   renderSelectionValue = () => {
     return (
@@ -54,7 +43,7 @@ class BasicDateRangePicker extends React.Component {
     return (
       <div>
 
-      
+
         {this.state.isOpen && (
           <DateRangePicker
             value={this.state.value}
@@ -67,5 +56,5 @@ class BasicDateRangePicker extends React.Component {
     );
   }
 }
-const mapDispatchToProps = {leadsFilterDate}
-export default connect(null , mapDispatchToProps) (BasicDateRangePicker) ;
+const mapDispatchToProps = { leadsFilterDate }
+export default connect(null, mapDispatchToProps)(BasicDateRangePicker);

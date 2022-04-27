@@ -52,7 +52,6 @@ function AddCampaginModal() {
     end_date,
     end_time,
     pages,
-    status,
   } = addCampaignDetails;
 
   const [tags, setTags] = useState([]);
@@ -117,7 +116,7 @@ function AddCampaginModal() {
       });
       setTags([...documentSnapShot.payload.data().tags]);
     } catch (error) {
-      console.log("Error while fetching the a campaign", error);
+      
     }
   };
 
@@ -229,10 +228,8 @@ function AddCampaginModal() {
                   height: "22px",
                   fontStyle: "normal",
                   fontWeight: 600,
-                  fontSize: "18px",
                   lineHeight: "22px",
                   color: "#1F4173",
-                  fontWeight: 600,
                 }}
               >
                 Add New Campaign

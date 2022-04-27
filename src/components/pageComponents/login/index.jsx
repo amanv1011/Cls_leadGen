@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { CardContent, Card, CardMedia, Typography, Box } from "@mui/material";
-// import { makeStyles } from "@material-ui/styles";
-
 import loginImage from "../../../assets/loginImage.svg";
 import Logo from "../../../assets/Logo.svg";
 import Button from "../../themeComponents/button";
@@ -68,15 +66,8 @@ export default function Login() {
                 type="email"
                 label={"Email"}
                 name="email"
-                // variant={"standard"}
                 className={"login-input"}
                 onChangeInput={onChangeInput}
-                // styleProps={{
-                //   borderBottom:
-                //     error && error.password
-                //       ? "2px solid #ee5353"
-                //       : "2px solid black",
-                // }}
               />
               {error && error.email ? (
                 <label style={{ marginBottom: "4px" }} className={"emailLabel"}>
@@ -88,14 +79,7 @@ export default function Login() {
                 value={user.password}
                 type="password"
                 name="password"
-                // variant={"standard"}
                 onChangeInput={onChangeInput}
-                // styleProps={{
-                //   borderBottom:
-                //     error && error.password
-                //       ? "2px solid #ee5353"
-                //       : "2px solid black",
-                // }}
               />
               {error && error.password ? (
                 <label style={{ marginBottom: "4px" }} className={"emailLabel"}>

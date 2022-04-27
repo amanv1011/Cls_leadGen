@@ -18,21 +18,7 @@ import "./sidebar.scss";
 import Close from "@mui/icons-material/Close";
 import backButton from "../../../assets/backButton.svg";
 
-// const SideBarImage = () => {
-//   return (
-//     <>
-//       <img alt="logo" className="sidebar-logo" />
-//     </>
-//   );
-// };
 
-// const SideBarLogo = () => {
-//   return (
-//     <>
-//       <img src={Logo} alt="logo" className="sidebar-icon" />
-//     </>
-//   );
-// };
 
 const drawerWidth = 300;
 const sideBarComponents1 = [

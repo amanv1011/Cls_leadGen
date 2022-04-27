@@ -3,36 +3,25 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../commonComponents/navbar";
 import SideBar from "../../commonComponents/sidebar";
 import "./dashboard.scss";
-import { cardData } from "../../../utils/dummyData";
-import Card from "../../themeComponents/card/index";
 import Table from "../../themeComponents/table";
 import { Outlet, useNavigate } from "react-router-dom";
-import IButton from "../../themeComponents/button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { height, padding, shadows } from "@mui/system";
-import CircularProgress from "@mui/material/CircularProgress";
 import Circular from "../../themeComponents/circularProgress/circular";
 import CircularChart from "../../themeComponents/circularProgress/circularChart";
 import Button from "@mui/material/Button";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useDispatch, useSelector } from "react-redux";
-// import dummyTabledata from '../../../utils/dummyTableData.json'
-import { Badge } from "@mui/material";
-import { updateLeadStatus } from "../../../redux/actions/leadActions"
 import moment from "moment";
-
 import { getAllCampaignsAction } from "../../../redux/actions/campaignActions";
 import { getAllLeadsAction } from "../../../redux/actions/leadActions";
 
 const Dashboard = ({ children }) => {
   const dispatch = useDispatch();
-  // let [leadDataState, setLeadDataState] = useState(0);
   var leadData = useSelector((state) => state.allCampaigns.campaignList);
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const leadReduxState = useSelector((state) => state.allCampaigns.loading);
   const leadReduxStateErr = useSelector((state) => state.allCampaigns.err);
 
-  // Today,Weekly,Yesterday Leads
   let [activeCampPer, setActiveCampPer] = useState(0);
   let [activeCamp, setActiveCamp] = useState(0);
   let [leadsExtractedPer, setLeadsExtractedPer] = useState(0);
@@ -44,9 +33,6 @@ const Dashboard = ({ children }) => {
   let [weeklyLeadsPer, setWeeklyLeadsPer] = useState(0);
   let [weeklyLeads, setWeeklyLeads] = useState(0);
 
-  // const leaddata2 = dummyTabledata;
-  // console.log(leaddata2);
-
   const navigate = useNavigate();
   const viewMore = () => {
     navigate("/app/dashboard/campaign");
@@ -54,13 +40,6 @@ const Dashboard = ({ children }) => {
 
   const goBack = () => {
     navigate("/app/dashboard");
-  };
-
-  const showData = () => {
-    console.log(genratedLeadData);
-  };
-  const showDataC = () => {
-    console.log(leadData);
   };
 
   useEffect(() => {
@@ -79,7 +58,6 @@ const Dashboard = ({ children }) => {
     let WeeklyPer = 0;
     let YesterdayPer = 0;
     let leadExtracted = 0;
-
     let currentDate = moment().format("MM/DD/YYYY");
 
     
@@ -149,7 +127,6 @@ const Dashboard = ({ children }) => {
     setYesterdaysLeads(Yesterday);
     setTodaysLeads(Today);
     setWeeklyLeads(Weekly);
-
     setActiveCampPer(ActivePer);
     setLeadsExtractedPer(leadExtracted);
     setTodaysLeadsPer(TodayPer);

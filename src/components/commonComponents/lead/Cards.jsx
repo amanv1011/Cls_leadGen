@@ -1,14 +1,13 @@
 import { IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Button from "@mui/material/Button";
 import LinkedIn from "./LinkedIn";
 import moment from "moment";
 import {
   getPopupEnable,
-  getPopupDisable,
+  
 } from "../../../redux/actions/PopupAction";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import React from "react";
 import { updateLeadStatus } from "../../../redux/actions/leadActions";
 import approv from "../../../assets/approv.svg";
@@ -57,7 +56,7 @@ const Cards = (props) => {
 
     dispatch(getPopupEnable(leadsIdData));
   };
-  console.log(leadsData);
+  
 
   return (
     <>
@@ -89,12 +88,12 @@ const Cards = (props) => {
                   </span>
 
                   <IconButton> {
-                    linkedInCompany ? (< a href={`https://www.linkedin.com/company/${linkedInCompany}/`} target="blank"><LinkedIn /></a>) : (< a href={`https://www.linkedin.com`}target="blank"><LinkedIn /></a>) 
-                   
-                    
+                    linkedInCompany ? (< a href={`https://www.linkedin.com/company/${linkedInCompany}/`} target="blank"><LinkedIn /></a>) : (< a href={`https://www.linkedin.com`} target="blank"><LinkedIn /></a>)
+
+
                   }
-                    </IconButton>
-                    
+                  </IconButton>
+
                   <IconButton>
                     <MoreVertIcon />
                   </IconButton>
@@ -154,6 +153,7 @@ const Cards = (props) => {
                         >
                           <input
                             type="image"
+                            alt="approve_image"
                             style={{ width: "25px" }}
                             src={approv}
                             onClick={approveButton}
@@ -172,6 +172,7 @@ const Cards = (props) => {
                         >
                           <input
                             type="image"
+                            alt="reject_image"
                             style={{ width: "25px" }}
                             src={reject}
                             onClick={rejectButton}
@@ -191,6 +192,7 @@ const Cards = (props) => {
                         >
                           <input
                             type="image"
+                            alt="archieve_image"
                             style={{ width: "27.5px", paddingTop: "1px" }}
                             src={archieve}
                             onClick={archieveButton}
