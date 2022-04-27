@@ -1,4 +1,4 @@
-import { getDocs, addDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { getDocs,  doc,  updateDoc } from "firebase/firestore";
 import { leadsCollection } from "../firebase/collections";
 
 export const getLeadsList = async () => {

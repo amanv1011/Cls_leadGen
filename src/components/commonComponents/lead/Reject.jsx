@@ -1,14 +1,10 @@
-import { IconButton, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Button from "@mui/material/Button";
-import LinkedIn from "./LinkedIn";
+
 import moment from "moment";
 import React from "react";
 import Cards from "./Cards";
 import Fuse from "fuse.js";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { getRejectCount } from "../../../redux/actions/approveRejectcount";
 import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";

@@ -61,7 +61,6 @@ export default function BasicTabs({ type }) {
     }
   });
 
-  var [leadsHover, setLeadsHover] = useState(false);
 
   return (
     <Box sx={{ width: "100%" }}>

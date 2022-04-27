@@ -1,20 +1,20 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CrossIcon from "./Cross";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import "./PopupBox.scss";
-import { display } from "@mui/system";
+
 import { IconButton } from "@mui/material";
 import { getPopupDisable } from "../../../redux/actions/PopupAction";
 
 function PopuoBox(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(true);
-  // const popupStatus = useSelector((state) => {setOpen(state.popupStatus.popupStatus)})
-  console.log(props.data);
+  
+  
   const popupdata = props.data[0];
 
   const handleClose = () => {

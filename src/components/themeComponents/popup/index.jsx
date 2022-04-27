@@ -228,10 +228,8 @@ function AddCampaginModal() {
                   height: "22px",
                   fontStyle: "normal",
                   fontWeight: 600,
-                  fontSize: "18px",
                   lineHeight: "22px",
                   color: "#1F4173",
-                  fontWeight: 600,
                 }}
               >
                 Add New Campaign

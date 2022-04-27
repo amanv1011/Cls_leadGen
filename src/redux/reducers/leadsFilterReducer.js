@@ -4,7 +4,7 @@ import {
   FILTER_LEADS_SEARCH,
   FILTER_LEADS_DATE,
 } from "../type";
-import moment from "moment";
+
 
 const initialState = {
   campaignName: "All Campaigns",
