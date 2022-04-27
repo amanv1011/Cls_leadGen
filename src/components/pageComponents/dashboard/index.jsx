@@ -62,7 +62,7 @@ const Dashboard = ({ children }) => {
 
     
     if (leadData !== []) {
-      leadData.map((ele) => {
+      leadData.forEach((ele) => {
         if (ele.status === 1) {
           ActiveCount++;
         }
@@ -76,7 +76,7 @@ const Dashboard = ({ children }) => {
     }
 
     if (genratedLeadData !== []) {
-      genratedLeadData.map((ele) => {
+      genratedLeadData.forEach((ele) => {
         leadCount++;
         if (
           moment.unix(ele.leadGeneratedDate.seconds).format("MM/DD/YYYY") ===
