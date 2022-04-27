@@ -88,7 +88,13 @@ const Cards = (props) => {
                     {moment.unix(ele.leadGeneratedDate.seconds).fromNow()}{" "}
                   </span>
 
-                  <IconButton> < a href={`https://www.linkedin.com/company/${linkedInCompany}/`} target="blank"><LinkedIn /></a>  </IconButton>
+                  <IconButton> {
+                    linkedInCompany ? (< a href={`https://www.linkedin.com/company/${linkedInCompany}/`} target="blank"><LinkedIn /></a>) : (< a href={`https://www.linkedin.com`}target="blank"><LinkedIn /></a>) 
+                   
+                    
+                  }
+                    </IconButton>
+                    
                   <IconButton>
                     <MoreVertIcon />
                   </IconButton>
