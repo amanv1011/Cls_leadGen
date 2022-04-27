@@ -1,6 +1,5 @@
 import { CircularProgress } from "@mui/material";
 import React from "react";
-// import Donut from "../graphs/pieChart";
 import "./card.scss";
 
 export default function Card({ value, title, count }) {

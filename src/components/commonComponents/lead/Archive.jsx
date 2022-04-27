@@ -2,7 +2,7 @@ import React from 'react'
 
 import Cards from "./Cards";
 import { useSelector, useDispatch } from "react-redux";
-import  { useEffect, useState } from "react";
+import  { useEffect } from "react";
 import moment from "moment";
 import {getRejectCount} from "../../../redux/actions/approveRejectcount"
 import {getUnderreviewCount} from "../../../redux/actions/approveRejectcount"

@@ -17,9 +17,7 @@ import {
 const LeadsHeader = () => {
   const dispatch = useDispatch();
   const SearchInput = useRef("");
-  const emptyString = "";
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
-  const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
   );
@@ -67,10 +65,8 @@ const LeadsHeader = () => {
   };
 
   const handleSearch = () => {
-    console.log(SearchInput.current.value);
     dispatch(leadsFilterSearch(SearchInput.current.value));
     SearchInput.current.value = "";
-    console.log(SearchInput.current.value);
   };
 
   useEffect(() => {

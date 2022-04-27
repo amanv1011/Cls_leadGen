@@ -51,11 +51,10 @@ export const getAllCampaignsAction = () => {
           type: GET_CAMPAIGN_LIST_ERROR,
           payload: err,
         });
-        // return dispatch(openGlobalSnackbar(err.message, true, "error"));
+        
       } else {
         dispatch({ type: GET_CAMPAIGN_LIST_ERROR });
-        // dispatch(closeLoader());
-        // return dispatch(openGlobalSnackbar(err.statusText, true, "error"));
+
       }
     }
   };
