@@ -26,6 +26,9 @@ const Archive = () => {
   const approveCount = approveList.length;
   const archieveList = genratedLeadData.filter((ele) => ele.status === 2)
   const archieveCount = archieveList.length;
+  var filterArchieve;
+  var filterArchieveResults;
+  var campaignID;
 
 
   if (
@@ -37,14 +40,14 @@ const Archive = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterArchieve = searchQuery
+       filterArchieve = searchQuery
         ? results.map((results) => results.item)
         : archieveList;
     }
     if(searchDate !== ""){
       
 
-      var filterArchieveResults = []
+       filterArchieveResults = []
       for (let i = 0; i < archieveList.length; i++){
         const start = moment(searchDate.start).format("YYYY-MM-DD")
         const end = moment(searchDate.end).format("YYYY-MM-DD")
@@ -62,7 +65,7 @@ const Archive = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterArchieve = searchQuery
+       filterArchieve = searchQuery
         ? results.map((results) => results.item)
         : filterArchieveResults;
     
@@ -77,11 +80,11 @@ const Archive = () => {
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
     ownerNameFilter !== "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
     if(searchDate === ""){
-      var filterArchieveResults = [];
+       filterArchieveResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < archieveList.length; j++) {
           if (archieveList[j].campaignId === campaignID[i].id) {
@@ -93,12 +96,12 @@ const Archive = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterArchieve = searchQuery
+       filterArchieve = searchQuery
         ? results.map((results) => results.item)
         : filterArchieveResults;
     }
     if(searchDate !== ""){
-      var filterArchieveResults = [];
+       filterArchieveResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < archieveList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -116,7 +119,7 @@ const Archive = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterArchieve = searchQuery
+       filterArchieve = searchQuery
         ? results.map((results) => results.item)
         : filterArchieveResults;
     }
@@ -127,11 +130,11 @@ const Archive = () => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter === "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
     if(searchDate === ""){
-      var filterArchieveResults = [];
+       filterArchieveResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < archieveList.length; j++) {
           if (archieveList[j].campaignId === campaignID[i].id) {
@@ -143,12 +146,12 @@ const Archive = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterArchieve = searchQuery
+       filterArchieve = searchQuery
         ? results.map((results) => results.item)
         : filterArchieveResults;
     }
     if(searchDate !== ""){
-      var filterArchieveResults = [];
+       filterArchieveResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < archieveList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -166,7 +169,7 @@ const Archive = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterArchieve = searchQuery
+       filterArchieve = searchQuery
         ? results.map((results) => results.item)
         : filterArchieveResults;
     }
@@ -177,11 +180,11 @@ const Archive = () => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter !== "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
     if(searchDate === ""){
-      var filterArchieveResults = [];
+       filterArchieveResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < archieveList.length; j++) {
           if (archieveList[j].campaignId === campaignID[i].id) {
@@ -193,12 +196,12 @@ const Archive = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterArchieve = searchQuery
+       filterArchieve = searchQuery
         ? results.map((results) => results.item)
         : filterArchieveResults;
     }
     if(searchDate !== ""){
-      var filterArchieveResults = [];
+       filterArchieveResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < archieveList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -216,7 +219,7 @@ const Archive = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterArchieve = searchQuery
+       filterArchieve = searchQuery
         ? results.map((results) => results.item)
         : filterArchieveResults;
     }

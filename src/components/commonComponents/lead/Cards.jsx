@@ -56,6 +56,8 @@ const Cards = (props) => {
 
     dispatch(getPopupEnable(leadsIdData));
   };
+
+  var linkedInCompany;
   
 
   return (
@@ -63,9 +65,9 @@ const Cards = (props) => {
       {leadsData.map((ele) => {
 
         if (ele.companyName !== null) {
-          var linkedInCompany = ((ele.companyName).toLowerCase()).split(" ").join("");
+           linkedInCompany = ((ele.companyName).toLowerCase()).split(" ").join("");
         } else {
-          var linkedInCompany = ""
+           linkedInCompany = ""
         }
 
         return (

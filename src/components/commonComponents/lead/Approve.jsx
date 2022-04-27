@@ -26,6 +26,9 @@ const Approve = () => {
   const underReviewCount = underReviewList.length;
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
+  var filterApprovResults;
+  var filterApprov;
+  var campaignID;
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
@@ -35,14 +38,14 @@ const Approve = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterApprov = searchQuery
+       filterApprov = searchQuery
         ? results.map((results) => results.item)
         : approveList;
     }
     if(searchDate !== ""){
       
 
-      var filterApprovResults = []
+       filterApprovResults = []
       for (let i = 0; i < approveList.length; i++){
         const start = moment(searchDate.start).format("YYYY-MM-DD")
         const end = moment(searchDate.end).format("YYYY-MM-DD")
@@ -60,7 +63,7 @@ const Approve = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterApprov = searchQuery
+       filterApprov = searchQuery
         ? results.map((results) => results.item)
         : filterApprovResults;
     
@@ -75,11 +78,11 @@ const Approve = () => {
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
     ownerNameFilter !== "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
     if(searchDate === ""){
-      var filterApprovResults = [];
+       filterApprovResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < approveList.length; j++) {
           if (approveList[j].campaignId === campaignID[i].id) {
@@ -91,12 +94,12 @@ const Approve = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterApprov = searchQuery
+       filterApprov = searchQuery
         ? results.map((results) => results.item)
         : filterApprovResults;
     }
     if(searchDate !== ""){
-      var filterApprovResults = [];
+       filterApprovResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < approveList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -114,7 +117,7 @@ const Approve = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterApprov = searchQuery
+       filterApprov = searchQuery
         ? results.map((results) => results.item)
         : filterApprovResults;
     }
@@ -125,11 +128,11 @@ const Approve = () => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter === "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
     if(searchDate === ""){
-      var filterApprovResults = [];
+       filterApprovResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < approveList.length; j++) {
           if (approveList[j].campaignId === campaignID[i].id) {
@@ -141,12 +144,12 @@ const Approve = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterApprov = searchQuery
+       filterApprov = searchQuery
         ? results.map((results) => results.item)
         : filterApprovResults;
     }
     if(searchDate !== ""){
-      var filterApprovResults = [];
+       filterApprovResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < approveList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -164,7 +167,7 @@ const Approve = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterApprov = searchQuery
+       filterApprov = searchQuery
         ? results.map((results) => results.item)
         : filterApprovResults;
     }
@@ -175,11 +178,11 @@ const Approve = () => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter !== "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
     if(searchDate === ""){
-      var filterApprovResults = [];
+       filterApprovResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < approveList.length; j++) {
           if (approveList[j].campaignId === campaignID[i].id) {
@@ -191,12 +194,12 @@ const Approve = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterApprov = searchQuery
+       filterApprov = searchQuery
         ? results.map((results) => results.item)
         : filterApprovResults;
     }
     if(searchDate !== ""){
-      var filterApprovResults = [];
+       filterApprovResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < approveList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -214,7 +217,7 @@ const Approve = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterApprov = searchQuery
+       filterApprov = searchQuery
         ? results.map((results) => results.item)
         : filterApprovResults;
     }

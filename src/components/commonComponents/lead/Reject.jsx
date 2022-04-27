@@ -28,6 +28,9 @@ const Reject = () => {
   const underReviewCount = underReviewList.length;
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
+  var filterRejectResults;
+  var filterReject;
+  var campaignID;
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
@@ -38,14 +41,14 @@ const Reject = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterReject = searchQuery
+       filterReject = searchQuery
         ? results.map((results) => results.item)
         : rejectList;
     }
     if(searchDate !== ""){
       
 
-      var filterRejectResults = []
+       filterRejectResults = []
       for (let i = 0; i < rejectList.length; i++){
         const start = moment(searchDate.start).format("YYYY-MM-DD")
         const end = moment(searchDate.end).format("YYYY-MM-DD")
@@ -63,7 +66,7 @@ const Reject = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterReject = searchQuery
+       filterReject = searchQuery
         ? results.map((results) => results.item)
         : filterRejectResults;
     
@@ -78,11 +81,11 @@ const Reject = () => {
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
     ownerNameFilter !== "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
     if(searchDate === ""){
-      var filterRejectResults = [];
+       filterRejectResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < rejectList.length; j++) {
           if (rejectList[j].campaignId === campaignID[i].id) {
@@ -94,12 +97,12 @@ const Reject = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterReject = searchQuery
+       filterReject = searchQuery
         ? results.map((results) => results.item)
         : filterRejectResults;
     }
     if(searchDate !== ""){
-      var filterRejectResults = [];
+       filterRejectResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < rejectList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -117,7 +120,7 @@ const Reject = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterReject = searchQuery
+       filterReject = searchQuery
         ? results.map((results) => results.item)
         : filterRejectResults;
     }
@@ -128,11 +131,11 @@ const Reject = () => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter === "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
     if(searchDate === ""){
-      var filterRejectResults = [];
+       filterRejectResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < rejectList.length; j++) {
           if (rejectList[j].campaignId === campaignID[i].id) {
@@ -144,12 +147,12 @@ const Reject = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterReject = searchQuery
+       filterReject = searchQuery
         ? results.map((results) => results.item)
         : filterRejectResults;
     }
     if(searchDate !== ""){
-      var filterRejectResults = [];
+       filterRejectResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < rejectList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -167,7 +170,7 @@ const Reject = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterReject = searchQuery
+       filterReject = searchQuery
         ? results.map((results) => results.item)
         : filterRejectResults;
     }
@@ -178,11 +181,11 @@ const Reject = () => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter !== "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
     if(searchDate === ""){
-      var filterRejectResults = [];
+       filterRejectResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < rejectList.length; j++) {
           if (rejectList[j].campaignId === campaignID[i].id) {
@@ -194,12 +197,12 @@ const Reject = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterReject = searchQuery
+       filterReject = searchQuery
         ? results.map((results) => results.item)
         : filterRejectResults;
     }
     if(searchDate !== ""){
-      var filterRejectResults = [];
+       filterRejectResults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < rejectList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -217,7 +220,7 @@ const Reject = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterReject = searchQuery
+       filterReject = searchQuery
         ? results.map((results) => results.item)
         : filterRejectResults;
     }
