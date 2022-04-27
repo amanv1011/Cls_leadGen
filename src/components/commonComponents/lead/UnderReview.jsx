@@ -25,6 +25,9 @@ const UnderReview = () => {
   const underReviewCount = underReviewList.length;
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
+  var filterUnderreview;
+  var filterUnderreviewresults;
+  var campaignID;
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
@@ -35,14 +38,14 @@ const UnderReview = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterUnderreview = searchQuery
+       filterUnderreview = searchQuery
         ? results.map((results) => results.item)
         : underReviewList;
     }
     if(searchDate !== ""){
       
 
-      var filterUnderreviewresults = []
+       filterUnderreviewresults = []
       for (let i = 0; i < underReviewList.length; i++){
         const start = moment(searchDate.start).format("YYYY-MM-DD")
         const end = moment(searchDate.end).format("YYYY-MM-DD")
@@ -60,7 +63,7 @@ const UnderReview = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterUnderreview = searchQuery
+       filterUnderreview = searchQuery
         ? results.map((results) => results.item)
         : filterUnderreviewresults;
     
@@ -75,11 +78,11 @@ const UnderReview = () => {
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
     ownerNameFilter !== "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
     if(searchDate === ""){
-      var filterUnderreviewresults = [];
+       filterUnderreviewresults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < underReviewList.length; j++) {
           if (underReviewList[j].campaignId === campaignID[i].id) {
@@ -91,12 +94,12 @@ const UnderReview = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterUnderreview = searchQuery
+       filterUnderreview = searchQuery
         ? results.map((results) => results.item)
         : filterUnderreviewresults;
     }
     if(searchDate !== ""){
-      var filterUnderreviewresults = [];
+       filterUnderreviewresults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < underReviewList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -114,7 +117,7 @@ const UnderReview = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterUnderreview = searchQuery
+       filterUnderreview = searchQuery
         ? results.map((results) => results.item)
         : filterUnderreviewresults;
     }
@@ -125,11 +128,11 @@ const UnderReview = () => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter === "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
     if(searchDate === ""){
-      var filterUnderreviewresults = [];
+       filterUnderreviewresults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < underReviewList.length; j++) {
           if (underReviewList[j].campaignId === campaignID[i].id) {
@@ -141,12 +144,12 @@ const UnderReview = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterUnderreview = searchQuery
+       filterUnderreview = searchQuery
         ? results.map((results) => results.item)
         : filterUnderreviewresults;
     }
     if(searchDate !== ""){
-      var filterUnderreviewresults = [];
+       filterUnderreviewresults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < underReviewList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -164,7 +167,7 @@ const UnderReview = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterUnderreview = searchQuery
+       filterUnderreview = searchQuery
         ? results.map((results) => results.item)
         : filterUnderreviewresults;
     }
@@ -175,11 +178,11 @@ const UnderReview = () => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter !== "All Owners"
   ) {
-    var campaignID = campgainData.filter(
+     campaignID = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
     if(searchDate === ""){
-      var filterUnderreviewresults = [];
+       filterUnderreviewresults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < underReviewList.length; j++) {
           if (underReviewList[j].campaignId === campaignID[i].id) {
@@ -191,12 +194,12 @@ const UnderReview = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterUnderreview = searchQuery
+       filterUnderreview = searchQuery
         ? results.map((results) => results.item)
         : filterUnderreviewresults;
     }
     if(searchDate !== ""){
-      var filterUnderreviewresults = [];
+       filterUnderreviewresults = [];
       for (let i = 0; i < campaignID.length; i++) {
         for (let j = 0; j < underReviewList.length; j++) {
           const start = moment(searchDate.start).format("YYYY-MM-DD")
@@ -214,7 +217,7 @@ const UnderReview = () => {
         keys: ["title", "summary", "companyName"],
       });
       const results = fuse.search(searchQuery);
-      var filterUnderreview = searchQuery
+       filterUnderreview = searchQuery
         ? results.map((results) => results.item)
         : filterUnderreviewresults;
     }
