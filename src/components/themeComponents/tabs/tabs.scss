@@ -1,0 +1,22 @@
+.form-tabs {
+  min-height: 25px;
+  width: 100%;
+  color: "rgba(92, 117,154)";
+
+  .form-individual-tab {
+    width: 50px;
+    padding: 5px 10px;
+    margin: 0px 4px;
+    font-family: Segoe UI;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+}
+.tab-panel {
+  margin: 4px;
+  padding: 4px;
+}

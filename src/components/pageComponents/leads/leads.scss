@@ -1,0 +1,40 @@
+@import url("https://cdn.syncfusion.com/ej2/material.css");
+
+.leads-container {
+  margin: 8px 0px;
+  .leads-header {
+    height: 80px;
+    width: auto;
+    box-sizing: border-box;
+    padding: 8px 8px 8px 0px;
+    display: flex;
+  }
+  .leads-table-container {
+    height: 100%;
+    width: auto;
+    position: relative;
+    box-shadow: 1px rgba(31, 65, 115, 0.1);
+    border-radius: 5px;
+  }
+}
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+  font: inherit;
+  letter-spacing: inherit;
+  // color: currentColor;
+  
+  padding: 4px 0 5px;
+  border: 0;
+  box-sizing: content-box;
+  background: none;
+  height: 1.4375em;
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+  display: block;
+  min-width: 0;
+  width: 100%;
+  -webkit-animation-name: mui-auto-fill-cancel;
+  animation-name: mui-auto-fill-cancel;
+  -webkit-animation-duration: 10ms;
+  animation-duration: 10ms;
+  /* padding: 16.5px 14px; */
+}

@@ -1,0 +1,337 @@
+.table-wrapper {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 44vh;
+}
+
+.table-wrapper::-webkit-scrollbar {
+  height: 10px;
+  width: 6px;
+  border-radius: 15px;
+}
+.table-wrapper::-webkit-scrollbar-track {
+  background: #ffffff;
+  margin-top: 20px;
+  border-radius: 15px;
+  margin-bottom: 1px;
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+  height: 165px;
+  background: #e6eaf2;
+  border-radius: 15px;
+}
+
+.outer-wrapper {
+  table {
+    min-width: max-content;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    width: 100%;
+    position: relative;
+
+    th {
+      padding-right: 10px;
+      position: sticky;
+      top: 0px;
+      color: #f1f5b3;
+      text-align: center;
+      font-weight: normal;
+      font-size: 14px;
+      text-align: left;
+      padding-top: 15px;
+      padding-left: 10px;
+      padding-bottom: 15px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 17px;
+      color: #1f4173;
+      background: #fafafa;
+    }
+    .campaign-name {
+      width: 155px;
+      padding-left: 20px;
+      border-radius: 10px 0px 0px 0px;
+      opacity: 1;
+      @media screen and (max-width: 1280px) {
+        width: 140px;
+      }
+    }
+    .location {
+      width: 115px;
+      @media screen and (max-width: 1280px) {
+        width: 88px;
+      }
+    }
+    .numOfLeads {
+      width: 98px;
+      i {
+        margin-left: 10px;
+      }
+    }
+    .start-date {
+      width: 81px;
+      text-align: center;
+      i {
+        margin-left: 10px;
+      }
+    }
+    .end-date {
+      width: 81px;
+      text-align: center;
+      i {
+        margin-left: 10px;
+      }
+    }
+    .created-by {
+      width: 120px;
+      text-align: center;
+      i {
+        margin-left: 10px;
+      }
+    }
+    .status {
+      width: 92px;
+
+      i {
+        margin-left: 10px;
+      }
+    }
+    .green-switch {
+      width: 55px;
+      text-align: center;
+      @media screen and (max-width: 1280px) {
+        width: 40px;
+      }
+    }
+    .actions {
+      width: 157px;
+      text-align: center;
+      border-radius: 0px 10px 0px 0px;
+    }
+    .headerHover:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.table-wrapper {
+  table {
+    min-width: max-content;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    width: 100%;
+    position: relative;
+    tbody tr.bottomBorder {
+      border-bottom: 1px solid black;
+      position: absolute;
+      left: 22px;
+      background: #1f4173;
+      right: 30px;
+      opacity: 0.07;
+    }
+    td {
+      text-align: left;
+      font-size: 14px;
+      width: 290px;
+      height: 37px;
+      padding-right: 10px;
+      padding-left: 10px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 17px;
+      color: #1f4173;
+      padding-top: 18px;
+      padding-bottom: 18px;
+      opacity: 0.7;
+      &.campaign-name {
+        width: 169px;
+        padding-left: 20px;
+        border-radius: 10px 0px 0px 0px;
+        opacity: 1;
+        @media screen and (max-width: 1280px) {
+          width: 152px;
+        }
+      }
+      &.location {
+        width: 115px;
+        @media screen and (max-width: 1280px) {
+          width: 88px;
+        }
+      }
+      &.numOfLeads {
+        width: 107px;
+        text-align: center;
+        i {
+          margin-left: 10px;
+        }
+        a:-webkit-any-link {
+          color: #1f4173;
+          cursor: pointer;
+          text-decoration: none;
+        }
+      }
+      &.start-date {
+        width: 81px;
+        text-align: center;
+        i {
+          margin-left: 10px;
+        }
+      }
+      &.end-date {
+        width: 81px;
+        text-align: center;
+        i {
+          margin-left: 10px;
+        }
+      }
+      &.created-by {
+        width: 120px;
+        text-align: center;
+        i {
+          margin-left: 10px;
+        }
+      }
+      &.status {
+        width: 92px;
+        i {
+          margin-left: 10px;
+        }
+      }
+      &.green-switch {
+        width: 55px;
+        text-align: center;
+        @media screen and (max-width: 1280px) {
+          width: 40px;
+        }
+      }
+      &.actions {
+        width: 157px;
+        text-align: center;
+        border-radius: 0px 10px 0px 0px;
+        .css-1k51tf5-MuiTooltip-tooltip {
+          background-color: #1f4173;
+          color: white;
+          font-family: "Proxima Nova";
+        }
+        .css-kudwh-MuiTooltip-arrow {
+          color: #1f4173;
+        }
+      }
+    }
+  }
+}
+
+.toggleSwitch.css-1ncyzq6-MuiSwitch-root .MuiSwitch-switchBase.Mui-checked {
+  color: #17c293 !important;
+  &.css-jsexje-MuiSwitch-thumb {
+    width: 18px !important;
+    height: 18px !important;
+    background: #17c293;
+  }
+  &.MuiSwitch-track {
+    background-color: #43a047;
+    height: 13px;
+    width: 36px;
+    background: #17c29333;
+    background: rgba(23, 194, 147, 1.2);
+    border-radius: 20px;
+  }
+}
+.toggleSwitch.css-1ncyzq6-MuiSwitch-root
+  .MuiSwitch-switchBase.Mui-checked:hover {
+  background: none !important;
+}
+.toggleSwitch.css-1ncyzq6-MuiSwitch-root .MuiSwitch-switchBase:hover {
+  background: none !important;
+}
+
+.toggleSwitch.css-1ncyzq6-MuiSwitch-root .MuiSwitch-switchBase {
+  color: #ff6c5f !important;
+  &.css-jsexje-MuiSwitch-thumb {
+    width: 18px !important;
+    height: 18px !important;
+    background: #17c293;
+    width: 18px;
+    height: 18px;
+    background: #ff6c5f;
+  }
+  &.css-1yjjitx-MuiSwitch-track {
+    border-radius: 20px;
+    opacity: 0.38;
+    background: rgba(255, 108, 95, 1.2);
+    height: 13px;
+    width: 36px;
+  }
+}
+
+.camapignDetailsViewModal .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  max-width: 910px;
+  max-height: 550px;
+  background: #ffffff;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.07);
+  border-radius: 15px;
+  width: 910px;
+  height: 510px;
+  .css-140puxv-MuiTypography-root-MuiDialogTitle-root {
+    letter-spacing: 0.0075em;
+    width: 906px;
+    height: 60px;
+    padding: 18px 28px 20px;
+    background: #fafafa;
+    border-radius: 15px 15px 0px 0px;
+    font-family: "Proxima Nova";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 22px;
+    color: #1f4173;
+  }
+  .main-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 18px 0 24px 0;
+    .label-campaign-view {
+      width: 153px;
+      height: 17px;
+      font-family: "Proxima Nova";
+      font-style: normal;
+      font-weight: 900;
+      font-size: 14px;
+      line-height: 17px;
+      opacity: 0.5;
+      color: #1f4173;
+      margin: 20px 0 12px 0;
+    }
+    .grid-campaign-view {
+      width: 270px;
+      height: 44px;
+      background: #e2e2e2;
+      border-radius: 10px;
+      padding: 13px 133px 12px 16px;
+    }
+    .campaign-text {
+      width: 275px;
+      height: 19px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 17px;
+      color: #1f4173;
+    }
+  }
+}
+
+// .search-input {
+//   position: fixed;
+//   height: 40px;
+//   width: 280px;
+//   left: 714px;
+//   top: 186px;
+//   border-radius: 10px;
+// }

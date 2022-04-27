@@ -1,0 +1,46 @@
+.navbar-container {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .logo-image {
+      margin: 0px 0px 0px 8px;
+      width: 247px;
+      height: 26px;
+    }
+  }
+  .user-profile-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .profile-icon {
+      margin-left: 12px;
+    }
+    .user-profile-title {
+      font-family: Proxima Nova;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 17px;
+      letter-spacing: 0em;
+      text-align: right;
+      box-sizing: border-box;
+      margin: 0px 4px;
+      padding: 0px 4px;
+      color: #1f4173;
+    }
+  }
+  .navbar-title {
+    font-family: Proxima Nova;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: right;
+    background-color: #1f4173 !important;
+  }
+}
