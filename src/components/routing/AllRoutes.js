@@ -7,80 +7,78 @@ import Campaign from "../pageComponents/campaign/index";
 
 const AllRoutes = () => {
   const allRoutes = useRoutes([
-
     {
-      path: "/app/dashboard",
+      path: "/leadgen/app/dashboard",
       element: <Dashboard />,
       children: [
         {
-          path: "/app/dashboard/leads",
+          path: "/leadgen/app/dashboard/leads",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
         {
-          path: "/app/dashboard/campaign",
+          path: "/leadgen/app/dashboard/campaign",
           element: (
             <>
               <Header />
-              <Campaign />{" "}
+              <Campaign />
             </>
           ),
         },
         {
-          path: "/app/dashboard/leads/all",
+          path: "/leadgen/app/dashboard/leads/all",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
         {
-          path: "/app/dashboard/leads/underreview",
+          path: "/leadgen/app/dashboard/leads/underreview",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
         {
-          path: "/app/dashboard/leads/approve",
+          path: "/leadgen/app/dashboard/leads/approve",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
         {
-          path: "/app/dashboard/leads/reject",
+          path: "/leadgen/app/dashboard/leads/reject",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
         {
-          path: "/app/dashboard/leads/archive",
+          path: "/leadgen/app/dashboard/leads/archive",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
-
       ],
     },
     {
       path: "*",
-      element: <Navigate to="/app/dashboard" />,
+      element: <Navigate to="/leadgen/app/dashboard" />,
     },
   ]);
   return allRoutes;

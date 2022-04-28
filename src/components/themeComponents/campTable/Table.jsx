@@ -73,7 +73,6 @@ const Table = () => {
     return val.length;
   };
 
-
   const forDownloading = (campaignListId, campaignListItemName) => {
     const val = leadsListData.filter((valID) => {
       return valID.campaignId === campaignListId;
@@ -117,7 +116,6 @@ const Table = () => {
 
   const keysInJSON = ["name", "location", "owner"];
 
-
   const searchingTable = (searchTerm) => {
     const lowerCasedValue = searchTerm.toLowerCase().trim();
     if (lowerCasedValue === "") setCampaignListData(campaignList);
@@ -132,7 +130,6 @@ const Table = () => {
   };
 
   const statusUpdate = async (event, a__campgaignId) => {
-
     if (event.target.checked) {
       await get_a_feild_in_a_document(a__campgaignId, { status: 1 });
     } else {
@@ -258,7 +255,7 @@ const Table = () => {
                           <Link
                             to={
                               getNumOfLeads(campaignListItem.id)
-                                ? "/app/dashboard/leads"
+                                ? "/leadgen/app/dashboard/leads"
                                 : false
                             }
                             disabled={

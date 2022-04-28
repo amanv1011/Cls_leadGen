@@ -12,7 +12,6 @@ import Archive from "../../commonComponents/lead/Archive";
 import LeadsHeader from "./leadsHeader";
 import * as XLSX from "xlsx";
 
-
 const Leads = () => {
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
@@ -27,34 +26,35 @@ const Leads = () => {
   };
 
   const exportLeadsToExcel = () => {
-    if (window.location.pathname === "/app/dashboard/leads") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads") {
       console.log("leads", genratedLeadData);
       if (genratedLeadData.length === 0) {
         return;
       }
       downloadLeads(genratedLeadData, "All leads");
     }
-    if (window.location.pathname === "/app/dashboard/leads/approve") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads/approve") {
       if (approveList.length === 0) {
         return;
       }
       downloadLeads(approveList, "Approved Leads");
     }
 
-    if (window.location.pathname === "/app/dashboard/leads/reject") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads/reject") {
       if (rejectList.length === 0) {
         return;
       }
       downloadLeads(rejectList, "Rejected Leads");
     }
-    if (window.location.pathname === "/app/dashboard/leads/underreview") {
+    if (
+      window.location.pathname === "/leadgen/app/dashboard/leads/underreview"
+    ) {
       if (underReviewList.length === 0) {
         return;
       }
       downloadLeads(underReviewList, "Under Review Leads");
     }
-    if (window.location.pathname === "/app/dashboard/leads/archive") {
-
+    if (window.location.pathname === "/leadgen/app/dashboard/leads/archive") {
     }
   };
 
@@ -86,36 +86,39 @@ const Leads = () => {
           </span>
         </Box>
         <Box className="leads-table">
-          {window.location.pathname === "/app/dashboard/leads" ? (
+          {window.location.pathname === "/leadgen/app/dashboard/leads" ? (
             <>
               <Lead />
             </>
           ) : null}
 
-          {window.location.pathname === "/app/dashboard/leads/approve" ? (
+          {window.location.pathname ===
+          "/leadgen/app/dashboard/leads/approve" ? (
             <>
               <Approve />
             </>
           ) : null}
 
-          {window.location.pathname === "/app/dashboard/leads/reject" ? (
+          {window.location.pathname ===
+          "/leadgen/app/dashboard/leads/reject" ? (
             <>
               <Reject />
             </>
           ) : null}
 
-          {window.location.pathname === "/app/dashboard/leads/underreview" ? (
+          {window.location.pathname ===
+          "/leadgen/app/dashboard/leads/underreview" ? (
             <>
               <UnderReview />
             </>
           ) : null}
 
-          {window.location.pathname === "/app/dashboard/leads/archive" ? (
+          {window.location.pathname ===
+          "/leadgen/app/dashboard/leads/archive" ? (
             <>
               <Archive />
             </>
           ) : null}
-         
         </Box>
       </Box>
     </Box>

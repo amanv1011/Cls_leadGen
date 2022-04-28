@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-
 export default function BasicTabs({ type }) {
   const [value, setValue] = React.useState(0);
   const [valueTabs, setValueTabs] = useState(0);
@@ -33,34 +32,35 @@ export default function BasicTabs({ type }) {
   var [leadsHover, setLeadsHover] = useState(false);
 
   useEffect(() => {
-    if (window.location.pathname === "/app/dashboard/campaign") {
+    if (window.location.pathname === "/leadgen/app/dashboard/campaign") {
       setValue(0);
     }
-    if (window.location.pathname === "/app/dashboard/leads") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads") {
       setValue(1);
     }
-    if (window.location.pathname === "/app/dashboard/leads") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads") {
       setValue(1);
       setValueTabs(0);
     }
-    if (window.location.pathname === "/app/dashboard/leads/underreview") {
+    if (
+      window.location.pathname === "/leadgen/app/dashboard/leads/underreview"
+    ) {
       setValue(1);
       setValueTabs(1);
     }
-    if (window.location.pathname === "/app/dashboard/leads/approve") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads/approve") {
       setValue(1);
       setValueTabs(2);
     }
-    if (window.location.pathname === "/app/dashboard/leads/reject") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads/reject") {
       setValue(1);
       setValueTabs(3);
     }
-    if (window.location.pathname === "/app/dashboard/leads/archive") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads/archive") {
       setValue(1);
       setValueTabs(4);
     }
   });
-
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -71,7 +71,7 @@ export default function BasicTabs({ type }) {
               disableRipple
               label="Campaign"
               component={Link}
-              to="/app/dashboard/campaign"
+              to="/leadgen/app/dashboard/campaign"
               sx={{
                 textTransform: "none",
                 color: hover
@@ -80,7 +80,6 @@ export default function BasicTabs({ type }) {
                 fontFamily: "Segoe UI",
                 fontSize: "16px !important",
               }}
-
               onClick={() => {
                 setHover(true);
                 setLeadsHover(false);
@@ -90,7 +89,7 @@ export default function BasicTabs({ type }) {
               disableRipple
               label="Leads"
               component={Link}
-              to="/app/dashboard/leads"
+              to="/leadgen/app/dashboard/leads"
               sx={{
                 textTransform: "none",
                 color: leadsHover
@@ -109,31 +108,31 @@ export default function BasicTabs({ type }) {
           <Tabs value={valueTabs} onChange={handleChange} className="form-tabs">
             <Tab
               component={Link}
-              to="/app/dashboard/leads"
+              to="/leadgen/app/dashboard/leads"
               label="All"
               sx={{ textTransform: "none" }}
             />
             <Tab
               component={Link}
-              to="/app/dashboard/leads/underreview"
+              to="/leadgen/app/dashboard/leads/underreview"
               label={`Under Review( ${underreviewCount})`}
               sx={{ textTransform: "none" }}
             />
             <Tab
               component={Link}
-              to="/app/dashboard/leads/approve"
+              to="/leadgen/app/dashboard/leads/approve"
               label={`Approved (${approveCount})`}
               sx={{ textTransform: "none" }}
             />
             <Tab
               component={Link}
-              to="/app/dashboard/leads/reject"
+              to="/leadgen/app/dashboard/leads/reject"
               label={`Rejected (${rejectCount})`}
               sx={{ textTransform: "none" }}
             />
             <Tab
               component={Link}
-              to="/app/dashboard/leads/archive"
+              to="/leadgen/app/dashboard/leads/archive"
               label={`Archive (${archieveCount})`}
               sx={{ textTransform: "none" }}
             />
