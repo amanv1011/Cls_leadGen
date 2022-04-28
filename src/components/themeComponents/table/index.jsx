@@ -127,7 +127,7 @@ const Table = (props) => {
               }
 
               return (
-                <tr className="table-body-row">
+                <tr key={element.id} className="table-body-row">
                   <td
                     style={{ paddingLeft: "20px" }}
                     className="table-body-row-data"

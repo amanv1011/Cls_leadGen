@@ -76,10 +76,11 @@ const Cards = (props) => {
               <Box className="lead-header">
                 <Box
                   onClick={openPopup}
+                  key={ele.id}
                   id={ele.id}
                   className="lead-header-title"
                 >
-                  <Typography className="lead-header-title-component">
+                  <Typography sx={{fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600"}} className="lead-header-title-component">
                     {ele.title.slice(0, 20)}
                   </Typography>
                 </Box>
@@ -103,7 +104,7 @@ const Cards = (props) => {
               </Box>
               <hr className="line" />
               <Box style={{ display: "flex", paddingTop: "16px" }} className="lead-body">
-                <div style={{ display: "flex", width: "100%" }} className="lead-body-row1">
+                <div  style={{ display: "flex", width: "100%" }} className="lead-body-row1">
                   <div className="lead-body-column">
                     <div className="lead-body-column-card1">
                       <p className="head-body">Key Skills</p>
