@@ -71,10 +71,11 @@ const Cards = (props) => {
               <Box className="lead-header">
                 <Box
                   onClick={openPopup}
+                  key={ele.id}
                   id={ele.id}
                   className="lead-header-title"
                 >
-                  <Typography className="lead-header-title-component">
+                  <Typography sx={{fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600"}} className="lead-header-title-component">
                     {ele.title.slice(0, 20)}
                   </Typography>
                 </Box>

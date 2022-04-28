@@ -110,31 +110,31 @@ export default function BasicTabs({ type }) {
               component={Link}
               to="/leadgen/app/dashboard/leads"
               label="All"
-              sx={{ textTransform: "none" }}
+              sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600"}}
             />
             <Tab
               component={Link}
               to="/leadgen/app/dashboard/leads/underreview"
               label={`Under Review( ${underreviewCount})`}
-              sx={{ textTransform: "none" }}
+              sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
             />
             <Tab
               component={Link}
               to="/leadgen/app/dashboard/leads/approve"
               label={`Approved (${approveCount})`}
-              sx={{ textTransform: "none" }}
+              sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
             />
             <Tab
               component={Link}
               to="/leadgen/app/dashboard/leads/reject"
               label={`Rejected (${rejectCount})`}
-              sx={{ textTransform: "none" }}
+              sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
             />
             <Tab
               component={Link}
               to="/leadgen/app/dashboard/leads/archive"
               label={`Archive (${archieveCount})`}
-              sx={{ textTransform: "none" }}
+              sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
             />
           </Tabs>
         )}
