@@ -7,7 +7,6 @@ export const get_a_feild_in_a_document = async (
   statusvalue
 ) => {
   try {
-    console.log("get_a_feild_in_a_document");
     const documentRef = firebaseMethods.doc(
       firestore,
       "campaigns",

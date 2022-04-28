@@ -115,7 +115,6 @@ const Table = () => {
   };
 
   const keysInJSON = ["name", "location", "owner"];
-
   const searchingTable = (searchTerm) => {
     const lowerCasedValue = searchTerm.toLowerCase().trim();
     if (lowerCasedValue === "") setCampaignListData(campaignList);
@@ -240,16 +239,29 @@ const Table = () => {
                         <td
                           className="numOfLeads"
                           onClick={() => {
-                            dispatch(
-                              leadsFilterActions.leadsFilterCampaignName(
-                                campaignListItem.name
-                              )
-                            );
-                            dispatch(
-                              leadsFilterActions.leadsFilterOwnerName(
-                                campaignListItem.owner
-                              )
-                            );
+                            if (getNumOfLeads(campaignListItem.id)) {
+                              dispatch(
+                                leadsFilterActions.leadsFilterCampaignName(
+                                  campaignListItem.name
+                                )
+                              );
+                              dispatch(
+                                leadsFilterActions.leadsFilterOwnerName(
+                                  campaignListItem.owner
+                                )
+                              );
+                            } else {
+                              dispatch(
+                                leadsFilterActions.leadsFilterCampaignName(
+                                  "All Campaigns"
+                                )
+                              );
+                              dispatch(
+                                leadsFilterActions.leadsFilterOwnerName(
+                                  "All Owners"
+                                )
+                              );
+                            }
                           }}
                         >
                           <Link
@@ -258,11 +270,18 @@ const Table = () => {
                                 ? "/leadgen/app/dashboard/leads"
                                 : false
                             }
-                            disabled={
-                              getNumOfLeads(campaignListItem.id) ? true : false
+                            style={
+                              getNumOfLeads(campaignListItem.id) === 0
+                                ? {
+                                    pointerEvents: "auto",
+                                    cursor: "not-allowed",
+                                  }
+                                : {}
                             }
                           >
-                            {getNumOfLeads(campaignListItem.id)}
+                            {getNumOfLeads(campaignListItem.id)
+                              ? getNumOfLeads(campaignListItem.id)
+                              : "No Leads"}
                           </Link>
                         </td>
 

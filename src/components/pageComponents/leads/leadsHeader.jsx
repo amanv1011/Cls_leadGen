@@ -141,7 +141,7 @@ const LeadsHeader = () => {
                 color: "rgba(92, 117,154)",
               }}
             >
-              {allCampaignsFilter}{" "}
+              {allCampaignsFilter}
               <span style={{ paddingLeft: "45px", paddingBottom: "3px" }}>
                 <DownArrow />
               </span>
@@ -165,7 +165,6 @@ const LeadsHeader = () => {
                 "aria-labelledby": "basic-button",
               }}
             >
-              {" "}
               <MenuItem
                 sx={{
                   fontFamily: "Segoe UI",
@@ -178,7 +177,7 @@ const LeadsHeader = () => {
               </MenuItem>
               {leadData.map((ele) => {
                 return (
-                  <>
+                  <React.Fragment key={ele.id}>
                     <MenuItem
                       data-id={ele.id}
                       sx={{
@@ -190,7 +189,7 @@ const LeadsHeader = () => {
                     >
                       {ele.name}
                     </MenuItem>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </Menu>
@@ -218,7 +217,7 @@ const LeadsHeader = () => {
               color: "rgba(92, 117,154)",
             }}
           >
-            {allOwnersFilter}{" "}
+            {allOwnersFilter}
             <span style={{ paddingLeft: "70px", paddingBottom: "3px" }}>
               <DownArrow />
             </span>
@@ -254,7 +253,7 @@ const LeadsHeader = () => {
             </MenuItem>
             {leadData.map((ele) => {
               return (
-                <>
+                <React.Fragment key={ele.id}>
                   <MenuItem
                     data-id={ele.id}
                     sx={{
@@ -266,7 +265,7 @@ const LeadsHeader = () => {
                   >
                     {ele.owner}
                   </MenuItem>
-                </>
+                </React.Fragment>
               );
             })}
           </Menu>
