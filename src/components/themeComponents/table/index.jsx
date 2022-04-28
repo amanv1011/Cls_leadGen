@@ -1,4 +1,3 @@
-
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import React, { useState } from "react";
 import Status from "./status";
@@ -127,7 +126,7 @@ const Table = (props) => {
               }
 
               return (
-                <tr className="table-body-row">
+                <tr className="table-body-row" key={element.id}>
                   <td
                     style={{ paddingLeft: "20px" }}
                     className="table-body-row-data"

@@ -3,18 +3,15 @@ import { Box } from "@mui/system";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import LinkedIn from "./LinkedIn";
 import moment from "moment";
-import {
-  getPopupEnable,
-  
-} from "../../../redux/actions/PopupAction";
-import {  useDispatch } from "react-redux";
+import { getPopupEnable } from "../../../redux/actions/PopupAction";
+import { useDispatch } from "react-redux";
 import React from "react";
 import { updateLeadStatus } from "../../../redux/actions/leadActions";
 import approv from "../../../assets/approv.svg";
 import reject from "../../../assets/reject.svg";
 import archieve from "../../../assets/archieve.svg";
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
 import "./lead.scss";
 
 const Cards = (props) => {
@@ -43,7 +40,7 @@ const Cards = (props) => {
       fontFamily: "Segoe UI",
       fontSize: "14px",
       fontWeight: "600",
-      borderRadius: "8px"
+      borderRadius: "8px",
     },
   }));
 
@@ -58,20 +55,18 @@ const Cards = (props) => {
   };
 
   var linkedInCompany;
-  
 
   return (
     <>
       {leadsData.map((ele) => {
-
         if (ele.companyName !== null) {
-           linkedInCompany = ((ele.companyName).toLowerCase()).split(" ").join("");
+          linkedInCompany = ele.companyName.toLowerCase().split(" ").join("");
         } else {
-           linkedInCompany = ""
+          linkedInCompany = "";
         }
 
         return (
-          <>
+          <React.Fragment key={ele.id}>
             <Box className="lead-container">
               <Box className="lead-header">
                 <Box
@@ -85,15 +80,22 @@ const Cards = (props) => {
                 </Box>
                 <Box className="lead-header-option">
                   <span className="Response-time">
-                    {" "}
-                    {moment.unix(ele.leadGeneratedDate.seconds).fromNow()}{" "}
+                    {moment.unix(ele.leadGeneratedDate.seconds).fromNow()}
                   </span>
 
-                  <IconButton> {
-                    linkedInCompany ? (< a href={`https://www.linkedin.com/company/${linkedInCompany}/`} target="blank"><LinkedIn /></a>) : (< a href={`https://www.linkedin.com`} target="blank"><LinkedIn /></a>)
-
-
-                  }
+                  <IconButton>
+                    {linkedInCompany ? (
+                      <a
+                        href={`https://www.linkedin.com/company/${linkedInCompany}/`}
+                        target="blank"
+                      >
+                        <LinkedIn />
+                      </a>
+                    ) : (
+                      <a href={`https://www.linkedin.com`} target="blank">
+                        <LinkedIn />
+                      </a>
+                    )}
                   </IconButton>
 
                   <IconButton>
@@ -102,8 +104,14 @@ const Cards = (props) => {
                 </Box>
               </Box>
               <hr className="line" />
-              <Box style={{ display: "flex", paddingTop: "16px" }} className="lead-body">
-                <div style={{ display: "flex", width: "100%" }} className="lead-body-row1">
+              <Box
+                style={{ display: "flex", paddingTop: "16px" }}
+                className="lead-body"
+              >
+                <div
+                  style={{ display: "flex", width: "100%" }}
+                  className="lead-body-row1"
+                >
                   <div className="lead-body-column">
                     <div className="lead-body-column-card1">
                       <p className="head-body">Key Skills</p>
@@ -144,8 +152,7 @@ const Cards = (props) => {
                     className="bt"
                     style={{ display: "flex", justifyContent: "space-around" }}
                   >
-                    {ele.status !==
-                      1 ? (
+                    {ele.status !== 1 ? (
                       <div style={{ marginRight: "1vw" }}>
                         <BootstrapTooltip
                           placement="top"
@@ -168,7 +175,7 @@ const Cards = (props) => {
                       <div style={{ marginRight: "1vw" }}>
                         <BootstrapTooltip
                           placement="top"
-                          sx={{ fontFamily: 'Segoe UI' }}
+                          sx={{ fontFamily: "Segoe UI" }}
                           title="Reject"
                           arrow
                         >
@@ -183,8 +190,7 @@ const Cards = (props) => {
                         </BootstrapTooltip>
                       </div>
                     ) : null}
-                    {ele.status !==
-                      2 ? (
+                    {ele.status !== 2 ? (
                       <div>
                         <BootstrapTooltip
                           placement="top"
@@ -207,7 +213,7 @@ const Cards = (props) => {
                 </div>
               </Box>
             </Box>
-          </>
+          </React.Fragment>
         );
       })}
     </>

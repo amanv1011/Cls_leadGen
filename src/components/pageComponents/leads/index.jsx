@@ -27,7 +27,6 @@ const Leads = () => {
 
   const exportLeadsToExcel = () => {
     if (window.location.pathname === "/leadgen/app/dashboard/leads") {
-      console.log("leads", genratedLeadData);
       if (genratedLeadData.length === 0) {
         return;
       }

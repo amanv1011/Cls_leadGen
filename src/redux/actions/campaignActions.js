@@ -51,10 +51,8 @@ export const getAllCampaignsAction = () => {
           type: GET_CAMPAIGN_LIST_ERROR,
           payload: err,
         });
-        
       } else {
         dispatch({ type: GET_CAMPAIGN_LIST_ERROR });
-
       }
     }
   };
@@ -69,7 +67,6 @@ export const postCampaignsAction = (data) => {
         type: types.POST_CAMPAIGN_DATA_SUCCESS,
         payload: data,
       });
-      console.log("Post campaign data", data);
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {
         dispatch({
@@ -111,7 +108,6 @@ export const updateCampaignsAction = (campaignId, campaignUpdateObject) => {
         campaignId,
         campaignUpdateObject
       );
-      console.log("res", res);
       dispatch({
         type: types.UPDATE_CAMPAIGN_DATA_SUCCESS,
         payload: campaignUpdateObject,
