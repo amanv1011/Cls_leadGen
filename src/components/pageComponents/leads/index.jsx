@@ -26,34 +26,34 @@ const Leads = () => {
   };
 
   const exportLeadsToExcel = () => {
-    if (window.location.pathname === "/leadgen/app/dashboard/leads") {
+    if (window.location.pathname === "/leadgen/leads") {
       if (genratedLeadData.length === 0) {
         return;
       }
       downloadLeads(genratedLeadData, "All leads");
     }
-    if (window.location.pathname === "/leadgen/app/dashboard/leads/approve") {
+    if (window.location.pathname === "/leadgen/leads/approve") {
       if (approveList.length === 0) {
         return;
       }
       downloadLeads(approveList, "Approved Leads");
     }
 
-    if (window.location.pathname === "/leadgen/app/dashboard/leads/reject") {
+    if (window.location.pathname === "/leadgen/leads/reject") {
       if (rejectList.length === 0) {
         return;
       }
       downloadLeads(rejectList, "Rejected Leads");
     }
     if (
-      window.location.pathname === "/leadgen/app/dashboard/leads/underreview"
+      window.location.pathname === "/leadgen/leads/underreview"
     ) {
       if (underReviewList.length === 0) {
         return;
       }
       downloadLeads(underReviewList, "Under Review Leads");
     }
-    if (window.location.pathname === "/leadgen/app/dashboard/leads/archive") {
+    if (window.location.pathname === "/leadgen/leads/archive") {
     }
   };
 
@@ -85,35 +85,35 @@ const Leads = () => {
           </span>
         </Box>
         <Box className="leads-table">
-          {window.location.pathname === "/leadgen/app/dashboard/leads" ? (
+          {window.location.pathname === "/leadgen/leads" ? (
             <>
               <Lead />
             </>
           ) : null}
 
           {window.location.pathname ===
-          "/leadgen/app/dashboard/leads/approve" ? (
+          "/leadgen/leads/approve" ? (
             <>
               <Approve />
             </>
           ) : null}
 
           {window.location.pathname ===
-          "/leadgen/app/dashboard/leads/reject" ? (
+          "/leadgen/leads/reject" ? (
             <>
               <Reject />
             </>
           ) : null}
 
           {window.location.pathname ===
-          "/leadgen/app/dashboard/leads/underreview" ? (
+          "/leadgen/leads/underreview" ? (
             <>
               <UnderReview />
             </>
           ) : null}
 
           {window.location.pathname ===
-          "/leadgen/app/dashboard/leads/archive" ? (
+          "/leadgen/leads/archive" ? (
             <>
               <Archive />
             </>
