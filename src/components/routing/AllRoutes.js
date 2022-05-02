@@ -8,11 +8,11 @@ import Campaign from "../pageComponents/campaign/index";
 const AllRoutes = () => {
   const allRoutes = useRoutes([
     {
-      path: "/leadgen",
+      path: "/leadgen/app/dashboard",
       element: <Dashboard />,
       children: [
         {
-          path: "/leadgen/leads",
+          path: "/leadgen/app/dashboard/leads",
           element: (
             <>
               <Header />
@@ -21,7 +21,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/campaign",
+          path: "/leadgen/app/dashboard/campaign",
           element: (
             <>
               <Header />
@@ -30,7 +30,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/leads/all",
+          path: "/leadgen/app/dashboard/leads/all",
           element: (
             <>
               <Header />
@@ -39,7 +39,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/leads/underreview",
+          path: "/leadgen/app/dashboard/leads/underreview",
           element: (
             <>
               <Header />
@@ -48,7 +48,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/leads/approve",
+          path: "/leadgen/app/dashboard/leads/approve",
           element: (
             <>
               <Header />
@@ -57,7 +57,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/leads/reject",
+          path: "/leadgen/app/dashboard/leads/reject",
           element: (
             <>
               <Header />
@@ -66,7 +66,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/leads/archive",
+          path: "/leadgen/app/dashboard/leads/archive",
           element: (
             <>
               <Header />
@@ -78,7 +78,7 @@ const AllRoutes = () => {
     },
     {
       path: "*",
-      element: <Navigate to="/leadgen" />,
+      element: <Navigate to="/leadgen/app/dashboard" />,
     },
   ]);
   return allRoutes;

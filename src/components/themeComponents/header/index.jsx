@@ -11,7 +11,7 @@ const Header = () => {
       <Box className="tabs">
         <BasicTabs type="dashboardTabs" />
       </Box>
-      {window.location.pathname === "/leadgen/campaign" ? (
+      {window.location.pathname === "/leadgen/app/dashboard/campaign" ? (
         <>
           <Box className="impt-button">
             <Popup />

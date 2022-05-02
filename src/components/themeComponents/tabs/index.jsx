@@ -32,31 +32,31 @@ export default function BasicTabs({ type }) {
   var [leadsHover, setLeadsHover] = useState(false);
 
   useEffect(() => {
-    if (window.location.pathname === "/leadgen/campaign") {
+    if (window.location.pathname === "/leadgen/app/dashboard/campaign") {
       setValue(0);
     }
-    if (window.location.pathname === "/leadgen/leads") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads") {
       setValue(1);
     }
-    if (window.location.pathname === "/leadgen/leads") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads") {
       setValue(1);
       setValueTabs(0);
     }
     if (
-      window.location.pathname === "/leadgen/leads/underreview"
+      window.location.pathname === "/leadgen/app/dashboard/leads/underreview"
     ) {
       setValue(1);
       setValueTabs(1);
     }
-    if (window.location.pathname === "/leadgen/leads/approve") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads/approve") {
       setValue(1);
       setValueTabs(2);
     }
-    if (window.location.pathname === "/leadgen/leads/reject") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads/reject") {
       setValue(1);
       setValueTabs(3);
     }
-    if (window.location.pathname === "/leadgen/leads/archive") {
+    if (window.location.pathname === "/leadgen/app/dashboard/leads/archive") {
       setValue(1);
       setValueTabs(4);
     }
@@ -71,7 +71,7 @@ export default function BasicTabs({ type }) {
               disableRipple
               label="Campaign"
               component={Link}
-              to="/leadgen/campaign"
+              to="/leadgen/app/dashboard/campaign"
               sx={{
                 textTransform: "none",
                 color: hover
@@ -89,7 +89,7 @@ export default function BasicTabs({ type }) {
               disableRipple
               label="Leads"
               component={Link}
-              to="/leadgen/leads"
+              to="/leadgen/app/dashboard/leads"
               sx={{
                 textTransform: "none",
                 color: leadsHover
@@ -108,31 +108,31 @@ export default function BasicTabs({ type }) {
           <Tabs value={valueTabs} onChange={handleChange} className="form-tabs">
             <Tab
               component={Link}
-              to="/leadgen/leads"
+              to="/leadgen/app/dashboard/leads"
               label="All"
               sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600"}}
             />
             <Tab
               component={Link}
-              to="/leadgen/leads/underreview"
+              to="/leadgen/app/dashboard/leads/underreview"
               label={`Under Review( ${underreviewCount})`}
               sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
             />
             <Tab
               component={Link}
-              to="/leadgen/leads/approve"
+              to="/leadgen/app/dashboard/leads/approve"
               label={`Approved (${approveCount})`}
               sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
             />
             <Tab
               component={Link}
-              to="/leadgen/leads/reject"
+              to="/leadgen/app/dashboard/leads/reject"
               label={`Rejected (${rejectCount})`}
               sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
             />
             <Tab
               component={Link}
-              to="/leadgen/leads/archive"
+              to="/leadgen/app/dashboard/leads/archive"
               label={`Archive (${archieveCount})`}
               sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
             />
