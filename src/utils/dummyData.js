@@ -25,12 +25,12 @@ export const dashboardTabs = [
   {
     label: "Campaign",
     component: Link,
-    to: "/leadgen/app/dashboard/campaign",
+    to: "/campaign",
   },
   {
     label: "Leads",
     component: Link,
-    to: "/leadgen/app/dashboard/leads",
+    to: "/leads",
   },
 ];
 export const leadsTabs = [

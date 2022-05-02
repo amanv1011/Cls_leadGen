@@ -8,11 +8,11 @@ import Campaign from "../pageComponents/campaign/index";
 const AllRoutes = () => {
   const allRoutes = useRoutes([
     {
-      path: "/leadgen/app/dashboard",
+      path: "/",
       element: <Dashboard />,
       children: [
         {
-          path: "/leadgen/app/dashboard/leads",
+          path: "/leads",
           element: (
             <>
               <Header />
@@ -21,7 +21,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/app/dashboard/campaign",
+          path: "/campaign",
           element: (
             <>
               <Header />
@@ -30,7 +30,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/app/dashboard/leads/all",
+          path: "/leads/all",
           element: (
             <>
               <Header />
@@ -39,7 +39,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/app/dashboard/leads/underreview",
+          path: "/leads/underreview",
           element: (
             <>
               <Header />
@@ -48,7 +48,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/app/dashboard/leads/approve",
+          path: "/leads/approve",
           element: (
             <>
               <Header />
@@ -57,7 +57,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/app/dashboard/leads/reject",
+          path: "/leads/reject",
           element: (
             <>
               <Header />
@@ -66,7 +66,7 @@ const AllRoutes = () => {
           ),
         },
         {
-          path: "/leadgen/app/dashboard/leads/archive",
+          path: "/leads/archive",
           element: (
             <>
               <Header />
@@ -78,7 +78,7 @@ const AllRoutes = () => {
     },
     {
       path: "*",
-      element: <Navigate to="/leadgen/app/dashboard" />,
+      element: <Navigate to="/" />,
     },
   ]);
   return allRoutes;

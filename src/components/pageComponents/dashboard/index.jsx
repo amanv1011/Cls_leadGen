@@ -35,11 +35,11 @@ const Dashboard = ({ children }) => {
 
   const navigate = useNavigate();
   const viewMore = () => {
-    navigate("/leadgen/app/dashboard/campaign");
+    navigate("/campaign");
   };
 
   const goBack = () => {
-    navigate("/leadgen/app/dashboard/");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -135,7 +135,7 @@ const Dashboard = ({ children }) => {
     <div
       className="dashboard-container"
       style={
-        window.location.pathname === "/leadgen/app/dashboard"
+        window.location.pathname === "/"
           ? { height: "100vh" }
           : { height: "100%" }
       }
@@ -161,7 +161,7 @@ const Dashboard = ({ children }) => {
           </Typography>
         </Box>
         <Outlet />
-        {window.location.pathname === "/leadgen/app/dashboard" ? (
+        {window.location.pathname === "/" ? (
           <>
             <Box className="dash-box">
               <Box sx={{ boxShadow: 3 }} className="dash-lead-box">

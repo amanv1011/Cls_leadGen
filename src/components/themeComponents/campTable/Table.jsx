@@ -267,7 +267,7 @@ const Table = () => {
                           <Link
                             to={
                               getNumOfLeads(campaignListItem.id)
-                                ? "/leadgen/app/dashboard/leads"
+                                ? "/leads"
                                 : false
                             }
                             style={
