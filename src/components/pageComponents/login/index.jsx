@@ -27,7 +27,7 @@ export default function Login() {
       return;
     }
     if (user.email.trim().length !== 0 && user.password.trim().length !== 0) {
-      window.location.href = "/app/dashboard";
+      window.location.href = "/";
     }
   };
 

@@ -35,11 +35,11 @@ const Dashboard = ({ children }) => {
 
   const navigate = useNavigate();
   const viewMore = () => {
-    navigate("/app/dashboard/campaign");
+    navigate("/campaign");
   };
 
   const goBack = () => {
-    navigate("/app/dashboard");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -60,9 +60,8 @@ const Dashboard = ({ children }) => {
     let leadExtracted = 0;
     let currentDate = moment().format("MM/DD/YYYY");
 
-    
     if (leadData !== []) {
-      leadData.map((ele) => {
+      leadData.forEach((ele) => {
         if (ele.status === 1) {
           ActiveCount++;
         }
@@ -76,7 +75,7 @@ const Dashboard = ({ children }) => {
     }
 
     if (genratedLeadData !== []) {
-      genratedLeadData.map((ele) => {
+      genratedLeadData.forEach((ele) => {
         leadCount++;
         if (
           moment.unix(ele.leadGeneratedDate.seconds).format("MM/DD/YYYY") ===
@@ -99,29 +98,27 @@ const Dashboard = ({ children }) => {
         }
       });
     }
-    if(leadCount === 0){
+    if (leadCount === 0) {
       leadExtracted = 0;
-    }else{
-       leadExtracted = (leadCount / (Math.ceil(leadCount / 100) * 100)) * 100;
-      
+    } else {
+      leadExtracted = (leadCount / (Math.ceil(leadCount / 100) * 100)) * 100;
     }
-    if(Today === 0){
-      TodayPer = 0
-    }else{
+    if (Today === 0) {
+      TodayPer = 0;
+    } else {
       TodayPer = (Today / (Math.ceil(Today / 100) * 100)) * 100;
     }
-    if(Yesterday === 0){
-      YesterdayPer = 0 
-    }else{
+    if (Yesterday === 0) {
+      YesterdayPer = 0;
+    } else {
       YesterdayPer = (Yesterday / (Math.ceil(Yesterday / 100) * 100)) * 100;
     }
-    if(Weekly === 0){
-      WeeklyPer = 0
-    }else{
+    if (Weekly === 0) {
+      WeeklyPer = 0;
+    } else {
       WeeklyPer = (Weekly / (Math.ceil(Weekly / 100) * 100)) * 100;
     }
-    
-    
+
     setActiveCamp(ActiveCount);
     setLeadsExtracted(leadCount);
     setYesterdaysLeads(Yesterday);
@@ -134,16 +131,18 @@ const Dashboard = ({ children }) => {
     setWeeklyLeadsPer(WeeklyPer);
   });
 
-
-
-
-
   return (
-    <div className="dashboard-container" style={window.location.pathname === "/app/dashboard" ? { height: "100vh"} : {height:"100%"}}>
-      
+    <div
+      className="dashboard-container"
+      style={
+        window.location.pathname === "/"
+          ? { height: "100vh" }
+          : { height: "100%" }
+      }
+    >
       <Navbar />
       <SideBar />
-      
+
       <Box component="div" className="dshboard-content">
         <Box
           style={{
@@ -162,7 +161,7 @@ const Dashboard = ({ children }) => {
           </Typography>
         </Box>
         <Outlet />
-        {window.location.pathname === "/app/dashboard" ? (
+        {window.location.pathname === "/" ? (
           <>
             <Box className="dash-box">
               <Box sx={{ boxShadow: 3 }} className="dash-lead-box">

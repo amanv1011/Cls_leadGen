@@ -7,80 +7,78 @@ import Campaign from "../pageComponents/campaign/index";
 
 const AllRoutes = () => {
   const allRoutes = useRoutes([
-
     {
-      path: "/app/dashboard",
+      path: "/",
       element: <Dashboard />,
       children: [
         {
-          path: "/app/dashboard/leads",
+          path: "/leads",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
         {
-          path: "/app/dashboard/campaign",
+          path: "/campaign",
           element: (
             <>
               <Header />
-              <Campaign />{" "}
+              <Campaign />
             </>
           ),
         },
         {
-          path: "/app/dashboard/leads/all",
+          path: "/leads/all",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
         {
-          path: "/app/dashboard/leads/underreview",
+          path: "/leads/underreview",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
         {
-          path: "/app/dashboard/leads/approve",
+          path: "/leads/approve",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
         {
-          path: "/app/dashboard/leads/reject",
+          path: "/leads/reject",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
         {
-          path: "/app/dashboard/leads/archive",
+          path: "/leads/archive",
           element: (
             <>
               <Header />
-              <Leads />{" "}
+              <Leads />
             </>
           ),
         },
-
       ],
     },
     {
       path: "*",
-      element: <Navigate to="/app/dashboard" />,
+      element: <Navigate to="/" />,
     },
   ]);
   return allRoutes;
