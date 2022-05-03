@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-
-} from "@mui/material";
+import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -65,10 +60,11 @@ export default function CampaignDetailsView({
               <BootstrapDialogTitle
                 id="customized-dialog-title"
                 onClose={handleClose}
+                className={"view-dialoge-title"}
               >
                 {viewDetail.viewDetails.name.stringValue}
               </BootstrapDialogTitle>
-              <DialogContent dividers>
+              <DialogContent dividers className="view-dialoge-content">
                 <div className="main-container">
                   <div>
                     <div
