@@ -8,6 +8,7 @@ import {getRejectCount} from "../../../redux/actions/approveRejectcount"
 import {getUnderreviewCount} from "../../../redux/actions/approveRejectcount"
 import {getApproveCount} from "../../../redux/actions/approveRejectcount"
 import {getArchieveCount} from "../../../redux/actions/approveRejectcount"
+import { getAllCount } from "../../../redux/actions/approveRejectcount";
 import Fuse from "fuse.js";
 import PopupBox from "./PopupBox";
 const Archive = () => {
@@ -18,17 +19,80 @@ const Archive = () => {
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector((state) => state.leadsFilter.campaignName);
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
-  const rejectList = genratedLeadData.filter((ele) => ele.status === -1 )
-  const rejectCount = rejectList.length;
-  const underReviewList = genratedLeadData.filter((ele) => ele.status === 0 )
-  const underReviewCount = underReviewList.length;
-  const approveList = genratedLeadData.filter((ele) => ele.status === 1 )
-  const approveCount = approveList.length;
   const archieveList = genratedLeadData.filter((ele) => ele.status === 2)
-  const archieveCount = archieveList.length;
+
   var filterArchieve;
   var filterArchieveResults;
   var campaignID;
+  var leadListForCount;
+  var campaignIdCount;
+
+   //For Counting Leads
+
+   //For Counting Leads
+
+   if (
+    campaignNameFilter === "All Campaigns" &&
+    ownerNameFilter === "All Owners"
+  ) {
+    leadListForCount = [];
+     leadListForCount = genratedLeadData;
+  }
+  if (
+    campaignNameFilter !== "All Campaigns" ||
+    ownerNameFilter !== "All Owners"
+  ) {
+     
+    if (
+      campaignNameFilter !== "All Campaigns" &&
+      ownerNameFilter === "All Owners"
+    ) {
+      leadListForCount = [];
+       campaignIdCount = campgainData.filter(
+        (ele) => ele.name === campaignNameFilter
+      );
+      for (let i = 0; i < campaignIdCount.length; i++) {
+        for (let j = 0; j < genratedLeadData.length; j++) {
+          if (genratedLeadData[j].campaignId === campaignIdCount[i].id) {
+            leadListForCount.push(genratedLeadData[j]);
+          }
+        }
+      }
+    }
+    if (
+      campaignNameFilter === "All Campaigns" &&
+      ownerNameFilter !== "All Owners"
+    ) {
+      leadListForCount = [];
+       campaignIdCount = campgainData.filter(
+        (ele) => ele.owner === ownerNameFilter
+      );
+      for (let i = 0; i < campaignIdCount.length; i++) {
+        for (let j = 0; j < genratedLeadData.length; j++) {
+          if (genratedLeadData[j].campaignId === campaignIdCount[i].id) {
+            leadListForCount.push(genratedLeadData[j]);
+          }
+        }
+      }
+    }
+    if (
+      campaignNameFilter !== "All Campaigns" &&
+      ownerNameFilter !== "All Owners"
+    ) {
+      leadListForCount = [];
+       campaignIdCount = campgainData.filter(
+        (ele) =>
+          ele.name === campaignNameFilter && ele.owner === ownerNameFilter
+      );
+      for (let i = 0; i < campaignIdCount.length; i++) {
+        for (let j = 0; j < genratedLeadData.length; j++) {
+          if (genratedLeadData[j].campaignId === campaignIdCount[i].id) {
+            leadListForCount.push(genratedLeadData[j]);
+          }
+        }
+      }
+    }
+  }
 
 
   if (
@@ -225,7 +289,14 @@ const Archive = () => {
     }
   }
 
-
+  const rejectList = leadListForCount.filter((ele) => ele.status === -1);
+  const rejectCount = rejectList.length;
+  const underReviewList = leadListForCount.filter((ele) => ele.status === 0);
+  const underReviewCount = underReviewList.length;
+  const archieveListCount = leadListForCount.filter((ele) => ele.status === 2);
+  const archieveCount = archieveListCount.length;
+  const approveList = leadListForCount.filter((ele) => ele.status === 1);
+  const approveCount = approveList.length;
 
 
   const popupStatus = useSelector((state) => state.popupStatus.popupStatus)
@@ -236,6 +307,7 @@ const Archive = () => {
     dispatch(getUnderreviewCount(underReviewCount));
     dispatch(getRejectCount(rejectCount));
     dispatch(getArchieveCount(archieveCount))
+    dispatch(getAllCount(approveCount+underReviewCount+rejectCount+archieveCount));
 })
 
   return (

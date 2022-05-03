@@ -1,10 +1,11 @@
-import { GET_APPROVE_COUNT, GET_REJECT_COUNT,GET_UNDERREVIEW_COUNT,GET_ARCHIEVE_COUNT } from "../type";
+import { GET_APPROVE_COUNT, GET_REJECT_COUNT,GET_UNDERREVIEW_COUNT,GET_ARCHIEVE_COUNT,GET_ALL_COUNT } from "../type";
 
 const initialState = {
   approveCount: 0,
   rejectCount: 0,
   underreviewCount: 0,
   archieveCount: 0,
+  allCount:0
 };
 
 export const getApproveRejectCountReducer = (
@@ -20,6 +21,8 @@ export const getApproveRejectCountReducer = (
         return {...state, underreviewCount: payload}
     case GET_ARCHIEVE_COUNT:
       return { ...state, archieveCount: payload };
+    case GET_ALL_COUNT:
+      return { ...state, allCount: payload}
     default:
         return{...state}
   }
