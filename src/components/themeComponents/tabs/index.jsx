@@ -22,6 +22,9 @@ export default function BasicTabs({ type }) {
   const archieveCount = useSelector(
     (state) => state.approveRejectCount.archieveCount
   );
+  const allCount = useSelector(
+    (state) => state.approveRejectCount.allCount
+  )
 
   const handleChange = (e, newValue) => {
     setValue(newValue);
@@ -109,13 +112,13 @@ export default function BasicTabs({ type }) {
             <Tab
               component={Link}
               to="/leads"
-              label="All"
+              label={`All (${allCount})`}
               sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600"}}
             />
             <Tab
               component={Link}
               to="/leads/underreview"
-              label={`Under Review( ${underreviewCount})`}
+              label={`Under Review(${underreviewCount})`}
               sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
             />
             <Tab
