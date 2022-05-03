@@ -115,9 +115,7 @@ function AddCampaginModal() {
         status: parseInt(documentSnapShot.payload.data().status),
       });
       setTags([...documentSnapShot.payload.data().tags]);
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const onSubmitEventhandler = (event) => {
@@ -144,7 +142,19 @@ function AddCampaginModal() {
       dispatch(campaignActions.getAllCampaignsAction());
     }
     dispatch(campaignActions.handleClose());
-    setAddCampaignDetails({});
+    setAddCampaignDetails({
+      name: "",
+      source: "",
+      frequency: 0,
+      location: "",
+      start_date: formatDate(new Date()),
+      start_time: "",
+      last_crawled_date: formatDate(new Date()),
+      end_date: formatDate(new Date()),
+      end_time: "",
+      pages: 0,
+      status: 0,
+    });
     setTags([]);
   };
 
@@ -157,7 +167,6 @@ function AddCampaginModal() {
     if (day.length < 2) day = "0" + day;
     return [year, month, day].join("-");
   }
-
   return (
     <React.Fragment>
       <div className="add" style={{ display: " -webkit-inline-box" }}>
@@ -172,7 +181,6 @@ function AddCampaginModal() {
           }}
           className="my-input"
           style={{
-            fontFamily: "'Proxima Nova'",
             fontStyle: "normal",
             fontWeight: "600",
             fontSize: "14px",
@@ -446,15 +454,26 @@ function AddCampaginModal() {
                     style={{
                       borderRadius: "10px",
                       background: "#1F4173",
-                      fontFamily: "Segoe UI",
                       textTransform: "none",
                       fontWeight: "600",
                       opacity: 0.5,
                     }}
                     onClick={() => {
                       dispatch(campaignActions.handleClose());
+                      setAddCampaignDetails({
+                        name: "",
+                        source: "",
+                        frequency: 0,
+                        location: "",
+                        start_date: formatDate(new Date()),
+                        start_time: "",
+                        last_crawled_date: formatDate(new Date()),
+                        end_date: formatDate(new Date()),
+                        end_time: "",
+                        pages: 0,
+                        status: 0,
+                      });
                       setTags([]);
-                      setAddCampaignDetails({});
                     }}
                   >
                     Cancel
@@ -467,7 +486,6 @@ function AddCampaginModal() {
                     style={{
                       borderRadius: "10px",
                       background: "#003AD2",
-                      fontFamily: "Segoe UI",
                       textTransform: "none",
                       fontWeight: "600",
                     }}
