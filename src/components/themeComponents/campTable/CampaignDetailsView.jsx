@@ -45,7 +45,7 @@ export default function CampaignDetailsView({
   const handleClose = () => {
     setOpenDialog(false);
   };
-
+  //added custom classname to override mui css
   return (
     <React.Fragment>
       <BootstrapDialog
