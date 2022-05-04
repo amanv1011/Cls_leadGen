@@ -2,10 +2,15 @@
   display: flex !important;
   justify-content: space-between;
   align-items: center;
+  z-index: 2;
   .logo-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    align-content: center;
+    .back-button {
+      margin: 0px 4px 0px 0px;
+    }
     .logo-image {
       margin: 0px 0px 0px 8px;
       width: 247px;

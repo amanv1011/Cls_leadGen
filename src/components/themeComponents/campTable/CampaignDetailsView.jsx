@@ -1,17 +1,8 @@
 import React from "react";
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-}));
+import "./CampaignDetailsView.scss";
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -48,11 +39,17 @@ export default function CampaignDetailsView({
   //added custom classname to override mui css
   return (
     <React.Fragment>
-      <BootstrapDialog
+      <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={openDialog}
         className="camapignDetailsViewModal"
+        PaperProps={{
+          style: {
+            maxWidth: "100%",
+            borderRadius: "10px",
+          },
+        }}
       >
         {viewDetails.map((viewDetail) => {
           return (
@@ -66,7 +63,7 @@ export default function CampaignDetailsView({
               </BootstrapDialogTitle>
               <DialogContent dividers className="view-dialoge-content">
                 <div className="main-container">
-                  <div>
+                  <div className="label-container">
                     <div
                       className="label-campaign-view"
                       style={{ marginTop: 0 }}
@@ -80,7 +77,7 @@ export default function CampaignDetailsView({
                     </div>
                   </div>
 
-                  <div>
+                  <div className="label-container">
                     <div
                       className="label-campaign-view"
                       style={{ marginTop: 0 }}
@@ -96,7 +93,7 @@ export default function CampaignDetailsView({
                     </div>
                   </div>
 
-                  <div>
+                  <div className="label-container">
                     <div
                       className="label-campaign-view"
                       style={{ marginTop: 0 }}
@@ -110,7 +107,7 @@ export default function CampaignDetailsView({
                     </div>
                   </div>
 
-                  <div>
+                  <div className="label-container">
                     <div className="label-campaign-view">Start Date</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
@@ -121,7 +118,7 @@ export default function CampaignDetailsView({
                     </div>
                   </div>
 
-                  <div>
+                  <div className="label-container">
                     <div className="label-campaign-view">Start Time</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
@@ -130,7 +127,7 @@ export default function CampaignDetailsView({
                     </div>
                   </div>
 
-                  <div>
+                  <div className="label-container">
                     <div className="label-campaign-view">End date</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
@@ -141,7 +138,7 @@ export default function CampaignDetailsView({
                     </div>
                   </div>
 
-                  <div>
+                  <div className="label-container">
                     <div className="label-campaign-view">End Time</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
@@ -151,7 +148,7 @@ export default function CampaignDetailsView({
                     </div>
                   </div>
 
-                  <div>
+                  <div className="label-container">
                     <div className="label-campaign-view">Location</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
@@ -161,7 +158,7 @@ export default function CampaignDetailsView({
                     </div>
                   </div>
 
-                  <div>
+                  <div className="label-container">
                     <div className="label-campaign-view">
                       Extract No. Of Pages(s)
                     </div>
@@ -173,7 +170,7 @@ export default function CampaignDetailsView({
                     </div>
                   </div>
 
-                  <div>
+                  <div className="label-container">
                     <div className="label-campaign-view">
                       Status of the campaign
                     </div>
@@ -186,7 +183,7 @@ export default function CampaignDetailsView({
                     </div>
                   </div>
 
-                  <div>
+                  <div className="label-container">
                     <div className="label-campaign-view">Created By</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
@@ -196,7 +193,7 @@ export default function CampaignDetailsView({
                     </div>
                   </div>
 
-                  <div>
+                  <div className="label-container">
                     <div className="label-campaign-view">Last crawled Date</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
@@ -211,7 +208,7 @@ export default function CampaignDetailsView({
             </React.Fragment>
           );
         })}
-      </BootstrapDialog>
+      </Dialog>
     </React.Fragment>
   );
 }

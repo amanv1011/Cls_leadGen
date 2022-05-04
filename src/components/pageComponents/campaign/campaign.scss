@@ -4,11 +4,12 @@
   border-radius: 15px;
   margin-top: 20px;
   width: 100%;
-  height: 394px;
+  height: auto;
 }
 @media screen and (max-width: 1280px) {
   .campaign-container {
     width: 100%;
-    height: 394px;
+    height: auto;
+    // padding: 8px;
   }
 }
