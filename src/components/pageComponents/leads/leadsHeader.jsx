@@ -158,7 +158,7 @@ const LeadsHeader = () => {
                 textTransform: "none",
                 height: "40px",
                 minWidth: "181px",
-                justifyContent: "flex-start",
+                justifyContent: "space-between",
                 padding: "10px",
                 fontWeight: "600",
                 borderRadius: "10px",
@@ -167,7 +167,7 @@ const LeadsHeader = () => {
                 color: "rgba(92, 117,154)",
               }}
             >
-              {allCampaignsFilter}
+             {allCampaignsFilter} 
               <span style={{ paddingLeft: "45px", paddingBottom: "3px" }}>
                 <DownArrow />
               </span>
@@ -234,7 +234,7 @@ const LeadsHeader = () => {
               textTransform: "none",
               height: "40px",
               minWidth: "181px",
-              justifyContent: "flex-start",
+              justifyContent: "space-between",
               padding: "10px",
               fontWeight: "600",
               borderRadius: "10px",
