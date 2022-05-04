@@ -7,12 +7,32 @@ import { useDispatch, useSelector } from "react-redux";
 import DateModal from "./DateModal";
 import DownArrow from "./DownArrow";
 import SearchIcon from "@mui/icons-material/Search";
+import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
 import "./leadsHeader.scss";
 import {
   leadsFilterCampaignName,
   leadsFilterOwnerName,
   leadsFilterSearch,
+  clearFilters
 } from "../../../redux/actions/leadsFilter";
+
+const BootstrapTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.black,
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.black,
+    fontFamily: "Segoe UI",
+    fontSize: "14px",
+    fontWeight: "600",
+    borderRadius: "8px",
+  },
+}));
+
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
@@ -69,10 +89,16 @@ const LeadsHeader = () => {
     SearchInput.current.value = "";
   };
 
+  const clearFilterTab = () => {
+    dispatch(clearFilters())
+  }
+
   useEffect(() => {
     SearchInput.current.value = "";
     dispatch(leadsFilterSearch(SearchInput.current.value));
   });
+
+  
 
   return (
     <>
@@ -132,7 +158,7 @@ const LeadsHeader = () => {
                 textTransform: "none",
                 height: "40px",
                 minWidth: "181px",
-                justifyContent: "flex-start",
+                justifyContent: "space-between",
                 padding: "10px",
                 fontWeight: "600",
                 borderRadius: "10px",
@@ -141,7 +167,7 @@ const LeadsHeader = () => {
                 color: "rgba(92, 117,154)",
               }}
             >
-              {allCampaignsFilter}
+             {allCampaignsFilter} 
               <span style={{ paddingLeft: "45px", paddingBottom: "3px" }}>
                 <DownArrow />
               </span>
@@ -208,7 +234,7 @@ const LeadsHeader = () => {
               textTransform: "none",
               height: "40px",
               minWidth: "181px",
-              justifyContent: "flex-start",
+              justifyContent: "space-between",
               padding: "10px",
               fontWeight: "600",
               borderRadius: "10px",
@@ -269,6 +295,30 @@ const LeadsHeader = () => {
               );
             })}
           </Menu>
+          <BootstrapTooltip
+            placement="top"
+            sx={{ color: "black" }}
+            title="Filter"
+            arrow
+          >
+            <Button onClick={clearFilterTab}
+              style={{
+                fontFamily: "Segoe UI",
+                textTransform: "none",
+                height: "40px",
+                width: "40px",
+                fontWeight: "600",
+                padding: "10px",
+                borderRadius: "10px",
+                marginLeft: "5px",
+                backgroundColor: "#44A98B",
+                color: "rgba(255, 255, 255, 1)",
+              }}
+            >
+              <FilterAltRoundedIcon />
+            </Button>
+
+          </BootstrapTooltip>
         </div>
       </div>
     </>

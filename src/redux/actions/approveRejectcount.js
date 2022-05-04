@@ -1,7 +1,8 @@
 import {GET_APPROVE_COUNT,
     GET_REJECT_COUNT,
     GET_UNDERREVIEW_COUNT,
-    GET_ARCHIEVE_COUNT
+    GET_ARCHIEVE_COUNT,
+    GET_ALL_COUNT
 } from "../type"
 
 export const getApproveCount = (count) =>{
@@ -25,5 +26,11 @@ export const getUnderreviewCount = (count) =>{
 export const getArchieveCount = (count) =>{
     return async(dispatch) => {
         dispatch({type:GET_ARCHIEVE_COUNT, payload:count})
+    }
+}
+
+export const getAllCount = (count) => {
+    return async(dispatch) => {
+        dispatch({type:GET_ALL_COUNT, payload:count})
     }
 }
