@@ -24,6 +24,7 @@ import { get_a_feild_in_a_document } from "../../../services/api/campaign";
 import CampaignDetailsView from "./CampaignDetailsView";
 import { Link } from "react-router-dom";
 import * as leadsFilterActions from "../../../redux/actions/leadsFilter";
+import AlertBeforeAction from "./AlertBeforeAction";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -51,6 +52,9 @@ const Table = () => {
   const [order, setOrder] = useState("descendingOrder");
   const [viewDetails, setViewDetails] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [idForDelete, setIdForDelete] = useState("");
+  const [campaignName, setCampaignName] = useState("");
 
   useEffect(() => {
     dispatch(campaignActions.getAllCampaignsAction());
@@ -58,6 +62,15 @@ const Table = () => {
   }, []);
 
   useEffect(() => {
+    campaignList.forEach((element) => {
+      let leadsCount = 0
+      leadsList.map((ele) => {
+        if (element.id === ele.campaignId) {
+          leadsCount++;
+        }
+      });
+      element.leadsNo = leadsCount
+    })
     setCampaignListData(campaignList);
     setLeadsListData(leadsList);
   }, [campaignList, leadsList]);
@@ -124,6 +137,7 @@ const Table = () => {
           item[key].toString().toLowerCase().includes(lowerCasedValue)
         );
       });
+      console.log("filteredData", filteredData);
       setCampaignListData(filteredData);
     }
   };
@@ -147,7 +161,6 @@ const Table = () => {
     if (day.length < 2) day = "0" + day;
     return [day, month, year].join("/");
   }
-
   return (
     <React.Fragment>
       <div>
@@ -157,7 +170,7 @@ const Table = () => {
               <tr>
                 <th className="campaign-name">Campaign Name</th>
                 <th className="location">Location</th>
-                <th className="numOfLeads">No. of Leads</th>
+                <th className="numOfLeads" style={{cursor:'pointer'}} onClick={() => {sortingTable("leadsNo")}}>No. of Leads</th>
                 <th
                   className="headerHover start-date"
                   onClick={() => {
@@ -398,11 +411,9 @@ const Table = () => {
                                         }
                                   }
                                   onClick={() => {
-                                    dispatch(
-                                      campaignActions.deleteCampaignsAction(
-                                        campaignListItem.id
-                                      )
-                                    );
+                                    setOpenAlert(true);
+                                    setCampaignName(campaignListItem.name);
+                                    setIdForDelete(campaignListItem.id);
                                   }}
                                 >
                                   <Delete />
@@ -424,6 +435,14 @@ const Table = () => {
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
         viewDetails={viewDetails}
+      />
+      <AlertBeforeAction
+        open={openAlert}
+        setOpenAlert={setOpenAlert}
+        campaignItemId={idForDelete}
+        setIdForDelete={setIdForDelete}
+        campaignName={campaignName}
+        setCampaignName={setCampaignName}
       />
     </React.Fragment>
   );

@@ -3,6 +3,7 @@ import {
   FILTER_LEADS_OWNERNAME,
   FILTER_LEADS_SEARCH,
   FILTER_LEADS_DATE,
+  FILTER_LEADS_CLEAR
 } from "../type";
 
 
@@ -23,7 +24,15 @@ export const leadsFilterReducer = (state = initialState, { type, payload }) => {
       return { ...state, searchQuery: payload };
     case FILTER_LEADS_DATE:
       return { ...state, filterDate: payload };
+    case FILTER_LEADS_CLEAR:
+      return {
+        ...state, 
+        campaignName: "All Campaigns",
+        ownerName: "All Owners",
+        searchQuery: "",
+        filterDate: ""
+      }
     default:
-      return { ...state };
+      return { ...state, };
   }
 };

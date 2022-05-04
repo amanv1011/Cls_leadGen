@@ -7,6 +7,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
+import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import { ListItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 const drawerWidth = 200;
@@ -22,7 +23,7 @@ const sideBarList = [
     url: "/campaign",
   },
   {
-    icon: <WidgetsIcon />,
+    icon: <WysiwygIcon />,
     title: "Leads",
     url: "/leads",
   },
