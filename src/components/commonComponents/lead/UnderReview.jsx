@@ -35,7 +35,7 @@ const UnderReview = () => {
   ) {
     let campaignIds = campgainData
     leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterUnderreview = filterLeads(campaignIds,underReviewList,searchDate,searchQuery)
+    filterUnderreview = filterLeads(campaignIds,underReviewList,searchDate,searchQuery,false)
   }
   if (
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
@@ -43,7 +43,7 @@ const UnderReview = () => {
   ) {
     let campaignIds = campgainData.filter((ele) => ele.owner === ownerNameFilter);
     leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterUnderreview = filterLeads(campaignIds,underReviewList,searchDate,searchQuery)
+    filterUnderreview = filterLeads(campaignIds,underReviewList,searchDate,searchQuery,true)
   }
 
   if (
@@ -52,7 +52,7 @@ const UnderReview = () => {
   ) {
     let campaignIds = campgainData.filter((ele) => ele.name === campaignNameFilter);
     leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterUnderreview = filterLeads(campaignIds,underReviewList,searchDate,searchQuery)
+    filterUnderreview = filterLeads(campaignIds,underReviewList,searchDate,searchQuery,true)
   }
 
   if (
@@ -63,7 +63,7 @@ const UnderReview = () => {
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
     leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterUnderreview = filterLeads(campaignIds,underReviewList,searchDate,searchQuery)
+    filterUnderreview = filterLeads(campaignIds,underReviewList,searchDate,searchQuery,true)
   }
 
  
