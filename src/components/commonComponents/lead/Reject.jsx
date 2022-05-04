@@ -38,7 +38,7 @@ const Reject = () => {
   ) {
     let campaignIds = campgainData
     leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterReject = filterLeads(campaignIds,rejectList,searchDate,searchQuery)
+    filterReject = filterLeads(campaignIds,rejectList,searchDate,searchQuery,false)
     
   }
   if (
@@ -47,7 +47,7 @@ const Reject = () => {
   ) {
     let campaignIds = campgainData.filter((ele) => ele.owner === ownerNameFilter);
     leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterReject = filterLeads(campaignIds,rejectList,searchDate,searchQuery)
+    filterReject = filterLeads(campaignIds,rejectList,searchDate,searchQuery,true)
   }
 
   if (
@@ -56,7 +56,7 @@ const Reject = () => {
   ) {
     let campaignIds = campgainData.filter((ele) => ele.name === campaignNameFilter);
     leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterReject = filterLeads(campaignIds,rejectList,searchDate,searchQuery)
+    filterReject = filterLeads(campaignIds,rejectList,searchDate,searchQuery,true)
   }
 
   if (
@@ -67,7 +67,7 @@ const Reject = () => {
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
     leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterReject = filterLeads(campaignIds,rejectList,searchDate,searchQuery)
+    filterReject = filterLeads(campaignIds,rejectList,searchDate,searchQuery,true)
   }
 
   const rejectListCount = leadListForCount.filter((ele) => ele.status === -1);
