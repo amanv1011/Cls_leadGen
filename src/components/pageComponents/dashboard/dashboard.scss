@@ -1,22 +1,18 @@
 @font-face {
   font-family: Proxima-Nova;
-  src: url('../../../fonts/Proxima-Nova.otf');
+  src: url("../../../fonts/Proxima-Nova.otf");
 }
 
 .dashboard-container {
-  background: #F5F7FB;
-
-
+  background: #f5f7fb;
   width: 100%;
   height: 100%;
-  
-
+  // overflow: hidden;
   .dshboard-content {
-    margin: 30px 30px 30px 110px;
+    margin: 15px 30px 15px 110px;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    
+    height: calc(100vh - 90px);
 
     .dashboard-title {
       font-size: 26px;
@@ -75,17 +71,18 @@
   height: 150px;
   display: flex;
   justify-content: space-between;
-
 }
 
 .dash-lead-box {
-  display: flex;
+  display: inline-flex;
   height: 130px;
+  width: auto;
   flex-wrap: wrap;
   border-radius: 20px;
   align-items: center;
-  padding-left: 33px;
-  padding-right: 52px;
+  box-sizing: border-box;
+  padding: 12px;
+  // padding-right: 52px;
   background-color: #ffffff;
 }
 
@@ -95,20 +92,17 @@
   border-radius: 20px;
 }
 
-
 .dash-card-head {
-
   font-style: normal;
   font-weight: 600;
   font-size: 26px;
   margin-top: 11px;
   margin-bottom: 0px;
   text-transform: capitalize;
-  color: #1F4173;
+  color: #1f4173;
 }
 
 .dash-card-subhead {
-
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -117,21 +111,12 @@
   letter-spacing: -0.02em;
   text-transform: capitalize;
 
-  color: #1F4173;
+  color: #1f4173;
 
   opacity: 0.7;
 }
-
-@media only screen and (max-width: 1310px) {
-  .dash-lead-box {
-    padding-left: 10px;
-    padding-right: 15px;
-  }
-}
-
 .dashboard-content-second {
-  background: #F5F7FB;
-
+  background: #f5f7fb;
 
   width: 100%;
   height: 100%;

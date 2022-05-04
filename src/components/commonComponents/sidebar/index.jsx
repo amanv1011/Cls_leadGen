@@ -1,78 +1,56 @@
-import React from "react";
-import {
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  List,
-  Typography,
-  useMediaQuery,
-  IconButton,
-} from "@mui/material";
-import MuiDrawer from "@mui/material/Drawer";
+import * as React from "react";
 import { styled } from "@mui/material/styles";
-import ViewCompactOutlinedIcon from "@mui/icons-material/ViewCompactOutlined";
-import TableRowsOutlinedIcon from "@mui/icons-material/TableRowsOutlined";
-import SettingsIcon from "@mui/icons-material/Settings";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import "./sidebar.scss";
-import Close from "@mui/icons-material/Close";
-import backButton from "../../../assets/backButton.svg";
-
-
-
-const drawerWidth = 300;
-const sideBarComponents1 = [
+import Box from "@mui/material/Box";
+import MuiDrawer from "@mui/material/Drawer";
+import Divider from "@mui/material/Divider";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import WidgetsIcon from "@mui/icons-material/Widgets";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
+import WysiwygIcon from "@mui/icons-material/Wysiwyg";
+import { ListItem } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+const drawerWidth = 200;
+const sideBarList = [
   {
-    icon: <ViewCompactOutlinedIcon />,
-    name: "Manage Deployments",
+    icon: <WidgetsIcon />,
+    title: "Dashboard",
+    url: "/",
   },
   {
-    icon: <TableRowsOutlinedIcon />,
-    name: "Integrations",
-  },
-];
-
-const sideBarComponents2 = [
-  {
-    icon: <SettingsIcon />,
-    name: "Account Settings",
+    icon: <HourglassBottomIcon />,
+    title: "Campaign",
+    url: "/campaign",
   },
   {
-    icon: <HelpOutlineOutlinedIcon />,
-    name: "Support",
+    icon: <WysiwygIcon />,
+    title: "Leads",
+    url: "/leads",
   },
 ];
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
-  backgroundColor: "#FFFFFF",
-  borderRadius: "0 8px 8px 0",
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-  [theme.breakpoints.down("sm")]: {
-    position: "fixed",
-    zIndex: 10,
-  },
+  marginTop: "60px",
 });
 
 const closedMixin = (theme) => ({
-  backgroundColor: "#FFFFFF",
-  border: "none",
-  boxShadow: "none",
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
-  width: `calc(${theme.spacing(6)} + 1px)`,
+  border: "none",
+  marginTop: "60px",
+  boxShadow: "0 1px 3px 0 rgb(0 0 0 / 15%)",
+  width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(9)} + 1px)`,
-  },
-  [theme.breakpoints.down("sm")]: {
-    display: "none",
+    width: `calc(${theme.spacing(7)} + 1px)`,
   },
 });
 
@@ -83,6 +61,7 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
+
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
@@ -93,66 +72,67 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function SideBar({ open, closeMenu }) {
-  const resize = useMediaQuery("(max-width:600px)");
+export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
+  const navigate = useNavigate();
   return (
-    <>
-      <Drawer variant="permanent" open={open}>
-        <IconButton size="small" aria-label="show 4 new mails" color="inherit">
-          <img src={backButton} alt="back button" />
-        </IconButton>
-        {resize ? (
-          <IconButton className={"sidebar-backButton"} onClick={closeMenu}>
-            <Close sx={{ color: "#ffffff" }} />
-          </IconButton>
-        ) : null}
-        {open && (
-          <Typography className="list-head">Project Navigation</Typography>
-        )}
-        <List>
-          {sideBarComponents1.map((item, index) => (
-            <ListItem
-              button
-              key={item.name}
-              className={
-                open && index === 0
-                  ? "list-item-selected"
-                  : open && index !== 0
-                  ? "list-item"
-                  : !open && index === 0
-                  ? "list-item-colsed-selected"
-                  : "list-item-colsed"
-              }
+    <Box
+      className="box-main"
+      sx={{ display: "flex", border: "none ", marginTop: "-60px" }}
+    >
+      <Drawer className="drawer-main" variant="permanent" open={open}>
+        {/* <List>
+          {["Dashboard", "Campagin", "Leads"].map((text, index) => (
+            <ListItemButton
+              key={text}
+              sx={{
+                minHeight: 40,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
             >
-              <ListItemIcon className="list-item-icon">
-                {item.icon}
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                {index === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText
-                primary={item.name}
-                className={open ? "list-item-text" : "list-item-text-closed"}
-              />
-            </ListItem>
+              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
           ))}
-        </List>
-        {open && <Typography className="list-head">User Navigation</Typography>}
-        <List>
-          {sideBarComponents2.map((item, index) => (
-            <ListItem
-              button
-              key={item.name}
-              className={open ? "list-item" : "list-item-colsed"}
-            >
-              <ListItemIcon className="list-item-icon">
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={item.name}
-                className={open ? "list-item-text" : "list-item-text-closed"}
-              />
-            </ListItem>
-          ))}
-        </List>
+        </List> */}
+        {sideBarList.map((item, index) => (
+          <ListItem
+            button
+            key={item.title}
+            className={
+              open && index === 0
+                ? "list-item-selected"
+                : open && index !== 0
+                ? "list-item"
+                : !open && index === 0
+                ? "list-item-closed-selected"
+                : "list-item-closed"
+            }
+            onClick={() => {
+              navigate(item.url);
+              handleDrawerClose();
+            }}
+          >
+            <ListItemIcon className="list-item-icon">{item.icon}</ListItemIcon>
+            <ListItemText
+              primary={item.title}
+              className={open ? "list-item-text" : "list-item-text-closed"}
+            />
+          </ListItem>
+        ))}
+        <Divider />
       </Drawer>
-    </>
+      {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <DrawerHeader />
+      </Box> */}
+    </Box>
   );
 }

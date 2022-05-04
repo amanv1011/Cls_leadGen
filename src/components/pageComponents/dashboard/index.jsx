@@ -32,6 +32,14 @@ const Dashboard = ({ children }) => {
   let [yesterdaysLeads, setYesterdaysLeads] = useState(0);
   let [weeklyLeadsPer, setWeeklyLeadsPer] = useState(0);
   let [weeklyLeads, setWeeklyLeads] = useState(0);
+  const [open, setOpen] = useState(false);
+
+  const handleDrawer = () => {
+    setOpen(!open);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   const navigate = useNavigate();
   const viewMore = () => {
@@ -134,14 +142,18 @@ const Dashboard = ({ children }) => {
   return (
     <div
       className="dashboard-container"
-      style={
-        window.location.pathname === "/"
-          ? { height: "100vh" }
-          : { height: "100%" }
-      }
+      // style={
+      //   window.location.pathname === "/"
+      //     ? { height: "100vh" }
+      //     : { height: "100%" }
+      // }
     >
-      <Navbar />
-      <SideBar />
+      <Navbar open={open} handleDrawer={handleDrawer} />
+      <SideBar
+        open={open}
+        handleDrawer={handleDrawer}
+        handleDrawerClose={handleDrawerClose}
+      />
 
       <Box component="div" className="dshboard-content">
         <Box
@@ -150,7 +162,7 @@ const Dashboard = ({ children }) => {
             flexDirection: "row",
             alignItems: "center",
             marginLeft: "-25px",
-            marginBottom: "20px",
+            marginBottom: "5px",
           }}
         >
           <IconButton onClick={goBack}>
@@ -171,7 +183,7 @@ const Dashboard = ({ children }) => {
                   barName={"ACTIVE"}
                   innerColor={"#EFECFF"}
                 />
-                <div style={{ marginLeft: "20px" }}>
+                <div style={{ marginLeft: "10px" }}>
                   <h3 className="dash-card-head">{activeCamp}</h3>
                   <p className="dash-card-subhead">Active Campaigns</p>
                 </div>
@@ -183,7 +195,7 @@ const Dashboard = ({ children }) => {
                   barName={"LEADS"}
                   innerColor={"#FFF3F0"}
                 />
-                <div style={{ marginLeft: "20px" }}>
+                <div style={{ marginLeft: "10px" }}>
                   <h3 className="dash-card-head">{leadsExtracted}</h3>
                   <p className="dash-card-subhead">Leads Extracted</p>
                 </div>
@@ -198,7 +210,7 @@ const Dashboard = ({ children }) => {
 
                 <div
                   style={{
-                    marginLeft: "20px",
+                    marginLeft: "10px",
                     display: "flex",
                     paddingBottom: "16px",
                   }}

@@ -1,8 +1,8 @@
 .table-container {
   width: 100%;
   box-sizing: border-box;
-  border-radius:20px;
-  
+  border-radius: 20px;
+
   align-items: center;
   .table-main {
     width: 100%;
@@ -15,30 +15,28 @@
       width: 100%;
       height: 45px;
       text-align: left;
-     
+
       .table-header-row-data {
         text-align: left;
-        
+
         font-size: 14px;
         font-style: normal;
         font-weight: 600;
         line-height: 17px;
         letter-spacing: 0em;
-        color:#1F4173;
+        color: #1f4173;
         text-align: left;
-        
       }
     }
     .table-body-row {
       width: 100%;
       height: 45px;
       text-align: left;
-      
+
       .table-body-row-data {
-        
         font-size: 14px;
         font-style: normal;
-        font-weight: 600  !important;
+        font-weight: 600 !important;
         line-height: 17px;
         letter-spacing: 0em;
         text-align: left;
@@ -49,35 +47,29 @@
   }
 }
 
-.table-heading{
-  
-font-style: normal;
-font-weight: 600;
-font-size: 20px;
-line-height: 24px;
+.table-heading {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
 
-color: #000000;
-
+  color: #000000;
 }
 
-.sortIcon{
+.sortIcon {
   width: 16px;
   height: 16px;
 }
 
-.table-scroll{
-  height: 44vh;
-  overflow-y:scroll;
+.table-scroll {
+  height: 40vh;
+  overflow-y: scroll;
   scrollbar-width: thin;
-  
-
-
 }
 
-.table-scroll::-webkit-scrollbar-thumb{
+.table-scroll::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
-
 
 .table-scroll::-webkit-scrollbar {
   height: 10px;
