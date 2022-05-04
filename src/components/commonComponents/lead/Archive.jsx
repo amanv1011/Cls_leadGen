@@ -3,13 +3,13 @@ import React from 'react'
 import Cards from "./Cards";
 import { useSelector, useDispatch } from "react-redux";
 import  { useEffect } from "react";
-import moment from "moment";
+import {filterLeads} from "../lead/filterLeads"
 import {getRejectCount} from "../../../redux/actions/approveRejectcount"
 import {getUnderreviewCount} from "../../../redux/actions/approveRejectcount"
 import {getApproveCount} from "../../../redux/actions/approveRejectcount"
 import {getArchieveCount} from "../../../redux/actions/approveRejectcount"
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
-import Fuse from "fuse.js";
+import {filterCount} from "../lead/filterCount"
 import PopupBox from "./PopupBox";
 const Archive = () => {
   const dispatch = useDispatch()
@@ -22,271 +22,45 @@ const Archive = () => {
   const archieveList = genratedLeadData.filter((ele) => ele.status === 2)
 
   var filterArchieve;
-  var filterArchieveResults;
-  var campaignID;
   var leadListForCount;
-  var campaignIdCount;
 
-   //For Counting Leads
-
-   //For Counting Leads
-
-   if (
-    campaignNameFilter === "All Campaigns" &&
-    ownerNameFilter === "All Owners"
-  ) {
-    leadListForCount = [];
-     leadListForCount = genratedLeadData;
-  }
-  if (
-    campaignNameFilter !== "All Campaigns" ||
-    ownerNameFilter !== "All Owners"
-  ) {
-     
-    if (
-      campaignNameFilter !== "All Campaigns" &&
-      ownerNameFilter === "All Owners"
-    ) {
-      leadListForCount = [];
-       campaignIdCount = campgainData.filter(
-        (ele) => ele.name === campaignNameFilter
-      );
-      for (let i = 0; i < campaignIdCount.length; i++) {
-        for (let j = 0; j < genratedLeadData.length; j++) {
-          if (genratedLeadData[j].campaignId === campaignIdCount[i].id) {
-            leadListForCount.push(genratedLeadData[j]);
-          }
-        }
-      }
-    }
-    if (
-      campaignNameFilter === "All Campaigns" &&
-      ownerNameFilter !== "All Owners"
-    ) {
-      leadListForCount = [];
-       campaignIdCount = campgainData.filter(
-        (ele) => ele.owner === ownerNameFilter
-      );
-      for (let i = 0; i < campaignIdCount.length; i++) {
-        for (let j = 0; j < genratedLeadData.length; j++) {
-          if (genratedLeadData[j].campaignId === campaignIdCount[i].id) {
-            leadListForCount.push(genratedLeadData[j]);
-          }
-        }
-      }
-    }
-    if (
-      campaignNameFilter !== "All Campaigns" &&
-      ownerNameFilter !== "All Owners"
-    ) {
-      leadListForCount = [];
-       campaignIdCount = campgainData.filter(
-        (ele) =>
-          ele.name === campaignNameFilter && ele.owner === ownerNameFilter
-      );
-      for (let i = 0; i < campaignIdCount.length; i++) {
-        for (let j = 0; j < genratedLeadData.length; j++) {
-          if (genratedLeadData[j].campaignId === campaignIdCount[i].id) {
-            leadListForCount.push(genratedLeadData[j]);
-          }
-        }
-      }
-    }
-  }
 
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
-    if(searchDate === ""){
-      const fuse = new Fuse(archieveList, {
-        keys: ["title", "summary", "companyName"],
-      });
-      const results = fuse.search(searchQuery);
-       filterArchieve = searchQuery
-        ? results.map((results) => results.item)
-        : archieveList;
-    }
-    if(searchDate !== ""){
-      
-
-       filterArchieveResults = []
-      for (let i = 0; i < archieveList.length; i++){
-        const start = moment(searchDate.start).format("YYYY-MM-DD")
-        const end = moment(searchDate.end).format("YYYY-MM-DD")
-        const between =  moment.unix(archieveList[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
-        const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
-        const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
-        const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
-        
-
-        if(unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd){
-          filterArchieveResults.push(archieveList[i])
-        }
-      }
-      const fuse = new Fuse(filterArchieveResults, {
-        keys: ["title", "summary", "companyName"],
-      });
-      const results = fuse.search(searchQuery);
-       filterArchieve = searchQuery
-        ? results.map((results) => results.item)
-        : filterArchieveResults;
-    
-      
-     
-    }
-    
-
-
+    let campaignIds = campgainData
+    leadListForCount = filterCount(campaignIds,genratedLeadData)
+    filterArchieve = filterLeads(campaignIds,archieveList,searchDate,searchQuery)
   }
   if (
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
     ownerNameFilter !== "All Owners"
   ) {
-     campaignID = campgainData.filter(
-      (ele) => ele.owner === ownerNameFilter
-    );
-    if(searchDate === ""){
-       filterArchieveResults = [];
-      for (let i = 0; i < campaignID.length; i++) {
-        for (let j = 0; j < archieveList.length; j++) {
-          if (archieveList[j].campaignId === campaignID[i].id) {
-            filterArchieveResults.push(archieveList[j]);
-          }
-        }
-      }
-      const fuse = new Fuse(filterArchieveResults, {
-        keys: ["title", "summary", "companyName"],
-      });
-      const results = fuse.search(searchQuery);
-       filterArchieve = searchQuery
-        ? results.map((results) => results.item)
-        : filterArchieveResults;
-    }
-    if(searchDate !== ""){
-       filterArchieveResults = [];
-      for (let i = 0; i < campaignID.length; i++) {
-        for (let j = 0; j < archieveList.length; j++) {
-          const start = moment(searchDate.start).format("YYYY-MM-DD")
-          const end = moment(searchDate.end).format("YYYY-MM-DD")
-          const between =  moment.unix(archieveList[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
-          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
-          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
-          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
-          if ((archieveList[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
-            filterArchieveResults.push(archieveList[j]);
-          }
-        }
-      }
-      const fuse = new Fuse(filterArchieveResults, {
-        keys: ["title", "summary", "companyName"],
-      });
-      const results = fuse.search(searchQuery);
-       filterArchieve = searchQuery
-        ? results.map((results) => results.item)
-        : filterArchieveResults;
-    }
-
+    let campaignIds = campgainData.filter((ele) => ele.owner === ownerNameFilter);
+    leadListForCount = filterCount(campaignIds,genratedLeadData)
+    filterArchieve = filterLeads(campaignIds,archieveList,searchDate,searchQuery)
   }
 
   if (
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter === "All Owners"
   ) {
-     campaignID = campgainData.filter(
-      (ele) => ele.name === campaignNameFilter
-    );
-    if(searchDate === ""){
-       filterArchieveResults = [];
-      for (let i = 0; i < campaignID.length; i++) {
-        for (let j = 0; j < archieveList.length; j++) {
-          if (archieveList[j].campaignId === campaignID[i].id) {
-            filterArchieveResults.push(archieveList[j]);
-          }
-        }
-      }
-      const fuse = new Fuse(filterArchieveResults, {
-        keys: ["title", "summary", "companyName"],
-      });
-      const results = fuse.search(searchQuery);
-       filterArchieve = searchQuery
-        ? results.map((results) => results.item)
-        : filterArchieveResults;
-    }
-    if(searchDate !== ""){
-       filterArchieveResults = [];
-      for (let i = 0; i < campaignID.length; i++) {
-        for (let j = 0; j < archieveList.length; j++) {
-          const start = moment(searchDate.start).format("YYYY-MM-DD")
-          const end = moment(searchDate.end).format("YYYY-MM-DD")
-          const between =  moment.unix(archieveList[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
-          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
-          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
-          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
-          if ((archieveList[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
-            filterArchieveResults.push(archieveList[j]);
-          }
-        }
-      }
-      const fuse = new Fuse(filterArchieveResults, {
-        keys: ["title", "summary", "companyName"],
-      });
-      const results = fuse.search(searchQuery);
-       filterArchieve = searchQuery
-        ? results.map((results) => results.item)
-        : filterArchieveResults;
-    }
-
+    let campaignIds = campgainData.filter((ele) => ele.name === campaignNameFilter);
+    leadListForCount = filterCount(campaignIds,genratedLeadData)
+    filterArchieve = filterLeads(campaignIds,archieveList,searchDate,searchQuery)
   }
 
   if (
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter !== "All Owners"
   ) {
-     campaignID = campgainData.filter(
+    let campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    if(searchDate === ""){
-       filterArchieveResults = [];
-      for (let i = 0; i < campaignID.length; i++) {
-        for (let j = 0; j < archieveList.length; j++) {
-          if (archieveList[j].campaignId === campaignID[i].id) {
-            filterArchieveResults.push(archieveList[j]);
-          }
-        }
-      }
-      const fuse = new Fuse(filterArchieveResults, {
-        keys: ["title", "summary", "companyName"],
-      });
-      const results = fuse.search(searchQuery);
-       filterArchieve = searchQuery
-        ? results.map((results) => results.item)
-        : filterArchieveResults;
-    }
-    if(searchDate !== ""){
-       filterArchieveResults = [];
-      for (let i = 0; i < campaignID.length; i++) {
-        for (let j = 0; j < archieveList.length; j++) {
-          const start = moment(searchDate.start).format("YYYY-MM-DD")
-          const end = moment(searchDate.end).format("YYYY-MM-DD")
-          const between =  moment.unix(archieveList[i].leadGeneratedDate.seconds).format("YYYY-MM-DD")
-          const unixTimestampStart = Math.floor((new Date(start)).getTime() / 1000);
-          const unixTimestampBetween = Math.floor((new Date(between)).getTime() / 1000);
-          const unixTimestampEnd = Math.floor((new Date(end)).getTime() / 1000);
-          if ((archieveList[j].campaignId === campaignID[i].id) && (unixTimestampStart < unixTimestampBetween && unixTimestampBetween < unixTimestampEnd)) {
-            filterArchieveResults.push(archieveList[j]);
-          }
-        }
-      }
-      const fuse = new Fuse(filterArchieveResults, {
-        keys: ["title", "summary", "companyName"],
-      });
-      const results = fuse.search(searchQuery);
-       filterArchieve = searchQuery
-        ? results.map((results) => results.item)
-        : filterArchieveResults;
-    }
+    leadListForCount = filterCount(campaignIds,genratedLeadData)
+    filterArchieve = filterLeads(campaignIds,archieveList,searchDate,searchQuery)
   }
 
   const rejectList = leadListForCount.filter((ele) => ele.status === -1);

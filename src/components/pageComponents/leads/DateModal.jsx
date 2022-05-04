@@ -31,7 +31,15 @@ export default function DateModal() {
     const filterDate = useSelector((state) => state.leadsFilter.filterDate)
 
     const tempDate = moment().format("MMM DD, YYYY") + " to " + moment().add(7, "days").format("MMM DD, YYYY")
+    const clearField = () => {
+        handleClose();
 
+    };
+
+    const applydate = () => {
+        handleClose();
+
+    }
     const renderSelectionValue = () => {
         return (
             <div >
@@ -57,6 +65,42 @@ export default function DateModal() {
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         <BasicDateRangePicker />
                     </Typography>
+                    <Typography className="button-calender">
+                        <Button onClick={clearField}
+                            style={{
+                                fontFamily: "Segoe UI",
+                                textTransform: "none",
+                                height: "40px",
+                                width: "80px",
+                                fontWeight: "600",
+                                padding: "10px",
+                                borderRadius: "10px",
+                                marginLeft: "5px",
+                                backgroundColor: "#FFC65F",
+                                color: "white",
+                            }}
+                        >
+                            Cancel
+                        </Button>
+                        <Button onClick={applydate}
+                            style={{
+                                fontFamily: "Segoe UI",
+                                textTransform: "none",
+                                height: "40px",
+                                width: "80px",
+                                fontWeight: "600",
+                                padding: "10px",
+                                borderRadius: "10px",
+                                marginLeft: "5px",
+                                backgroundColor: "#44A98B",
+                                color: "white",
+                                
+                            }}
+                        >
+                           Apply
+                        </Button>
+                    </Typography>
+
 
                 </Box>
             </Modal>

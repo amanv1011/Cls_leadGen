@@ -3,6 +3,7 @@ import {
   FILTER_LEADS_OWNERNAME,
   FILTER_LEADS_SEARCH,
   FILTER_LEADS_DATE,
+  FILTER_LEADS_CLEAR
 } from "../type";
 
 export const leadsFilterCampaignName = (campaignNameFilter) => {
@@ -26,5 +27,10 @@ export const leadsFilterSearch = (searchQuery) => {
 export const leadsFilterDate = (filterDate) => {
   return async (dispatch) => {
     dispatch({ type: FILTER_LEADS_DATE, payload: filterDate });
+  };
+};
+export const clearFilters = () => {
+  return async (dispatch) => {
+    dispatch({ type: FILTER_LEADS_CLEAR, payload: "" });
   };
 };
