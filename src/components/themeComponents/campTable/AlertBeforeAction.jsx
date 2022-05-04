@@ -7,6 +7,7 @@ import {
   DialogTitle,
   Slide,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import * as campaignActions from "../../../redux/actions/campaignActions";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -47,8 +48,28 @@ const AlertBeforeAction = ({
           {`Do you really want to delete ${campaignName}?`}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClickOpen}>Delete</Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleClose}
+            style={{
+              borderRadius: "10px",
+              background: "#1F4173",
+              textTransform: "none",
+              fontWeight: "600",
+              opacity: 0.5,
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<DeleteIcon />}
+            color="error"
+            onClick={handleClickOpen}
+          >
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
