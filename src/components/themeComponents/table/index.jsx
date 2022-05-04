@@ -9,7 +9,17 @@ import { useSelector } from "react-redux";
 const Table = (props) => {
   let [currentSort, setCurrentSort] = useState("startdefault");
   let leadData = props.leadData;
+
   const GenratedleadData = useSelector((state) => state.allLeads.leadsList);
+  leadData.forEach((element) => {
+    let leadsCount = 0
+    GenratedleadData.map((ele) => {
+      if (element.id === ele.campaignId) {
+        leadsCount++;
+      }
+    });
+    element.leadsNo = leadsCount
+  })
 
   const sortTypes = {
     startup: {
@@ -20,6 +30,14 @@ const Table = (props) => {
       class: "sort-up",
       fn: (a, b) => a.end_date.seconds - b.end_date.seconds,
     },
+    leadsup: {
+      class: "sort-up",
+      fn: (a, b) => a.leadsNo - b.leadsNo,
+    },
+    statussup: {
+      class: "sort-up",
+      fn: (a, b) => a.status - b.status,
+    },
     startdown: {
       class: "sort-down",
       fn: (a, b) => b.start_date.seconds - a.start_date.seconds,
@@ -28,11 +46,27 @@ const Table = (props) => {
       class: "sort-down",
       fn: (a, b) => b.end_date.seconds - a.end_date.seconds,
     },
+    leadsdown: {
+      class: "sort-down",
+      fn: (a, b) => b.leadsNo - a.leadsNo,
+    },
+    statusdown: {
+      class: "sort-down",
+      fn: (a, b) => b.status - a.status,
+    },
     startdefault: {
       class: "sort",
       fn: (a, b) => a,
     },
     enddefault: {
+      class: "sort",
+      fn: (a, b) => a,
+    },
+    leadsdefault: {
+      class: "sort",
+      fn: (a, b) => a,
+    },
+    statusdefault: {
       class: "sort",
       fn: (a, b) => a,
     },
@@ -55,6 +89,26 @@ const Table = (props) => {
     else if (currentSort === "enddefault") nextSort = "enddown";
     else if (currentSort === "startup" || "startdown" || "startdefault")
       nextSort = "enddefault";
+    setCurrentSort(nextSort);
+  };
+
+  const onSortLeads = () => {
+    let nextSort;
+    if (currentSort === "leadsdown") nextSort = "leadsup";
+    else if (currentSort === "leadsup") nextSort = "leadsdefault";
+    else if (currentSort === "leadsdefault") nextSort = "leadsdown";
+    else if (currentSort === "leadsup" || "leadsdown" || "leadsdefault")
+      nextSort = "leadsdefault";
+    setCurrentSort(nextSort);
+  };
+
+  const onSortStatus = () => {
+    let nextSort;
+    if (currentSort === "statusdown") nextSort = "statussup";
+    else if (currentSort === "statusup") nextSort = "statusdefault";
+    else if (currentSort === "statusdefault") nextSort = "statusdown";
+    else if (currentSort === "statusup" || "statusdown" || "statusdefault")
+      nextSort = "statusdefault";
     setCurrentSort(nextSort);
   };
 
@@ -82,22 +136,22 @@ const Table = (props) => {
               >
                 Campaign
               </th>
-              <th className="table-header-row-data">No. of Leads</th>
-              <th className="table-header-row-data" onClick={onSortStart}>
+              <th className="table-header-row-data" style={{ cursor: "pointer" }} onClick={onSortLeads}>No. of Leads</th>
+              <th className="table-header-row-data" style={{ cursor: "pointer" }} onClick={onSortStart}>
                 Start Date
                 <KeyboardArrowDownIcon
                   viewBox="0 0 30 10"
                   style={{ width: "16px", height: "16px" }}
                 />
               </th>
-              <th className="table-header-row-data" onClick={onSortEnd}>
+              <th className="table-header-row-data" style={{ cursor: "pointer" }} onClick={onSortEnd}>
                 End Date
                 <KeyboardArrowDownIcon
                   viewBox="0 0 30 10"
                   style={{ width: "16px", height: "16px" }}
                 />
               </th>
-              <th className="table-header-row-data">
+              <th className="table-header-row-data" style={{ cursor: "pointer" }} onClick={onSortStatus}>
                 Status
                 <KeyboardArrowDownIcon
                   viewBox="0 0 30 10"
@@ -113,16 +167,12 @@ const Table = (props) => {
               {
                 let timestampStart = element.start_date.seconds;
                 let timestampEnd = element.end_date.seconds;
-                var leadsCount = 0;
+                
                 var startDate = moment
                   .unix(timestampStart)
                   .format("MM/DD/YYYY");
                 var endDate = moment.unix(timestampEnd).format("MM/DD/YYYY");
-                GenratedleadData.map((ele) => {
-                  if (element.id === ele.campaignId) {
-                    leadsCount++;
-                  }
-                });
+
               }
 
               return (
@@ -133,7 +183,7 @@ const Table = (props) => {
                   >
                     {element.name}
                   </td>
-                  <td className="table-body-row-data">{leadsCount}</td>
+                  <td className="table-body-row-data">{element.leadsNo}</td>
                   <td className="table-body-row-data">{startDate}</td>
                   <td className="table-body-row-data">{endDate}</td>
                   <td className="table-body-row-data">

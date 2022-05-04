@@ -58,6 +58,15 @@ const Table = () => {
   }, []);
 
   useEffect(() => {
+    campaignList.forEach((element) => {
+      let leadsCount = 0
+      leadsList.map((ele) => {
+        if (element.id === ele.campaignId) {
+          leadsCount++;
+        }
+      });
+      element.leadsNo = leadsCount
+    })
     setCampaignListData(campaignList);
     setLeadsListData(leadsList);
   }, [campaignList, leadsList]);
@@ -157,7 +166,7 @@ const Table = () => {
               <tr>
                 <th className="campaign-name">Campaign Name</th>
                 <th className="location">Location</th>
-                <th className="numOfLeads">No. of Leads</th>
+                <th className="numOfLeads" style={{cursor:'pointer'}} onClick={() => {sortingTable("leadsNo")}}>No. of Leads</th>
                 <th
                   className="headerHover start-date"
                   onClick={() => {
