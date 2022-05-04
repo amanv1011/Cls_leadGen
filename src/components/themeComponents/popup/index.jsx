@@ -39,7 +39,7 @@ function AddCampaginModal() {
     end_date: formatDate(new Date()),
     end_time: "",
     pages: 0,
-    status: 0,
+    status: 1,
   });
 
   const {
@@ -153,7 +153,7 @@ function AddCampaginModal() {
       end_date: formatDate(new Date()),
       end_time: "",
       pages: 0,
-      status: 0,
+      status: 1,
     });
     setTags([]);
   };
@@ -169,7 +169,7 @@ function AddCampaginModal() {
   }
   return (
     <React.Fragment>
-      <div className="add" style={{ display: " -webkit-inline-box" }}>
+      <div className="add" style={{ display: "-webkit-inline-box" }}>
         <IInput
           type={"text"}
           placeholder={"Search"}
@@ -413,7 +413,6 @@ function AddCampaginModal() {
                   required
                 />
               </Grid>
-              <Grid item xs={4}></Grid>
               <Grid item xs={4}>
                 <label className="addCampaignModal-labels">
                   Extract No. Of Pages(s)
@@ -460,6 +459,7 @@ function AddCampaginModal() {
                     }}
                     onClick={() => {
                       dispatch(campaignActions.handleClose());
+                      dispatch(campaignActions.campaignIDAction(""));
                       setAddCampaignDetails({
                         name: "",
                         source: "",
@@ -471,7 +471,7 @@ function AddCampaginModal() {
                         end_date: formatDate(new Date()),
                         end_time: "",
                         pages: 0,
-                        status: 0,
+                        status: 1,
                       });
                       setTags([]);
                     }}
