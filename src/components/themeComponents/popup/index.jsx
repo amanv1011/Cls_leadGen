@@ -31,15 +31,15 @@ function AddCampaginModal() {
   const [addCampaignDetails, setAddCampaignDetails] = useState({
     name: "",
     source: "",
-    frequency: 0,
+    frequency: "",
     location: "",
-    start_date: formatDate(new Date()),
+    start_date: "",
     start_time: "",
-    last_crawled_date: formatDate(new Date()),
-    end_date: formatDate(new Date()),
+    last_crawled_date: "",
+    end_date: "",
     end_time: "",
-    pages: 0,
-    status: 0,
+    pages: "",
+    status: 1,
   });
 
   const {
@@ -145,15 +145,15 @@ function AddCampaginModal() {
     setAddCampaignDetails({
       name: "",
       source: "",
-      frequency: 0,
+      frequency: "",
       location: "",
-      start_date: formatDate(new Date()),
+      start_date: "",
       start_time: "",
-      last_crawled_date: formatDate(new Date()),
-      end_date: formatDate(new Date()),
+      last_crawled_date: "",
+      end_date: "",
       end_time: "",
-      pages: 0,
-      status: 0,
+      pages: "",
+      status: 1,
     });
     setTags([]);
   };
@@ -169,7 +169,7 @@ function AddCampaginModal() {
   }
   return (
     <React.Fragment>
-      <div className="add" style={{ display: " -webkit-inline-box" }}>
+      <div className="add" style={{ display: "-webkit-inline-box" }}>
         <IInput
           type={"text"}
           placeholder={"Search"}
@@ -413,7 +413,6 @@ function AddCampaginModal() {
                   required
                 />
               </Grid>
-              <Grid item xs={4}></Grid>
               <Grid item xs={4}>
                 <label className="addCampaignModal-labels">
                   Extract No. Of Pages(s)
@@ -460,18 +459,19 @@ function AddCampaginModal() {
                     }}
                     onClick={() => {
                       dispatch(campaignActions.handleClose());
+                      dispatch(campaignActions.campaignIDAction(""));
                       setAddCampaignDetails({
                         name: "",
                         source: "",
-                        frequency: 0,
+                        frequency: "",
                         location: "",
-                        start_date: formatDate(new Date()),
+                        start_date: "",
                         start_time: "",
-                        last_crawled_date: formatDate(new Date()),
-                        end_date: formatDate(new Date()),
+                        last_crawled_date: "",
+                        end_date: "",
                         end_time: "",
-                        pages: 0,
-                        status: 0,
+                        pages: "",
+                        status: 1,
                       });
                       setTags([]);
                     }}

@@ -249,6 +249,7 @@ const Table = () => {
                         <td className="location">
                           {campaignListItem.location}
                         </td>
+
                         <td
                           className="numOfLeads"
                           onClick={() => {
@@ -277,25 +278,34 @@ const Table = () => {
                             }
                           }}
                         >
-                          <Link
-                            to={
+                          <Tooltip
+                            title={
                               getNumOfLeads(campaignListItem.id)
-                                ? "/leads"
-                                : false
+                                ? `Browse ${campaignListItem.name} leads`
+                                : "No Leads"
                             }
-                            style={
-                              getNumOfLeads(campaignListItem.id) === 0
-                                ? {
-                                    pointerEvents: "auto",
-                                    cursor: "not-allowed",
-                                  }
-                                : {}
-                            }
+                            arrow
                           >
-                            {getNumOfLeads(campaignListItem.id)
-                              ? getNumOfLeads(campaignListItem.id)
-                              : "No Leads"}
-                          </Link>
+                            <Link
+                              to={
+                                getNumOfLeads(campaignListItem.id)
+                                  ? "/leads"
+                                  : false
+                              }
+                              style={
+                                getNumOfLeads(campaignListItem.id) === 0
+                                  ? {
+                                      pointerEvents: "auto",
+                                      cursor: "not-allowed",
+                                    }
+                                  : {}
+                              }
+                            >
+                              {getNumOfLeads(campaignListItem.id)
+                                ? getNumOfLeads(campaignListItem.id)
+                                : "No Leads"}
+                            </Link>
+                          </Tooltip>
                         </td>
 
                         <td className="start-date">
@@ -312,7 +322,7 @@ const Table = () => {
                             <StatusInActive />
                           )}
                         </td>
-                        <td className="green-switch">
+                        {/* <td className="green-switch">
                           <GreenSwitch
                             className="toggleSwitch"
                             defaultChecked={
@@ -322,9 +332,18 @@ const Table = () => {
                               statusUpdate(event, campaignListItem.id)
                             }
                           />
-                        </td>
+                        </td> */}
                         <td className="actions">
-                          <div>
+                          <div className="green-switch">
+                            <GreenSwitch
+                              className="toggleSwitch"
+                              defaultChecked={
+                                campaignListItem.status ? true : false
+                              }
+                              onClick={(event) =>
+                                statusUpdate(event, campaignListItem.id)
+                              }
+                            />
                             <Tooltip
                               title={
                                 getNumOfLeads(campaignListItem.id)
