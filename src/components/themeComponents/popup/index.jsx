@@ -31,14 +31,14 @@ function AddCampaginModal() {
   const [addCampaignDetails, setAddCampaignDetails] = useState({
     name: "",
     source: "",
-    frequency: 0,
+    frequency: "",
     location: "",
-    start_date: formatDate(new Date()),
+    start_date: "",
     start_time: "",
-    last_crawled_date: formatDate(new Date()),
-    end_date: formatDate(new Date()),
+    last_crawled_date: "",
+    end_date: "",
     end_time: "",
-    pages: 0,
+    pages: "",
     status: 1,
   });
 
@@ -145,14 +145,14 @@ function AddCampaginModal() {
     setAddCampaignDetails({
       name: "",
       source: "",
-      frequency: 0,
+      frequency: "",
       location: "",
-      start_date: formatDate(new Date()),
+      start_date: "",
       start_time: "",
-      last_crawled_date: formatDate(new Date()),
-      end_date: formatDate(new Date()),
+      last_crawled_date: "",
+      end_date: "",
       end_time: "",
-      pages: 0,
+      pages: "",
       status: 1,
     });
     setTags([]);
@@ -463,14 +463,14 @@ function AddCampaginModal() {
                       setAddCampaignDetails({
                         name: "",
                         source: "",
-                        frequency: 0,
+                        frequency: "",
                         location: "",
-                        start_date: formatDate(new Date()),
+                        start_date: "",
                         start_time: "",
-                        last_crawled_date: formatDate(new Date()),
-                        end_date: formatDate(new Date()),
+                        last_crawled_date: "",
+                        end_date: "",
                         end_time: "",
-                        pages: 0,
+                        pages: "",
                         status: 1,
                       });
                       setTags([]);
