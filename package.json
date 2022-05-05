@@ -58,6 +58,7 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "redux-logger": "^3.0.6"
   }
 }
