@@ -14,7 +14,6 @@ import PopupBox from "./PopupBox";
 const UnderReview = (props) => {
   const dispatch = useDispatch();
   const genratedLeadData = props.currentLeads;
-  // useSelector((state) => state.allLeads.leadsList);
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName

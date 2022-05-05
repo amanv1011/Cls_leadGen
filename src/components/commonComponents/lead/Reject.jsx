@@ -17,7 +17,6 @@ const Reject = (props) => {
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
   const genratedLeadData = props.currentLeads;
-  // useSelector((state) => state.allLeads.leadsList);
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName

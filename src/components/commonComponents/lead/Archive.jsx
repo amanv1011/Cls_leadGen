@@ -15,7 +15,6 @@ import PopupBox from "./PopupBox";
 const Archive = (props) => {
   const dispatch = useDispatch();
   const genratedLeadData = props.currentLeads;
-  // useSelector((state) => state.allLeads.leadsList);
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
