@@ -1,44 +1,36 @@
-.circular-root{
-    display: grid;
-    align-items: center;
+.circular-root {
+  display: grid;
+  align-items: center;
 }
 
-@font-face { font-family: Roboto-Medium; 
-    src: url('../../../fonts/Roboto-Medium.ttf'); }
-
-.circular-circle{
-    grid-row: 1;
-    grid-column: 1;
-    display: grid;
-    align-items: center;
-
+.circular-circle {
+  grid-row: 1;
+  grid-column: 1;
+  display: grid;
+  align-items: center;
 }
 
-.circular-bar{
-    grid-row: 1;
-    grid-column: 1;
-    margin: 0 auto;
-    z-index: 1;
-
+.circular-bar {
+  grid-row: 1;
+  grid-column: 1;
+  margin: 0 auto;
+  z-index: 1;
 }
 
-.circular-track{
-    grid-row: 1;
-    grid-column: 1;
-    margin: 0 auto;
-    color: aqua;
+.circular-track {
+  grid-row: 1;
+  grid-column: 1;
+  margin: 0 auto;
+  color: aqua;
 }
 
-.bar-name{
-    font-family: Roboto-Medium;   
-font-style: normal;
-font-weight: '500', medium;
-font-size: 12px;
-line-height: 14px;
+.bar-name {
+  font-style: normal;
+  font-weight: "500", medium;
+  font-size: 12px;
+  line-height: 14px;
 
+  text-transform: capitalize;
 
-text-transform: capitalize;
-
-color: #3575FF;
-
+  color: #3575ff;
 }

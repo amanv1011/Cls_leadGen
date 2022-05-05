@@ -4,12 +4,13 @@
   box-sizing: border-box;
 }
 :root {
-  font-family: "Proxima Nova", "Segoe UI";
+  font-family: "Poppins" !important;
 }
-html {
-  font-family: "Proxima Nova", "Segoe UI";
+html,
+* {
+  font-family: "Poppins" !important;
 }
 
 body {
-  font-family: "Proxima Nova", "Segoe UI";
+  font-family: "Poppins" !important;
 }
