@@ -63,8 +63,12 @@
 
 .table-scroll {
   height: 40vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-width: thin;
+}
+
+.table-scroll thead th {
+position: sticky;
 }
 
 .table-scroll::-webkit-scrollbar-thumb {
