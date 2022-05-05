@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
@@ -11,12 +11,21 @@ import UnderReview from "../../commonComponents/lead/UnderReview";
 import Archive from "../../commonComponents/lead/Archive";
 import LeadsHeader from "./leadsHeader";
 import * as XLSX from "xlsx";
+import PaginationComponent from "../../commonComponents/PaginationComponent";
 
 const Leads = () => {
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
   const rejectList = genratedLeadData.filter((ele) => ele.status === -1);
   const underReviewList = genratedLeadData.filter((ele) => ele.status === 0);
+
+  const [leadsListData, setLeadsListData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [leadsPerPage] = useState(10);
+
+  useEffect(() => {
+    setLeadsListData(genratedLeadData);
+  }, [genratedLeadData]);
 
   const downloadLeads = (leadsList, excelFileName) => {
     let workBook = XLSX.utils.book_new();
@@ -55,66 +64,82 @@ const Leads = () => {
     }
   };
 
+  const indexOfLastLead = currentPage * leadsPerPage;
+  const indexOfFirstLead = indexOfLastLead - leadsPerPage;
+  const currentLeads = leadsListData.slice(indexOfFirstLead, indexOfLastLead);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
-    <Box className="leads-container">
-      <Box className="leads-header">
-        <LeadsHeader />
-      </Box>
-      <Box className="leads-table-container">
-        <Box classNAme="leads-header-container" style={{ display: "flex" }}>
-          <BasicTabs type="leadsTabs" />
-          <span>
-            <Button
-              onClick={exportLeadsToExcel}
-              style={{
-                fontFamily: "Segoe UI",
-                textTransform: "none",
-                height: "40px",
-                width: "181px",
-                padding: "10px",
-                borderRadius: "10px",
-                marginLeft: "10px",
-                backgroundColor: "rgba(138,153, 183)",
-                color: "rgba(255, 255, 255, 1)",
-              }}
-            >
-              Export to Excel
-            </Button>
-          </span>
+    <React.Fragment>
+      <Box className="leads-container">
+        <Box className="leads-header">
+          <LeadsHeader />
         </Box>
-        <Box className="leads-table">
-          {window.location.pathname === "/leads" ? (
-            <>
-              <Lead />
-            </>
-          ) : null}
+        <Box className="leads-table-container">
+          <Box classNAme="leads-header-container" style={{ display: "flex" }}>
+            <BasicTabs type="leadsTabs" />
+            <span>
+              <Button
+                onClick={exportLeadsToExcel}
+                style={{
+                  fontFamily: "Segoe UI",
+                  textTransform: "none",
+                  height: "40px",
+                  width: "181px",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  marginLeft: "10px",
+                  backgroundColor: "rgba(138,153, 183)",
+                  color: "rgba(255, 255, 255, 1)",
+                }}
+              >
+                Export to Excel
+              </Button>
+            </span>
+          </Box>
+          <Box className="leads-table">
+            {window.location.pathname === "/leads" ? (
+              <>
+                <Lead currentLeads={currentLeads} />
+              </>
+            ) : null}
 
-          {window.location.pathname === "/leads/approve" ? (
-            <>
-              <Approve />
-            </>
-          ) : null}
+            {window.location.pathname === "/leads/approve" ? (
+              <>
+                <Approve currentLeads={currentLeads} />
+              </>
+            ) : null}
 
-          {window.location.pathname === "/leads/reject" ? (
-            <>
-              <Reject />
-            </>
-          ) : null}
+            {window.location.pathname === "/leads/reject" ? (
+              <>
+                <Reject currentLeads={currentLeads} />
+              </>
+            ) : null}
 
-          {window.location.pathname === "/leads/underreview" ? (
-            <>
-              <UnderReview />
-            </>
-          ) : null}
+            {window.location.pathname === "/leads/underreview" ? (
+              <>
+                <UnderReview currentLeads={currentLeads} />
+              </>
+            ) : null}
 
-          {window.location.pathname === "/leads/archive" ? (
-            <>
-              <Archive />
-            </>
-          ) : null}
+            {window.location.pathname === "/leads/archive" ? (
+              <>
+                <Archive currentLeads={currentLeads} />
+              </>
+            ) : null}
+          </Box>
         </Box>
       </Box>
-    </Box>
+      <div>
+        <PaginationComponent
+          leadsPerPage={leadsPerPage}
+          totalLeads={genratedLeadData.length}
+          paginate={paginate}
+        />
+      </div>
+    </React.Fragment>
   );
 };
 
