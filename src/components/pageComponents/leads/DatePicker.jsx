@@ -4,8 +4,13 @@ import "react-daterange-picker/dist/css/react-calendar.css";
 import originalMoment from "moment";
 import { extendMoment } from "moment-range";
 import "./DatePicker.scss";
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import { leadsFilterDate } from "../../../redux/actions/leadsFilter";
 import { connect } from "react-redux";
+import { handleClose } from "../../../redux/actions/campaignActions";
+import { openDateModal, closeDateModal} from '../../../redux/actions/dateModalAction';
+
 const moment = extendMoment(originalMoment);
 
 class BasicDateRangePicker extends React.Component {
@@ -16,14 +21,23 @@ class BasicDateRangePicker extends React.Component {
 
     this.state = {
       isOpen: true,
-      value: moment.range(today.clone().subtract(7, "days"), today.clone()),
+      value: moment.range(today.clone().subtract(5, "days"), today.clone()),
     };
   }
 
   onSelect = (value, states) => {
     this.setState({ value, states });
-    this.props.leadsFilterDate(value);
+    // this.props.leadsFilterDate(value);
   };
+
+  applyDate = () => {
+    this.props.leadsFilterDate(this.state.value);
+    this.props.closeDateModal()
+    
+  }
+  closeModal = () => {
+    this.props.closeDateModal()
+  }
 
   renderSelectionValue = () => {
     return (
@@ -37,17 +51,59 @@ class BasicDateRangePicker extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.state.isOpen && (
-          <DateRangePicker
-            value={this.state.value}
-            onSelect={this.onSelect}
-            singleDateRange={true}
-          />
-        )}
-      </div>
+      <>
+
+        <div>
+          {this.state.isOpen && (
+            <DateRangePicker
+              value={this.state.value}
+              onSelect={this.onSelect}
+              singleDateRange={true}
+            />
+          )}
+        </div>
+        <div>
+          <Typography className="button-calender">
+            <Button onClick={this.closeModal}
+              style={{
+                fontFamily: "Segoe UI",
+                textTransform: "none",
+                height: "40px",
+                width: "80px",
+                fontWeight: "600",
+                padding: "10px",
+                borderRadius: "10px",
+                marginLeft: "5px",
+                backgroundColor: "#FFC65F",
+                color: "white",
+              }}
+            >
+              Cancel
+            </Button>
+            <Button onClick={this.applyDate}
+              style={{
+                fontFamily: "Segoe UI",
+                textTransform: "none",
+                height: "40px",
+                width: "80px",
+                fontWeight: "600",
+                padding: "10px",
+                borderRadius: "10px",
+                marginLeft: "5px",
+                backgroundColor: "#44A98B",
+                color: "white",
+
+              }}
+            >
+              Apply
+            </Button>
+          </Typography>
+
+        </div>
+      </>
+
     );
   }
 }
-const mapDispatchToProps = { leadsFilterDate };
+const mapDispatchToProps = { leadsFilterDate , openDateModal , closeDateModal };
 export default connect(null, mapDispatchToProps)(BasicDateRangePicker);

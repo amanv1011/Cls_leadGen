@@ -77,11 +77,11 @@ const Cards = (props) => {
                   className="lead-header-title"
                   fontStyle={{display: 'flex', }}
                 >
-                  <Typography sx={{fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600", marginRight:'9px'}} className="lead-header-title-component">
+                  <Typography sx={{fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600", marginRight:'9px', cursor:"pointer"}} className="lead-header-title-component">
                     {ele.title.slice(0, 20)}
                   </Typography>
                   {window.location.pathname === "/leads" ?
-                  ele.status === 1 ? <Chip sx={{fontFamily: "Segoe UI"}} label="Approved" size="small" color="success" variant="outlined" /> : ele.status === -1 ? <Chip sx={{fontFamily: "Segoe UI"}} label="Rejected" size="small" color="error" variant="outlined" /> :ele.status === 2? <Chip sx={{fontFamily: "Segoe UI", color:"#FFBD00",borderColor:"#FFBD00"}} label="Archive" size="small"  variant="outlined" />:null:null
+                  ele.status === 1 ? <Chip sx={{ background:"#16C31E" ,color:"white", fontWeight:"600",height:"20px", width:"82"}} label="Approved" size="small"  /> : ele.status === -1 ? <Chip sx={{background:"#FF6C5F",color:"white", fontWeight:"600", height:"20px", width:"74px"}} label="Rejected" size="small"   /> :ele.status === 2? <Chip sx={{color:"white",background:"#FFD365", fontWeight:"600", height:"20px",width:"67px" }} label="Archive" size="small"   />:null:null
                   }
                   
                   
@@ -106,9 +106,6 @@ const Cards = (props) => {
                     )}
                   </IconButton>
 
-                  <IconButton>
-                    <MoreVertIcon />
-                  </IconButton>
                 </Box>
               </Box>
               <hr className="line" />
