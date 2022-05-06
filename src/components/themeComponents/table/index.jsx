@@ -128,7 +128,7 @@ const Table = (props) => {
       </div>
       <div className="table-scroll">
         <table className="table-main" width="100%">
-          <thead style={{ backgroundColor: "#FAFAFA" }}>
+          <thead style={{ backgroundColor: "#FAFAFA", position:'sticky', top: "0", zIndex:'1'}}>
             <tr className="table-header-row">
               <th
                 style={{ paddingLeft: "20px" }}
