@@ -24,6 +24,8 @@ const Dashboard = ({ children }) => {
 
   let [activeCampPer, setActiveCampPer] = useState(0);
   let [activeCamp, setActiveCamp] = useState(0);
+  let [totalCampPer, setTotalCampPer] = useState(0);
+  let [totalCamp, setTotalCamp] = useState(0);
   let [leadsExtractedPer, setLeadsExtractedPer] = useState(0);
   let [leadsExtracted, setLeadsExtracted] = useState(0);
   let [todaysLeadsPer, setTodaysLeadsPer] = useState(0);
@@ -58,6 +60,8 @@ const Dashboard = ({ children }) => {
   useEffect(() => {
     let ActiveCount = 0;
     let ActivePer = 0;
+    let TotalCount = leadData.length;
+    let TotalPer = 0;
     let leadCount = 0;
     let Today = 0;
     let Weekly = 0;
@@ -67,6 +71,12 @@ const Dashboard = ({ children }) => {
     let YesterdayPer = 0;
     let leadExtracted = 0;
     let currentDate = moment().format("MM/DD/YYYY");
+
+    if (TotalCount === 0) {
+      TotalPer = 0;
+    } else {
+      TotalPer = (TotalCount / (Math.ceil(TotalCount / 100) * 100)) * 100;
+    }
 
     if (leadData !== []) {
       leadData.forEach((ele) => {
@@ -127,11 +137,13 @@ const Dashboard = ({ children }) => {
       WeeklyPer = (Weekly / (Math.ceil(Weekly / 100) * 100)) * 100;
     }
 
+    setTotalCamp(TotalCount);
     setActiveCamp(ActiveCount);
     setLeadsExtracted(leadCount);
     setYesterdaysLeads(Yesterday);
     setTodaysLeads(Today);
     setWeeklyLeads(Weekly);
+    setTotalCampPer(TotalPer);
     setActiveCampPer(ActivePer);
     setLeadsExtractedPer(leadExtracted);
     setTodaysLeadsPer(TodayPer);
@@ -140,14 +152,7 @@ const Dashboard = ({ children }) => {
   });
 
   return (
-    <div
-      className="dashboard-container"
-      // style={
-      //   window.location.pathname === "/"
-      //     ? { height: "100vh" }
-      //     : { height: "100%" }
-      // }
-    >
+    <div className="dashboard-container">
       <Navbar open={open} handleDrawer={handleDrawer} />
       <SideBar
         open={open}
@@ -178,8 +183,20 @@ const Dashboard = ({ children }) => {
             <Box className="dash-box">
               <Box sx={{ boxShadow: 3 }} className="dash-lead-box">
                 <Circular
-                  value={activeCampPer}
+                  value={totalCampPer}
                   barColor={"#3575FF"}
+                  barName={"TOTAL"}
+                  innerColor={"#EFECFF"}
+                />
+                <div style={{ marginLeft: "10px" }}>
+                  <h3 className="dash-card-head">{totalCamp}</h3>
+                  <p className="dash-card-subhead">Total Campaigns</p>
+                </div>
+              </Box>
+              <Box sx={{ boxShadow: 3 }} className="dash-lead-box">
+                <Circular
+                  value={activeCampPer}
+                  barColor={"#20C997"}
                   barName={"ACTIVE"}
                   innerColor={"#EFECFF"}
                 />
@@ -213,76 +230,41 @@ const Dashboard = ({ children }) => {
                     marginLeft: "10px",
                     display: "flex",
                     paddingBottom: "16px",
+                    paddingTop: "9px",
                   }}
                 >
                   <div style={{ marginRight: "45px" }}>
                     <h3 className="dash-card-head">{todaysLeads}</h3>
 
                     <span
+                      className="dash-card-bullet"
                       style={{
-                        display: "inline-block",
-                        width: "10px",
-                        height: "10px",
-                        borderRadius: "50%",
                         backgroundColor: "#20C997",
                       }}
                     ></span>
-                    <span
-                      className="dash-card-subhead"
-                      style={{
-                        marginLeft: "10px",
-                        marginTop: "11px",
-                        display: "inline-block",
-                      }}
-                    >
-                      Today
-                    </span>
+                    <span className="dash-card-subhead">Today</span>
                   </div>
                   <div style={{ marginRight: "45px" }}>
                     <h3 className="dash-card-head">{yesterdaysLeads}</h3>
                     <span
+                      className="dash-card-bullet"
                       style={{
-                        display: "inline-block",
-                        width: "10px",
-                        height: "10px",
-                        borderRadius: "50%",
                         backgroundColor: "#FF7049",
                       }}
                     ></span>
 
-                    <span
-                      className="dash-card-subhead"
-                      style={{
-                        marginLeft: "10px",
-                        marginTop: "11px",
-                        display: "inline-block",
-                      }}
-                    >
-                      Yesterday
-                    </span>
+                    <span className="dash-card-subhead">Yesterday</span>
                   </div>
                   <div>
                     <h3 className="dash-card-head">{weeklyLeads}</h3>
                     <span
+                      className="dash-card-bullet"
                       style={{
-                        display: "inline-block",
-                        width: "10px",
-                        height: "10px",
-                        borderRadius: "50%",
                         backgroundColor: "#563BFF",
                       }}
                     ></span>
 
-                    <span
-                      className="dash-card-subhead"
-                      style={{
-                        marginLeft: "10px",
-                        marginTop: "11px",
-                        display: "inline-block",
-                      }}
-                    >
-                      Weekly
-                    </span>
+                    <span className="dash-card-subhead">Weekly</span>
                   </div>
                 </div>
               </Box>

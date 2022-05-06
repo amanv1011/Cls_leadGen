@@ -1,6 +1,5 @@
 import { IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import LinkedIn from "./LinkedIn";
 import moment from "moment";
 import { getPopupEnable } from "../../../redux/actions/PopupAction";
@@ -12,7 +11,7 @@ import reject from "../../../assets/reject.svg";
 import archieve from "../../../assets/archieve.svg";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
-import Chip from '@mui/material/Chip';
+import Chip from "@mui/material/Chip";
 import "./lead.scss";
 
 const Cards = (props) => {
@@ -44,7 +43,6 @@ const Cards = (props) => {
       borderRadius: "8px",
     },
   }));
-
   const openPopup = (e) => {
     e.preventDefault();
 
@@ -75,7 +73,7 @@ const Cards = (props) => {
                   key={ele.id}
                   id={ele.id}
                   className="lead-header-title"
-                  fontStyle={{display: 'flex', }}
+                  fontStyle={{ display: "flex" }}
                 >
                   <Typography sx={{fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600", marginRight:'9px', cursor:"pointer"}} className="lead-header-title-component">
                     {ele.title.slice(0, 20)}

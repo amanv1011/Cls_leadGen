@@ -137,7 +137,6 @@ const Table = () => {
           item[key].toString().toLowerCase().includes(lowerCasedValue)
         );
       });
-      console.log("filteredData", filteredData);
       setCampaignListData(filteredData);
     }
   };

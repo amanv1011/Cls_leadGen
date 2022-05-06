@@ -7,7 +7,7 @@
   .exportToExcel {
     height: 40px;
     width: 154px;
-    background: rgba(31, 65, 115, 0.5);
+    background: rgb(9 20 37 / 50%);
     border-radius: 10px;
     outline: none;
     border: none;
@@ -20,7 +20,9 @@
     color: #ffffff;
     &:hover {
       cursor: pointer;
+      background: #ffffff;
+      color: rgba(31, 65, 115, 0.5);
+      border: 1px solid rgb(9 20 37 / 50%);
     }
   }
-  
 }

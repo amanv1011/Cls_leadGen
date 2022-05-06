@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { leadsFilterDate } from "../../../redux/actions/leadsFilter";
 import { connect } from "react-redux";
-import { handleClose } from "../../../redux/actions/campaignActions";
 import { openDateModal, closeDateModal} from '../../../redux/actions/dateModalAction';
 
 const moment = extendMoment(originalMoment);
@@ -27,7 +26,6 @@ class BasicDateRangePicker extends React.Component {
 
   onSelect = (value, states) => {
     this.setState({ value, states });
-    // this.props.leadsFilterDate(value);
   };
 
   applyDate = () => {
