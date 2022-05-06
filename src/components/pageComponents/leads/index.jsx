@@ -83,17 +83,7 @@ const Leads = () => {
             <span>
               <Button
                 onClick={exportLeadsToExcel}
-                style={{
-                  fontFamily: "Segoe UI",
-                  textTransform: "none",
-                  height: "40px",
-                  width: "181px",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  marginLeft: "10px",
-                  backgroundColor: "rgba(138,153, 183)",
-                  color: "rgba(255, 255, 255, 1)",
-                }}
+                className="export-to-excel-button"
               >
                 Export to Excel
               </Button>
