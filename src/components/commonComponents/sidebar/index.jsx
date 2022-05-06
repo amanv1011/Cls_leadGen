@@ -36,7 +36,8 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-  marginTop: "60px",
+  position: "sticky",
+  height: '100vh'
 });
 
 const closedMixin = (theme) => ({
@@ -46,7 +47,8 @@ const closedMixin = (theme) => ({
   }),
   overflowX: "hidden",
   border: "none",
-  marginTop: "60px",
+  position: "sticky",
+  height: '100vh',
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 15%)",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
@@ -77,7 +79,7 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
   return (
     <Box
       className="box-main"
-      sx={{ display: "flex", border: "none ", marginTop: "-60px" }}
+      sx={{ display: "flex", border: "none ",  }}
     >
       <Drawer className="drawer-main" variant="permanent" open={open}>
         {/* <List>
