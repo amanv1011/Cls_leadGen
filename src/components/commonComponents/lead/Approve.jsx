@@ -1,4 +1,3 @@
-
 import React from "react";
 
 import Cards from "./Cards";
@@ -10,52 +9,72 @@ import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
 import { getApproveCount } from "../../../redux/actions/approveRejectcount";
 import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
-import {filterLeads} from "../lead/filterLeads"
-import {filterCount} from "../lead/filterCount"
+import { filterLeads } from "../lead/filterLeads";
+import { filterCount } from "../lead/filterCount";
 import PopupBox from "./PopupBox";
 import "./lead.scss";
-const Approve = () => {
+
+const Approve = (props) => {
   const dispatch = useDispatch();
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
-  const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
+  const genratedLeadData = props.currentLeads;
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
-  
-  
+
   var filterApprov;
   var leadListForCount;
-
-
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
-    const campaignIds = campgainData
-    leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterApprov = filterLeads(campaignIds,approveList,searchDate,searchQuery,false)
+    const campaignIds = campgainData;
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
+    filterApprov = filterLeads(
+      campaignIds,
+      approveList,
+      searchDate,
+      searchQuery,
+      false
+    );
   }
   if (
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
     ownerNameFilter !== "All Owners"
   ) {
-    const campaignIds = campgainData.filter((ele) => ele.owner === ownerNameFilter);
-    leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterApprov = filterLeads(campaignIds,approveList,searchDate,searchQuery,true)
+    const campaignIds = campgainData.filter(
+      (ele) => ele.owner === ownerNameFilter
+    );
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
+    filterApprov = filterLeads(
+      campaignIds,
+      approveList,
+      searchDate,
+      searchQuery,
+      true
+    );
   }
 
   if (
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter === "All Owners"
   ) {
-    const campaignIds = campgainData.filter((ele) => ele.name === campaignNameFilter);
-    leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterApprov = filterLeads(campaignIds,approveList,searchDate,searchQuery,true)
+    const campaignIds = campgainData.filter(
+      (ele) => ele.name === campaignNameFilter
+    );
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
+    filterApprov = filterLeads(
+      campaignIds,
+      approveList,
+      searchDate,
+      searchQuery,
+      true
+    );
   }
 
   if (
@@ -65,8 +84,14 @@ const Approve = () => {
     const campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    leadListForCount = filterCount(campaignIds,genratedLeadData)
-    filterApprov = filterLeads(campaignIds,approveList,searchDate,searchQuery,true)
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
+    filterApprov = filterLeads(
+      campaignIds,
+      approveList,
+      searchDate,
+      searchQuery,
+      true
+    );
   }
 
   const rejectList = leadListForCount.filter((ele) => ele.status === -1);
@@ -86,7 +111,9 @@ const Approve = () => {
     dispatch(getUnderreviewCount(underReviewCount));
     dispatch(getRejectCount(rejectCount));
     dispatch(getArchieveCount(archieveCount));
-    dispatch(getAllCount(approveCount+underReviewCount+rejectCount+archieveCount))
+    dispatch(
+      getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
+    );
   });
 
   return (

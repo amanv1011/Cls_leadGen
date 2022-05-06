@@ -12,7 +12,7 @@ import reject from "../../../assets/reject.svg";
 import archieve from "../../../assets/archieve.svg";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
-import Chip from '@mui/material/Chip';
+import Chip from "@mui/material/Chip";
 import "./lead.scss";
 
 const Cards = (props) => {
@@ -44,7 +44,6 @@ const Cards = (props) => {
       borderRadius: "8px",
     },
   }));
-
   const openPopup = (e) => {
     e.preventDefault();
 
@@ -75,16 +74,49 @@ const Cards = (props) => {
                   key={ele.id}
                   id={ele.id}
                   className="lead-header-title"
-                  fontStyle={{display: 'flex', }}
+                  fontStyle={{ display: "flex" }}
                 >
-                  <Typography sx={{fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600", marginRight:'9px'}} className="lead-header-title-component">
-                    {ele.title.slice(0, 20)}
+                  <Typography
+                    sx={{
+                      fontFamily: "Segoe UI",
+                      fontSize: "14px !important",
+                      fontWeight: "600",
+                      marginRight: "9px",
+                    }}
+                    className="lead-header-title-component"
+                  >
+                    {ele.title}
                   </Typography>
-                  {window.location.pathname === "/leads" ?
-                  ele.status === 1 ? <Chip sx={{fontFamily: "Segoe UI"}} label="Approved" size="small" color="success" variant="outlined" /> : ele.status === -1 ? <Chip sx={{fontFamily: "Segoe UI"}} label="Rejected" size="small" color="error" variant="outlined" /> :ele.status === 2? <Chip sx={{fontFamily: "Segoe UI", color:"#FFBD00",borderColor:"#FFBD00"}} label="Archive" size="small"  variant="outlined" />:null:null
-                  }
-                  
-                  
+                  {window.location.pathname === "/leads" ? (
+                    ele.status === 1 ? (
+                      <Chip
+                        sx={{ fontFamily: "Segoe UI" }}
+                        label="Approved"
+                        size="small"
+                        color="success"
+                        variant="outlined"
+                      />
+                    ) : ele.status === -1 ? (
+                      <Chip
+                        sx={{ fontFamily: "Segoe UI" }}
+                        label="Rejected"
+                        size="small"
+                        color="error"
+                        variant="outlined"
+                      />
+                    ) : ele.status === 2 ? (
+                      <Chip
+                        sx={{
+                          fontFamily: "Segoe UI",
+                          color: "#FFBD00",
+                          borderColor: "#FFBD00",
+                        }}
+                        label="Archive"
+                        size="small"
+                        variant="outlined"
+                      />
+                    ) : null
+                  ) : null}
                 </Box>
                 <Box className="lead-header-option">
                   <span className="Response-time">

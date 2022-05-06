@@ -1,8 +1,8 @@
-import { getDocs, doc, updateDoc } from "firebase/firestore";
+import { getDocs, doc, updateDoc, orderBy, query } from "firebase/firestore";
 import { leadsCollection } from "../firebase/collections";
 
 export const getLeadsList = async () => {
-  const leadsSnapshot = await getDocs(leadsCollection);
+  const leadsSnapshot = await getDocs(query(leadsCollection, orderBy("title")));
   const LeadsList = leadsSnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
