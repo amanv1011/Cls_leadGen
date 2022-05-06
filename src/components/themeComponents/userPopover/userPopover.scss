@@ -1,0 +1,17 @@
+.logout-container {
+  width: 120px;
+  height: auto;
+  box-sizing: border-box;
+  padding: 4px;
+  .user-option {
+    // height: 25px;
+    display: flex;
+    font-size: 400;
+    box-sizing: border-box;
+    padding: 4px;
+    &:hover {
+      background: #f5f7fb;
+      cursor: pointer;
+    }
+  }
+}

@@ -2,7 +2,6 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
-import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import WidgetsIcon from "@mui/icons-material/Widgets";
@@ -10,7 +9,8 @@ import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import { ListItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-const drawerWidth = 200;
+import "./sidebar.scss";
+const drawerWidth = 175;
 const sideBarList = [
   {
     icon: <WidgetsIcon />,
@@ -48,9 +48,9 @@ const closedMixin = (theme) => ({
   border: "none",
   marginTop: "60px",
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 15%)",
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: `calc(${theme.spacing(8)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(7)} + 1px)`,
+    width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
 
@@ -73,6 +73,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
+  const url = window.location.pathname;
   const navigate = useNavigate();
   return (
     <Box
@@ -80,39 +81,17 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
       sx={{ display: "flex", border: "none ", marginTop: "-60px" }}
     >
       <Drawer className="drawer-main" variant="permanent" open={open}>
-        {/* <List>
-          {["Dashboard", "Campagin", "Leads"].map((text, index) => (
-            <ListItemButton
-              key={text}
-              sx={{
-                minHeight: 40,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                {index === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          ))}
-        </List> */}
         {sideBarList.map((item, index) => (
           <ListItem
+            disableRipple
             button
             key={item.title}
             className={
-              open && index === 0
+              open && item.url === url
                 ? "list-item-selected"
-                : open && index !== 0
+                : open && item.url !== url
                 ? "list-item"
-                : !open && index === 0
+                : !open && item.url === url
                 ? "list-item-closed-selected"
                 : "list-item-closed"
             }
@@ -121,14 +100,25 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
               handleDrawerClose();
             }}
           >
-            <ListItemIcon className="list-item-icon">{item.icon}</ListItemIcon>
+            <ListItemIcon disableRipple className="list-item-icon">
+              {item.icon}
+            </ListItemIcon>
             <ListItemText
+              disableTypography
+              style={{
+                fontFamily: "Proxima Nova",
+                fontSize: "14px",
+                fontWeight: 600,
+                lineHeight: "17px",
+                letterSpacing: "0em",
+                textAlign: "left",
+              }}
               primary={item.title}
               className={open ? "list-item-text" : "list-item-text-closed"}
             />
           </ListItem>
         ))}
-        <Divider />
+        {/* <Divider /> */}
       </Drawer>
       {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
