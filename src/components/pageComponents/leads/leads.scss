@@ -10,11 +10,17 @@
   }
   .leads-table-container {
     height: 100%;
-    width: auto;
-    position: relative;
-    box-shadow: 1px rgba(31, 65, 115, 0.1);
-    border-radius: 5px;
-    overflow: scroll;
+    // width: auto;
+    // position: relative;
+    // box-shadow: 1px rgba(31, 65, 115, 0.1);
+    // border-radius: 5px;
+    // overflow: scroll;
+    .leads-table{
+      overflow-y: scroll;
+      max-height: 49vh;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+    }
   }
   .export-to-excel-button {
     text-transform: none;
@@ -51,21 +57,25 @@
   -webkit-animation-duration: 10ms;
   animation-duration: 10ms;
 }
-.leads-table-container::-webkit-scrollbar {
+.leads-table::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}
+
+.leads-table::-webkit-scrollbar {
   height: 10px;
-  width: 10px;
+  width: 6px;
   border-radius: 15px;
 }
-.leads-table-container::-webkit-scrollbar-track {
+.leads-table::-webkit-scrollbar-track {
   background: #ffffff;
   margin-top: 20px;
   border-radius: 15px;
   margin-bottom: 1px;
 }
-.leads-table-container::-webkit-scrollbar-thumb {
+.leads-table::-webkit-scrollbar-thumb {
   height: 165px;
   background: #e6eaf2;
-  border-radius: 15px;
+  border-radius: 20px;
 }
 .button-calender {
   display: flex;
