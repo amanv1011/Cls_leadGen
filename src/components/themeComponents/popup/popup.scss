@@ -64,7 +64,7 @@ div.addCampaign-title {
   }
 }
 
-.addCampaignModal-selects {
+select.addCampaignModal-selects {
   margin-bottom: 20px;
   height: 47px;
   margin-top: 12px;
@@ -81,9 +81,13 @@ div.addCampaign-title {
   color: #1f4173;
   text-align: left;
   outline: none;
+  &:invalid {
+    color: #1f4173;
+    opacity: 0.5;
+  }
 }
 
-.addCampaignModal-datePicker {
+input[type="date"].addCampaignModal-datePicker {
   margin-top: 12px;
   margin-bottom: 20px;
   height: 44px;
@@ -99,7 +103,28 @@ div.addCampaign-title {
   padding-left: 15px;
   color: #1f4173;
   text-align: left;
-  &::placeholder {
+  &:invalid::-webkit-datetime-edit {
+    color: #1f4173;
+    opacity: 0.5;
+  }
+}
+input[type="time"].addCampaignModal-timePicker {
+  margin-top: 12px;
+  margin-bottom: 20px;
+  height: 44px;
+  width: 270px;
+  background: #f4f5f8;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  letter-spacing: 0em;
+  outline: none;
+  padding-left: 15px;
+  color: #1f4173;
+  text-align: left;
+  &:invalid::-webkit-datetime-edit {
     color: #1f4173;
     opacity: 0.5;
   }
