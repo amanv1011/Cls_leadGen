@@ -57,10 +57,6 @@ const Cards = (props) => {
     dispatch(getPopupEnable(leadsIdData));
   };
   var linkedInCompany;
-
-  // genratedLeadData.map((lead, index) => {
-  //   return console.log(`${index + 1} ${lead.title}`);
-  // });
   const indexOfLastLead = currentPage * leadsPerPage;
   const indexOfFirstLead = indexOfLastLead - leadsPerPage;
   const currentLeads = leadsData.slice(indexOfFirstLead, indexOfLastLead);
@@ -68,12 +64,9 @@ const Cards = (props) => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  console.log("currentLeads", currentLeads);
-  console.log("approveRejectCount", approveRejectCount);
 
   return (
     <React.Fragment>
-      {/* <div> */}
       {currentLeads.map((ele) => {
         if (ele.companyName !== null) {
           linkedInCompany = ele.companyName.toLowerCase().split(" ").join("");
@@ -281,8 +274,6 @@ const Cards = (props) => {
           </React.Fragment>
         );
       })}
-      {/* </div> */}
-      {/* <div style={{ border: "1px solid red", position: "fixed", top: "580px" }}> */}
       <PaginationComponent
         leadsPerPage={leadsPerPage}
         totalLeads={
@@ -290,7 +281,6 @@ const Cards = (props) => {
         }
         paginate={paginate}
       />
-      {/* </div> */}
     </React.Fragment>
   );
 };
