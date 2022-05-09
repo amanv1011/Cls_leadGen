@@ -12,11 +12,11 @@ import { useEffect } from "react";
 import PopupBox from "./PopupBox";
 import "./lead.scss";
 
-const Lead = (props) => {
+const Lead = () => {
   const dispatch = useDispatch();
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
-  const genratedLeadData = props.currentLeads;
+  const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName

@@ -334,15 +334,17 @@ const Table = () => {
 
                         <td className="actions">
                           <div className="green-switch">
-                            <GreenSwitch
-                              className="toggleSwitch"
-                              defaultChecked={
-                                campaignListItem.status ? true : false
-                              }
-                              onClick={(event) =>
-                                statusUpdate(event, campaignListItem.id)
-                              }
-                            />
+                            <Tooltip title="Tooggle the status of the campaign">
+                              <GreenSwitch
+                                className="toggleSwitch"
+                                defaultChecked={
+                                  campaignListItem.status ? true : false
+                                }
+                                onClick={(event) =>
+                                  statusUpdate(event, campaignListItem.id)
+                                }
+                              />
+                            </Tooltip>
                             <Tooltip
                               title={
                                 getNumOfLeads(campaignListItem.id)
