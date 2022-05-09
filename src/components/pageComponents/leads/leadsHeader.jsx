@@ -51,6 +51,14 @@ const LeadsHeader = () => {
     setAllCampgainsMenu(event.currentTarget);
   };
 
+  const uniqueOwner = [];
+
+  leadData.forEach((c) => {
+    if (!uniqueOwner.includes(c.owner)) {
+      uniqueOwner.push(c.owner);
+    }
+});
+
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);
     setAllOwnersFilter(ownerNameFilter);
@@ -277,7 +285,7 @@ const LeadsHeader = () => {
             >
               All Owners
             </MenuItem>
-            {leadData.map((ele) => {
+            {uniqueOwner.map((ele) => {
               return (
                 <React.Fragment key={ele.id}>
                   <MenuItem
@@ -289,7 +297,7 @@ const LeadsHeader = () => {
                     }}
                     onClick={handleCloseOwnerMenu}
                   >
-                    {ele.owner}
+                    {ele}
                   </MenuItem>
                 </React.Fragment>
               );
