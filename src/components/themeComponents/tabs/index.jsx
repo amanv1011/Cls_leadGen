@@ -22,9 +22,7 @@ export default function BasicTabs({ type }) {
   const archieveCount = useSelector(
     (state) => state.approveRejectCount.archieveCount
   );
-  const allCount = useSelector(
-    (state) => state.approveRejectCount.allCount
-  )
+  const allCount = useSelector((state) => state.approveRejectCount.allCount);
 
   const handleChange = (e, newValue) => {
     setValue(newValue);
@@ -45,9 +43,7 @@ export default function BasicTabs({ type }) {
       setValue(1);
       setValueTabs(0);
     }
-    if (
-      window.location.pathname === "/leads/underreview"
-    ) {
+    if (window.location.pathname === "/leads/underreview") {
       setValue(1);
       setValueTabs(1);
     }
@@ -80,7 +76,6 @@ export default function BasicTabs({ type }) {
                 color: hover
                   ? "rgb(0,58,210)!important"
                   : "rgb(31,65,115)!important",
-                fontFamily: "Segoe UI",
                 fontSize: "16px !important",
               }}
               onClick={() => {
@@ -98,7 +93,6 @@ export default function BasicTabs({ type }) {
                 color: leadsHover
                   ? "rgb(0,58,210)!important"
                   : "rgb(31,65,115)!important",
-                fontFamily: "Segoe UI",
                 fontSize: "16px !important",
               }}
               onClick={() => {
@@ -113,31 +107,51 @@ export default function BasicTabs({ type }) {
               component={Link}
               to="/leads"
               label={`All (${allCount})`}
-              sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600"}}
+              sx={{
+                textTransform: "none",
+                fontSize: "14px !important",
+                fontWeight: "600",
+              }}
             />
             <Tab
               component={Link}
               to="/leads/underreview"
               label={`Under Review(${underreviewCount})`}
-              sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
+              sx={{
+                textTransform: "none",
+                fontSize: "14px !important",
+                fontWeight: "600",
+              }}
             />
             <Tab
               component={Link}
               to="/leads/approve"
               label={`Approved (${approveCount})`}
-              sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
+              sx={{
+                textTransform: "none",
+                fontSize: "14px !important",
+                fontWeight: "600",
+              }}
             />
             <Tab
               component={Link}
               to="/leads/reject"
               label={`Rejected (${rejectCount})`}
-              sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
+              sx={{
+                textTransform: "none",
+                fontSize: "14px !important",
+                fontWeight: "600",
+              }}
             />
             <Tab
               component={Link}
               to="/leads/archive"
               label={`Archive (${archieveCount})`}
-              sx={{ textTransform: "none",fontFamily: "Segoe UI",fontSize: "14px !important", fontWeight: "600" }}
+              sx={{
+                textTransform: "none",
+                fontSize: "14px !important",
+                fontWeight: "600",
+              }}
             />
           </Tabs>
         )}

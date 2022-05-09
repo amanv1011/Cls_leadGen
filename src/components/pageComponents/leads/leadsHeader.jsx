@@ -7,9 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import DateModal from "./DateModal";
 import DownArrow from "./DownArrow";
 import SearchIcon from "@mui/icons-material/Search";
-import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
-import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import "./leadsHeader.scss";
@@ -17,7 +17,7 @@ import {
   leadsFilterCampaignName,
   leadsFilterOwnerName,
   leadsFilterSearch,
-  clearFilters
+  clearFilters,
 } from "../../../redux/actions/leadsFilter";
 
 const BootstrapTooltip = styled(({ className, ...props }) => (
@@ -28,13 +28,11 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
   },
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: theme.palette.common.black,
-    fontFamily: "Segoe UI",
     fontSize: "14px",
     fontWeight: "600",
     borderRadius: "8px",
   },
 }));
-
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
@@ -92,15 +90,13 @@ const LeadsHeader = () => {
   };
 
   const clearFilterTab = () => {
-    dispatch(clearFilters())
-  }
+    dispatch(clearFilters());
+  };
 
   useEffect(() => {
     SearchInput.current.value = "";
     dispatch(leadsFilterSearch(SearchInput.current.value));
   });
-
-
 
   return (
     <>
@@ -132,7 +128,6 @@ const LeadsHeader = () => {
                 borderRadius: "10px",
                 backgroundColor: "#E7E7E7",
                 border: "none",
-                fontFamily: "Segoe UI",
                 fontWeight: "600",
                 color: "rgba(92, 117,154)",
                 fontSize: "14px",
@@ -156,7 +151,6 @@ const LeadsHeader = () => {
               aria-expanded={openAllCampgainsMenu ? "true" : undefined}
               onClick={handleClickAllCampgainsMenu}
               style={{
-                fontFamily: "Segoe UI",
                 textTransform: "none",
                 height: "40px",
                 minWidth: "181px",
@@ -195,7 +189,6 @@ const LeadsHeader = () => {
             >
               <MenuItem
                 sx={{
-                  fontFamily: "Segoe UI",
                   fontSize: "14px",
                   fontWeight: "600",
                 }}
@@ -209,7 +202,6 @@ const LeadsHeader = () => {
                     <MenuItem
                       data-id={ele.id}
                       sx={{
-                        fontFamily: "Segoe UI",
                         fontSize: "14px",
                         fontWeight: "600",
                       }}
@@ -232,7 +224,6 @@ const LeadsHeader = () => {
             aria-expanded={openOwnerMenu ? "true" : undefined}
             onClick={handleClickOwnerMenu}
             style={{
-              fontFamily: "Segoe UI",
               textTransform: "none",
               height: "40px",
               minWidth: "181px",
@@ -271,7 +262,6 @@ const LeadsHeader = () => {
           >
             <MenuItem
               sx={{
-                fontFamily: "Segoe UI",
                 fontSize: "14px",
                 fontWeight: "600",
               }}
@@ -285,7 +275,6 @@ const LeadsHeader = () => {
                   <MenuItem
                     data-id={ele.id}
                     sx={{
-                      fontFamily: "Segoe UI",
                       fontSize: "14px",
                       fontWeight: "600",
                     }}
@@ -298,13 +287,16 @@ const LeadsHeader = () => {
             })}
           </Menu>
           <div className="filter-icon">
-          <Stack direction="row" alignItems="center" spacing={1}>
-          <IconButton onClick={clearFilterTab} aria-label="filter" size="small">
-            <FilterAltOffIcon sx={{ color:"#8A99B7"}}  />
-          </IconButton>
-          </Stack>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <IconButton
+                onClick={clearFilterTab}
+                aria-label="filter"
+                size="small"
+              >
+                <FilterAltOffIcon sx={{ color: "#8A99B7" }} />
+              </IconButton>
+            </Stack>
           </div>
-
         </div>
       </div>
     </>

@@ -7,7 +7,7 @@ function PaginationComponent({ leadsPerPage, totalLeads, paginate }) {
   for (let i = 1; i <= Math.ceil(totalLeads / leadsPerPage); i++) {
     pageNumbers.push(i);
   }
-
+  console.log("totalLeads", totalLeads);
   return (
     <Stack spacing={2}>
       <Pagination
@@ -20,10 +20,9 @@ function PaginationComponent({ leadsPerPage, totalLeads, paginate }) {
         }}
         showLastButton
         style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
           margin: "20px",
+          position: "absolute",
+          top: "640px",
         }}
       />
     </Stack>

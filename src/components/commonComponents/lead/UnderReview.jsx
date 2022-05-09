@@ -11,9 +11,9 @@ import { getAllCount } from "../../../redux/actions/approveRejectcount";
 import { filterCount } from "../lead/filterCount";
 import PopupBox from "./PopupBox";
 
-const UnderReview = (props) => {
+const UnderReview = () => {
   const dispatch = useDispatch();
-  const genratedLeadData = props.currentLeads;
+  const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName

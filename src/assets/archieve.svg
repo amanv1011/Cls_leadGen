@@ -1,6 +1,7 @@
 <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M21 6V19H3V6" fill="#FFBD00" fill-opacity="0.1"/>
-<path d="M21 6V19H3V6" stroke="#FFBD00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M23 1H1V6H23V1Z" fill="#FFBD00" fill-opacity="0.1" stroke="#FFBD00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M10 10H14" stroke="#FFBD00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M21 6V19H3V6" fill="#FFBD00" fill-opacity="0.1" />
+    <path d="M21 6V19H3V6" stroke="#FFBD00" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M23 1H1V6H23V1Z" fill="#FFBD00" fill-opacity="0.1" stroke="#FFBD00" strokeWidth="1.5" strokeLinecap="round"
+        strokeLinejoin="round" />
+    <path d="M10 10H14" stroke="#FFBD00" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 </svg>
