@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import DateModal from "./DateModal";
 import DownArrow from "./DownArrow";
 import SearchIcon from "@mui/icons-material/Search";
-import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import "./leadsHeader.scss";
@@ -106,7 +108,7 @@ const LeadsHeader = () => {
     dispatch(leadsFilterSearch(SearchInput.current.value));
   });
 
-  
+
 
   return (
     <>
@@ -175,7 +177,7 @@ const LeadsHeader = () => {
                 color: "rgba(92, 117,154)",
               }}
             >
-             {allCampaignsFilter} 
+              {allCampaignsFilter}
               <span style={{ paddingLeft: "45px", paddingBottom: "3px" }}>
                 <DownArrow />
               </span>
@@ -303,30 +305,14 @@ const LeadsHeader = () => {
               );
             })}
           </Menu>
-          <BootstrapTooltip
-            placement="top"
-            sx={{ color: "black" }}
-            title="Filter"
-            arrow
-          >
-            <Button onClick={clearFilterTab}
-              style={{
-                fontFamily: "Segoe UI",
-                textTransform: "none",
-                height: "40px",
-                width: "40px",
-                fontWeight: "600",
-                padding: "10px",
-                borderRadius: "10px",
-                marginLeft: "5px",
-                backgroundColor: "#44A98B",
-                color: "rgba(255, 255, 255, 1)",
-              }}
-            >
-              <FilterAltRoundedIcon />
-            </Button>
+          <div className="filter-icon">
+          <Stack direction="row" alignItems="center" spacing={1}>
+          <IconButton onClick={clearFilterTab} aria-label="filter" size="small">
+            <FilterAltOffIcon sx={{ color:"#8A99B7"}}  />
+          </IconButton>
+          </Stack>
+          </div>
 
-          </BootstrapTooltip>
         </div>
       </div>
     </>

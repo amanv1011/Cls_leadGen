@@ -290,7 +290,9 @@ function AddCampaginModal() {
                   autoComplete="off"
                   required
                 >
-                  <option value=""></option>
+                  <option value="" disabled selected>
+                    Select the source
+                  </option>
                   <option value="seek_aus">Seek Australia</option>
                   <option value="indeed_aus">Indeed Australia</option>
                   <option value="indeed_ca">Indeed Canada</option>
@@ -362,7 +364,7 @@ function AddCampaginModal() {
                 <br />
                 <input
                   type="time"
-                  className="addCampaignModal-datePicker "
+                  className="addCampaignModal-timePicker"
                   name="start_time"
                   value={start_time}
                   onChange={onInputChangeHandler}
@@ -390,7 +392,7 @@ function AddCampaginModal() {
                 <br />
                 <input
                   type="time"
-                  className="addCampaignModal-datePicker"
+                  className="addCampaignModal-timePicker"
                   name="end_time"
                   value={end_time}
                   onChange={onInputChangeHandler}

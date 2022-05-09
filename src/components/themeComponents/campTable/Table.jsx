@@ -63,14 +63,14 @@ const Table = () => {
 
   useEffect(() => {
     campaignList.forEach((element) => {
-      let leadsCount = 0
+      let leadsCount = 0;
       leadsList.map((ele) => {
         if (element.id === ele.campaignId) {
           leadsCount++;
         }
       });
-      element.leadsNo = leadsCount
-    })
+      element.leadsNo = leadsCount;
+    });
     setCampaignListData(campaignList);
     setLeadsListData(leadsList);
   }, [campaignList, leadsList]);
@@ -169,7 +169,18 @@ const Table = () => {
               <tr>
                 <th className="campaign-name">Campaign Name</th>
                 <th className="location">Location</th>
-                <th className="numOfLeads" style={{cursor:'pointer'}} onClick={() => {sortingTable("leadsNo")}}>No. of Leads</th>
+                <th
+                  className="numOfLeads"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    sortingTable("leadsNo");
+                  }}
+                >
+                  No. of Leads
+                  <i>
+                    <Down />
+                  </i>
+                </th>
                 <th
                   className="headerHover start-date"
                   onClick={() => {
@@ -214,7 +225,6 @@ const Table = () => {
                     <Down />
                   </i>
                 </th>
-                <th className="green-switch"></th>
                 <th className="actions">Actions</th>
               </tr>
               <tr className="bottomBorder"></tr>
@@ -321,17 +331,7 @@ const Table = () => {
                             <StatusInActive />
                           )}
                         </td>
-                        {/* <td className="green-switch">
-                          <GreenSwitch
-                            className="toggleSwitch"
-                            defaultChecked={
-                              campaignListItem.status ? true : false
-                            }
-                            onClick={(event) =>
-                              statusUpdate(event, campaignListItem.id)
-                            }
-                          />
-                        </td> */}
+
                         <td className="actions">
                           <div className="green-switch">
                             <GreenSwitch
