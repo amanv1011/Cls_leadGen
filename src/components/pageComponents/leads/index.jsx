@@ -11,21 +11,12 @@ import UnderReview from "../../commonComponents/lead/UnderReview";
 import Archive from "../../commonComponents/lead/Archive";
 import LeadsHeader from "./leadsHeader";
 import * as XLSX from "xlsx";
-import PaginationComponent from "../../commonComponents/PaginationComponent";
 
 const Leads = () => {
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
   const rejectList = genratedLeadData.filter((ele) => ele.status === -1);
   const underReviewList = genratedLeadData.filter((ele) => ele.status === 0);
-
-  const [leadsListData, setLeadsListData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [leadsPerPage] = useState(10);
-
-  useEffect(() => {
-    setLeadsListData(genratedLeadData);
-  }, [genratedLeadData]);
 
   const downloadLeads = (leadsList, excelFileName) => {
     let workBook = XLSX.utils.book_new();
@@ -64,13 +55,6 @@ const Leads = () => {
     }
   };
 
-  const indexOfLastLead = currentPage * leadsPerPage;
-  const indexOfFirstLead = indexOfLastLead - leadsPerPage;
-  const currentLeads = leadsListData.slice(indexOfFirstLead, indexOfLastLead);
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
   return (
     <React.Fragment>
       <Box className="leads-container">
@@ -92,43 +76,36 @@ const Leads = () => {
           <Box className="leads-table">
             {window.location.pathname === "/leads" ? (
               <>
-                <Lead currentLeads={currentLeads} />
+                <Lead />
               </>
             ) : null}
 
             {window.location.pathname === "/leads/approve" ? (
               <>
-                <Approve currentLeads={currentLeads} />
+                <Approve />
               </>
             ) : null}
 
             {window.location.pathname === "/leads/reject" ? (
               <>
-                <Reject currentLeads={currentLeads} />
+                <Reject />
               </>
             ) : null}
 
             {window.location.pathname === "/leads/underreview" ? (
               <>
-                <UnderReview currentLeads={currentLeads} />
+                <UnderReview />
               </>
             ) : null}
 
             {window.location.pathname === "/leads/archive" ? (
               <>
-                <Archive currentLeads={currentLeads} />
+                <Archive />
               </>
             ) : null}
           </Box>
         </Box>
       </Box>
-      <div>
-        <PaginationComponent
-          leadsPerPage={leadsPerPage}
-          totalLeads={genratedLeadData.length}
-          paginate={paginate}
-        />
-      </div>
     </React.Fragment>
   );
 };

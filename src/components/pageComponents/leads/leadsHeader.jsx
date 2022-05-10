@@ -29,7 +29,6 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
   },
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: theme.palette.common.black,
-    fontFamily: "Segoe UI",
     fontSize: "14px",
     fontWeight: "600",
     borderRadius: "8px",
@@ -140,7 +139,6 @@ const LeadsHeader = () => {
                 borderRadius: "10px",
                 backgroundColor: "#E7E7E7",
                 border: "none",
-                fontFamily: "Segoe UI",
                 fontWeight: "600",
                 color: "rgba(92, 117,154)",
                 fontSize: "14px",
@@ -172,7 +170,6 @@ const LeadsHeader = () => {
               aria-expanded={openAllCampgainsMenu ? "true" : undefined}
               onClick={handleClickAllCampgainsMenu}
               style={{
-                fontFamily: "Segoe UI",
                 textTransform: "none",
                 height: "40px",
                 minWidth: "181px",
@@ -211,7 +208,6 @@ const LeadsHeader = () => {
             >
               <MenuItem
                 sx={{
-                  fontFamily: "Segoe UI",
                   fontSize: "14px",
                   fontWeight: "600",
                 }}
@@ -225,7 +221,6 @@ const LeadsHeader = () => {
                     <MenuItem
                       data-id={ele.id}
                       sx={{
-                        fontFamily: "Segoe UI",
                         fontSize: "14px",
                         fontWeight: "600",
                       }}
@@ -248,7 +243,6 @@ const LeadsHeader = () => {
             aria-expanded={openOwnerMenu ? "true" : undefined}
             onClick={handleClickOwnerMenu}
             style={{
-              fontFamily: "Segoe UI",
               textTransform: "none",
               height: "40px",
               minWidth: "181px",
@@ -287,7 +281,6 @@ const LeadsHeader = () => {
           >
             <MenuItem
               sx={{
-                fontFamily: "Segoe UI",
                 fontSize: "14px",
                 fontWeight: "600",
               }}
@@ -301,7 +294,6 @@ const LeadsHeader = () => {
                   <MenuItem
                     data-id={ele.id}
                     sx={{
-                      fontFamily: "Segoe UI",
                       fontSize: "14px",
                       fontWeight: "600",
                     }}
