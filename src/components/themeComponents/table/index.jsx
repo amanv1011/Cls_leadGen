@@ -117,7 +117,7 @@ const Table = (props) => {
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <p
           className="table-heading"
-          style={{ paddingLeft: "20px", paddingTop: "10px" }}
+          style={{ paddingLeft: "20px", paddingTop: "15px" }}
         >
           My Campaign(s)
         </p>
