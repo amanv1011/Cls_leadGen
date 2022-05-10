@@ -34,13 +34,13 @@ const Dashboard = ({ children }) => {
   let [yesterdaysLeads, setYesterdaysLeads] = useState(0);
   let [weeklyLeadsPer, setWeeklyLeadsPer] = useState(0);
   let [weeklyLeads, setWeeklyLeads] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleDrawer = () => {
     setOpen(!open);
   };
   const handleDrawerClose = () => {
-    setOpen(false);
+    setOpen(true);
   };
 
   const navigate = useNavigate();
