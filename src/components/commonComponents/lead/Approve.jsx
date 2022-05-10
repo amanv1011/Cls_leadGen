@@ -120,6 +120,7 @@ const Approve = () => {
     <>
       {popupStatus ? <PopupBox data={popupData} /> : null}
       <Cards leadData={filterApprov} />
+      
     </>
   );
 };
