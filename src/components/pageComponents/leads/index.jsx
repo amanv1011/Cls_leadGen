@@ -62,10 +62,10 @@ const Leads = () => {
           <LeadsHeader />
         </Box>
         <Box className="leads-table-container">
-          <Box classNAme="leads-header-container" style={{ display: "flex" }}>
+          <Box classNAme="leads-header-container" style={{ display: "flex", paddingRight:"27px" }}>
             <BasicTabs type="leadsTabs" />
             <span>
-              <Button
+              <Button variant="outlined"
                 onClick={exportLeadsToExcel}
                 className="export-to-excel-button"
               >

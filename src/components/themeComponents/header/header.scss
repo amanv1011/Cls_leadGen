@@ -5,24 +5,18 @@
   justify-content: space-between;
   align-items: center;
   .exportToExcel {
-    height: 40px;
-    width: 154px;
-    background: rgb(9 20 37 / 50%);
+  text-transform: none;
+
+    width: 140px;
+    padding: 10px;
     border-radius: 10px;
-    outline: none;
-    border: none;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 17px;
-    letter-spacing: 0em;
-    text-align: center;
-    color: #ffffff;
+    margin-left: 10px;
+    background-color: #323c4c;
+
+    color: rgb(255, 255, 255);
     &:hover {
       cursor: pointer;
-      background: #ffffff;
-      color: rgba(31, 65, 115, 0.5);
-      border: 1px solid rgb(9 20 37 / 50%);
+     
     }
   }
 }

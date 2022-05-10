@@ -18,11 +18,10 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 311,
     bgcolor: '#fefefe',
     border: "none",
     borderRadius: "10px",
-    p: 4,
     color:"green"
 };
 export default function DateModal() {
@@ -45,7 +44,7 @@ export default function DateModal() {
     };
     return (
         <div>
-            <Button style={{ textTransform: "none", color: "#5C759A", backgroundColor: "#E7E7E7", borderRadius: "10px" }} onClick={handleOpen}>{filterDate === "" ? tempDate : renderSelectionValue()} <span style={{ paddingLeft: "8px", paddingTop: "3px" }}><Calendar /></span><span style={{ paddingLeft: "5px", paddingBottom: "3px" }}><DownArrow /></span></Button>
+            <Button style={{ textTransform: "none", color: "#5C759A", backgroundColor: "#E7E7E7", borderRadius: "10px" }} onClick={handleOpen}>{filterDate === "" ? tempDate : renderSelectionValue()} <span style={{ paddingLeft: "8px", paddingTop: "3px" }}><Calendar  /></span><span style={{ paddingLeft: "5px", paddingBottom: "3px" }}><DownArrow /></span></Button>
 
             <Modal sx={{ border: "none"}}
                 open={open}
