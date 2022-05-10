@@ -9,6 +9,7 @@ import DownArrow from "./DownArrow";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import IconButton from "@mui/material/IconButton";
+import CancelIcon from '@mui/icons-material/Cancel';
 import Stack from "@mui/material/Stack";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
@@ -37,6 +38,7 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
 const LeadsHeader = () => {
   const dispatch = useDispatch();
   const SearchInput = useRef("");
+  const [clearSearch, setClearSearch] = useState(false);
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
@@ -50,6 +52,14 @@ const LeadsHeader = () => {
   const handleClickAllCampgainsMenu = (event) => {
     setAllCampgainsMenu(event.currentTarget);
   };
+
+  const uniqueOwner = [];
+
+  leadData.forEach((c) => {
+    if (!uniqueOwner.includes(c.owner)) {
+      uniqueOwner.push(c.owner);
+    }
+  });
 
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);
@@ -86,17 +96,18 @@ const LeadsHeader = () => {
 
   const handleSearch = () => {
     dispatch(leadsFilterSearch(SearchInput.current.value));
-    SearchInput.current.value = "";
+    setClearSearch(true);
   };
+
+    const handleClearSearch = () => {
+    SearchInput.current.value=""
+    dispatch(leadsFilterSearch(SearchInput.current.value));
+    setClearSearch(false);
+  }
 
   const clearFilterTab = () => {
     dispatch(clearFilters());
   };
-
-  useEffect(() => {
-    SearchInput.current.value = "";
-    dispatch(leadsFilterSearch(SearchInput.current.value));
-  });
 
   return (
     <>
@@ -134,6 +145,14 @@ const LeadsHeader = () => {
                 paddingLeft: "10px",
               }}
             />
+            {clearSearch ? (
+              <div
+                style={{ paddingTop: "8px", paddingRight: "4px" }}
+                onClick={handleClearSearch}
+              >
+                <CancelIcon />
+              </div>
+            ) : null}
             <div
               className="search-icon"
               onClick={handleSearch}
@@ -269,7 +288,7 @@ const LeadsHeader = () => {
             >
               All Owners
             </MenuItem>
-            {leadData.map((ele) => {
+            {uniqueOwner.map((ele) => {
               return (
                 <React.Fragment key={ele.id}>
                   <MenuItem
@@ -280,7 +299,7 @@ const LeadsHeader = () => {
                     }}
                     onClick={handleCloseOwnerMenu}
                   >
-                    {ele.owner}
+                    {ele}
                   </MenuItem>
                 </React.Fragment>
               );
