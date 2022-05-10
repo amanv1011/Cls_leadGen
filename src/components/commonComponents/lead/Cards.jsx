@@ -20,12 +20,34 @@ const Cards = (props) => {
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [leadsPerPage] = useState(100);
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
-  const approveRejectCount = useSelector(
-    (state) => state.approveRejectCount.allCount
-  );
+  const leadsLoader = useSelector((state) => state.allLeads.loading);
+  const [leadsPerPage, setLeadsPerPage] = useState(50);
+  const approveRejectCount = useSelector((state) => state.approveRejectCount);
+  const [lengthOfLeads, setLengthOfLeads] = useState(0);
   const leadsData = props.leadData;
+
+  useEffect(() => {
+    if (approveRejectCount) {
+      if (window.location.pathname === "/leads") {
+        setLengthOfLeads(approveRejectCount.allCount);
+      }
+      if (window.location.pathname === "/leads/underreview") {
+        setLengthOfLeads(approveRejectCount.underreviewCount);
+      }
+      if (window.location.pathname === "/leads/approve") {
+        setLengthOfLeads(approveRejectCount.approveCount);
+      }
+      if (window.location.pathname === "/leads/reject") {
+        setLengthOfLeads(approveRejectCount.rejectCount);
+      }
+      if (window.location.pathname === "/leads/archive") {
+        setLengthOfLeads(approveRejectCount.archieveCount);
+      }
+    } else {
+      setLengthOfLeads(genratedLeadData.length);
+    }
+  }, [genratedLeadData.length, approveRejectCount]);
 
   let approveButton = (event) => {
     dispatch(updateLeadStatus(event.target.value, 1));
@@ -64,19 +86,40 @@ const Cards = (props) => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  const onNumberOfLeadsChangeHandler = (event) => {
+    setLeadsPerPage(event.target.value);
+  };
 
-  return (
-    <React.Fragment>
-      {currentLeads.map((ele) => {
-        if (ele.companyName !== null) {
-          linkedInCompany = ele.companyName.toLowerCase().split(" ").join("");
-        } else {
-          linkedInCompany = "";
-        }
+  if (leadsLoader) {
+    return <h1>Loading...</h1>;
+  } else if (leadsLoader === false && currentLeads.length === 0) {
+    return (
+      <React.Fragment>
+        <Box
+          className="lead-container"
+          style={{
+            overflowY: "hidden",
+          }}
+        >
+          <Box className="lead-header">
+            <Box className="lead-header-title">No Data found</Box>
+          </Box>
+          <Box className="lead-body"></Box>
+        </Box>
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <React.Fragment>
+        {currentLeads.map((ele) => {
+          if (ele.companyName !== null) {
+            linkedInCompany = ele.companyName.toLowerCase().split(" ").join("");
+          } else {
+            linkedInCompany = "";
+          }
 
-        return (
-          <React.Fragment key={ele.id}>
-            <div>
+          return (
+            <React.Fragment key={ele.id}>
               <Box className="lead-container">
                 <Box className="lead-header">
                   <Box
@@ -270,19 +313,39 @@ const Cards = (props) => {
                   </div>
                 </Box>
               </Box>
-            </div>
-          </React.Fragment>
-        );
-      })}
-      <PaginationComponent
-        leadsPerPage={leadsPerPage}
-        totalLeads={
-          approveRejectCount ? approveRejectCount : genratedLeadData.length
-        }
-        paginate={paginate}
-      />
-    </React.Fragment>
-  );
+            </React.Fragment>
+          );
+        })}
+
+        <footer className="pagination">
+          <p>{`leads ${indexOfFirstLead + 1} to ${
+            indexOfFirstLead + currentLeads.length
+          }`}</p>
+
+          <select
+            className="card-selects"
+            name="source"
+            // value={leadsPerPage}
+            onChange={onNumberOfLeadsChangeHandler}
+            autoComplete="off"
+          >
+            <option value="" disabled selected>
+              Select number of leads to display
+            </option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+            <option value={150}>150</option>
+            <option value={200}>200</option>
+          </select>
+          <PaginationComponent
+            leadsPerPage={leadsPerPage}
+            totalLeads={lengthOfLeads}
+            paginate={paginate}
+          />
+        </footer>
+      </React.Fragment>
+    );
+  }
 };
 
 export default Cards;
