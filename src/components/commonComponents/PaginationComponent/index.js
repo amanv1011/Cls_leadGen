@@ -17,12 +17,13 @@ function PaginationComponent({ leadsPerPage, totalLeads, paginate }) {
         onChange={(event, value) => {
           paginate(value);
         }}
+        default={1}
         showLastButton
-        style={{
-          margin: "20px",
-          position: "absolute",
-          top: "640px",
-        }}
+        // style={{
+        //   margin: "20px",
+        //   position: "absolute",
+        //   top: "640px",
+        // }}
       />
     </Stack>
   );
