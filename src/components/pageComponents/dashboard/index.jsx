@@ -240,7 +240,7 @@ const Dashboard = ({ children }) => {
                       paddingTop: "9px",
                     }}
                   >
-                    <div style={{ marginRight: "45px" }}>
+                    <div className="dash-card-subhead-wrapper" style={{ marginRight: "45px" }}>
                       <h3 className="dash-card-head">{todaysLeads}</h3>
 
                       <span
@@ -251,7 +251,7 @@ const Dashboard = ({ children }) => {
                       ></span>
                       <span className="dash-card-subhead">Today</span>
                     </div>
-                    <div style={{ marginRight: "45px" }}>
+                    <div className="dash-card-subhead-wrapper" style={{ marginRight: "45px" }}>
                       <h3 className="dash-card-head">{yesterdaysLeads}</h3>
                       <span
                         className="dash-card-bullet"
@@ -262,7 +262,7 @@ const Dashboard = ({ children }) => {
 
                       <span className="dash-card-subhead">Yesterday</span>
                     </div>
-                    <div>
+                    <div className="dash-card-subhead-wrapper">
                       <h3 className="dash-card-head">{weeklyLeads}</h3>
                       <span
                         className="dash-card-bullet"

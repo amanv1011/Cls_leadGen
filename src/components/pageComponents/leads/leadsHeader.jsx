@@ -7,9 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import DateModal from "./DateModal";
 import DownArrow from "./DownArrow";
 import SearchIcon from "@mui/icons-material/Search";
-import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
-import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
+import IconButton from "@mui/material/IconButton";
+import CancelIcon from '@mui/icons-material/Cancel';
+import Stack from "@mui/material/Stack";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import "./leadsHeader.scss";
@@ -17,7 +18,7 @@ import {
   leadsFilterCampaignName,
   leadsFilterOwnerName,
   leadsFilterSearch,
-  clearFilters
+  clearFilters,
 } from "../../../redux/actions/leadsFilter";
 
 const BootstrapTooltip = styled(({ className, ...props }) => (
@@ -35,10 +36,10 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-
 const LeadsHeader = () => {
   const dispatch = useDispatch();
   const SearchInput = useRef("");
+  const [clearSearch, setClearSearch] = useState(false);
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
@@ -59,7 +60,7 @@ const LeadsHeader = () => {
     if (!uniqueOwner.includes(c.owner)) {
       uniqueOwner.push(c.owner);
     }
-});
+  });
 
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);
@@ -96,19 +97,18 @@ const LeadsHeader = () => {
 
   const handleSearch = () => {
     dispatch(leadsFilterSearch(SearchInput.current.value));
-    SearchInput.current.value = "";
+    setClearSearch(true);
   };
 
-  const clearFilterTab = () => {
-    dispatch(clearFilters())
+    const handleClearSearch = () => {
+    SearchInput.current.value=""
+    dispatch(leadsFilterSearch(SearchInput.current.value));
+    setClearSearch(false);
   }
 
-  useEffect(() => {
-    SearchInput.current.value = "";
-    dispatch(leadsFilterSearch(SearchInput.current.value));
-  });
-
-
+  const clearFilterTab = () => {
+    dispatch(clearFilters());
+  };
 
   return (
     <>
@@ -147,6 +147,14 @@ const LeadsHeader = () => {
                 paddingLeft: "10px",
               }}
             />
+            {clearSearch ? (
+              <div
+                style={{ paddingTop: "8px", paddingRight: "4px" }}
+                onClick={handleClearSearch}
+              >
+                <CancelIcon />
+              </div>
+            ) : null}
             <div
               className="search-icon"
               onClick={handleSearch}
@@ -306,13 +314,16 @@ const LeadsHeader = () => {
             })}
           </Menu>
           <div className="filter-icon">
-          <Stack direction="row" alignItems="center" spacing={1}>
-          <IconButton onClick={clearFilterTab} aria-label="filter" size="small">
-            <FilterAltOffIcon sx={{ color:"#8A99B7"}}  />
-          </IconButton>
-          </Stack>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <IconButton
+                onClick={clearFilterTab}
+                aria-label="filter"
+                size="small"
+              >
+                <FilterAltOffIcon sx={{ color: "#8A99B7" }} />
+              </IconButton>
+            </Stack>
           </div>
-
         </div>
       </div>
     </>
