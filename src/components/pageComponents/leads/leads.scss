@@ -10,11 +10,6 @@
   }
   .leads-table-container {
     height: 100%;
-    // width: auto;
-    // position: relative;
-    // box-shadow: 1px rgba(31, 65, 115, 0.1);
-    // border-radius: 5px;
-    // overflow: scroll;
     .leads-table {
       overflow-y: scroll;
       max-height: 49vh;
@@ -29,13 +24,13 @@
     padding: 10px;
     border-radius: 10px;
     margin-left: 10px;
-    background-color: rgb(138, 153, 183);
+    background-color: #323c4c;
     color: rgb(255, 255, 255);
     &:hover {
       cursor: pointer;
-      background: #ffffff;
-      color: rgba(15, 90, 203, 0.5);
-      border: 1px solid rgb(9 20 37 / 50%);
+      background: #f9fbf8;
+      color: rgba(0, 58, 210);
+      border: 2px solid rgba(0, 58, 210);
     }
   }
 }
@@ -81,6 +76,8 @@
   display: flex;
   justify-content: flex-end;
   padding-left: 3px;
+  margin-right: 10px;
+  padding: 5px;
 }
 .filter-icon {
   margin-left: 10px;

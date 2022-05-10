@@ -175,6 +175,7 @@ const Dashboard = ({ children }) => {
               alignItems: "center",
               marginLeft: "-25px",
               marginBottom: "5px",
+              paddingTop: "15px"
             }}
           >
             <IconButton onClick={goBack}>

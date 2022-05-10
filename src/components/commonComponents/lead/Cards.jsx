@@ -101,11 +101,13 @@ const Cards = (props) => {
                       ele.status === 1 ? (
                         <Chip
                           sx={{
+                            
                             background: "#16C31E",
                             color: "white",
                             fontWeight: "600",
-                            height: "20px",
+                            height: "15px",
                             width: "82",
+                            marginTop:"3px"
                           }}
                           label="Approved"
                           size="small"
@@ -116,8 +118,9 @@ const Cards = (props) => {
                             background: "#FF6C5F",
                             color: "white",
                             fontWeight: "600",
-                            height: "20px",
+                            height: "15px",
                             width: "74px",
+                            marginTop:"3px"
                           }}
                           label="Rejected"
                           size="small"
@@ -128,8 +131,9 @@ const Cards = (props) => {
                             color: "white",
                             background: "#FFD365",
                             fontWeight: "600",
-                            height: "20px",
+                            height: "15px",
                             width: "67px",
+                            marginTop:"3px"
                           }}
                           label="Archive"
                           size="small"
@@ -142,7 +146,7 @@ const Cards = (props) => {
                       {moment.unix(ele.leadGeneratedDate.seconds).fromNow()}
                     </span>
 
-                    <IconButton>
+                    <IconButton style={{ paddingBottom:"0"}}>
                       {linkedInCompany ? (
                         <a
                           href={`https://www.linkedin.com/company/${linkedInCompany}/`}
@@ -188,8 +192,8 @@ const Cards = (props) => {
                     <div className="lead-body-column">
                       <div className="lead-body-column-card3">
                         <p className="head-body">Description</p>
-                        <p className="body-detail" style={{ width: "13vw" }}>
-                          {ele.summary.slice(0, 30)}
+                        <p className="body-detail" style={{ width: "300px" }}>
+                          {ele.summary.slice(0, 70)}
                         </p>
                       </div>
                     </div>
