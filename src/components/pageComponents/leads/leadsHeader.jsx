@@ -9,6 +9,8 @@ import DownArrow from "./DownArrow";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import IconButton from "@mui/material/IconButton";
+import Tooltip from '@mui/material/Tooltip';
+
 import Stack from "@mui/material/Stack";
 import "./leadsHeader.scss";
 import {
@@ -168,7 +170,7 @@ const LeadsHeader = () => {
               anchorEl={allCampgainsMenu}
               PaperProps={{
                 style: {
-                  width: "181px",
+                  width: "auto",
                   borderRadius: "10px",
                   marginTop: "3px",
                   boxShadow: "none",
@@ -210,7 +212,7 @@ const LeadsHeader = () => {
             </Menu>
           </div>
         </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", paddingRight:"27px" }}>
           <DateModal />
           <Button
             id="basic-button"
@@ -241,7 +243,7 @@ const LeadsHeader = () => {
             anchorEl={ownerMenu}
             PaperProps={{
               style: {
-                width: "181px",
+                width: "auto",
                 borderRadius: "10px",
                 marginTop: "3px",
                 boxShadow: "none",
@@ -283,6 +285,7 @@ const LeadsHeader = () => {
           </Menu>
           <div className="filter-icon">
             <Stack direction="row" alignItems="center" spacing={1}>
+              <Tooltip  title="Filter" placement="top-start">
               <IconButton
                 onClick={clearFilterTab}
                 aria-label="filter"
@@ -290,6 +293,7 @@ const LeadsHeader = () => {
               >
                 <FilterAltOffIcon sx={{ color: "#8A99B7" }} />
               </IconButton>
+              </Tooltip>
             </Stack>
           </div>
         </div>

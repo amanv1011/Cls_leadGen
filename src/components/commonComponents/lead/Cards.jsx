@@ -15,7 +15,7 @@ import Chip from "@mui/material/Chip";
 import "./lead.scss";
 import { useSelector } from "react-redux";
 import {setTotalCount} from "../../../redux/actions/paginationActions"
-import {setActivePage} from "../../../redux/actions/paginationActions"
+
 
 const Cards = (props) => {
   const dispatch = useDispatch();

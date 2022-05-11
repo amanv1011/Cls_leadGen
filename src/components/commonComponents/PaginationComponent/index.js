@@ -22,6 +22,7 @@ function PaginationComponent({ leadsPerPage, totalLeads }) {
         onChange={(event, value) => {
           dispatch(setActivePage(value))
         }}
+        default={1}
         showLastButton
         style={{
           margin: "20px",

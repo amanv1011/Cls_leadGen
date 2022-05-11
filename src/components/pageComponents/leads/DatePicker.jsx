@@ -63,12 +63,13 @@ class BasicDateRangePicker extends React.Component {
         </div>
         <div>
           <Typography className="button-calender">
-            <Button
+            <Button className="button-cancel"
               onClick={this.closeModal}
               style={{
+                fontFamily: "Segoe UI",
                 textTransform: "none",
-                height: "40px",
-                width: "80px",
+                height: "31px",
+                width: "64px",
                 fontWeight: "600",
                 padding: "10px",
                 borderRadius: "10px",
@@ -79,18 +80,20 @@ class BasicDateRangePicker extends React.Component {
             >
               Cancel
             </Button>
-            <Button
+            <Button className="button-apply"
               onClick={this.applyDate}
               style={{
+                fontFamily: "Segoe UI",
                 textTransform: "none",
-                height: "40px",
-                width: "80px",
+                height: "31px",
+                width: "64px",
                 fontWeight: "600",
                 padding: "10px",
                 borderRadius: "10px",
                 marginLeft: "5px",
                 backgroundColor: "#44A98B",
                 color: "white",
+
               }}
             >
               Apply
