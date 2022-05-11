@@ -86,7 +86,7 @@ const Cards = (props) => {
                   >
                     <Typography
                       sx={{
-                        fontSize: "14px !important",
+                        fontSize: "15px !important",
                         fontWeight: "600",
                         marginRight: "9px",
                         cursor: "pointer",
@@ -102,8 +102,9 @@ const Cards = (props) => {
                             background: "#16C31E",
                             color: "white",
                             fontWeight: "600",
-                            height: "20px",
-                            width: "82",
+                            height: "15px",
+                            marginTop:"3px",
+                            width: "82px"
                           }}
                           label="Approved"
                           size="small"
@@ -114,7 +115,8 @@ const Cards = (props) => {
                             background: "#FF6C5F",
                             color: "white",
                             fontWeight: "600",
-                            height: "20px",
+                            height: "15px",
+                            marginTop:"3px",
                             width: "74px",
                           }}
                           label="Rejected"
@@ -126,7 +128,8 @@ const Cards = (props) => {
                             color: "white",
                             background: "#FFD365",
                             fontWeight: "600",
-                            height: "20px",
+                            height: "15px",
+                            marginTop:"3px",
                             width: "67px",
                           }}
                           label="Archive"
@@ -140,7 +143,7 @@ const Cards = (props) => {
                       {moment.unix(ele.leadGeneratedDate.seconds).fromNow()}
                     </span>
 
-                    <IconButton>
+                    <IconButton style={{ paddingBottom:"0px"}}>
                       {linkedInCompany ? (
                         <a
                           href={`https://www.linkedin.com/company/${linkedInCompany}/`}
@@ -177,7 +180,7 @@ const Cards = (props) => {
                         <p className="head-body">Company</p>
                         <p className="body-detail">
                           {ele.companyName !== null
-                            ? ele.companyName.slice(0, 10)
+                            ? ele.companyName.slice(0, 50)
                             : "..."}
                         </p>
                       </div>
@@ -186,8 +189,8 @@ const Cards = (props) => {
                     <div className="lead-body-column">
                       <div className="lead-body-column-card3">
                         <p className="head-body">Description</p>
-                        <p className="body-detail" style={{ width: "13vw" }}>
-                          {ele.summary.slice(0, 30)}
+                        <p className="body-detail" style={{ width: "300px" }}>
+                          {ele.summary.slice(0, 70)}
                         </p>
                       </div>
                     </div>

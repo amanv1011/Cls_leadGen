@@ -20,17 +20,18 @@
   .export-to-excel-button {
     text-transform: none;
     height: 40px;
+    font-weight: 600;
     width: 181px;
     padding: 10px;
     border-radius: 10px;
     margin-left: 10px;
-    background-color: #323c4c;
+    background-color: #424e62;
     color: rgb(255, 255, 255);
     &:hover {
       cursor: pointer;
-      background: #f9fbf8;
-      color: rgba(0, 58, 210);
-      border: 2px solid rgba(0, 58, 210);
+      background: #2c3646;
+      color: #ffff;
+      
     }
   }
 }
@@ -79,6 +80,5 @@
   margin-right: 10px;
   padding: 5px;
 }
-.filter-icon {
-  margin-left: 10px;
-}
+
+
