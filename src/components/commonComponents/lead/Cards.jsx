@@ -105,6 +105,8 @@ const Cards = (props) => {
       </React.Fragment>
     );
   } else {
+
+
     return (
       <React.Fragment>
         {currentLeads.map((ele) => {
@@ -116,7 +118,7 @@ const Cards = (props) => {
 
           return (
             <React.Fragment key={ele.id}>
-              <div>
+             
                 <Box className="lead-container">
                   <Box className="lead-header">
                     <Box
@@ -128,7 +130,7 @@ const Cards = (props) => {
                     >
                       <Typography
                         sx={{
-                          fontSize: "14px !important",
+                          fontSize: "15px !important",
                           fontWeight: "600",
                           marginRight: "9px",
                           cursor: "pointer",
@@ -144,8 +146,9 @@ const Cards = (props) => {
                               background: "#16C31E",
                               color: "white",
                               fontWeight: "600",
-                              height: "20px",
-                              width: "82",
+                              height: "15px",
+                              marginTop: "3px",
+                              width: "82px"
                             }}
                             label="Approved"
                             size="small"
@@ -156,7 +159,8 @@ const Cards = (props) => {
                               background: "#FF6C5F",
                               color: "white",
                               fontWeight: "600",
-                              height: "20px",
+                              height: "15px",
+                              marginTop: "3px",
                               width: "74px",
                             }}
                             label="Rejected"
@@ -168,7 +172,8 @@ const Cards = (props) => {
                               color: "white",
                               background: "#FFD365",
                               fontWeight: "600",
-                              height: "20px",
+                              height: "15px",
+                              marginTop: "3px",
                               width: "67px",
                             }}
                             label="Archive"
@@ -182,7 +187,7 @@ const Cards = (props) => {
                         {moment.unix(ele.leadGeneratedDate.seconds).fromNow()}
                       </span>
 
-                      <IconButton>
+                      <IconButton style={{ paddingBottom: "0px" }}>
                         {linkedInCompany ? (
                           <a
                             href={`https://www.linkedin.com/company/${linkedInCompany}/`}
@@ -219,7 +224,7 @@ const Cards = (props) => {
                           <p className="head-body">Company</p>
                           <p className="body-detail">
                             {ele.companyName !== null
-                              ? ele.companyName.slice(0, 10)
+                              ? ele.companyName.slice(0, 50)
                               : "..."}
                           </p>
                         </div>
@@ -228,89 +233,91 @@ const Cards = (props) => {
                       <div className="lead-body-column">
                         <div className="lead-body-column-card3">
                           <p className="head-body">Description</p>
-                          <p className="body-detail" style={{ width: "13vw" }}>
-                            {ele.summary.slice(0, 30)}
+                          <p className="body-detail" style={{ width: "300px" }}>
+                            {ele.summary.slice(0, 70)}
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        width: "100%",
-                        marginRight: "2vw",
-                      }}
-                      className="lead-body-row2"
-                    >
+       
                       <div
-                        className="bt"
                         style={{
                           display: "flex",
-                          justifyContent: "space-around",
+                          justifyContent: "flex-end",
+                          width: "100%",
+                          marginRight: "2vw",
                         }}
+                        className="lead-body-row2"
                       >
-                        {ele.status !== 1 ? (
-                          <div style={{ marginRight: "1vw" }}>
-                            <BootstrapTooltip
-                              placement="top"
-                              sx={{ color: "black" }}
-                              title="Approve"
-                              arrow
-                            >
-                              <input
-                                type="image"
-                                alt="approve_image"
-                                style={{ width: "25px" }}
-                                src={approv}
-                                onClick={approveButton}
-                                value={ele.id}
-                              />
-                            </BootstrapTooltip>
-                          </div>
-                        ) : null}
-                        {ele.status !== -1 ? (
-                          <div style={{ marginRight: "1vw" }}>
-                            <BootstrapTooltip
-                              placement="top"
-                              title="Reject"
-                              arrow
-                            >
-                              <input
-                                type="image"
-                                alt="reject_image"
-                                style={{ width: "25px" }}
-                                src={reject}
-                                onClick={rejectButton}
-                                value={ele.id}
-                              />
-                            </BootstrapTooltip>
-                          </div>
-                        ) : null}
-                        {ele.status !== 2 ? (
-                          <div>
-                            <BootstrapTooltip
-                              placement="top"
-                              sx={{ color: "black" }}
-                              title="Archive"
-                              arrow
-                            >
-                              <input
-                                type="image"
-                                alt="archieve_image"
-                                style={{ width: "27.5px", paddingTop: "1px" }}
-                                src={archieve}
-                                onClick={archieveButton}
-                                value={ele.id}
-                              />
-                            </BootstrapTooltip>
-                          </div>
-                        ) : null}
+                        <div
+                          className="bt"
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-around",
+                          }}
+                        >
+                          {ele.status !== 1 ? (
+                            <div style={{ marginRight: "1vw" }}>
+                              <BootstrapTooltip
+                                placement="top"
+                                sx={{ color: "black" }}
+                                title="Approve"
+                                arrow
+                              >
+                                <input
+                                  type="image"
+                                  alt="approve_image"
+                                  style={{ width: "25px" }}
+                                  src={approv}
+                                  onClick={approveButton}
+                                  value={ele.id}
+                                />
+                              </BootstrapTooltip>
+                            </div>
+                          ) : null}
+                          {ele.status !== -1 ? (
+                            <div style={{ marginRight: "1vw" }}>
+                              <BootstrapTooltip
+                                placement="top"
+                                title="Reject"
+                                arrow
+                              >
+                                <input
+                                  type="image"
+                                  alt="reject_image"
+                                  style={{ width: "25px" }}
+                                  src={reject}
+                                  onClick={rejectButton}
+                                  value={ele.id}
+                                />
+                              </BootstrapTooltip>
+                            </div>
+                          ) : null}
+                          {ele.status !== 2 ? (
+                            <div>
+                              <BootstrapTooltip
+                                placement="top"
+                                sx={{ color: "black" }}
+                                title="Archive"
+                                arrow
+                              >
+                                <input
+                                  type="image"
+                                  alt="archieve_image"
+                                  style={{ width: "27.5px", paddingTop: "1px" }}
+                                  src={archieve}
+                                  onClick={archieveButton}
+                                  value={ele.id}
+                                />
+                              </BootstrapTooltip>
+                            </div>
+                          ) : null}
+                        </div>
                       </div>
-                    </div>
+                      
                   </Box>
                 </Box>
-              </div>
+             
             </React.Fragment>
           );
         })}

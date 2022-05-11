@@ -115,7 +115,7 @@ const LeadsHeader = () => {
             }}
           >
             <input
-              placeholder="Search"
+              placeholder={`Search for "Keywords"`}
               onChange={handleSearch}
               type="text"
               className="search-input-leads"
@@ -284,17 +284,25 @@ const LeadsHeader = () => {
             })}
           </Menu>
           <div className="filter-icon">
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Tooltip  title="Filter" placement="top-start">
-              <IconButton
-                onClick={clearFilterTab}
-                aria-label="filter"
-                size="small"
-              >
-                <FilterAltOffIcon sx={{ color: "#8A99B7" }} />
-              </IconButton>
-              </Tooltip>
-            </Stack>
+            <Tooltip title="Filter" placement="top-start">
+            <Button onClick={clearFilterTab}
+              style={{
+                fontFamily: "Segoe UI",
+                textTransform: "none",
+                height: "40px",
+                width: "35px",
+                fontWeight: "600",
+                padding: "10px",
+                borderRadius: "10px",
+                marginLeft: "5px",
+                backgroundColor: "rgba(231, 231, 231)",
+                color: "rgba(92, 117, 154)",
+              }}
+            >
+              <FilterAltOffIcon />
+            </Button>
+            </Tooltip>
+          
           </div>
         </div>
       </div>
