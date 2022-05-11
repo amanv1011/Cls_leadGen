@@ -5,6 +5,7 @@ import {getApproveRejectCountReducer} from "./approveRejectCountReducer"
 import {PopupReducers} from './PopupReducers'
 import {leadsFilterReducer} from './leadsFilterReducer'
 import {dateModalReducer } from './dateModalReducer';
+import {paginationReducer} from './paginationReducer'
 
 const rootReducer = combineReducers({
   allCampaigns: getAllCampaignsReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   approveRejectCount: getApproveRejectCountReducer,
   popupStatus: PopupReducers,
   leadsFilter: leadsFilterReducer,
-  dateModal: dateModalReducer
+  dateModal: dateModalReducer,
+  paginationStates: paginationReducer,
 });
 
 export default rootReducer;

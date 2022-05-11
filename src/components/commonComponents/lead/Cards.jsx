@@ -4,7 +4,7 @@ import LinkedIn from "./LinkedIn";
 import moment from "moment";
 import { getPopupEnable } from "../../../redux/actions/PopupAction";
 import { useDispatch } from "react-redux";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { updateLeadStatus } from "../../../redux/actions/leadActions";
 import approv from "../../../assets/approv.svg";
 import reject from "../../../assets/reject.svg";
@@ -14,40 +14,14 @@ import { styled } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import "./lead.scss";
 import { useSelector } from "react-redux";
-import PaginationComponent from "../../commonComponents/PaginationComponent";
+import {setTotalCount} from "../../../redux/actions/paginationActions"
+
 
 const Cards = (props) => {
   const dispatch = useDispatch();
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
-  const leadsLoader = useSelector((state) => state.allLeads.loading);
-  const [leadsPerPage, setLeadsPerPage] = useState(50);
-  const approveRejectCount = useSelector((state) => state.approveRejectCount);
-  const [lengthOfLeads, setLengthOfLeads] = useState(0);
   const leadsData = props.leadData;
-
-  useEffect(() => {
-    if (approveRejectCount) {
-      if (window.location.pathname === "/leads") {
-        setLengthOfLeads(approveRejectCount.allCount);
-      }
-      if (window.location.pathname === "/leads/underreview") {
-        setLengthOfLeads(approveRejectCount.underreviewCount);
-      }
-      if (window.location.pathname === "/leads/approve") {
-        setLengthOfLeads(approveRejectCount.approveCount);
-      }
-      if (window.location.pathname === "/leads/reject") {
-        setLengthOfLeads(approveRejectCount.rejectCount);
-      }
-      if (window.location.pathname === "/leads/archive") {
-        setLengthOfLeads(approveRejectCount.archieveCount);
-      }
-    } else {
-      setLengthOfLeads(genratedLeadData.length);
-    }
-  }, [genratedLeadData.length, approveRejectCount]);
+  const currentPage = useSelector((state) => state.paginationStates.activePage);
+  const leadsPerPage = useSelector((state) => state.paginationStates.leadsPerPage) 
 
   let approveButton = (event) => {
     dispatch(updateLeadStatus(event.target.value, 1));
@@ -83,43 +57,24 @@ const Cards = (props) => {
   const indexOfFirstLead = indexOfLastLead - leadsPerPage;
   const currentLeads = leadsData.slice(indexOfFirstLead, indexOfLastLead);
 
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const onNumberOfLeadsChangeHandler = (event) => {
-    setLeadsPerPage(event.target.value);
-  };
+  useEffect(() => {
+    dispatch(setTotalCount(leadsData.length));
+    
+  })
 
-  if (leadsLoader) {
-    return <h1>Loading...</h1>;
-  } else if (leadsLoader === false && currentLeads.length === 0) {
-    return (
-      <React.Fragment>
-        <Box
-          className="lead-container"
-          style={{
-            overflowY: "hidden",
-          }}
-        >
-          <Box className="lead-header">
-            <Box className="lead-header-title">No Data found</Box>
-          </Box>
-          <Box className="lead-body"></Box>
-        </Box>
-      </React.Fragment>
-    );
-  } else {
-    return (
-      <React.Fragment>
-        {currentLeads.map((ele) => {
-          if (ele.companyName !== null) {
-            linkedInCompany = ele.companyName.toLowerCase().split(" ").join("");
-          } else {
-            linkedInCompany = "";
-          }
 
-          return (
-            <React.Fragment key={ele.id}>
+  return (
+    <React.Fragment>
+      {currentLeads.map((ele) => {
+        if (ele.companyName !== null) {
+          linkedInCompany = ele.companyName.toLowerCase().split(" ").join("");
+        } else {
+          linkedInCompany = "";
+        }
+
+        return (
+          <React.Fragment key={ele.id}>
+            <div>
               <Box className="lead-container">
                 <Box className="lead-header">
                   <Box
@@ -144,13 +99,11 @@ const Cards = (props) => {
                       ele.status === 1 ? (
                         <Chip
                           sx={{
-                            
                             background: "#16C31E",
                             color: "white",
                             fontWeight: "600",
-                            height: "15px",
+                            height: "20px",
                             width: "82",
-                            marginTop:"3px"
                           }}
                           label="Approved"
                           size="small"
@@ -161,9 +114,8 @@ const Cards = (props) => {
                             background: "#FF6C5F",
                             color: "white",
                             fontWeight: "600",
-                            height: "15px",
+                            height: "20px",
                             width: "74px",
-                            marginTop:"3px"
                           }}
                           label="Rejected"
                           size="small"
@@ -174,9 +126,8 @@ const Cards = (props) => {
                             color: "white",
                             background: "#FFD365",
                             fontWeight: "600",
-                            height: "15px",
+                            height: "20px",
                             width: "67px",
-                            marginTop:"3px"
                           }}
                           label="Archive"
                           size="small"
@@ -189,7 +140,7 @@ const Cards = (props) => {
                       {moment.unix(ele.leadGeneratedDate.seconds).fromNow()}
                     </span>
 
-                    <IconButton style={{ paddingBottom:"0"}}>
+                    <IconButton>
                       {linkedInCompany ? (
                         <a
                           href={`https://www.linkedin.com/company/${linkedInCompany}/`}
@@ -235,8 +186,8 @@ const Cards = (props) => {
                     <div className="lead-body-column">
                       <div className="lead-body-column-card3">
                         <p className="head-body">Description</p>
-                        <p className="body-detail" style={{ width: "300px" }}>
-                          {ele.summary.slice(0, 70)}
+                        <p className="body-detail" style={{ width: "13vw" }}>
+                          {ele.summary.slice(0, 30)}
                         </p>
                       </div>
                     </div>
@@ -317,39 +268,12 @@ const Cards = (props) => {
                   </div>
                 </Box>
               </Box>
-            </React.Fragment>
-          );
-        })}
-
-        <footer className="pagination">
-          <p>{`leads ${indexOfFirstLead + 1} to ${
-            indexOfFirstLead + currentLeads.length
-          }`}</p>
-
-          <select
-            className="card-selects"
-            name="source"
-            // value={leadsPerPage}
-            onChange={onNumberOfLeadsChangeHandler}
-            autoComplete="off"
-          >
-            <option value="" disabled selected>
-              Select number of leads to display
-            </option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-            <option value={150}>150</option>
-            <option value={200}>200</option>
-          </select>
-          <PaginationComponent
-            leadsPerPage={leadsPerPage}
-            totalLeads={lengthOfLeads}
-            paginate={paginate}
-          />
-        </footer>
-      </React.Fragment>
-    );
-  }
+            </div>
+          </React.Fragment>
+        );
+      })}
+    </React.Fragment>
+  );
 };
 
 export default Cards;

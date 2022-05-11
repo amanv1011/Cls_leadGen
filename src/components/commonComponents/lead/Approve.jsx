@@ -11,6 +11,7 @@ import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
 import { filterLeads } from "../lead/filterLeads";
 import { filterCount } from "../lead/filterCount";
+import { setActivePage } from "../../../redux/actions/paginationActions";
 import PopupBox from "./PopupBox";
 import "./lead.scss";
 
@@ -40,7 +41,7 @@ const Approve = () => {
       approveList,
       searchDate,
       searchQuery,
-      false
+      
     );
   }
   if (
@@ -56,7 +57,7 @@ const Approve = () => {
       approveList,
       searchDate,
       searchQuery,
-      true
+      
     );
   }
 
@@ -73,7 +74,7 @@ const Approve = () => {
       approveList,
       searchDate,
       searchQuery,
-      true
+      
     );
   }
 
@@ -90,7 +91,7 @@ const Approve = () => {
       approveList,
       searchDate,
       searchQuery,
-      true
+      
     );
   }
 
@@ -115,6 +116,10 @@ const Approve = () => {
       getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
     );
   });
+
+  useEffect(() => {
+    dispatch(setActivePage(1));
+  },[searchQuery, ownerNameFilter, searchDate, campaignNameFilter ])
 
   return (
     <>
