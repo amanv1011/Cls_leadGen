@@ -11,23 +11,31 @@
     align-content: center;
     .back-button {
       margin: 0px 4px 0px 0px;
+
+      .back-button-img {
+        width: 16px;
+        height: 16px;
+      }
     }
     .logo-image {
-      margin: 0px 0px 0px 8px;
-      width: 247px;
-      height: 26px;
+      width: 235px;
+      height: 22px;
+      box-sizing: border-box;
+      margin: 0px 0px 4px 12px;
     }
   }
   .user-profile-container {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin: 0px 15px;
     &:hover {
       opacity: 0.9;
       cursor: pointer;
     }
     .profile-icon {
-      margin-left: 12px;
+      margin-left: 15px;
+      margin-right: 8px;
     }
     .user-profile-title {
       font-size: 14px;
