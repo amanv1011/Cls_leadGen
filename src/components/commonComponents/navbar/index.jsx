@@ -61,7 +61,11 @@ const Navbar = ({ handleDrawer }) => {
         <Box className="logo-container">
           <Box className="back-button">
             <IconButton onClick={handleDrawer}>
-              <img src={backButton} alt="back button"></img>
+              <img
+                src={backButton}
+                alt="back button"
+                className="back-button-img"
+              ></img>
             </IconButton>
           </Box>
           <img
@@ -75,13 +79,13 @@ const Navbar = ({ handleDrawer }) => {
         <Box style={{ display: "flex", alignItems: "center" }}>
           <Box>
             {" "}
-            <IconButton className="notification">
+            {/* <IconButton className="notification">
               <img
                 src={NotificationZero}
                 alt="notifications"
                 className="notification-icon"
               />
-            </IconButton>
+            </IconButton> */}
           </Box>
           <Box
             component={"div"}
