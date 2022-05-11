@@ -82,3 +82,21 @@
 .filter-icon {
   margin-left: 10px;
 }
+
+.pagination {
+  margin: 20px;
+  display: flex;
+  align-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  .card-selects {
+    border: none;
+    outline: none;
+    width: 263px;
+    height: 41px;
+  }
+  .css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-disabled {
+    pointer-events: auto;
+    cursor: not-allowed;
+  }
+}

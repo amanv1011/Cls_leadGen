@@ -40,8 +40,7 @@ const Approve = () => {
       campaignIds,
       approveList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
   if (
@@ -56,8 +55,7 @@ const Approve = () => {
       campaignIds,
       approveList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -73,8 +71,7 @@ const Approve = () => {
       campaignIds,
       approveList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -90,8 +87,7 @@ const Approve = () => {
       campaignIds,
       approveList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -119,13 +115,12 @@ const Approve = () => {
 
   useEffect(() => {
     dispatch(setActivePage(1));
-  },[searchQuery, ownerNameFilter, searchDate, campaignNameFilter ])
+  }, [searchQuery, ownerNameFilter, searchDate, campaignNameFilter]);
 
   return (
     <>
       {popupStatus ? <PopupBox data={popupData} /> : null}
       <Cards leadData={filterApprov} />
-      
     </>
   );
 };
