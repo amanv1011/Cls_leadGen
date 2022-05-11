@@ -1,5 +1,5 @@
 .lead-container {
-  width: auto;
+  width: 98%;
   background: #ffffff;
   height: auto;
   box-shadow: 0px 4px 8px #d9ebf2;
@@ -68,15 +68,15 @@
 
 .lead-body-column-card1 {
   margin-right: 50px;
+  width: 10vw;
 }
 
 .lead-body-column-card2 {
   margin-right: 50px;
+  width: 10vw;
 }
 
-.lead-body-column-card3 {
-  margin-right: 50px;
-}
+
 
 .lead-body-column-card4 {
   margin-right: 50px;
@@ -111,4 +111,31 @@
 
 .lead-body-row {
   padding-top: 3px;
+}
+.Response-time{
+margin-right: 12px;
+}
+.pagination {
+  align-items: center;
+  margin: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+  top: 648px;
+  width: 89%;
+  .card-selects {
+    border: none;
+    outline: none;
+    width: 263px;
+    height: 41px;
+  }
+
+  .css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-disabled {
+    pointer-events: auto;
+    cursor: not-allowed;
+  }
 }

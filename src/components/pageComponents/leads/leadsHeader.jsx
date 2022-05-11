@@ -9,9 +9,9 @@ import DownArrow from "./DownArrow";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import IconButton from "@mui/material/IconButton";
+import Tooltip from '@mui/material/Tooltip';
+
 import Stack from "@mui/material/Stack";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import { styled } from "@mui/material/styles";
 import "./leadsHeader.scss";
 import {
   leadsFilterCampaignName,
@@ -20,23 +20,12 @@ import {
   clearFilters,
 } from "../../../redux/actions/leadsFilter";
 
-const BootstrapTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} arrow classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.common.black,
-  },
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.black,
-    fontSize: "14px",
-    fontWeight: "600",
-    borderRadius: "8px",
-  },
-}));
+
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
   const SearchInput = useRef("");
+
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
@@ -50,6 +39,14 @@ const LeadsHeader = () => {
   const handleClickAllCampgainsMenu = (event) => {
     setAllCampgainsMenu(event.currentTarget);
   };
+
+  const uniqueOwner = [];
+
+  leadData.forEach((c) => {
+    if (!uniqueOwner.includes(c.owner)) {
+      uniqueOwner.push(c.owner);
+    }
+  });
 
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);
@@ -85,18 +82,18 @@ const LeadsHeader = () => {
   };
 
   const handleSearch = () => {
-    dispatch(leadsFilterSearch(SearchInput.current.value));
-    SearchInput.current.value = "";
+    if((SearchInput.current.value).length > 1){
+      dispatch(leadsFilterSearch(SearchInput.current.value));
+    }
+    
+
   };
+
+
 
   const clearFilterTab = () => {
     dispatch(clearFilters());
   };
-
-  useEffect(() => {
-    SearchInput.current.value = "";
-    dispatch(leadsFilterSearch(SearchInput.current.value));
-  });
 
   return (
     <>
@@ -119,6 +116,7 @@ const LeadsHeader = () => {
           >
             <input
               placeholder="Search"
+              onChange={handleSearch}
               type="text"
               className="search-input-leads"
               ref={SearchInput}
@@ -136,7 +134,6 @@ const LeadsHeader = () => {
             />
             <div
               className="search-icon"
-              onClick={handleSearch}
               style={{ paddingTop: "9px", paddingRight: "4px" }}
             >
               <SearchIcon />
@@ -173,7 +170,7 @@ const LeadsHeader = () => {
               anchorEl={allCampgainsMenu}
               PaperProps={{
                 style: {
-                  width: "181px",
+                  width: "auto",
                   borderRadius: "10px",
                   marginTop: "3px",
                   boxShadow: "none",
@@ -215,7 +212,7 @@ const LeadsHeader = () => {
             </Menu>
           </div>
         </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", paddingRight:"27px" }}>
           <DateModal />
           <Button
             id="basic-button"
@@ -246,7 +243,7 @@ const LeadsHeader = () => {
             anchorEl={ownerMenu}
             PaperProps={{
               style: {
-                width: "181px",
+                width: "auto",
                 borderRadius: "10px",
                 marginTop: "3px",
                 boxShadow: "none",
@@ -269,7 +266,7 @@ const LeadsHeader = () => {
             >
               All Owners
             </MenuItem>
-            {leadData.map((ele) => {
+            {uniqueOwner.map((ele) => {
               return (
                 <React.Fragment key={ele.id}>
                   <MenuItem
@@ -280,7 +277,7 @@ const LeadsHeader = () => {
                     }}
                     onClick={handleCloseOwnerMenu}
                   >
-                    {ele.owner}
+                    {ele}
                   </MenuItem>
                 </React.Fragment>
               );
@@ -288,6 +285,7 @@ const LeadsHeader = () => {
           </Menu>
           <div className="filter-icon">
             <Stack direction="row" alignItems="center" spacing={1}>
+              <Tooltip  title="Filter" placement="top-start">
               <IconButton
                 onClick={clearFilterTab}
                 aria-label="filter"
@@ -295,6 +293,7 @@ const LeadsHeader = () => {
               >
                 <FilterAltOffIcon sx={{ color: "#8A99B7" }} />
               </IconButton>
+              </Tooltip>
             </Stack>
           </div>
         </div>

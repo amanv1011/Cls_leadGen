@@ -34,13 +34,13 @@ const Dashboard = ({ children }) => {
   let [yesterdaysLeads, setYesterdaysLeads] = useState(0);
   let [weeklyLeadsPer, setWeeklyLeadsPer] = useState(0);
   let [weeklyLeads, setWeeklyLeads] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleDrawer = () => {
     setOpen(!open);
   };
   const handleDrawerClose = () => {
-    setOpen(false);
+    setOpen(true);
   };
 
   const navigate = useNavigate();
@@ -94,7 +94,6 @@ const Dashboard = ({ children }) => {
 
     if (genratedLeadData !== []) {
       genratedLeadData.forEach((ele) => {
-        leadCount++;
         if (
           moment.unix(ele.leadGeneratedDate.seconds).format("MM/DD/YYYY") ===
           currentDate
@@ -115,6 +114,14 @@ const Dashboard = ({ children }) => {
           Weekly++;
         }
       });
+    }
+
+    for (let i = 0; i < leadData.length; i++) {
+      for (let j = 0; j < genratedLeadData.length; j++) {
+        if (genratedLeadData[j].campaignId === leadData[i].id) {
+          leadCount++;
+        }
+      }
     }
     if (leadCount === 0) {
       leadExtracted = 0;
@@ -175,6 +182,7 @@ const Dashboard = ({ children }) => {
               alignItems: "center",
               marginLeft: "-25px",
               marginBottom: "5px",
+              paddingTop: "15px"
             }}
           >
             <IconButton onClick={goBack}>
@@ -240,7 +248,7 @@ const Dashboard = ({ children }) => {
                       paddingTop: "9px",
                     }}
                   >
-                    <div style={{ marginRight: "45px" }}>
+                    <div className="dash-card-subhead-wrapper" style={{ marginRight: "45px" }}>
                       <h3 className="dash-card-head">{todaysLeads}</h3>
 
                       <span
@@ -251,7 +259,7 @@ const Dashboard = ({ children }) => {
                       ></span>
                       <span className="dash-card-subhead">Today</span>
                     </div>
-                    <div style={{ marginRight: "45px" }}>
+                    <div className="dash-card-subhead-wrapper" style={{ marginRight: "45px" }}>
                       <h3 className="dash-card-head">{yesterdaysLeads}</h3>
                       <span
                         className="dash-card-bullet"
@@ -262,7 +270,7 @@ const Dashboard = ({ children }) => {
 
                       <span className="dash-card-subhead">Yesterday</span>
                     </div>
-                    <div>
+                    <div className="dash-card-subhead-wrapper">
                       <h3 className="dash-card-head">{weeklyLeads}</h3>
                       <span
                         className="dash-card-bullet"

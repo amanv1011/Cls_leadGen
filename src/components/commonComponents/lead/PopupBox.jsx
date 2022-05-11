@@ -20,6 +20,7 @@ function PopuoBox(props) {
   const handleClose = () => {
     dispatch(getPopupDisable());
   };
+  
 
   return (
     <div>
@@ -59,8 +60,8 @@ function PopuoBox(props) {
                     fontSize: "14px",
                   }}
                 >
-                  {" "}
-                  Contact Person{" "}
+                  {""}
+                  Contact Person{""}
                 </Typography>
                 <div className="b0x-container-passage-name">
                   <Typography
@@ -73,10 +74,10 @@ function PopuoBox(props) {
                     }}
                   >
                     {" "}
-                    Ajay{" "}
+                    {"NA  "}
                   </Typography>
                   <br />
-                  <hr style={{ color: "#1F4173", opacity: "0.1" }} />
+                  
                 </div>
                 <Typography> Contact Email ID </Typography>
                 <div className="b0x-container-passage-name">
@@ -89,11 +90,11 @@ function PopuoBox(props) {
                       marginTop: "5px",
                     }}
                   >
-                    {" "}
-                    ajay.gupta@hcl.com
+                    {"NA "}
+                    
                   </Typography>
                   <br />
-                  <hr style={{ color: "#1F4173", opacity: "0.1" }} />
+                  
                 </div>
                 <Typography>Company Name </Typography>
                 <div className="b0x-container-passage-name">
@@ -109,9 +110,9 @@ function PopuoBox(props) {
                     {popupdata.companyName}
                   </Typography>
                   <br />
-                  <hr style={{ color: "#1F4173", opacity: "0.1" }} />
+                  
                 </div>
-                <Typography>Job Description</Typography>
+                <Typography>Location </Typography>
                 <div className="b0x-container-passage-name">
                   <Typography
                     style={{
@@ -122,11 +123,29 @@ function PopuoBox(props) {
                       marginTop: "5px",
                     }}
                   >
-                    {" "}
-                    {popupdata.summary}
+                    {popupdata.location}
                   </Typography>
                   <br />
-                  <hr style={{ color: "black", opacity: "0.1" }} />
+                  
+                </div>
+                <Typography>Job Description</Typography>
+                <div className="b0x-container-passage-name">
+                  <Typography
+                    style={{
+                      color: "#1F4173",
+                      fontWeight: "600",
+                      fontSize: "14px",
+                      fontStyle: "normal",
+                      marginTop: "5px",
+                      
+                    }}
+                  >
+                    {" "}
+                    {popupdata.summary}
+                    
+                  </Typography>
+                  <br />
+                 
                 </div>
               </div>
             </div>
