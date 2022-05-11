@@ -14,14 +14,15 @@ import { styled } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import "./lead.scss";
 import { useSelector } from "react-redux";
-import {setTotalCount} from "../../../redux/actions/paginationActions"
-
+import { setTotalCount } from "../../../redux/actions/paginationActions";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
   const leadsData = props.leadData;
   const currentPage = useSelector((state) => state.paginationStates.activePage);
-  const leadsPerPage = useSelector((state) => state.paginationStates.leadsPerPage) 
+  const leadsPerPage = useSelector(
+    (state) => state.paginationStates.leadsPerPage
+  );
 
   let approveButton = (event) => {
     dispatch(updateLeadStatus(event.target.value, 1));
@@ -59,9 +60,7 @@ const Cards = (props) => {
 
   useEffect(() => {
     dispatch(setTotalCount(leadsData.length));
-    
-  })
-
+  });
 
   return (
     <React.Fragment>
@@ -71,7 +70,6 @@ const Cards = (props) => {
         } else {
           linkedInCompany = "";
         }
-
         return (
           <React.Fragment key={ele.id}>
             <div>

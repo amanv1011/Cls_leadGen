@@ -137,9 +137,14 @@ const Table = () => {
           item[key].toString().toLowerCase().includes(lowerCasedValue)
         );
       });
+      console.log("campaignListData while searching", campaignListData);
+      console.log("filteredData", filteredData);
+
       setCampaignListData(filteredData);
     }
   };
+
+  console.log("campaignListData", campaignListData);
 
   const statusUpdate = async (event, a__campgaignId) => {
     if (event.target.checked) {
@@ -160,8 +165,9 @@ const Table = () => {
     if (day.length < 2) day = "0" + day;
     return [day, month, year].join("/");
   }
-  return (
-    <React.Fragment>
+
+  if ((campaignLoader === false && campaignListData.length) === 0) {
+    return (
       <div>
         <div className="outer-wrapper">
           <table>
@@ -169,57 +175,31 @@ const Table = () => {
               <tr>
                 <th className="campaign-name">Campaign Name</th>
                 <th className="location">Location</th>
-                <th
-                  className="numOfLeads"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    sortingTable("leadsNo");
-                  }}
-                >
+                <th className="numOfLeads">
                   No. of Leads
                   <i>
                     <Down />
                   </i>
                 </th>
-                <th
-                  className="headerHover start-date"
-                  onClick={() => {
-                    sortingTable("start_date");
-                  }}
-                >
+                <th className="start-date">
                   Start Date
                   <i>
                     <Down />
                   </i>
                 </th>
-                <th
-                  className="headerHover end-date"
-                  onClick={() => {
-                    sortingTable("end_date");
-                  }}
-                >
+                <th className="end-date">
                   End Date
                   <i>
                     <Down />
                   </i>
                 </th>
-                <th
-                  className="headerHover created-by"
-                  onClick={() => {
-                    sortingTable("owner");
-                  }}
-                >
+                <th className="created-by">
                   Created By
                   <i>
                     <Down />
                   </i>
                 </th>
-                <th
-                  className="headerHover status"
-                  onClick={() => {
-                    sortingTable("status");
-                  }}
-                >
+                <th className="status">
                   Status
                   <i>
                     <Down />
@@ -232,240 +212,334 @@ const Table = () => {
           </table>
         </div>
         <div className="table-wrapper">
-          {campaignLoader && (
-            <Backdrop
-              sx={{
-                color: "#003AD2",
-                zIndex: (theme) => theme.zIndex.drawer + 1,
-                backgroundColor: "transparent",
-              }}
-              open={campaignLoader}
-            >
-              <CircularProgress color="inherit" />
-            </Backdrop>
-          )}
-
           <table id="table-to-xls">
             <tbody>
-              {campaignListData.length !== 0 &&
-                campaignListData.map((campaignListItem) => {
-                  return (
-                    <React.Fragment key={campaignListItem.id}>
-                      <tr>
-                        <td className="campaign-name">
-                          {campaignListItem.name}
-                        </td>
-                        <td className="location">
-                          {campaignListItem.location}
-                        </td>
-
-                        <td
-                          className="numOfLeads"
-                          onClick={() => {
-                            if (getNumOfLeads(campaignListItem.id)) {
-                              dispatch(
-                                leadsFilterActions.leadsFilterCampaignName(
-                                  campaignListItem.name
-                                )
-                              );
-                              dispatch(
-                                leadsFilterActions.leadsFilterOwnerName(
-                                  campaignListItem.owner
-                                )
-                              );
-                            } else {
-                              dispatch(
-                                leadsFilterActions.leadsFilterCampaignName(
-                                  "All Campaigns"
-                                )
-                              );
-                              dispatch(
-                                leadsFilterActions.leadsFilterOwnerName(
-                                  "All Owners"
-                                )
-                              );
-                            }
-                          }}
-                        >
-                          <Tooltip
-                            title={
-                              getNumOfLeads(campaignListItem.id)
-                                ? `Browse ${campaignListItem.name} leads`
-                                : "No Leads"
-                            }
-                            arrow
-                          >
-                            <Link
-                              to={
-                                getNumOfLeads(campaignListItem.id)
-                                  ? "/leads"
-                                  : false
-                              }
-                              style={
-                                getNumOfLeads(campaignListItem.id) === 0
-                                  ? {
-                                      pointerEvents: "auto",
-                                      cursor: "not-allowed",
-                                    }
-                                  : {}
-                              }
-                            >
-                              {getNumOfLeads(campaignListItem.id)
-                                ? getNumOfLeads(campaignListItem.id)
-                                : "No Leads"}
-                            </Link>
-                          </Tooltip>
-                        </td>
-
-                        <td className="start-date">
-                          {formatDate(campaignListItem.start_date.toDate())}
-                        </td>
-                        <td className="end-date">
-                          {formatDate(campaignListItem.end_date.toDate())}
-                        </td>
-                        <td className="created-by">{campaignListItem.owner}</td>
-                        <td className="status">
-                          {campaignListItem.status ? (
-                            <Status />
-                          ) : (
-                            <StatusInActive />
-                          )}
-                        </td>
-
-                        <td className="actions">
-                          <div className="green-switch">
-                            <Tooltip title="Tooggle the status of the campaign">
-                              <GreenSwitch
-                                className="toggleSwitch"
-                                defaultChecked={
-                                  campaignListItem.status ? true : false
-                                }
-                                onClick={(event) =>
-                                  statusUpdate(event, campaignListItem.id)
-                                }
-                              />
-                            </Tooltip>
-                            <Tooltip
-                              title={
-                                getNumOfLeads(campaignListItem.id)
-                                  ? "Download"
-                                  : "Download disabled"
-                              }
-                              arrow
-                            >
-                              <span>
-                                <IconButton
-                                  disabled={
-                                    getNumOfLeads(campaignListItem.id)
-                                      ? false
-                                      : true
-                                  }
-                                  style={
-                                    getNumOfLeads(campaignListItem.id) === 0
-                                      ? {
-                                          pointerEvents: "auto",
-                                          cursor: "not-allowed",
-                                        }
-                                      : {}
-                                  }
-                                  onClick={() =>
-                                    forDownloading(
-                                      campaignListItem.id,
-                                      campaignListItem.name
-                                    )
-                                  }
-                                >
-                                  <Download />
-                                </IconButton>
-                              </span>
-                            </Tooltip>
-
-                            <Tooltip title="Edit" arrow>
-                              <span>
-                                <IconButton
-                                  onClick={() => {
-                                    dispatch(
-                                      campaignActions.campaignIDAction(
-                                        campaignListItem.id
-                                      )
-                                    );
-                                    dispatch(campaignActions.showModal());
-                                  }}
-                                >
-                                  <Edit />
-                                </IconButton>
-                              </span>
-                            </Tooltip>
-
-                            <Tooltip title="View" arrow>
-                              <span>
-                                <IconButton
-                                  onClick={() => Viewed(campaignListItem.id)}
-                                >
-                                  <View />
-                                </IconButton>
-                              </span>
-                            </Tooltip>
-
-                            <Tooltip
-                              title={
-                                getNumOfLeads(campaignListItem.id)
-                                  ? "Delete disabled"
-                                  : "Delete"
-                              }
-                              arrow
-                            >
-                              <span>
-                                <IconButton
-                                  disabled={
-                                    getNumOfLeads(campaignListItem.id)
-                                      ? true
-                                      : false
-                                  }
-                                  style={
-                                    getNumOfLeads(campaignListItem.id) === 0
-                                      ? {}
-                                      : {
-                                          pointerEvents: "auto",
-                                          cursor: "not-allowed",
-                                        }
-                                  }
-                                  onClick={() => {
-                                    setOpenAlert(true);
-                                    setCampaignName(campaignListItem.name);
-                                    setIdForDelete(campaignListItem.id);
-                                  }}
-                                >
-                                  <Delete />
-                                </IconButton>
-                              </span>
-                            </Tooltip>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr className="bottomBorder"></tr>
-                    </React.Fragment>
-                  );
-                })}
+              <tr>
+                <td
+                  style={{
+                    width: "100%",
+                    fontSize: "18px",
+                    textAlign: "center",
+                  }}
+                >
+                  Searched campaigns(s) not found
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <CampaignDetailsView
-        openDialog={openDialog}
-        setOpenDialog={setOpenDialog}
-        viewDetails={viewDetails}
-      />
-      <AlertBeforeAction
-        open={openAlert}
-        setOpenAlert={setOpenAlert}
-        campaignItemId={idForDelete}
-        setIdForDelete={setIdForDelete}
-        campaignName={campaignName}
-        setCampaignName={setCampaignName}
-      />
-    </React.Fragment>
-  );
+    );
+  } else {
+    return (
+      <React.Fragment>
+        <div>
+          <div className="outer-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th className="campaign-name">Campaign Name</th>
+                  <th className="location">Location</th>
+                  <th
+                    className="numOfLeads"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      sortingTable("leadsNo");
+                    }}
+                  >
+                    No. of Leads
+                    <i>
+                      <Down />
+                    </i>
+                  </th>
+                  <th
+                    className="headerHover start-date"
+                    onClick={() => {
+                      sortingTable("start_date");
+                    }}
+                  >
+                    Start Date
+                    <i>
+                      <Down />
+                    </i>
+                  </th>
+                  <th
+                    className="headerHover end-date"
+                    onClick={() => {
+                      sortingTable("end_date");
+                    }}
+                  >
+                    End Date
+                    <i>
+                      <Down />
+                    </i>
+                  </th>
+                  <th
+                    className="headerHover created-by"
+                    onClick={() => {
+                      sortingTable("owner");
+                    }}
+                  >
+                    Created By
+                    <i>
+                      <Down />
+                    </i>
+                  </th>
+                  <th
+                    className="headerHover status"
+                    onClick={() => {
+                      sortingTable("status");
+                    }}
+                  >
+                    Status
+                    <i>
+                      <Down />
+                    </i>
+                  </th>
+                  <th className="actions">Actions</th>
+                </tr>
+                <tr className="bottomBorder"></tr>
+              </thead>
+            </table>
+          </div>
+          <div className="table-wrapper">
+            {campaignLoader && (
+              <Backdrop
+                sx={{
+                  color: "#003AD2",
+                  zIndex: (theme) => theme.zIndex.drawer + 1,
+                  backgroundColor: "transparent",
+                }}
+                open={campaignLoader}
+              >
+                <CircularProgress color="inherit" />
+              </Backdrop>
+            )}
+
+            <table id="table-to-xls">
+              <tbody>
+                {campaignListData.length !== 0 &&
+                  campaignListData.map((campaignListItem) => {
+                    return (
+                      <React.Fragment key={campaignListItem.id}>
+                        <tr>
+                          <td className="campaign-name">
+                            {campaignListItem.name}
+                          </td>
+                          <td className="location">
+                            {campaignListItem.location}
+                          </td>
+
+                          <td
+                            className="numOfLeads"
+                            onClick={() => {
+                              if (getNumOfLeads(campaignListItem.id)) {
+                                dispatch(
+                                  leadsFilterActions.leadsFilterCampaignName(
+                                    campaignListItem.name
+                                  )
+                                );
+                                dispatch(
+                                  leadsFilterActions.leadsFilterOwnerName(
+                                    campaignListItem.owner
+                                  )
+                                );
+                              } else {
+                                dispatch(
+                                  leadsFilterActions.leadsFilterCampaignName(
+                                    "All Campaigns"
+                                  )
+                                );
+                                dispatch(
+                                  leadsFilterActions.leadsFilterOwnerName(
+                                    "All Owners"
+                                  )
+                                );
+                              }
+                            }}
+                          >
+                            <Tooltip
+                              title={
+                                getNumOfLeads(campaignListItem.id)
+                                  ? `Browse ${campaignListItem.name} leads`
+                                  : "No Leads"
+                              }
+                              arrow
+                            >
+                              <Link
+                                to={
+                                  getNumOfLeads(campaignListItem.id)
+                                    ? "/leads"
+                                    : false
+                                }
+                                style={
+                                  getNumOfLeads(campaignListItem.id) === 0
+                                    ? {
+                                        pointerEvents: "auto",
+                                        cursor: "not-allowed",
+                                      }
+                                    : {}
+                                }
+                              >
+                                {getNumOfLeads(campaignListItem.id)
+                                  ? getNumOfLeads(campaignListItem.id)
+                                  : "No Leads"}
+                              </Link>
+                            </Tooltip>
+                          </td>
+
+                          <td className="start-date">
+                            {formatDate(campaignListItem.start_date.toDate())}
+                          </td>
+                          <td className="end-date">
+                            {formatDate(campaignListItem.end_date.toDate())}
+                          </td>
+                          <td className="created-by">
+                            {campaignListItem.owner}
+                          </td>
+                          <td className="status">
+                            {campaignListItem.status ? (
+                              <Status />
+                            ) : (
+                              <StatusInActive />
+                            )}
+                          </td>
+
+                          <td className="actions">
+                            <div className="green-switch">
+                              <Tooltip title="Tooggle the status of the campaign">
+                                <GreenSwitch
+                                  className="toggleSwitch"
+                                  defaultChecked={
+                                    campaignListItem.status ? true : false
+                                  }
+                                  onClick={(event) =>
+                                    statusUpdate(event, campaignListItem.id)
+                                  }
+                                />
+                              </Tooltip>
+                              <Tooltip
+                                title={
+                                  getNumOfLeads(campaignListItem.id)
+                                    ? "Download"
+                                    : "Download disabled"
+                                }
+                                arrow
+                              >
+                                <span>
+                                  <IconButton
+                                    disabled={
+                                      getNumOfLeads(campaignListItem.id)
+                                        ? false
+                                        : true
+                                    }
+                                    style={
+                                      getNumOfLeads(campaignListItem.id) === 0
+                                        ? {
+                                            pointerEvents: "auto",
+                                            cursor: "not-allowed",
+                                          }
+                                        : {}
+                                    }
+                                    onClick={() =>
+                                      forDownloading(
+                                        campaignListItem.id,
+                                        campaignListItem.name
+                                      )
+                                    }
+                                  >
+                                    <Download />
+                                  </IconButton>
+                                </span>
+                              </Tooltip>
+
+                              <Tooltip title="Edit" arrow>
+                                <span>
+                                  <IconButton
+                                    onClick={() => {
+                                      dispatch(
+                                        campaignActions.campaignIDAction(
+                                          campaignListItem.id
+                                        )
+                                      );
+                                      dispatch(campaignActions.showModal());
+                                    }}
+                                  >
+                                    <Edit />
+                                  </IconButton>
+                                </span>
+                              </Tooltip>
+
+                              <Tooltip title="View" arrow>
+                                <span>
+                                  <IconButton
+                                    onClick={() => Viewed(campaignListItem.id)}
+                                  >
+                                    <View />
+                                  </IconButton>
+                                </span>
+                              </Tooltip>
+
+                              <Tooltip
+                                title={
+                                  getNumOfLeads(campaignListItem.id)
+                                    ? "Delete disabled"
+                                    : "Delete"
+                                }
+                                arrow
+                              >
+                                <span>
+                                  <IconButton
+                                    disabled={
+                                      getNumOfLeads(campaignListItem.id)
+                                        ? true
+                                        : false
+                                    }
+                                    style={
+                                      getNumOfLeads(campaignListItem.id) === 0
+                                        ? {}
+                                        : {
+                                            pointerEvents: "auto",
+                                            cursor: "not-allowed",
+                                          }
+                                    }
+                                    onClick={() => {
+                                      setOpenAlert(true);
+                                      setCampaignName(campaignListItem.name);
+                                      setIdForDelete(campaignListItem.id);
+                                    }}
+                                  >
+                                    <Delete />
+                                  </IconButton>
+                                </span>
+                              </Tooltip>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr className="bottomBorder"></tr>
+                      </React.Fragment>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <CampaignDetailsView
+          openDialog={openDialog}
+          setOpenDialog={setOpenDialog}
+          viewDetails={viewDetails}
+        />
+        <AlertBeforeAction
+          open={openAlert}
+          setOpenAlert={setOpenAlert}
+          campaignItemId={idForDelete}
+          setIdForDelete={setIdForDelete}
+          campaignName={campaignName}
+          setCampaignName={setCampaignName}
+        />
+      </React.Fragment>
+    );
+  }
 };
 
 export default Table;
