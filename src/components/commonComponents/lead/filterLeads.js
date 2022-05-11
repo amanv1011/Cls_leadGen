@@ -6,13 +6,12 @@ export const filterLeads = (
   leadsList,
   searchDate,
   searchQuery,
-  filterApplied
+  
 ) => {
-  var finalFilteredResults=[];
-  var filteredResults=[];
- 
+  var finalFilteredResults = [];
+  var filteredResults = [];
+
   if (searchDate === "") {
-    
     filteredResults = [];
     for (let i = 0; i < campaignIds.length; i++) {
       for (let j = 0; j < leadsList.length; j++) {
@@ -28,43 +27,9 @@ export const filterLeads = (
     finalFilteredResults = searchQuery
       ? results.map((results) => results.item)
       : filteredResults;
-      return finalFilteredResults;
+    return finalFilteredResults;
   }
   if (searchDate !== "") {
-    
-    if (filterApplied === false) {
-      filteredResults = [];
-      for (let i = 0; i < leadsList.length; i++) {
-        const start = moment(searchDate.start).format("YYYY-MM-DD");
-        const end = moment(searchDate.end).format("YYYY-MM-DD");
-        const between = moment
-          .unix(leadsList[i].leadGeneratedDate.seconds)
-          .format("YYYY-MM-DD");
-        const unixTimestampStart = Math.floor(new Date(start).getTime() / 1000);
-        const unixTimestampBetween = Math.floor(
-          new Date(between).getTime() / 1000
-        );
-        const unixTimestampEnd = Math.floor(new Date(end).getTime() / 1000);
-
-        if (
-          unixTimestampStart < unixTimestampBetween &&
-          unixTimestampBetween < unixTimestampEnd
-        ) {
-          filteredResults.push(leadsList[i]);
-        }
-      }
-      const fuse = new Fuse(filteredResults, {
-        keys: ["title", "summary", "companyName"],
-      });
-      const results = fuse.search(searchQuery);
-      finalFilteredResults = searchQuery
-        ? results.map((results) => results.item)
-        : filteredResults;
-        return finalFilteredResults;
-    }
-  }
-
-  if (filterApplied === true) {
     filteredResults = [];
     for (let i = 0; i < campaignIds.length; i++) {
       for (let j = 0; j < leadsList.length; j++) {
@@ -94,8 +59,6 @@ export const filterLeads = (
     finalFilteredResults = searchQuery
       ? results.map((results) => results.item)
       : filteredResults;
-      return finalFilteredResults;
+    return finalFilteredResults;
   }
-  
-  
 };

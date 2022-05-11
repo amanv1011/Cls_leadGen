@@ -7,6 +7,7 @@ import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
 import { getApproveCount } from "../../../redux/actions/approveRejectcount";
 import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
+import { setActivePage } from "../../../redux/actions/paginationActions";
 import { filterCount } from "../lead/filterCount";
 import { useEffect } from "react";
 import PopupBox from "./PopupBox";
@@ -40,7 +41,7 @@ const Lead = () => {
       genratedLeadData,
       searchDate,
       searchQuery,
-      true
+      
     );
   }
   if (
@@ -56,7 +57,7 @@ const Lead = () => {
       genratedLeadData,
       searchDate,
       searchQuery,
-      false
+      
     );
   }
 
@@ -73,7 +74,7 @@ const Lead = () => {
       genratedLeadData,
       searchDate,
       searchQuery,
-      false
+      
     );
   }
 
@@ -90,7 +91,7 @@ const Lead = () => {
       genratedLeadData,
       searchDate,
       searchQuery,
-      false
+      
     );
   }
 
@@ -111,7 +112,12 @@ const Lead = () => {
     dispatch(
       getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
     );
+    
   });
+
+  useEffect(() => {
+    dispatch(setActivePage(1));
+  },[searchQuery, ownerNameFilter, searchDate, campaignNameFilter ])
 
   return (
     <>

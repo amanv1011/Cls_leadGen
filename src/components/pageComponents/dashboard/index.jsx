@@ -94,7 +94,6 @@ const Dashboard = ({ children }) => {
 
     if (genratedLeadData !== []) {
       genratedLeadData.forEach((ele) => {
-        leadCount++;
         if (
           moment.unix(ele.leadGeneratedDate.seconds).format("MM/DD/YYYY") ===
           currentDate
@@ -115,6 +114,14 @@ const Dashboard = ({ children }) => {
           Weekly++;
         }
       });
+    }
+
+    for (let i = 0; i < leadData.length; i++) {
+      for (let j = 0; j < genratedLeadData.length; j++) {
+        if (genratedLeadData[j].campaignId === leadData[i].id) {
+          leadCount++;
+        }
+      }
     }
     if (leadCount === 0) {
       leadExtracted = 0;

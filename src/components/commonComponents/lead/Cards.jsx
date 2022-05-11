@@ -4,7 +4,7 @@ import LinkedIn from "./LinkedIn";
 import moment from "moment";
 import { getPopupEnable } from "../../../redux/actions/PopupAction";
 import { useDispatch } from "react-redux";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { updateLeadStatus } from "../../../redux/actions/leadActions";
 import approv from "../../../assets/approv.svg";
 import reject from "../../../assets/reject.svg";
@@ -14,18 +14,14 @@ import { styled } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import "./lead.scss";
 import { useSelector } from "react-redux";
-import PaginationComponent from "../../commonComponents/PaginationComponent";
+import {setTotalCount} from "../../../redux/actions/paginationActions"
+import {setActivePage} from "../../../redux/actions/paginationActions"
 
 const Cards = (props) => {
   const dispatch = useDispatch();
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [leadsPerPage] = useState(100);
-  const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
-  const approveRejectCount = useSelector(
-    (state) => state.approveRejectCount.allCount
-  );
   const leadsData = props.leadData;
+  const currentPage = useSelector((state) => state.paginationStates.activePage);
+  const leadsPerPage = useSelector((state) => state.paginationStates.leadsPerPage) 
 
   let approveButton = (event) => {
     dispatch(updateLeadStatus(event.target.value, 1));
@@ -61,9 +57,11 @@ const Cards = (props) => {
   const indexOfFirstLead = indexOfLastLead - leadsPerPage;
   const currentLeads = leadsData.slice(indexOfFirstLead, indexOfLastLead);
 
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  useEffect(() => {
+    dispatch(setTotalCount(leadsData.length));
+    
+  })
+
 
   return (
     <React.Fragment>
@@ -274,13 +272,6 @@ const Cards = (props) => {
           </React.Fragment>
         );
       })}
-      <PaginationComponent
-        leadsPerPage={leadsPerPage}
-        totalLeads={
-          approveRejectCount ? approveRejectCount : genratedLeadData.length
-        }
-        paginate={paginate}
-      />
     </React.Fragment>
   );
 };
