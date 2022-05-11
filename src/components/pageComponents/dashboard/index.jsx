@@ -161,18 +161,17 @@ const Dashboard = ({ children }) => {
   return (
     <>
       <div>
-         {" "}
-         <Navbar open={open} handleDrawer={handleDrawer} />
-       </div>
-      <div  className="dashboard-container">
+        {" "}
+        <Navbar open={open} handleDrawer={handleDrawer} />
+      </div>
+      <div className="dashboard-container">
         <div>
-        <SideBar
-          open={open}
-          handleDrawer={handleDrawer}
-          handleDrawerClose={handleDrawerClose}
-        />
+          <SideBar
+            open={open}
+            handleDrawer={handleDrawer}
+            handleDrawerClose={handleDrawerClose}
+          />
         </div>
-
 
         <Box component="div" className="dshboard-content">
           <Box
@@ -182,7 +181,7 @@ const Dashboard = ({ children }) => {
               alignItems: "center",
               marginLeft: "-25px",
               marginBottom: "5px",
-              paddingTop: "15px"
+              paddingTop: "15px",
             }}
           >
             <IconButton onClick={goBack}>
@@ -248,7 +247,10 @@ const Dashboard = ({ children }) => {
                       paddingTop: "9px",
                     }}
                   >
-                    <div className="dash-card-subhead-wrapper" style={{ marginRight: "45px" }}>
+                    <div
+                      className="dash-card-subhead-wrapper"
+                      style={{ marginRight: "45px" }}
+                    >
                       <h3 className="dash-card-head">{todaysLeads}</h3>
 
                       <span
@@ -259,7 +261,10 @@ const Dashboard = ({ children }) => {
                       ></span>
                       <span className="dash-card-subhead">Today</span>
                     </div>
-                    <div className="dash-card-subhead-wrapper" style={{ marginRight: "45px" }}>
+                    <div
+                      className="dash-card-subhead-wrapper"
+                      style={{ marginRight: "45px" }}
+                    >
                       <h3 className="dash-card-head">{yesterdaysLeads}</h3>
                       <span
                         className="dash-card-bullet"
