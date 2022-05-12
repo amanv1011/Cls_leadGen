@@ -6,11 +6,12 @@ import { extendMoment } from "moment-range";
 import "./DatePicker.scss";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { leadsFilterDate } from "../../../redux/actions/leadsFilter";
+import { leadsFilterDate, datePickerState } from "../../../redux/actions/leadsFilter";
 import { connect } from "react-redux";
 import {
   openDateModal,
   closeDateModal,
+  
 } from "../../../redux/actions/dateModalAction";
 
 const moment = extendMoment(originalMoment);
@@ -23,21 +24,25 @@ class BasicDateRangePicker extends React.Component {
 
     this.state = {
       isOpen: true,
-      value: moment.range(today.clone().subtract(5, "days"), today.clone()),
+      value: this.props.leadsFilter.datePickerState === 0 ? moment.range(today.clone().subtract(5, "days"), today.clone()) : this.props.leadsFilter.filterDate,
     };
   }
-
+  
   onSelect = (value, states) => {
     this.setState({ value, states });
+
   };
 
   applyDate = () => {
     this.props.leadsFilterDate(this.state.value);
     this.props.closeDateModal();
+    this.props.datePickerState(1)
   };
   closeModal = () => {
     this.props.closeDateModal();
+    
   };
+  
 
   renderSelectionValue = () => {
     return (
@@ -50,6 +55,7 @@ class BasicDateRangePicker extends React.Component {
   };
 
   render() {
+    
     return (
       <>
         <div>
@@ -104,5 +110,6 @@ class BasicDateRangePicker extends React.Component {
     );
   }
 }
-const mapDispatchToProps = { leadsFilterDate, openDateModal, closeDateModal };
-export default connect(null, mapDispatchToProps)(BasicDateRangePicker);
+const mapDispatchToProps = { leadsFilterDate, openDateModal, closeDateModal, datePickerState };
+const mapStateToProps = (state) => { return { leadsFilter:state.leadsFilter} }
+export default connect(mapStateToProps, mapDispatchToProps)(BasicDateRangePicker);

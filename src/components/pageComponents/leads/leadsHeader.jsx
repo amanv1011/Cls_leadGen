@@ -18,6 +18,7 @@ import {
   leadsFilterOwnerName,
   leadsFilterSearch,
   clearFilters,
+  datePickerState,
 } from "../../../redux/actions/leadsFilter";
 
 
@@ -93,6 +94,7 @@ const LeadsHeader = () => {
 
   const clearFilterTab = () => {
     dispatch(clearFilters());
+    dispatch(datePickerState(0));
   };
 
   return (
