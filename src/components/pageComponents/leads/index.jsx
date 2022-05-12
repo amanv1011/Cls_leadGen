@@ -32,34 +32,19 @@ const Leads = () => {
 
   const exportLeadsToExcel = () => {
     if (window.location.pathname === "/leads") {
-      // if (cardsToDisplay.length === 0) {
-      //   return;
-      // }
       downloadLeads(cardsToDisplay, "All leads");
     }
     if (window.location.pathname === "/leads/approve") {
-      // if (cardsToDisplay.length === 0) {
-      //   return;
-      // }
       downloadLeads(cardsToDisplay, "Approved Leads");
     }
 
     if (window.location.pathname === "/leads/reject") {
-      // if (cardsToDisplay.length === 0) {
-      //   return;
-      // }
       downloadLeads(cardsToDisplay, "Rejected Leads");
     }
     if (window.location.pathname === "/leads/underreview") {
-      // if (cardsToDisplay.length === 0) {
-      //   return;
-      // }
       downloadLeads(cardsToDisplay, "Under Review Leads");
     }
     if (window.location.pathname === "/leads/archive") {
-      // if (cardsToDisplay.length === 0) {
-      //   return;
-      // }
       downloadLeads(cardsToDisplay, "Archived Leads");
     }
   };
@@ -137,6 +122,15 @@ const Leads = () => {
             }}
             autoComplete="off"
             defaultValue={leadsPerPage}
+            disabled={cardsToDisplay.length === 0 ? true : false}
+            style={
+              cardsToDisplay.length === 0
+                ? {
+                    pointerEvents: "auto",
+                    cursor: "not-allowed",
+                  }
+                : {}
+            }
           >
             <option value={10}>10</option>
             <option value={50}>50</option>
