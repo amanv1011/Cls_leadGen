@@ -144,14 +144,9 @@ const Table = () => {
           item[key].toString().toLowerCase().includes(lowerCasedValue)
         );
       });
-      console.log("campaignListData while searching", campaignListData);
-      console.log("filteredData", filteredData);
-
       setCampaignListData(filteredData);
     }
   };
-
-  console.log("campaignListData", campaignListData);
 
   const statusUpdate = async (event, a__campgaignId) => {
     if (event.target.checked) {
@@ -557,6 +552,7 @@ const Table = () => {
               dispatch(paginationActions.setActivePage(1));
             }}
             autoComplete="off"
+            defaultValue={leadsPerPage}
           >
             <option value={2}>2</option>
             <option value={4}>4</option>
