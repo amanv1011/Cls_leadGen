@@ -25,6 +25,8 @@ import CampaignDetailsView from "./CampaignDetailsView";
 import { Link } from "react-router-dom";
 import * as leadsFilterActions from "../../../redux/actions/leadsFilter";
 import AlertBeforeAction from "./AlertBeforeAction";
+import PaginationComponent from "../../commonComponents/PaginationComponent";
+import * as paginationActions from "../../../redux/actions/paginationActions";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -43,9 +45,14 @@ const Table = () => {
 
   const statesInReduxStore = useSelector((state) => state);
   const campaignList = statesInReduxStore.allCampaigns.campaignList;
-  const campaignLoader = statesInReduxStore.allCampaigns.loading;
+  const campaignsLoader = statesInReduxStore.allCampaigns.loading;
   const leadsList = statesInReduxStore.allLeads.leadsList;
   const initialSearchValue = statesInReduxStore.allCampaigns.initialSearchValue;
+
+  const currentPage = useSelector((state) => state.paginationStates.activePage);
+  const leadsPerPage = useSelector(
+    (state) => state.paginationStates.leadsPerPage
+  );
 
   const [campaignListData, setCampaignListData] = useState([]);
   const [leadsListData, setLeadsListData] = useState([]);
@@ -166,7 +173,14 @@ const Table = () => {
     return [day, month, year].join("/");
   }
 
-  if ((campaignLoader === false && campaignListData.length) === 0) {
+  const indexOfLastLead = currentPage * leadsPerPage;
+  const indexOfFirstLead = indexOfLastLead - leadsPerPage;
+  const currentCampaigns = campaignListData.slice(
+    indexOfFirstLead,
+    indexOfLastLead
+  );
+
+  if ((campaignsLoader === false && currentCampaigns.length) === 0) {
     return (
       <div>
         <div className="outer-wrapper">
@@ -303,14 +317,14 @@ const Table = () => {
             </table>
           </div>
           <div className="table-wrapper">
-            {campaignLoader && (
+            {campaignsLoader && (
               <Backdrop
                 sx={{
                   color: "#003AD2",
                   zIndex: (theme) => theme.zIndex.drawer + 1,
                   backgroundColor: "transparent",
                 }}
-                open={campaignLoader}
+                open={campaignsLoader}
               >
                 <CircularProgress color="inherit" />
               </Backdrop>
@@ -318,8 +332,8 @@ const Table = () => {
 
             <table id="table-to-xls">
               <tbody>
-                {campaignListData.length !== 0 &&
-                  campaignListData.map((campaignListItem) => {
+                {currentCampaigns.length !== 0 &&
+                  currentCampaigns.map((campaignListItem) => {
                     return (
                       <React.Fragment key={campaignListItem.id}>
                         <tr>
@@ -523,6 +537,42 @@ const Table = () => {
               </tbody>
             </table>
           </div>
+        </div>
+        <div
+          className="pagination"
+          style={{
+            padding: "10px",
+            color: "#1f4173",
+            background: "#fafafa",
+            width: "100%",
+            borderRadius: "0 0 10px 10px",
+            margin: "0",
+          }}
+        >
+          <select
+            className="card-selects"
+            name="source"
+            onChange={(event) => {
+              dispatch(paginationActions.setLeadsPerPage(event.target.value));
+              dispatch(paginationActions.setActivePage(1));
+            }}
+            autoComplete="off"
+            style={{ width: "358px" }}
+          >
+            <option value="" disabled selected>
+              Select number of campaigns to display
+            </option>
+            <option value={2}>2</option>
+            <option value={4}>4</option>
+            <option value={6}>6</option>
+            <option value={8}>8</option>
+            <option value={10}>10</option>
+          </select>
+          <PaginationComponent
+            leadsPerPage={leadsPerPage}
+            totalLeads={campaignListData.length}
+            loader={campaignsLoader}
+          />
         </div>
         <CampaignDetailsView
           openDialog={openDialog}

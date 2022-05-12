@@ -21,9 +21,11 @@ const Leads = () => {
   const leadsPerPage = useSelector(
     (state) => state.paginationStates.leadsPerPage
   );
+  const leadsLoader = useSelector((state) => state.allLeads.loading);
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
   const rejectList = genratedLeadData.filter((ele) => ele.status === -1);
   const underReviewList = genratedLeadData.filter((ele) => ele.status === 0);
+  const archiveList = genratedLeadData.filter((ele) => ele.status === 2);
 
   const downloadLeads = (leadsList, excelFileName) => {
     let workBook = XLSX.utils.book_new();
@@ -59,6 +61,10 @@ const Leads = () => {
       downloadLeads(underReviewList, "Under Review Leads");
     }
     if (window.location.pathname === "/leads/archive") {
+      if (archiveList.length === 0) {
+        return;
+      }
+      downloadLeads(archiveList, "Archived Leads");
     }
   };
 
@@ -120,7 +126,6 @@ const Leads = () => {
           <select
             className="card-selects"
             name="source"
-            // value={leadsPerPage}
             onChange={(event) => {
               dispatch(paginationActions.setLeadsPerPage(event.target.value));
               dispatch(paginationActions.setActivePage(1));
@@ -138,6 +143,7 @@ const Leads = () => {
           <PaginationComponent
             leadsPerPage={leadsPerPage}
             totalLeads={totalCount}
+            loader={leadsLoader}
           />
         </div>
       </Box>
