@@ -27,14 +27,13 @@ const Approve = () => {
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
 
   var filterApprov;
-  
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
     const campaignIds = campgainData;
-    
+
     filterApprov = filterLeads(
       campaignIds,
       approveList,
@@ -49,7 +48,7 @@ const Approve = () => {
     const campaignIds = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
-    
+
     filterApprov = filterLeads(
       campaignIds,
       approveList,
@@ -65,7 +64,7 @@ const Approve = () => {
     const campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    
+
     filterApprov = filterLeads(
       campaignIds,
       approveList,
@@ -81,7 +80,7 @@ const Approve = () => {
     const campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    
+
     filterApprov = filterLeads(
       campaignIds,
       approveList,

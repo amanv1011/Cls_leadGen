@@ -16,16 +16,12 @@ import * as paginationActions from "../../../redux/actions/paginationActions";
 
 const Leads = () => {
   const dispatch = useDispatch();
-  const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const totalCount = useSelector((state) => state.paginationStates.totalCount);
   const leadsPerPage = useSelector(
     (state) => state.paginationStates.leadsPerPage
   );
   const leadsLoader = useSelector((state) => state.allLeads.loading);
-  const approveList = genratedLeadData.filter((ele) => ele.status === 1);
-  const rejectList = genratedLeadData.filter((ele) => ele.status === -1);
-  const underReviewList = genratedLeadData.filter((ele) => ele.status === 0);
-  const archiveList = genratedLeadData.filter((ele) => ele.status === 2);
+  const cardsToDisplay = useSelector((state) => state.allLeads.cardsToDisplay);
 
   const downloadLeads = (leadsList, excelFileName) => {
     let workBook = XLSX.utils.book_new();
@@ -36,35 +32,35 @@ const Leads = () => {
 
   const exportLeadsToExcel = () => {
     if (window.location.pathname === "/leads") {
-      if (genratedLeadData.length === 0) {
-        return;
-      }
-      downloadLeads(genratedLeadData, "All leads");
+      // if (cardsToDisplay.length === 0) {
+      //   return;
+      // }
+      downloadLeads(cardsToDisplay, "All leads");
     }
     if (window.location.pathname === "/leads/approve") {
-      if (approveList.length === 0) {
-        return;
-      }
-      downloadLeads(approveList, "Approved Leads");
+      // if (cardsToDisplay.length === 0) {
+      //   return;
+      // }
+      downloadLeads(cardsToDisplay, "Approved Leads");
     }
 
     if (window.location.pathname === "/leads/reject") {
-      if (rejectList.length === 0) {
-        return;
-      }
-      downloadLeads(rejectList, "Rejected Leads");
+      // if (cardsToDisplay.length === 0) {
+      //   return;
+      // }
+      downloadLeads(cardsToDisplay, "Rejected Leads");
     }
     if (window.location.pathname === "/leads/underreview") {
-      if (underReviewList.length === 0) {
-        return;
-      }
-      downloadLeads(underReviewList, "Under Review Leads");
+      // if (cardsToDisplay.length === 0) {
+      //   return;
+      // }
+      downloadLeads(cardsToDisplay, "Under Review Leads");
     }
     if (window.location.pathname === "/leads/archive") {
-      if (archiveList.length === 0) {
-        return;
-      }
-      downloadLeads(archiveList, "Archived Leads");
+      // if (cardsToDisplay.length === 0) {
+      //   return;
+      // }
+      downloadLeads(cardsToDisplay, "Archived Leads");
     }
   };
 
@@ -85,6 +81,15 @@ const Leads = () => {
                 variant="outlined"
                 onClick={exportLeadsToExcel}
                 className="export-to-excel-button"
+                disabled={cardsToDisplay.length === 0 ? true : false}
+                style={
+                  cardsToDisplay.length === 0
+                    ? {
+                        pointerEvents: "auto",
+                        cursor: "not-allowed",
+                      }
+                    : {}
+                }
               >
                 Export to Excel
               </Button>
