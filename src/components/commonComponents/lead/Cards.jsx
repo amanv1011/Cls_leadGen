@@ -70,12 +70,7 @@ const Cards = (props) => {
   } else if (leadsLoader === false && currentLeads.length === 0) {
     return (
       <React.Fragment>
-        <Box
-          className="lead-container"
-          style={{
-            overflowY: "hidden",
-          }}
-        >
+        <Box className="lead-container">
           <Box className="lead-header">
             <Box
               className="lead-header-title"
@@ -113,7 +108,6 @@ const Cards = (props) => {
           } else {
             linkedInCompany = "";
           }
-
           return (
             <React.Fragment key={ele.id}>
               <div>
