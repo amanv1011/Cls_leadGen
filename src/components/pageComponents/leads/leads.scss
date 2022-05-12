@@ -93,8 +93,13 @@
   .card-selects {
     border: none;
     outline: none;
-    width: 263px;
+    width: 310px;
     height: 41px;
+    background-color: rgb(231, 231, 231);
+    color: rgb(92, 117, 154);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
   }
   .css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-disabled {
     pointer-events: auto;

@@ -4,17 +4,16 @@ import Stack from "@mui/material/Stack";
 import { useDispatch, useSelector } from "react-redux";
 import { setActivePage } from "../../../redux/actions/paginationActions";
 
-function PaginationComponent({ leadsPerPage, totalLeads }) {
+function PaginationComponent({ leadsPerPage, totalLeads, loader }) {
   const dispatch = useDispatch();
   const activePage = useSelector((state) => state.paginationStates.activePage);
-  const leadsLoader = useSelector((state) => state.allLeads.loading);
 
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalLeads / leadsPerPage); i++) {
     pageNumbers.push(i);
   }
 
-  if (leadsLoader || pageNumbers.length === 0) {
+  if (loader || pageNumbers.length === 0) {
     return null;
   } else {
     return (

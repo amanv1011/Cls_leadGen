@@ -8,7 +8,6 @@ import { getApproveCount } from "../../../redux/actions/approveRejectcount";
 import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
 import { setActivePage } from "../../../redux/actions/paginationActions";
-import { filterCount } from "../lead/filterCount";
 import { useEffect } from "react";
 import PopupBox from "./PopupBox";
 import "./lead.scss";
@@ -28,20 +27,18 @@ const Lead = () => {
   const popupData = useSelector((state) => state.popupStatus.popupData);
 
   var filterAllLeads;
-  var leadListForCount;
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
     const campaignIds = campgainData;
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
+
     filterAllLeads = filterLeads(
       campaignIds,
       genratedLeadData,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
   if (
@@ -51,13 +48,12 @@ const Lead = () => {
     const campaignIds = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
+
     filterAllLeads = filterLeads(
       campaignIds,
       genratedLeadData,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -68,13 +64,12 @@ const Lead = () => {
     const campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
+
     filterAllLeads = filterLeads(
       campaignIds,
       genratedLeadData,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -85,23 +80,22 @@ const Lead = () => {
     const campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
+
     filterAllLeads = filterLeads(
       campaignIds,
       genratedLeadData,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
-  const rejectList = leadListForCount.filter((ele) => ele.status === -1);
+  const rejectList = filterAllLeads.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;
-  const underReviewList = leadListForCount.filter((ele) => ele.status === 0);
+  const underReviewList = filterAllLeads.filter((ele) => ele.status === 0);
   const underReviewCount = underReviewList.length;
-  const archieveList = leadListForCount.filter((ele) => ele.status === 2);
+  const archieveList = filterAllLeads.filter((ele) => ele.status === 2);
   const archieveCount = archieveList.length;
-  const approveList = leadListForCount.filter((ele) => ele.status === 1);
+  const approveList = filterAllLeads.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
 
   useEffect(() => {
@@ -112,12 +106,11 @@ const Lead = () => {
     dispatch(
       getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
     );
-    
   });
 
   useEffect(() => {
     dispatch(setActivePage(1));
-  },[searchQuery, ownerNameFilter, searchDate, campaignNameFilter ])
+  }, [searchQuery, ownerNameFilter, searchDate, campaignNameFilter]);
 
   return (
     <>
