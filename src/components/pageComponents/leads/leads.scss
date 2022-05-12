@@ -31,7 +31,6 @@
       cursor: pointer;
       background: #2c3646;
       color: #ffff;
-      
     }
   }
 }
@@ -93,8 +92,9 @@
   .card-selects {
     border: none;
     outline: none;
-    width: 310px;
-    height: 41px;
+    padding: 10px;
+    width: 73px;
+    height: 50px;
     background-color: rgb(231, 231, 231);
     color: rgb(92, 117, 154);
     font-size: 16px;
