@@ -25,20 +25,18 @@ const UnderReview = () => {
   const underReviewList = genratedLeadData.filter((ele) => ele.status === 0);
 
   var filterUnderreview;
-  
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
     let campaignIds = campgainData;
-    
+
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
   if (
@@ -48,13 +46,12 @@ const UnderReview = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
-    
+
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -65,13 +62,12 @@ const UnderReview = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    
+
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -82,13 +78,12 @@ const UnderReview = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    
+
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -118,7 +113,7 @@ const UnderReview = () => {
 
   useEffect(() => {
     dispatch(setActivePage(1));
-  },[searchQuery, ownerNameFilter, searchDate, campaignNameFilter ])
+  }, [searchQuery, ownerNameFilter, searchDate, campaignNameFilter]);
   return (
     <>
       {popupStatus ? <PopupBox data={popupData} /> : null}

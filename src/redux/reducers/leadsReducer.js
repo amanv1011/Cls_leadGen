@@ -5,6 +5,7 @@ import {
   GET_LEADS_UPDATESTATUS_PENDING,
   GET_LEADS_UPDATESTATUS_SUCCESS,
   GET_LEADS_UPDATESTATUS_ERROR,
+  CARDS_DISPLAYED,
 } from "../type";
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   message: "",
   approveRejectErr: null,
   approveRejectResponse: null,
+  cardsToDisplay: [],
 };
 
 // fetch all campaign list
@@ -56,6 +58,12 @@ export const getAllLeadsReducer = (state = initialState, { type, payload }) => {
         ...state,
         loding: false,
         approveRejectErr: payload,
+      };
+
+    case CARDS_DISPLAYED:
+      return {
+        ...state,
+        cardsToDisplay: payload,
       };
 
     default:
