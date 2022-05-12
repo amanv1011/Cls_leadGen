@@ -8,7 +8,6 @@ import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
 import { getApproveCount } from "../../../redux/actions/approveRejectcount";
 import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
-import { filterCount } from "../lead/filterCount";
 import { setActivePage } from "../../../redux/actions/paginationActions";
 import PopupBox from "./PopupBox";
 
@@ -26,14 +25,14 @@ const UnderReview = () => {
   const underReviewList = genratedLeadData.filter((ele) => ele.status === 0);
 
   var filterUnderreview;
-  var leadListForCount;
+  
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
     let campaignIds = campgainData;
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
+    
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
@@ -49,7 +48,7 @@ const UnderReview = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
+    
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
@@ -66,7 +65,7 @@ const UnderReview = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
+    
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
@@ -83,7 +82,7 @@ const UnderReview = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
+    
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
@@ -93,15 +92,15 @@ const UnderReview = () => {
     );
   }
 
-  const rejectList = leadListForCount.filter((ele) => ele.status === -1);
+  const rejectList = filterUnderreview.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;
-  const underReviewListCount = leadListForCount.filter(
+  const underReviewListCount = filterUnderreview.filter(
     (ele) => ele.status === 0
   );
   const underReviewCount = underReviewListCount.length;
-  const archieveList = leadListForCount.filter((ele) => ele.status === 2);
+  const archieveList = filterUnderreview.filter((ele) => ele.status === 2);
   const archieveCount = archieveList.length;
-  const approveList = leadListForCount.filter((ele) => ele.status === 1);
+  const approveList = filterUnderreview.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
 
   const popupStatus = useSelector((state) => state.popupStatus.popupStatus);
