@@ -557,16 +557,17 @@ const Table = () => {
               dispatch(paginationActions.setActivePage(1));
             }}
             autoComplete="off"
-            style={{ width: "358px" }}
           >
-            <option value="" disabled selected>
-              Select number of campaigns to display
-            </option>
             <option value={2}>2</option>
             <option value={4}>4</option>
             <option value={6}>6</option>
             <option value={8}>8</option>
-            <option value={10}>10</option>
+            <option value={10} default>
+              10
+            </option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+            <option value={150}>150</option>
           </select>
           <PaginationComponent
             leadsPerPage={leadsPerPage}
