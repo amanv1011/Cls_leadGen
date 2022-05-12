@@ -131,14 +131,11 @@ const Leads = () => {
               dispatch(paginationActions.setActivePage(1));
             }}
             autoComplete="off"
+            defaultValue={leadsPerPage}
           >
-            <option value="" disabled selected>
-              Select number of leads to display
-            </option>
+            <option value={10}>10</option>
             <option value={50}>50</option>
             <option value={100}>100</option>
-            <option value={150}>150</option>
-            <option value={200}>200</option>
           </select>
           <PaginationComponent
             leadsPerPage={leadsPerPage}
