@@ -50,8 +50,8 @@ const Table = () => {
   const initialSearchValue = statesInReduxStore.allCampaigns.initialSearchValue;
 
   const currentPage = useSelector((state) => state.paginationStates.activePage);
-  const leadsPerPage = useSelector(
-    (state) => state.paginationStates.leadsPerPage
+  const dataPerPage = useSelector(
+    (state) => state.paginationStates.dataPerPage
   );
 
   const [campaignListData, setCampaignListData] = useState([]);
@@ -168,8 +168,8 @@ const Table = () => {
     return [day, month, year].join("/");
   }
 
-  const indexOfLastLead = currentPage * leadsPerPage;
-  const indexOfFirstLead = indexOfLastLead - leadsPerPage;
+  const indexOfLastLead = currentPage * dataPerPage;
+  const indexOfFirstLead = indexOfLastLead - dataPerPage;
   const currentCampaigns = campaignListData.slice(
     indexOfFirstLead,
     indexOfLastLead
@@ -534,7 +534,7 @@ const Table = () => {
           </div>
         </div>
         <div
-          className="pagination"
+          className="pagination-select "
           style={{
             padding: "10px",
             color: "#1f4173",
@@ -546,13 +546,12 @@ const Table = () => {
         >
           <select
             className="card-selects"
-            name="source"
             onChange={(event) => {
-              dispatch(paginationActions.setLeadsPerPage(event.target.value));
+              dispatch(paginationActions.setDataPerPage(event.target.value));
               dispatch(paginationActions.setActivePage(1));
             }}
             autoComplete="off"
-            defaultValue={leadsPerPage}
+            value={dataPerPage}
           >
             <option value={2}>2</option>
             <option value={4}>4</option>
@@ -566,8 +565,8 @@ const Table = () => {
             <option value={150}>150</option>
           </select>
           <PaginationComponent
-            leadsPerPage={leadsPerPage}
-            totalLeads={campaignListData.length}
+            dataPerPage={dataPerPage}
+            dataLength={campaignListData.length}
             loader={campaignsLoader}
           />
         </div>
