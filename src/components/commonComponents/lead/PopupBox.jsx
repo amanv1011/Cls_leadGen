@@ -137,6 +137,7 @@ function PopuoBox(props) {
                       fontSize: "14px",
                       fontStyle: "normal",
                       marginTop: "5px",
+                      height:"100vh"
                       
                     }}
                   >

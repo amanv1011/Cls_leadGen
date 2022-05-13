@@ -227,7 +227,10 @@ const Cards = (props) => {
                     <div className="lead-body-column">
                       <div className="lead-body-column-card3">
                         <p className="head-body">Description</p>
-                        <p className="body-detail" style={{ width: "350px" }}>
+                        <p className="body-detail"
+                          style={{
+                            width: "350px"
+                          }}>
                           {ele.summary.slice(0, 70)}...
                           <span className="readmore-popup"
                             key={ele.id}

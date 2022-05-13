@@ -286,7 +286,7 @@ const LeadsHeader = () => {
             })}
           </Menu>
           <div className="filter-icon">
-            <Tooltip title="Filter" placement="top-start">
+            <Tooltip title={"Clear all Filter"}arrow placement="top">
             <Button onClick={clearFilterTab}
               style={{
                 fontFamily: "Segoe UI",

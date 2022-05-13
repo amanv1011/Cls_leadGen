@@ -23,8 +23,12 @@
   border-radius: 20px 0px 0px 0px;
   width: 29%;
   float: right;
-  margin-top: 100px;
-  height: 100%;
+  margin-top: 3%;
+  height: 100vh;
+  // height: calc(100% - 100px);
+  margin-bottom: 200px;
+  
+
 }
 .box-containt-heading {
   margin-left: 20px;
@@ -37,4 +41,12 @@
   margin-left: 20px;
   margin-top: 20px;
   padding: 10px;
+  
+ 
+}
+.box-contain{
+  position:relative;
+  z-index: 1000;
+  overflow: auto;
+  height: 100%;
 }
