@@ -3,7 +3,8 @@ import {
   FILTER_LEADS_OWNERNAME,
   FILTER_LEADS_SEARCH,
   FILTER_LEADS_DATE,
-  FILTER_LEADS_CLEAR
+  FILTER_LEADS_CLEAR,
+  SET_DATEPICKER_STATE
 } from "../type";
 
 export const leadsFilterCampaignName = (campaignNameFilter) => {
@@ -34,3 +35,10 @@ export const clearFilters = () => {
     dispatch({ type: FILTER_LEADS_CLEAR, payload: "" });
   };
 };
+
+export const datePickerState = (showDate) => {
+  return async (dispatch) => {
+    dispatch({ type:SET_DATEPICKER_STATE , payload: showDate });
+  };
+};
+

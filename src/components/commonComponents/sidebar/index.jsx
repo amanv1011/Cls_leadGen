@@ -37,7 +37,7 @@ const openedMixin = (theme) => ({
   }),
   overflowX: "hidden",
   position: "sticky",
-  height: '100vh'
+  height: "100vh",
 });
 
 const closedMixin = (theme) => ({
@@ -48,7 +48,7 @@ const closedMixin = (theme) => ({
   overflowX: "hidden",
   border: "none",
   position: "sticky",
-  height: '100vh',
+  height: "100vh",
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 15%)",
   width: `calc(${theme.spacing(8)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
@@ -78,14 +78,11 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
   const url = window.location.pathname;
   const navigate = useNavigate();
   return (
-    <Box
-      className="box-main"
-      sx={{ display: "flex", border: "none ",  }}
-    >
+    <Box className="box-main" sx={{ display: "flex", border: "none " }}>
       <Drawer className="drawer-main" variant="permanent" open={open}>
         {sideBarList.map((item, index) => (
           <ListItem
-            disableRipple
+            disableripple="true"
             button
             key={item.title}
             className={
@@ -102,7 +99,7 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
               handleDrawerClose();
             }}
           >
-            <ListItemIcon disableRipple className="list-item-icon">
+            <ListItemIcon disableripple className="list-item-icon">
               {item.icon}
             </ListItemIcon>
             <ListItemText

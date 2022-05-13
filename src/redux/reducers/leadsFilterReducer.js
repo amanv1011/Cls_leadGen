@@ -3,7 +3,8 @@ import {
   FILTER_LEADS_OWNERNAME,
   FILTER_LEADS_SEARCH,
   FILTER_LEADS_DATE,
-  FILTER_LEADS_CLEAR
+  FILTER_LEADS_CLEAR,
+  SET_DATEPICKER_STATE,
 } from "../type";
 
 
@@ -12,6 +13,7 @@ const initialState = {
   ownerName: "All Owners",
   searchQuery: "",
   filterDate: "",
+  datePickerState: 0
 };
 
 export const leadsFilterReducer = (state = initialState, { type, payload }) => {
@@ -31,6 +33,10 @@ export const leadsFilterReducer = (state = initialState, { type, payload }) => {
         ownerName: "All Owners",
         searchQuery: "",
         filterDate: ""
+      }
+    case SET_DATEPICKER_STATE:
+      return {
+        ...state, datePickerState:payload
       }
     default:
       return { ...state, };
