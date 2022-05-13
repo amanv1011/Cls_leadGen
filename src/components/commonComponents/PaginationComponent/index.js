@@ -1,36 +1,102 @@
-import React from "react";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import "./paginationComponent.scss";
 import { setActivePage } from "../../../redux/actions/paginationActions";
 
-function PaginationComponent({ leadsPerPage, totalLeads, loader }) {
+function PaginationComponent({
+  dataPerPage,
+  dataLength,
+  pageLimit = 5,
+  loader,
+}) {
   const dispatch = useDispatch();
   const activePage = useSelector((state) => state.paginationStates.activePage);
+  const [currentPage, setCurrentPage] = useState(activePage);
+  const pages = Math.ceil(dataLength / dataPerPage);
 
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(totalLeads / leadsPerPage); i++) {
-    pageNumbers.push(i);
-  }
+  useEffect(() => {
+    setCurrentPage(activePage);
+  }, [activePage]);
 
-  if (loader || pageNumbers.length === 0) {
-    return null;
+  const goToNextPage = () => {
+    setCurrentPage((page) => page + 1);
+    dispatch(setActivePage(currentPage + 1));
+  };
+
+  const goToPreviousPage = () => {
+    setCurrentPage((page) => page - 1);
+    dispatch(setActivePage(currentPage - 1));
+  };
+
+  const changePage = (event) => {
+    const pageNumber = Number(event.target.textContent);
+    setCurrentPage(pageNumber);
+    dispatch(setActivePage(pageNumber));
+  };
+
+  const getPaginationGroup = () => {
+    let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
+    return new Array(pageLimit).fill().map((_, index) => start + index + 1);
+  };
+
+  if (loader || pages === 0) {
+    return "";
   } else {
     return (
-      <Stack spacing={2}>
-        <Pagination
-          showFirstButton
-          size="large"
-          page={activePage}
-          count={pageNumbers.length}
-          color="primary"
-          onChange={(event, value) => {
-            dispatch(setActivePage(value));
-          }}
-          default={1}
-          showLastButton
-        />
-      </Stack>
+      <div className="pagination">
+        <button
+          onClick={goToPreviousPage}
+          className={`prev ${currentPage === 1 ? "disabled" : ""}`}
+          disabled={currentPage === 1 ? true : false}
+          style={
+            currentPage === 1
+              ? {
+                  pointerEvents: "auto",
+                  cursor: "not-allowed",
+                }
+              : {}
+          }
+        >
+          prev
+        </button>
+
+        {getPaginationGroup().map((item, index) => (
+          <button
+            key={index}
+            onClick={changePage}
+            className={`paginationItem ${currentPage === item ? "active" : ""}`}
+            disabled={item > pages ? true : false}
+            style={
+              item > pages
+                ? {
+                    pointerEvents: "auto",
+                    cursor: "not-allowed",
+                    border: "none",
+                    opacity: 0.5,
+                  }
+                : {}
+            }
+          >
+            <span>{item}</span>
+          </button>
+        ))}
+
+        <button
+          onClick={goToNextPage}
+          className={`next ${currentPage >= pages ? "disabled" : ""}`}
+          disabled={currentPage >= pages ? true : false}
+          style={
+            currentPage >= pages
+              ? {
+                  pointerEvents: "auto",
+                  cursor: "not-allowed",
+                }
+              : {}
+          }
+        >
+          next
+        </button>
+      </div>
     );
   }
 }
