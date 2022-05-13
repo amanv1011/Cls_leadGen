@@ -3,6 +3,8 @@ import Cards from "./Cards";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { filterLeads } from "../lead/filterLeads";
+import { filterCount } from "../lead/filterCount";
+import { getTotalCount } from "../lead/getTotalCount";
 import { getRejectCount } from "../../../redux/actions/approveRejectcount";
 import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
 import { getApproveCount } from "../../../redux/actions/approveRejectcount";
@@ -25,20 +27,19 @@ const UnderReview = () => {
   const underReviewList = genratedLeadData.filter((ele) => ele.status === 0);
 
   var filterUnderreview;
-  
+  var leadListForCount;
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
     let campaignIds = campgainData;
-    
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
   if (
@@ -48,13 +49,12 @@ const UnderReview = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
-    
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -65,13 +65,12 @@ const UnderReview = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -82,29 +81,31 @@ const UnderReview = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
     filterUnderreview = filterLeads(
       campaignIds,
       underReviewList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
-  const rejectList = filterUnderreview.filter((ele) => ele.status === -1);
+  const rejectList = leadListForCount.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;
-  const underReviewListCount = filterUnderreview.filter(
-    (ele) => ele.status === 0
-  );
+  const underReviewListCount =
+    searchDate === "" && searchQuery === ""
+      ? leadListForCount.filter((ele) => ele.status === 0)
+      : filterUnderreview.filter((ele) => ele.status === 0);
   const underReviewCount = underReviewListCount.length;
-  const archieveList = filterUnderreview.filter((ele) => ele.status === 2);
+  const archieveList = leadListForCount.filter((ele) => ele.status === 2);
   const archieveCount = archieveList.length;
-  const approveList = filterUnderreview.filter((ele) => ele.status === 1);
+  const approveList = leadListForCount.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
 
   const popupStatus = useSelector((state) => state.popupStatus.popupStatus);
   const popupData = useSelector((state) => state.popupStatus.popupData);
+
+
 
   useEffect(() => {
     dispatch(getApproveCount(approveCount));
@@ -112,13 +113,13 @@ const UnderReview = () => {
     dispatch(getRejectCount(rejectCount));
     dispatch(getArchieveCount(archieveCount));
     dispatch(
-      getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
+      getAllCount(getTotalCount(campgainData, genratedLeadData))
     );
   });
 
   useEffect(() => {
     dispatch(setActivePage(1));
-  },[searchQuery, ownerNameFilter, searchDate, campaignNameFilter ])
+  }, [searchQuery, ownerNameFilter, searchDate, campaignNameFilter]);
   return (
     <>
       {popupStatus ? <PopupBox data={popupData} /> : null}
