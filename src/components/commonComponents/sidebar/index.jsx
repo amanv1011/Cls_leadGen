@@ -97,7 +97,7 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
             }
             onClick={() => {
               navigate(item.url);
-              handleDrawerClose();
+              // handleDrawerClose();
             }}
           >
             <ListItemIcon disableRipple className="list-item-icon">
@@ -106,8 +106,7 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
             <ListItemText
               disableTypography
               style={{
-                fontFamily: "Proxima Nova",
-                fontSize: "14px",
+                // fontSize: "12px",
                 fontWeight: 600,
                 lineHeight: "17px",
                 letterSpacing: "0em",
