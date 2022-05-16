@@ -71,19 +71,19 @@ function AddCampaginModal() {
       if (tags.length > 1 || pages > 2) {
         alert("For SEEK only 1 tag and 2 pages are permitted");
         setTags([]);
-        setAddCampaignDetails({ pages: 0 });
+        setAddCampaignDetails({ pages: 1 });
       }
     } else if (source === "indeed_aus") {
       if (tags.length > 15 || pages > 15) {
-        alert("For Indeed only 15 tags and 15 pages are permitted");
+        alert("For Indeed only 10 tags and 10 pages are permitted");
         setTags([]);
-        setAddCampaignDetails({ pages: 0 });
+        setAddCampaignDetails({ pages: 1 });
       }
     } else if (source === "linkedin_aus") {
       if (tags.length > 1 || pages > 1) {
         alert("For Linkedin only 1 tag and 1 page is permitted");
         setTags([]);
-        setAddCampaignDetails({ pages: 0 });
+        setAddCampaignDetails({ pages: 1 });
       }
     }
   }, [source, tags.length, pages]);
@@ -330,7 +330,7 @@ function AddCampaginModal() {
 
               <Grid item xs={4}>
                 <label className="addCampaignModal-labels">
-                  No. of times the campaign run per day
+                  No. of times campaign runs per day
                 </label>
                 <br />
                 <input
@@ -342,6 +342,8 @@ function AddCampaginModal() {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
+                  min={1}
+                  max={15}
                 />
               </Grid>
 
@@ -429,6 +431,8 @@ function AddCampaginModal() {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
+                  min={1}
+                  max={100}
                   style={{
                     marginBottom: "10px",
                   }}
