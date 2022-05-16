@@ -218,16 +218,19 @@ const Cards = (props) => {
                     <div className="lead-body-column">
                       <div className="lead-body-column-card3">
                         <p className="head-body">Description</p>
-                        <p className="body-detail" style={{ width: "350px" }}>
-                          {ele.summary.slice(0, 70)}...
-                          <span
-                            className="readmore-popup"
+
+                        <p className="body-detail"
+                          style={{
+                            width: "350px"
+                          }}>
+                          {ele.summary.length <= 69 ? ele.summary :  <>{ele.summary.slice(0, 70)} ...<span className="readmore-popup"
                             key={ele.id}
                             id={ele.id}
-                            onClick={openPopup}
-                          >
+                            onClick={openPopup}>
                             Read More
-                          </span>
+                          </span></> }
+                          
+
                         </p>
                       </div>
                     </div>
@@ -311,8 +314,9 @@ const Cards = (props) => {
               </Box>
             </React.Fragment>
           );
-        })}
-      </React.Fragment>
+        })
+        }
+      </React.Fragment >
     );
   }
 };
