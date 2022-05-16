@@ -17,8 +17,8 @@ import * as paginationActions from "../../../redux/actions/paginationActions";
 const Leads = () => {
   const dispatch = useDispatch();
   const totalCount = useSelector((state) => state.paginationStates.totalCount);
-  const leadsPerPage = useSelector(
-    (state) => state.paginationStates.leadsPerPage
+  const dataPerPage = useSelector(
+    (state) => state.paginationStates.dataPerPage
   );
   const leadsLoader = useSelector((state) => state.allLeads.loading);
   const cardsToDisplay = useSelector((state) => state.allLeads.cardsToDisplay);
@@ -112,16 +112,15 @@ const Leads = () => {
             ) : null}
           </Box>
         </Box>
-        <div className="pagination">
+        <div className="pagination-select ">
           <select
             className="card-selects"
-            name="source"
+            value={dataPerPage}
             onChange={(event) => {
-              dispatch(paginationActions.setLeadsPerPage(event.target.value));
+              dispatch(paginationActions.setDataPerPage(event.target.value));
               dispatch(paginationActions.setActivePage(1));
             }}
             autoComplete="off"
-            defaultValue={leadsPerPage}
             disabled={cardsToDisplay.length === 0 ? true : false}
             style={
               cardsToDisplay.length === 0
@@ -132,13 +131,15 @@ const Leads = () => {
                 : {}
             }
           >
-            <option value={10}>10</option>
+            <option value={10} default>
+              10
+            </option>
             <option value={50}>50</option>
             <option value={100}>100</option>
           </select>
           <PaginationComponent
-            leadsPerPage={leadsPerPage}
-            totalLeads={totalCount}
+            dataPerPage={dataPerPage}
+            dataLength={totalCount}
             loader={leadsLoader}
           />
         </div>

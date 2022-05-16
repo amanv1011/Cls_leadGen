@@ -22,8 +22,8 @@ const Cards = (props) => {
   const dispatch = useDispatch();
   const leadsLoader = useSelector((state) => state.allLeads.loading);
   const currentPage = useSelector((state) => state.paginationStates.activePage);
-  const leadsPerPage = useSelector(
-    (state) => state.paginationStates.leadsPerPage
+  const dataPerPage = useSelector(
+    (state) => state.paginationStates.dataPerPage
   );
   const leadsData = props.leadData;
 
@@ -63,8 +63,8 @@ const Cards = (props) => {
   };
 
   var linkedInCompany;
-  const indexOfLastLead = currentPage * leadsPerPage;
-  const indexOfFirstLead = indexOfLastLead - leadsPerPage;
+  const indexOfLastLead = currentPage * dataPerPage;
+  const indexOfFirstLead = indexOfLastLead - dataPerPage;
   const currentLeads = leadsData.slice(indexOfFirstLead, indexOfLastLead);
 
   if (leadsLoader === true) {
