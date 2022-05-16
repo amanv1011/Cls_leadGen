@@ -16,6 +16,7 @@ import "./lead.scss";
 import { useSelector } from "react-redux";
 import { setTotalCount } from "../../../redux/actions/paginationActions";
 import Loader from "../../themeComponents/Loader";
+import { cardsDisplayAction } from "../../../redux/actions/leadActions";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -25,6 +26,11 @@ const Cards = (props) => {
     (state) => state.paginationStates.leadsPerPage
   );
   const leadsData = props.leadData;
+
+  useEffect(() => {
+    dispatch(setTotalCount(leadsData.length));
+    dispatch(cardsDisplayAction(leadsData));
+  }, [leadsData.length]);
 
   let approveButton = (event) => {
     dispatch(updateLeadStatus(event.target.value, 1));
@@ -61,10 +67,6 @@ const Cards = (props) => {
   const indexOfFirstLead = indexOfLastLead - leadsPerPage;
   const currentLeads = leadsData.slice(indexOfFirstLead, indexOfLastLead);
 
-  useEffect(() => {
-    dispatch(setTotalCount(leadsData.length));
-  });
-
   if (leadsLoader === true) {
     return <Loader openLoader={leadsLoader} />;
   } else if (leadsLoader === false && currentLeads.length === 0) {
@@ -72,15 +74,7 @@ const Cards = (props) => {
       <React.Fragment>
         <Box className="lead-container">
           <Box className="lead-header">
-            <Box
-              className="lead-header-title"
-              style={{
-                fontSize: "20px",
-                color: "rgb(0,58,210)",
-              }}
-            >
-              No Data found
-            </Box>
+            <Box className="lead-header-title"></Box>
           </Box>
           <Box
             className="lead-body"
@@ -100,8 +94,6 @@ const Cards = (props) => {
       </React.Fragment>
     );
   } else {
-
-
     return (
       <React.Fragment>
         {currentLeads.map((ele) => {
@@ -112,7 +104,6 @@ const Cards = (props) => {
           }
           return (
             <React.Fragment key={ele.id}>
-
               <Box className="lead-container">
                 <Box className="lead-header">
                   <Box
@@ -142,7 +133,7 @@ const Cards = (props) => {
                             fontWeight: "600",
                             height: "15px",
                             marginTop: "3px",
-                            width: "82px"
+                            width: "82px",
                           }}
                           label="Approved"
                           size="small"
@@ -227,17 +218,19 @@ const Cards = (props) => {
                     <div className="lead-body-column">
                       <div className="lead-body-column-card3">
                         <p className="head-body">Description</p>
+
                         <p className="body-detail"
                           style={{
                             width: "350px"
                           }}>
-                          {ele.summary.slice(0, 70)}...
-                          <span className="readmore-popup"
+                          {ele.summary.length <= 69 ? ele.summary :  <>{ele.summary.slice(0, 70)} ...<span className="readmore-popup"
                             key={ele.id}
                             id={ele.id}
                             onClick={openPopup}>
                             Read More
-                          </span>
+                          </span></> }
+                          
+
                         </p>
                       </div>
                     </div>
@@ -317,14 +310,13 @@ const Cards = (props) => {
                       ) : null}
                     </div>
                   </div>
-
                 </Box>
               </Box>
-
             </React.Fragment>
           );
-        })}
-      </React.Fragment>
+        })
+        }
+      </React.Fragment >
     );
   }
 };

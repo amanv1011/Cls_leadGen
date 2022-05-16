@@ -144,14 +144,9 @@ const Table = () => {
           item[key].toString().toLowerCase().includes(lowerCasedValue)
         );
       });
-      console.log("campaignListData while searching", campaignListData);
-      console.log("filteredData", filteredData);
-
       setCampaignListData(filteredData);
     }
   };
-
-  console.log("campaignListData", campaignListData);
 
   const statusUpdate = async (event, a__campgaignId) => {
     if (event.target.checked) {
@@ -557,16 +552,18 @@ const Table = () => {
               dispatch(paginationActions.setActivePage(1));
             }}
             autoComplete="off"
-            style={{ width: "358px" }}
+            defaultValue={leadsPerPage}
           >
-            <option value="" disabled selected>
-              Select number of campaigns to display
-            </option>
             <option value={2}>2</option>
             <option value={4}>4</option>
             <option value={6}>6</option>
             <option value={8}>8</option>
-            <option value={10}>10</option>
+            <option value={10} default>
+              10
+            </option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+            <option value={150}>150</option>
           </select>
           <PaginationComponent
             leadsPerPage={leadsPerPage}

@@ -4,6 +4,8 @@ import Cards from "./Cards";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { filterLeads } from "../lead/filterLeads";
+import {filterCount} from "../lead/filterCount"
+import { getTotalCount } from "../lead/getTotalCount";
 import { getRejectCount } from "../../../redux/actions/approveRejectcount";
 import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
 import { getApproveCount } from "../../../redux/actions/approveRejectcount";
@@ -25,14 +27,14 @@ const Archive = () => {
   const archieveList = genratedLeadData.filter((ele) => ele.status === 2);
 
   var filterArchieve;
- 
+  var leadListForCount;
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
     let campaignIds = campgainData;
-    
+    leadListForCount = filterCount(campaignIds,genratedLeadData)
     filterArchieve = filterLeads(
       campaignIds,
       archieveList,
@@ -48,7 +50,7 @@ const Archive = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
-    
+    leadListForCount = filterCount(campaignIds,genratedLeadData)
     filterArchieve = filterLeads(
       campaignIds,
       archieveList,
@@ -65,7 +67,7 @@ const Archive = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    
+    leadListForCount = filterCount(campaignIds,genratedLeadData)
     filterArchieve = filterLeads(
       campaignIds,
       archieveList,
@@ -82,7 +84,7 @@ const Archive = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    
+    leadListForCount = filterCount(campaignIds,genratedLeadData)
     filterArchieve = filterLeads(
       campaignIds,
       archieveList,
@@ -92,17 +94,19 @@ const Archive = () => {
     );
   }
 
-  const rejectList = filterArchieve.filter((ele) => ele.status === -1);
+  const rejectList = leadListForCount.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;
-  const underReviewList = filterArchieve.filter((ele) => ele.status === 0);
+  const underReviewList = leadListForCount.filter((ele) => ele.status === 0);
   const underReviewCount = underReviewList.length;
-  const archieveListCount = filterArchieve.filter((ele) => ele.status === 2);
+  const archieveListCount = searchDate === "" && searchQuery === "" ? leadListForCount.filter((ele) => ele.status === 2) : filterArchieve.filter((ele) => ele.status === 2);
   const archieveCount = archieveListCount.length;
-  const approveList = filterArchieve.filter((ele) => ele.status === 1);
+  const approveList = leadListForCount.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
 
   const popupStatus = useSelector((state) => state.popupStatus.popupStatus);
   const popupData = useSelector((state) => state.popupStatus.popupData);
+
+
 
   useEffect(() => {
     dispatch(getApproveCount(approveCount));
@@ -110,7 +114,7 @@ const Archive = () => {
     dispatch(getRejectCount(rejectCount));
     dispatch(getArchieveCount(archieveCount));
     dispatch(
-      getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
+      getAllCount(getTotalCount(campgainData, genratedLeadData))
     );
   });
 

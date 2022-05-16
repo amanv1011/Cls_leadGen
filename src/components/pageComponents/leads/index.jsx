@@ -16,16 +16,12 @@ import * as paginationActions from "../../../redux/actions/paginationActions";
 
 const Leads = () => {
   const dispatch = useDispatch();
-  const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const totalCount = useSelector((state) => state.paginationStates.totalCount);
   const leadsPerPage = useSelector(
     (state) => state.paginationStates.leadsPerPage
   );
   const leadsLoader = useSelector((state) => state.allLeads.loading);
-  const approveList = genratedLeadData.filter((ele) => ele.status === 1);
-  const rejectList = genratedLeadData.filter((ele) => ele.status === -1);
-  const underReviewList = genratedLeadData.filter((ele) => ele.status === 0);
-  const archiveList = genratedLeadData.filter((ele) => ele.status === 2);
+  const cardsToDisplay = useSelector((state) => state.allLeads.cardsToDisplay);
 
   const downloadLeads = (leadsList, excelFileName) => {
     let workBook = XLSX.utils.book_new();
@@ -36,35 +32,20 @@ const Leads = () => {
 
   const exportLeadsToExcel = () => {
     if (window.location.pathname === "/leads") {
-      if (genratedLeadData.length === 0) {
-        return;
-      }
-      downloadLeads(genratedLeadData, "All leads");
+      downloadLeads(cardsToDisplay, "All leads");
     }
     if (window.location.pathname === "/leads/approve") {
-      if (approveList.length === 0) {
-        return;
-      }
-      downloadLeads(approveList, "Approved Leads");
+      downloadLeads(cardsToDisplay, "Approved Leads");
     }
 
     if (window.location.pathname === "/leads/reject") {
-      if (rejectList.length === 0) {
-        return;
-      }
-      downloadLeads(rejectList, "Rejected Leads");
+      downloadLeads(cardsToDisplay, "Rejected Leads");
     }
     if (window.location.pathname === "/leads/underreview") {
-      if (underReviewList.length === 0) {
-        return;
-      }
-      downloadLeads(underReviewList, "Under Review Leads");
+      downloadLeads(cardsToDisplay, "Under Review Leads");
     }
     if (window.location.pathname === "/leads/archive") {
-      if (archiveList.length === 0) {
-        return;
-      }
-      downloadLeads(archiveList, "Archived Leads");
+      downloadLeads(cardsToDisplay, "Archived Leads");
     }
   };
 
@@ -85,6 +66,15 @@ const Leads = () => {
                 variant="outlined"
                 onClick={exportLeadsToExcel}
                 className="export-to-excel-button"
+                disabled={cardsToDisplay.length === 0 ? true : false}
+                style={
+                  cardsToDisplay.length === 0
+                    ? {
+                        pointerEvents: "auto",
+                        cursor: "not-allowed",
+                      }
+                    : {}
+                }
               >
                 Export to Excel
               </Button>
@@ -131,14 +121,20 @@ const Leads = () => {
               dispatch(paginationActions.setActivePage(1));
             }}
             autoComplete="off"
+            defaultValue={leadsPerPage}
+            disabled={cardsToDisplay.length === 0 ? true : false}
+            style={
+              cardsToDisplay.length === 0
+                ? {
+                    pointerEvents: "auto",
+                    cursor: "not-allowed",
+                  }
+                : {}
+            }
           >
-            <option value="" disabled selected>
-              Select number of leads to display
-            </option>
+            <option value={10}>10</option>
             <option value={50}>50</option>
             <option value={100}>100</option>
-            <option value={150}>150</option>
-            <option value={200}>200</option>
           </select>
           <PaginationComponent
             leadsPerPage={leadsPerPage}

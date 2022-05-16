@@ -1,17 +1,16 @@
 import React from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import DateModal from "./DateModal";
 import DownArrow from "./DownArrow";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from '@mui/material/Tooltip';
 
-import Stack from "@mui/material/Stack";
+import Tooltip from "@mui/material/Tooltip";
+
 import "./leadsHeader.scss";
 import {
   leadsFilterCampaignName,
@@ -21,17 +20,17 @@ import {
   datePickerState,
 } from "../../../redux/actions/leadsFilter";
 
-
-
 const LeadsHeader = () => {
   const dispatch = useDispatch();
-  const SearchInput = useRef("");
+  // const SearchInput = useRef("");
+  const [SearchInput, setSearchInput] = useState("");
 
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
+  const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
 
   const [allCampgainsMenu, setAllCampgainsMenu] = React.useState(null);
   const [allCampaignsFilter, setAllCampgainsFilter] = useState("All Campgains");
@@ -82,20 +81,27 @@ const LeadsHeader = () => {
     setOwnerMenu(null);
   };
 
-  const handleSearch = () => {
-    if((SearchInput.current.value).length > 1){
-      dispatch(leadsFilterSearch(SearchInput.current.value));
+  const handleSearch = (event) => {
+    setSearchInput(event.target.value);
+    if (event.target.value.length > 1) {
+      dispatch(leadsFilterSearch(event.target.value));
     }
-    
-
   };
-
-
 
   const clearFilterTab = () => {
     dispatch(clearFilters());
     dispatch(datePickerState(0));
   };
+
+  const clearSearch = () => {
+    if (searchQuery === "") {
+      setSearchInput("");
+    }
+  };
+
+  useEffect(() => {
+    clearSearch();
+  }, [searchQuery]);
 
   return (
     <>
@@ -120,8 +126,9 @@ const LeadsHeader = () => {
               placeholder={`Search for "Keywords"`}
               onChange={handleSearch}
               type="text"
+              value={SearchInput}
               className="search-input-leads"
-              ref={SearchInput}
+              // ref={SearchInput}
               style={{
                 width: "280px",
                 height: "40px",
@@ -214,7 +221,7 @@ const LeadsHeader = () => {
             </Menu>
           </div>
         </div>
-        <div style={{ display: "flex", paddingRight:"27px" }}>
+        <div style={{ display: "flex", paddingRight: "27px" }}>
           <DateModal />
           <Button
             id="basic-button"
@@ -304,7 +311,6 @@ const LeadsHeader = () => {
               <FilterAltOffIcon />
             </Button>
             </Tooltip>
-          
           </div>
         </div>
       </div>
