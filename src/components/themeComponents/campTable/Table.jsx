@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
-import { green } from "@mui/material/colors";
+import { green, red } from "@mui/material/colors";
 import Status from "./Status";
 import StatusInActive from "./StatusInActive";
 import "./Table.scss";
@@ -29,6 +29,15 @@ import PaginationComponent from "../../commonComponents/PaginationComponent";
 import * as paginationActions from "../../../redux/actions/paginationActions";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase": {
+    color: red[600],
+    "&:hover": {
+      backgroundColor: alpha(red[600], theme.palette.action.hoverOpacity),
+    },
+  },
+  "& .MuiSwitch-switchBase + .MuiSwitch-track": {
+    backgroundColor: red[600],
+  },
   "& .MuiSwitch-switchBase.Mui-checked": {
     color: green[600],
     "&:hover": {
@@ -67,6 +76,12 @@ const Table = () => {
     dispatch(campaignActions.getAllCampaignsAction());
     dispatch(laedActions.getAllLeadsAction());
   }, []);
+
+  useEffect(() => {
+    if (window.location.pathname === "/campaign") {
+      dispatch(paginationActions.setDataPerPage(10));
+    }
+  }, [window.location.pathname === "/campaign"]);
 
   useEffect(() => {
     campaignList.forEach((element) => {
@@ -419,7 +434,7 @@ const Table = () => {
                               <Tooltip title="Tooggle the status of the campaign">
                                 <GreenSwitch
                                   className="toggleSwitch"
-                                  defaultChecked={
+                                  checked={
                                     campaignListItem.status ? true : false
                                   }
                                   onClick={(event) =>
@@ -557,9 +572,7 @@ const Table = () => {
             <option value={4}>4</option>
             <option value={6}>6</option>
             <option value={8}>8</option>
-            <option value={10} default>
-              10
-            </option>
+            <option value={10}>10</option>
             <option value={50}>50</option>
             <option value={100}>100</option>
             <option value={150}>150</option>

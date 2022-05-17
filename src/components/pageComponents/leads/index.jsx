@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import BasicTabs from "../../themeComponents/tabs";
 import Lead from "../../commonComponents/lead";
 import Approve from "../../commonComponents/lead/Approve";
@@ -22,6 +22,11 @@ const Leads = () => {
   );
   const leadsLoader = useSelector((state) => state.allLeads.loading);
   const cardsToDisplay = useSelector((state) => state.allLeads.cardsToDisplay);
+  useEffect(() => {
+    if (window.location.pathname === "/leads") {
+      dispatch(paginationActions.setDataPerPage(10));
+    }
+  }, [window.location.pathname === "/leads"]);
 
   const downloadLeads = (leadsList, excelFileName) => {
     let workBook = XLSX.utils.book_new();
@@ -131,9 +136,7 @@ const Leads = () => {
                 : {}
             }
           >
-            <option value={10} default>
-              10
-            </option>
+            <option value={10}>10</option>
             <option value={50}>50</option>
             <option value={100}>100</option>
           </select>
