@@ -78,6 +78,12 @@ const Table = () => {
   }, []);
 
   useEffect(() => {
+    if (window.location.pathname === "/campaign") {
+      dispatch(paginationActions.setDataPerPage(10));
+    }
+  }, [window.location.pathname === "/campaign"]);
+
+  useEffect(() => {
     campaignList.forEach((element) => {
       let leadsCount = 0;
       leadsList.map((ele) => {
@@ -566,9 +572,7 @@ const Table = () => {
             <option value={4}>4</option>
             <option value={6}>6</option>
             <option value={8}>8</option>
-            <option value={10} default>
-              10
-            </option>
+            <option value={10}>10</option>
             <option value={50}>50</option>
             <option value={100}>100</option>
             <option value={150}>150</option>
