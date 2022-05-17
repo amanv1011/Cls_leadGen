@@ -23,6 +23,7 @@
 
 .outer-wrapper {
   table {
+    overflow-x: auto;
     min-width: max-content;
     border-collapse: collapse;
     border-spacing: 0px;
@@ -48,16 +49,10 @@
       border-radius: 10px 0px 0px 0px;
       opacity: 1;
       padding-right: 10px;
-      @media screen and (max-width: 1280px) {
-        width: 121px;
-      }
     }
     .location {
       padding-right: 10px;
       width: 100px;
-      @media screen and (max-width: 1280px) {
-        width: 90px;
-      }
     }
     .numOfLeads {
       padding-right: 10px;
@@ -94,9 +89,6 @@
     .status {
       padding-right: 10px;
       width: 92px;
-      @media screen and (max-width: 1280px) {
-        width: 85px;
-      }
       i {
         margin-left: 10px;
       }
@@ -105,9 +97,6 @@
       padding-right: 10px;
       width: 55px;
       text-align: left;
-      @media screen and (max-width: 1280px) {
-        width: 40px;
-      }
     }
     .actions {
       padding-right: 10px;
@@ -155,19 +144,13 @@
         border-radius: 10px 0px 0px 0px;
         opacity: 1;
         padding-right: 10px;
-        @media screen and (max-width: 1280px) {
-          width: 121px;
-        }
       }
       &.location {
         width: 100px;
         padding-right: 10px;
-        @media screen and (max-width: 1280px) {
-          width: 90px;
-        }
       }
       &.numOfLeads {
-        padding-right: 10px;
+      padding-left: 10px;
         width: 100px;
         text-align: left;
         i {
@@ -180,7 +163,7 @@
         }
       }
       &.start-date {
-        padding-right: 10px;
+       padding-left: 10px;
         width: 95px;
         text-align: left;
         i {
@@ -188,7 +171,7 @@
         }
       }
       &.end-date {
-        padding-right: 10px;
+       padding-left: 10px;
         width: 86px;
         text-align: left;
         i {
@@ -196,7 +179,7 @@
         }
       }
       &.created-by {
-        padding-right: 10px;
+      padding-left: 10px;
         width: 120px;
         text-align: left;
         i {
@@ -204,31 +187,21 @@
         }
       }
       &.status {
-        padding-right: 10px;
+      padding-left: 15px;
         width: 92px;
         i {
           margin-left: 10px;
-        }
-        @media screen and (max-width: 1280px) {
-          width: 85px;
         }
       }
       &.green-switch {
         padding-right: 10px;
         width: 55px;
         text-align: center;
-        @media screen and (max-width: 1280px) {
-          width: 40px;
-        }
       }
       &.actions {
-        padding-right: 10px;
-        width: 160px;
+        width: 176px;
         text-align: center;
         border-radius: 0px 10px 0px 0px;
-        @media screen and (max-width: 1280px) {
-          width: 165px;
-        }
       }
     }
   }
@@ -274,5 +247,200 @@
     background: rgba(255, 108, 95, 1.2);
     height: 13px;
     width: 36px;
+  }
+}
+
+//media query for small screen
+
+@media only screen and (min-width: 650px) and (max-width: 1050px) {
+ 
+  .table-wrapper {
+    table {
+      min-width: max-content;
+      border-collapse: collapse;
+      border-spacing: 0px;
+      width: 100%;
+      position: relative;
+      tbody tr.bottomBorder {
+        border-bottom: 1px solid black;
+        position: absolute;
+        left: 22px;
+        background: #1f4173;
+        right: 30px;
+        opacity: 0.07;
+      }
+      td {
+        text-align: left;
+        font-size: 12px;
+        width: 250px;
+        height: 37px;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 17px;
+        color: #1f4173;
+        padding-top: 18px;
+        padding-bottom: 18px;
+        opacity: 0.7;
+        &.campaign-name {
+          width: 121px;
+          padding-left: 20px;
+          border-radius: 10px 0px 0px 0px;
+          opacity: 1;
+          padding-right: 10px;
+        }
+        &.location {
+          width: 80px;
+          padding-right: 10px;
+        }
+        &.numOfLeads {
+          padding-right: 10px;
+          width: 80px;
+          text-align: left;
+          i {
+            margin-left: 10px;
+          }
+          a:-webkit-any-link {
+            color: #1f4173;
+            cursor: pointer;
+            text-decoration: none;
+          }
+        }
+        &.start-date {
+          padding-right: 10px;
+          width: 75px;
+          text-align: left;
+          i {
+            margin-left: 10px;
+          }
+        }
+        &.end-date {
+          padding-right: 10px;
+          width: 66px;
+          text-align: left;
+          i {
+            margin-left: 10px;
+          }
+        }
+        &.created-by {
+          padding-right: 10px;
+          width: 100px;
+          text-align: left;
+          i {
+            margin-left: 10px;
+          }
+        }
+        &.status {
+          padding-right: 10px;
+          width: 92px;
+          i {
+            margin-left: 10px;
+          }
+         }
+        &.green-switch {
+          padding-right: 10px;
+          width: 45px;
+          text-align: center;
+        }
+        &.actions {
+          padding-right: 10px;
+          width: 140px;
+          text-align: center;
+          border-radius: 0px 10px 0px 0px;
+        }
+      }
+    }
+  }
+}
+
+//css for table heading
+
+@media only screen and (min-width: 650px) and (max-width: 1050px) {
+  .outer-wrapper {
+    table {
+      min-width: max-content;
+      border-collapse: collapse;
+      border-spacing: 0px;
+      width: 100%;
+      position: relative;
+  
+      th {
+        position: sticky;
+        top: 0px;
+        font-size: 12px;
+        text-align: left;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 17px;
+        color: #1f4173;
+        background: #fafafa;
+      }
+      .campaign-name {
+        width: 130px;
+        padding-left: 14px;
+        border-radius: 10px 0px 0px 0px;
+        opacity: 1;
+        padding-right: 10px;
+      }
+      .location {
+        padding-right: 10px;
+        width: 65px;
+      }
+      .numOfLeads {
+        padding-right: 10px;
+        width: 85px;
+        i {
+          margin-left: 10px;
+        }
+      }
+      .start-date {
+        padding-right: 10px;
+  
+        width: 85px;
+        text-align: left;
+        i {
+          margin-left: 10px;
+        }
+      }
+      .end-date {
+        padding-right: 10px;
+        width: 70px;
+        text-align: left;
+        i {
+          margin-left: 10px;
+        }
+      }
+      .created-by {
+        padding-right: 10px;
+        width: 90px;
+        text-align: left;
+        i {
+          margin-left: 10px;
+        }
+      }
+      .status {
+        padding-right: 10px;
+        width: 105px;
+        i {
+          margin-left: 10px;
+        }
+      }
+      .green-switch {
+        padding-right: 10px;
+        width: 55px;
+        text-align: left;
+      }
+      .actions {
+        padding-right: 81px;
+        width: 149px;
+        text-align: center;
+        border-radius: 0px 10px 0px 0px;
+      }
+      .headerHover:hover {
+        cursor: pointer;
+      }
+    }
   }
 }
