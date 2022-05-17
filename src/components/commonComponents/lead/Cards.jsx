@@ -1,4 +1,4 @@
-import { IconButton, Typography } from "@mui/material";
+import { IconButton, Typography, useMediaQuery } from "@mui/material";
 import { Box } from "@mui/system";
 import LinkedIn from "./LinkedIn";
 import moment from "moment";
@@ -19,6 +19,7 @@ import Loader from "../../themeComponents/Loader";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
+  const matches = useMediaQuery("(max-width:600px)");
   const leadsLoader = useSelector((state) => state.allLeads.loading);
   const currentPage = useSelector((state) => state.paginationStates.activePage);
   const leadsPerPage = useSelector(
@@ -100,8 +101,6 @@ const Cards = (props) => {
       </React.Fragment>
     );
   } else {
-
-
     return (
       <React.Fragment>
         {currentLeads.map((ele) => {
@@ -112,7 +111,6 @@ const Cards = (props) => {
           }
           return (
             <React.Fragment key={ele.id}>
-
               <Box className="lead-container">
                 <Box className="lead-header">
                   <Box
@@ -124,7 +122,7 @@ const Cards = (props) => {
                   >
                     <Typography
                       sx={{
-                        fontSize: "15px !important",
+                        fontSize: matches ? "13px" : "15px !important",
                         fontWeight: "600",
                         marginRight: "9px",
                         cursor: "pointer",
@@ -142,7 +140,7 @@ const Cards = (props) => {
                             fontWeight: "600",
                             height: "15px",
                             marginTop: "3px",
-                            width: "82px"
+                            width: "82px",
                           }}
                           label="Approved"
                           size="small"
@@ -229,10 +227,12 @@ const Cards = (props) => {
                         <p className="head-body">Description</p>
                         <p className="body-detail" style={{ width: "350px" }}>
                           {ele.summary.slice(0, 70)}...
-                          <span className="readmore-popup"
+                          <span
+                            className="readmore-popup"
                             key={ele.id}
                             id={ele.id}
-                            onClick={openPopup}>
+                            onClick={openPopup}
+                          >
                             Read More
                           </span>
                         </p>
@@ -314,10 +314,8 @@ const Cards = (props) => {
                       ) : null}
                     </div>
                   </div>
-
                 </Box>
               </Box>
-
             </React.Fragment>
           );
         })}

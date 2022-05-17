@@ -85,7 +85,6 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
-
   color: #1f4173;
 }
 
@@ -113,8 +112,23 @@
 .Response-time {
   margin-right: 12px;
 }
-.readmore-popup{
+.readmore-popup {
   color: #0800ff;
-  font-size:13px ;
+  font-size: 13px;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 1460px) {
+  .lead-header-title-component {
+    font-size: 13px;
+  }
+  .Response-time {
+    font-size: 11px;
+  }
+  .head-body {
+    font-size: 13px;
+  }
+  .body-detail {
+    font-size: 12px;
+  }
 }
