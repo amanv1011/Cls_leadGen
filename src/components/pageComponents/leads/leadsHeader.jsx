@@ -110,6 +110,7 @@ const LeadsHeader = () => {
           display: "flex",
           justifyContent: "space-between",
           width: "100%",
+          
         }}
       >
         <div style={{ display: "flex" }}>
@@ -117,9 +118,9 @@ const LeadsHeader = () => {
             style={{
               display: "flex",
               backgroundColor: "#E7E7E7",
-              flexWrap: "wrap",
               height: "40px",
               borderRadius: "10px",
+             
             }}
           >
             <input
@@ -128,9 +129,8 @@ const LeadsHeader = () => {
               type="text"
               value={SearchInput}
               className="search-input-leads"
-              // ref={SearchInput}
               style={{
-                width: "280px",
+                width: "100%",
                 height: "40px",
                 borderRadius: "10px",
                 backgroundColor: "#E7E7E7",
@@ -139,6 +139,8 @@ const LeadsHeader = () => {
                 color: "rgba(92, 117,154)",
                 fontSize: "14px",
                 paddingLeft: "10px",
+                minWidth:"158px",
+                maxWidth:"300px"
               }}
             />
             <div
@@ -158,15 +160,15 @@ const LeadsHeader = () => {
               onClick={handleClickAllCampgainsMenu}
               style={{
                 textTransform: "none",
-                height: "40px",
                 minWidth: "181px",
                 justifyContent: "space-between",
-                padding: "10px",
+                padding: "6px",
                 fontWeight: "600",
                 borderRadius: "10px",
                 marginLeft: "10px",
                 backgroundColor: "#E7E7E7",
                 color: "rgba(92, 117,154)",
+                marginRight:"10px"
               }}
             >
               {allCampaignsFilter}
@@ -247,6 +249,7 @@ const LeadsHeader = () => {
               <DownArrow />
             </span>
           </Button>
+          
           <Menu
             id="basic-menu"
             anchorEl={ownerMenu}
@@ -292,6 +295,7 @@ const LeadsHeader = () => {
               );
             })}
           </Menu>
+        
           <div className="filter-icon">
             <Tooltip title={"Clear all Filter"}arrow placement="top">
             <Button onClick={clearFilterTab}

@@ -130,7 +130,6 @@ const Cards = (props) => {
                           sx={{
                             background: "#16C31E",
                             color: "white",
-                            fontWeight: "600",
                             height: "15px",
                             marginTop: "3px",
                             width: "82px",
@@ -143,7 +142,6 @@ const Cards = (props) => {
                           sx={{
                             background: "#FF6C5F",
                             color: "white",
-                            fontWeight: "600",
                             height: "15px",
                             marginTop: "3px",
                             width: "74px",
@@ -155,8 +153,7 @@ const Cards = (props) => {
                         <Chip
                           sx={{
                             color: "white",
-                            background: "#FFD365",
-                            fontWeight: "600",
+                            background: "#FFD365", 
                             height: "15px",
                             marginTop: "3px",
                             width: "67px",
