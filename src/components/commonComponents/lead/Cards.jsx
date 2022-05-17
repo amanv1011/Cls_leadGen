@@ -16,16 +16,22 @@ import "./lead.scss";
 import { useSelector } from "react-redux";
 import { setTotalCount } from "../../../redux/actions/paginationActions";
 import Loader from "../../themeComponents/Loader";
+import { cardsDisplayAction } from "../../../redux/actions/leadActions";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
   const matches = useMediaQuery("(max-width:600px)");
   const leadsLoader = useSelector((state) => state.allLeads.loading);
   const currentPage = useSelector((state) => state.paginationStates.activePage);
-  const leadsPerPage = useSelector(
-    (state) => state.paginationStates.leadsPerPage
+  const dataPerPage = useSelector(
+    (state) => state.paginationStates.dataPerPage
   );
   const leadsData = props.leadData;
+
+  useEffect(() => {
+    dispatch(setTotalCount(leadsData.length));
+    dispatch(cardsDisplayAction(leadsData));
+  }, [leadsData.length]);
 
   let approveButton = (event) => {
     dispatch(updateLeadStatus(event.target.value, 1));
@@ -58,13 +64,9 @@ const Cards = (props) => {
   };
 
   var linkedInCompany;
-  const indexOfLastLead = currentPage * leadsPerPage;
-  const indexOfFirstLead = indexOfLastLead - leadsPerPage;
+  const indexOfLastLead = currentPage * dataPerPage;
+  const indexOfFirstLead = indexOfLastLead - dataPerPage;
   const currentLeads = leadsData.slice(indexOfFirstLead, indexOfLastLead);
-
-  useEffect(() => {
-    dispatch(setTotalCount(leadsData.length));
-  });
 
   if (leadsLoader === true) {
     return <Loader openLoader={leadsLoader} />;
@@ -73,15 +75,7 @@ const Cards = (props) => {
       <React.Fragment>
         <Box className="lead-container">
           <Box className="lead-header">
-            <Box
-              className="lead-header-title"
-              style={{
-                fontSize: "20px",
-                color: "rgb(0,58,210)",
-              }}
-            >
-              No Data found
-            </Box>
+            <Box className="lead-header-title"></Box>
           </Box>
           <Box
             className="lead-body"
@@ -225,16 +219,28 @@ const Cards = (props) => {
                     <div className="lead-body-column">
                       <div className="lead-body-column-card3">
                         <p className="head-body">Description</p>
-                        <p className="body-detail" style={{ width: "350px" }}>
-                          {ele.summary.slice(0, 70)}...
-                          <span
-                            className="readmore-popup"
-                            key={ele.id}
-                            id={ele.id}
-                            onClick={openPopup}
-                          >
-                            Read More
-                          </span>
+
+                        <p
+                          className="body-detail"
+                          style={{
+                            width: "350px",
+                          }}
+                        >
+                          {ele.summary.length <= 69 ? (
+                            ele.summary
+                          ) : (
+                            <>
+                              {ele.summary.slice(0, 70)} ...
+                              <span
+                                className="readmore-popup"
+                                key={ele.id}
+                                id={ele.id}
+                                onClick={openPopup}
+                              >
+                                Read More
+                              </span>
+                            </>
+                          )}
                         </p>
                       </div>
                     </div>

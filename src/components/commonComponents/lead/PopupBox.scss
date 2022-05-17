@@ -23,8 +23,11 @@
   border-radius: 20px 0px 0px 0px;
   width: 29%;
   float: right;
-  margin-top: 100px;
-  height: 100%;
+  margin-top: 3%;
+  height: 100vh;
+  margin-bottom: 200px;
+  
+
 }
 .box-containt-heading {
   margin-left: 20px;
@@ -37,4 +40,34 @@
   margin-left: 20px;
   margin-top: 20px;
   padding: 10px;
+  
+ 
+}
+.box-contain{
+  scrollbar-width: thin;
+  position:relative;
+  z-index: 1000;
+  overflow: auto;
+  height: 100%;
+}
+
+.box-contain::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}
+
+.box-contain::-webkit-scrollbar {
+  height: 10px;
+  width: 6px;
+  border-radius: 15px;
+}
+.box-contain::-webkit-scrollbar-track {
+  background: #ffffff;
+  margin-top: 20px;
+  border-radius: 15px;
+  margin-bottom: 1px;
+}
+.box-contain::-webkit-scrollbar-thumb {
+  height: 165px;
+  background: #e6eaf2;
+  border-radius: 20px;
 }

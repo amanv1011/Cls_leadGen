@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
-import { green } from "@mui/material/colors";
+import { green, red } from "@mui/material/colors";
 import Status from "./Status";
 import StatusInActive from "./StatusInActive";
 import "./Table.scss";
@@ -29,6 +29,15 @@ import PaginationComponent from "../../commonComponents/PaginationComponent";
 import * as paginationActions from "../../../redux/actions/paginationActions";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase": {
+    color: red[600],
+    "&:hover": {
+      backgroundColor: alpha(red[600], theme.palette.action.hoverOpacity),
+    },
+  },
+  "& .MuiSwitch-switchBase + .MuiSwitch-track": {
+    backgroundColor: red[600],
+  },
   "& .MuiSwitch-switchBase.Mui-checked": {
     color: green[600],
     "&:hover": {
@@ -50,8 +59,8 @@ const Table = () => {
   const initialSearchValue = statesInReduxStore.allCampaigns.initialSearchValue;
 
   const currentPage = useSelector((state) => state.paginationStates.activePage);
-  const leadsPerPage = useSelector(
-    (state) => state.paginationStates.leadsPerPage
+  const dataPerPage = useSelector(
+    (state) => state.paginationStates.dataPerPage
   );
 
   const [campaignListData, setCampaignListData] = useState([]);
@@ -144,14 +153,9 @@ const Table = () => {
           item[key].toString().toLowerCase().includes(lowerCasedValue)
         );
       });
-      console.log("campaignListData while searching", campaignListData);
-      console.log("filteredData", filteredData);
-
       setCampaignListData(filteredData);
     }
   };
-
-  console.log("campaignListData", campaignListData);
 
   const statusUpdate = async (event, a__campgaignId) => {
     if (event.target.checked) {
@@ -173,8 +177,8 @@ const Table = () => {
     return [day, month, year].join("/");
   }
 
-  const indexOfLastLead = currentPage * leadsPerPage;
-  const indexOfFirstLead = indexOfLastLead - leadsPerPage;
+  const indexOfLastLead = currentPage * dataPerPage;
+  const indexOfFirstLead = indexOfLastLead - dataPerPage;
   const currentCampaigns = campaignListData.slice(
     indexOfFirstLead,
     indexOfLastLead
@@ -424,7 +428,7 @@ const Table = () => {
                               <Tooltip title="Tooggle the status of the campaign">
                                 <GreenSwitch
                                   className="toggleSwitch"
-                                  defaultChecked={
+                                  checked={
                                     campaignListItem.status ? true : false
                                   }
                                   onClick={(event) =>
@@ -539,7 +543,7 @@ const Table = () => {
           </div>
         </div>
         <div
-          className="pagination"
+          className="pagination-select "
           style={{
             padding: "10px",
             color: "#1f4173",
@@ -551,26 +555,27 @@ const Table = () => {
         >
           <select
             className="card-selects"
-            name="source"
             onChange={(event) => {
-              dispatch(paginationActions.setLeadsPerPage(event.target.value));
+              dispatch(paginationActions.setDataPerPage(event.target.value));
               dispatch(paginationActions.setActivePage(1));
             }}
             autoComplete="off"
-            style={{ width: "358px" }}
+            value={dataPerPage}
           >
-            <option value="" disabled selected>
-              Select number of campaigns to display
-            </option>
             <option value={2}>2</option>
             <option value={4}>4</option>
             <option value={6}>6</option>
             <option value={8}>8</option>
-            <option value={10}>10</option>
+            <option value={10} default>
+              10
+            </option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+            <option value={150}>150</option>
           </select>
           <PaginationComponent
-            leadsPerPage={leadsPerPage}
-            totalLeads={campaignListData.length}
+            dataPerPage={dataPerPage}
+            dataLength={campaignListData.length}
             loader={campaignsLoader}
           />
         </div>

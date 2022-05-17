@@ -1,14 +1,16 @@
 import React from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import DateModal from "./DateModal";
 import DownArrow from "./DownArrow";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
+
 import Tooltip from "@mui/material/Tooltip";
+
 import "./leadsHeader.scss";
 import {
   leadsFilterCampaignName,
@@ -20,14 +22,16 @@ import {
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
-  const SearchInput = useRef("");
   const matches = useMediaQuery("(max-width:1460px)");
+  // const SearchInput = useRef("");
+  const [SearchInput, setSearchInput] = useState("");
 
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
+  const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
 
   const [allCampgainsMenu, setAllCampgainsMenu] = React.useState(null);
   const [allCampaignsFilter, setAllCampgainsFilter] = useState("All Campgains");
@@ -78,9 +82,10 @@ const LeadsHeader = () => {
     setOwnerMenu(null);
   };
 
-  const handleSearch = () => {
-    if (SearchInput.current.value.length > 1) {
-      dispatch(leadsFilterSearch(SearchInput.current.value));
+  const handleSearch = (event) => {
+    setSearchInput(event.target.value);
+    if (event.target.value.length > 1) {
+      dispatch(leadsFilterSearch(event.target.value));
     }
   };
 
@@ -88,6 +93,16 @@ const LeadsHeader = () => {
     dispatch(clearFilters());
     dispatch(datePickerState(0));
   };
+
+  const clearSearch = () => {
+    if (searchQuery === "") {
+      setSearchInput("");
+    }
+  };
+
+  useEffect(() => {
+    clearSearch();
+  }, [searchQuery]);
 
   return (
     <>
@@ -98,8 +113,10 @@ const LeadsHeader = () => {
               placeholder={`Search for "Keywords"`}
               onChange={handleSearch}
               type="text"
+              value={SearchInput}
               className="search-input-leads"
-              ref={SearchInput}
+              // ref={SearchInput}
+              // ref={SearchInput}
             />
             <div className="search-icon">
               <SearchIcon />
