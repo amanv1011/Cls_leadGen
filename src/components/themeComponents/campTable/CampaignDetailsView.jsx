@@ -52,6 +52,49 @@ export default function CampaignDetailsView({
         }}
       >
         {viewDetails.map((viewDetail) => {
+          let sourceType = "";
+
+          if (viewDetail.viewDetails.source.stringValue === "seek_aus") {
+            sourceType = "Seek Australia";
+          } else if (
+            viewDetail.viewDetails.source.stringValue === "indeed_aus"
+          ) {
+            sourceType = "Indeed Australia";
+          } else if (
+            viewDetail.viewDetails.source.stringValue === "indeed_ca"
+          ) {
+            sourceType = "Indeed Canada";
+          } else if (
+            viewDetail.viewDetails.source.stringValue === "indeed_uk"
+          ) {
+            sourceType = "Indeed United";
+          } else if (
+            viewDetail.viewDetails.source.stringValue === "indeed_il"
+          ) {
+            sourceType = "Indeed Italy";
+          } else if (
+            viewDetail.viewDetails.source.stringValue === "indeed_ae"
+          ) {
+            sourceType = "Indeed UAE";
+          } else if (
+            viewDetail.viewDetails.source.stringValue === "indeed_fi"
+          ) {
+            sourceType = "Indeed Finland";
+          } else if (
+            viewDetail.viewDetails.source.stringValue === "indeed_ch"
+          ) {
+            sourceType = "Indeed China";
+          } else if (
+            viewDetail.viewDetails.source.stringValue === "indeed_pt"
+          ) {
+            sourceType = "Indeed Portugal";
+          } else if (
+            viewDetail.viewDetails.source.stringValue === "indeed_sg"
+          ) {
+            sourceType = "Indeed Singapore";
+          } else {
+            sourceType = "Linkedin";
+          }
           return (
             <React.Fragment key={viewDetail.id}>
               <BootstrapDialogTitle
@@ -68,12 +111,10 @@ export default function CampaignDetailsView({
                       className="label-campaign-view"
                       style={{ marginTop: 0 }}
                     >
-                      Campaign Name
+                      Source Type
                     </div>
                     <div className="grid-campaign-view">
-                      <div className="campaign-text">
-                        {viewDetail.viewDetails.name.stringValue}
-                      </div>
+                      <div className="campaign-text">{sourceType}</div>
                     </div>
                   </div>
 
