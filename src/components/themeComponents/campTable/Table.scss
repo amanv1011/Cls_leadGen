@@ -21,6 +21,40 @@
   border-radius: 15px;
 }
 
+.camp-table-container{
+    overflow-y: hidden;
+  overflow-x: scroll;
+  max-height: 50vh;
+}
+
+.camp-table-container::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+  border-radius: 15px;
+}
+.camp-table-container::-webkit-scrollbar-track {
+  background: #ffffff;
+ // margin-top: 20px;
+ margin-left: 20px;
+  border-radius: 15px;
+ // margin-bottom: 25px;
+}
+.camp-table-container::-webkit-scrollbar-thumb {
+  height: 165px;
+  background: #e6eaf2;
+  border-radius: 15px;
+}
+
+// .outer-wrapper{
+//   overflow-y: hidden;
+//   overflow-x: scroll;
+//   max-height: 50vh;
+// }
+
+
+
+
+
 .outer-wrapper {
   table {
     overflow-x: auto;

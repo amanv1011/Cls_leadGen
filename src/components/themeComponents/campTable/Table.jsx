@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
-import { green } from "@mui/material/colors";
+import { green, red } from "@mui/material/colors";
 import Status from "./Status";
 import StatusInActive from "./StatusInActive";
 import "./Table.scss";
@@ -29,6 +29,15 @@ import PaginationComponent from "../../commonComponents/PaginationComponent";
 import * as paginationActions from "../../../redux/actions/paginationActions";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase": {
+    color: red[600],
+    "&:hover": {
+      backgroundColor: alpha(red[600], theme.palette.action.hoverOpacity),
+    },
+  },
+  "& .MuiSwitch-switchBase + .MuiSwitch-track": {
+    backgroundColor: red[600],
+  },
   "& .MuiSwitch-switchBase.Mui-checked": {
     color: green[600],
     "&:hover": {
@@ -242,7 +251,7 @@ const Table = () => {
   } else {
     return (
       <React.Fragment>
-        <div>
+        <div className="camp-table-container">
           <div className="outer-wrapper">
             <table>
               <thead>
@@ -419,7 +428,7 @@ const Table = () => {
                               <Tooltip title="Tooggle the status of the campaign">
                                 <GreenSwitch
                                   className="toggleSwitch"
-                                  defaultChecked={
+                                  checked={
                                     campaignListItem.status ? true : false
                                   }
                                   onClick={(event) =>
