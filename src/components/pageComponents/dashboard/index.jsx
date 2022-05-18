@@ -240,7 +240,7 @@ const Dashboard = ({ children }) => {
                     style={{
                       marginLeft: "10px",
                       display: "flex",
-                      paddingBottom: "16px",
+                      paddingBottom: "9px",
                       paddingTop: "9px",
                     }}
                   >
