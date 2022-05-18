@@ -20,7 +20,14 @@
       cursor: pointer;
       background: #2c3646;
       color: #ffff;
-      
+    }
+  }
+}
+@media screen and (max-width: 1460px) {
+  .header-container {
+    .exportToExcel {
+      font-size: 12px;
+      width: 165px;
     }
   }
 }

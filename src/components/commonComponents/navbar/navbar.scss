@@ -61,3 +61,13 @@
     background-color: #1f4173 !important;
   }
 }
+
+@media only screen and (max-width: 1460px) {
+  .navbar-container {
+    .user-profile-container {
+      .user-profile-title {
+        font-size: 12px;
+      }
+    }
+  }
+}
