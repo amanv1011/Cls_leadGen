@@ -110,7 +110,7 @@ const LeadsHeader = () => {
           display: "flex",
           justifyContent: "space-between",
           width: "100%",
-          
+
         }}
       >
         <div style={{ display: "flex" }}>
@@ -120,7 +120,7 @@ const LeadsHeader = () => {
               backgroundColor: "#E7E7E7",
               height: "40px",
               borderRadius: "10px",
-             
+
             }}
           >
             <input
@@ -139,8 +139,8 @@ const LeadsHeader = () => {
                 color: "rgba(92, 117,154)",
                 fontSize: "14px",
                 paddingLeft: "10px",
-                minWidth:"158px",
-                maxWidth:"300px"
+                minWidth: "158px",
+                maxWidth: "300px"
               }}
             />
             <div
@@ -168,7 +168,7 @@ const LeadsHeader = () => {
                 marginLeft: "10px",
                 backgroundColor: "#E7E7E7",
                 color: "rgba(92, 117,154)",
-                marginRight:"10px"
+                marginRight: "10px"
               }}
             >
               {allCampaignsFilter}
@@ -187,6 +187,11 @@ const LeadsHeader = () => {
                   boxShadow: "none",
                   backgroundColor: "#E7E7E7",
                   color: "rgba(92, 117,154)",
+                  zIndex: "1000",
+                  overflow: "auto",
+                  height: "210px"
+
+
                 },
               }}
               open={openAllCampgainsMenu}
@@ -249,7 +254,7 @@ const LeadsHeader = () => {
               <DownArrow />
             </span>
           </Button>
-          
+
           <Menu
             id="basic-menu"
             anchorEl={ownerMenu}
@@ -261,6 +266,10 @@ const LeadsHeader = () => {
                 boxShadow: "none",
                 backgroundColor: "#E7E7E7",
                 color: "rgba(92, 117,154)",
+                zIndex: "1000",
+                overflow: "auto",
+                maxHeight:"150px",
+                
               },
             }}
             open={openOwnerMenu}
@@ -295,25 +304,25 @@ const LeadsHeader = () => {
               );
             })}
           </Menu>
-        
+
           <div className="filter-icon">
-            <Tooltip title={"Clear all Filter"}arrow placement="top">
-            <Button onClick={clearFilterTab}
-              style={{
-                fontFamily: "Segoe UI",
-                textTransform: "none",
-                height: "40px",
-                width: "35px",
-                fontWeight: "600",
-                padding: "10px",
-                borderRadius: "10px",
-                marginLeft: "5px",
-                backgroundColor: "rgba(231, 231, 231)",
-                color: "rgba(92, 117, 154)",
-              }}
-            >
-              <FilterAltOffIcon />
-            </Button>
+            <Tooltip title={"Clear all Filter"} arrow placement="top">
+              <Button onClick={clearFilterTab}
+                style={{
+                  fontFamily: "Segoe UI",
+                  textTransform: "none",
+                  height: "40px",
+                  width: "35px",
+                  fontWeight: "600",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  marginLeft: "5px",
+                  backgroundColor: "rgba(231, 231, 231)",
+                  color: "rgba(92, 117, 154)",
+                }}
+              >
+                <FilterAltOffIcon />
+              </Button>
             </Tooltip>
           </div>
         </div>

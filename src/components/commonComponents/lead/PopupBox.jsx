@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CrossIcon from "./Cross";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./PopupBox.scss";
 
 import { IconButton } from "@mui/material";
@@ -13,14 +13,14 @@ import { getPopupDisable } from "../../../redux/actions/PopupAction";
 function PopuoBox(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(true);
-  
-  
+
+
   const popupdata = props.data[0];
 
   const handleClose = () => {
     dispatch(getPopupDisable());
   };
-  
+
 
   return (
     <div>
@@ -56,7 +56,7 @@ function PopuoBox(props) {
                 <Typography
                   style={{
                     fontStyle: "normal",
-                    fontWeight: "400",
+                    fontWeight: "500",
                     fontSize: "14px",
                   }}
                 >
@@ -70,16 +70,21 @@ function PopuoBox(props) {
                       fontWeight: "600",
                       fontSize: "14px",
                       fontStyle: "normal",
-                      marginTop: "5px",
+                      marginTop: "2px",
                     }}
                   >
                     {" "}
                     {"NA  "}
                   </Typography>
                   <br />
-                  
+
                 </div>
-                <Typography> Contact Email ID </Typography>
+                <Typography style={{
+                  fontStyle: "normal",
+                  fontWeight: "500",
+                  fontSize: "14px",
+                }}
+                > Contact Email ID </Typography>
                 <div className="b0x-container-passage-name">
                   <Typography
                     style={{
@@ -87,16 +92,22 @@ function PopuoBox(props) {
                       fontWeight: "600",
                       fontSize: "14px",
                       fontStyle: "normal",
-                      marginTop: "5px",
+                      marginTop: "2px",
                     }}
                   >
                     {"NA "}
-                    
+
                   </Typography>
                   <br />
-                  
+
                 </div>
-                <Typography>Company Name </Typography>
+                <Typography
+                  style={{
+                    fontStyle: "normal",
+                    fontWeight: "500",
+                    fontSize: "14px",
+                  }}
+                >Company Name </Typography>
                 <div className="b0x-container-passage-name">
                   <Typography
                     style={{
@@ -104,15 +115,21 @@ function PopuoBox(props) {
                       fontWeight: "600",
                       fontSize: "14px",
                       fontStyle: "normal",
-                      marginTop: "5px",
+                      marginTop: "2px",
                     }}
                   >
                     {popupdata.companyName}
                   </Typography>
                   <br />
-                  
+
                 </div>
-                <Typography>Location </Typography>
+                <Typography
+                  style={{
+                    fontStyle: "normal",
+                    fontWeight: "500",
+                    fontSize: "14px",
+                  }}
+                >Location </Typography>
                 <div className="b0x-container-passage-name">
                   <Typography
                     style={{
@@ -120,15 +137,21 @@ function PopuoBox(props) {
                       fontWeight: "600",
                       fontSize: "14px",
                       fontStyle: "normal",
-                      marginTop: "5px",
+                      marginTop: "2px",
                     }}
                   >
                     {popupdata.location}
                   </Typography>
                   <br />
-                  
+
                 </div>
-                <Typography>Job Description</Typography>
+                <Typography
+                  style={{
+                    fontStyle: "normal",
+                    fontWeight: "500",
+                    fontSize: "14px",
+                  }}
+                >Job Description</Typography>
                 <div className="b0x-container-passage-name">
                   <Typography
                     style={{
@@ -136,17 +159,17 @@ function PopuoBox(props) {
                       fontWeight: "600",
                       fontSize: "14px",
                       fontStyle: "normal",
-                      marginTop: "5px",
-                      height:"100vh"
-                      
+                      marginTop: "2px",
+
+
                     }}
                   >
                     {" "}
                     {popupdata.summary}
-                    
+
                   </Typography>
                   <br />
-                 
+
                 </div>
               </div>
             </div>
