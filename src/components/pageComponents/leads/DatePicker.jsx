@@ -71,36 +71,36 @@ class BasicDateRangePicker extends React.Component {
           <Typography className="button-calender">
             <Button className="button-cancel"
               onClick={this.closeModal}
-              style={{
-                fontFamily: "Segoe UI",
-                textTransform: "none",
-                height: "31px",
-                width: "64px",
-                fontWeight: "600",
-                padding: "10px",
-                borderRadius: "10px",
-                marginLeft: "5px",
-                backgroundColor: "#FFC65F",
-                color: "white",
-              }}
+              // style={{
+              //   fontFamily: "Segoe UI",
+              //   textTransform: "none",
+              //   height: "21px",
+              //   width: "64px",
+              //   fontWeight: "600",
+              //   padding: "10px",
+              //   borderRadius: "10px",
+              //   marginLeft: "5px",
+              //   backgroundColor: "#424e62",
+              //   color: "white",
+              // }}
             >
               Cancel
             </Button>
             <Button className="button-apply"
               onClick={this.applyDate}
-              style={{
-                fontFamily: "Segoe UI",
-                textTransform: "none",
-                height: "31px",
-                width: "64px",
-                fontWeight: "600",
-                padding: "10px",
-                borderRadius: "10px",
-                marginLeft: "5px",
-                backgroundColor: "#44A98B",
-                color: "white",
+              // style={{
+              //   fontFamily: "Segoe UI",
+              //   textTransform: "none",
+              //   height: "21px",
+              //   width: "64px",
+              //   fontWeight: "600",
+              //   padding: "10px",
+              //   borderRadius: "10px",
+              //   marginLeft: "5px",
+              //   backgroundColor: "#16C31E",
+              //   color: "white",
 
-              }}
+              // }}
             >
               Apply
             </Button>
