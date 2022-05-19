@@ -65,7 +65,7 @@ const Table = () => {
 
   const [campaignListData, setCampaignListData] = useState([]);
   const [leadsListData, setLeadsListData] = useState([]);
-  const [order, setOrder] = useState("descendingOrder");
+  const [order, setOrder] = useState("ascendingOrder");
   const [viewDetails, setViewDetails] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
@@ -93,12 +93,15 @@ const Table = () => {
       });
       element.leadsNo = leadsCount;
     });
-    setCampaignListData(campaignList);
+    setCampaignListData(
+      campaignList.sort((a, b) => (a.status < b.status ? 1 : -1))
+    );
     setLeadsListData(leadsList);
   }, [campaignList, leadsList]);
 
   useEffect(() => {
     searchingTable(initialSearchValue);
+    dispatch(paginationActions.setActivePage(1));
   }, [initialSearchValue]);
 
   const getNumOfLeads = (id) => {
@@ -137,6 +140,7 @@ const Table = () => {
   };
 
   const sortingTable = (col) => {
+    console.log("col", col);
     const dataToSort = [...campaignListData];
     if (order === "ascendingOrder") {
       let sortedData = dataToSort.sort((a, b) => (a[col] < b[col] ? 1 : -1));
@@ -190,7 +194,7 @@ const Table = () => {
     indexOfLastLead
   );
 
-  if ((campaignsLoader === false && currentCampaigns.length) === 0) {
+  if (campaignsLoader === false && currentCampaigns.length === 0) {
     return (
       <div>
         <div className="outer-wrapper">
@@ -246,7 +250,9 @@ const Table = () => {
                     textAlign: "center",
                   }}
                 >
-                  Searched campaigns(s) not found
+                  {initialSearchValue
+                    ? "Searched campaigns(s) not found"
+                    : "No Campaigns found"}
                 </td>
               </tr>
             </tbody>

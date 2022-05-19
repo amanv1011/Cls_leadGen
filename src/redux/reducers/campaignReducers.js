@@ -1,15 +1,9 @@
-import {
-  GET_CAMPAIGN_LIST_ERROR,
-  GET_CAMPAIGN_LIST_PENDING,
-  GET_CAMPAIGN_LIST_SUCCESS,
-} from "../type";
 import * as types from "../type";
 
 const initialState = {
   campaignList: [],
   loading: null,
   error: null,
-  message: "",
   isModalVisible: false,
   a__campgaign__Id: "",
   initialSearchValue: "",
@@ -21,20 +15,20 @@ export const getAllCampaignsReducer = (
   { type, payload }
 ) => {
   switch (type) {
-    case GET_CAMPAIGN_LIST_PENDING:
+    case types.GET_CAMPAIGN_LIST_PENDING:
       return {
         ...state,
         loading: true,
         error: null,
       };
-    case GET_CAMPAIGN_LIST_SUCCESS:
+    case types.GET_CAMPAIGN_LIST_SUCCESS:
       return {
         ...state,
         loading: false,
         campaignList: payload,
         error: null,
       };
-    case GET_CAMPAIGN_LIST_ERROR:
+    case types.GET_CAMPAIGN_LIST_ERROR:
       return {
         ...state,
         loading: false,
@@ -51,8 +45,8 @@ export const getAllCampaignsReducer = (
     case types.POST_CAMPAIGN_DATA_SUCCESS:
       return {
         ...state,
+        campaignList: [...state.campaignList, payload],
         loading: false,
-        campaignList: [...state.campaignList, ...payload],
         error: null,
       };
 
@@ -79,8 +73,15 @@ export const getAllCampaignsReducer = (
         error: payload,
       };
 
+    case types.UPDATE_CAMPAIGN_DATA_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+
     case types.UPDATE_CAMPAIGN_DATA_SUCCESS:
-      const updatedData = state.campaignList.map((item) => {
+      var updatedData = state.campaignList.map((item) => {
         if (item.id === payload.id) {
           return payload;
         }

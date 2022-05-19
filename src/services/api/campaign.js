@@ -38,12 +38,14 @@ export const getCampaignList = async () => {
         firebaseMethods.orderBy("status", "desc")
       )
     );
+    console.log("campaignSnaphot", campaignSnaphot);
     const CompaignList = campaignSnaphot.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
     return CompaignList;
   } catch (err) {
+    console.log("error while getting", err);
     return err;
   }
 };
@@ -52,6 +54,7 @@ export const postCampaignData = async (addCompaignData) => {
   try {
     return await firebaseMethods.addDoc(campgaignCollection, addCompaignData);
   } catch (err) {
+    console.log("error while posting", err);
     return err;
   }
 };
