@@ -140,7 +140,6 @@ const Table = () => {
   };
 
   const sortingTable = (col) => {
-    console.log("col", col);
     const dataToSort = [...campaignListData];
     if (order === "ascendingOrder") {
       let sortedData = dataToSort.sort((a, b) => (a[col] < b[col] ? 1 : -1));
