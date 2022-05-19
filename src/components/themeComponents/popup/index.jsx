@@ -290,7 +290,7 @@ function AddCampaginModal() {
                   autoComplete="off"
                   required
                 >
-                  <option value="" disabled selected>
+                  <option value="" disabled defaultValue>
                     Select the source
                   </option>
                   <option value="seek_aus">Seek Australia</option>
