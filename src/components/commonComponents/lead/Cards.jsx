@@ -1,4 +1,4 @@
-import { IconButton, Typography } from "@mui/material";
+import { Avatar, IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LinkedIn from "./LinkedIn";
 import moment from "moment";
@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { setTotalCount } from "../../../redux/actions/paginationActions";
 import Loader from "../../themeComponents/Loader";
 import { cardsDisplayAction } from "../../../redux/actions/leadActions";
+import indeedLogo3 from '../../../assets/icons/indeedLogo3.jpg';
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -78,17 +79,8 @@ const Cards = (props) => {
           </Box>
           <Box
             className="lead-body"
-            style={{
-              textAlign: "center",
-              fontSize: "20px",
-              display: "flex",
-              alignContent: "center",
-              justifyContent: "center",
-              alignItems: "center",
-              color: "rgb(0,58,210)",
-            }}
           >
-            Nothing to show
+            No Data Found
           </Box>
         </Box>
       </React.Fragment>
@@ -102,6 +94,7 @@ const Cards = (props) => {
           } else {
             linkedInCompany = "";
           }
+
           return (
             <React.Fragment key={ele.id}>
               <Box className="lead-container">
@@ -130,10 +123,10 @@ const Cards = (props) => {
                           sx={{
                             background: "#16C31E",
                             color: "white",
-                            fontWeight: "600",
                             height: "15px",
                             marginTop: "3px",
-                            width: "82px",
+                            width: "73px",
+                            fontSize:"11px"
                           }}
                           label="Approved"
                           size="small"
@@ -143,10 +136,10 @@ const Cards = (props) => {
                           sx={{
                             background: "#FF6C5F",
                             color: "white",
-                            fontWeight: "600",
                             height: "15px",
                             marginTop: "3px",
-                            width: "74px",
+                            width: "65px",
+                            fontSize:"11px"
                           }}
                           label="Rejected"
                           size="small"
@@ -156,10 +149,11 @@ const Cards = (props) => {
                           sx={{
                             color: "white",
                             background: "#FFD365",
-                            fontWeight: "600",
                             height: "15px",
                             marginTop: "3px",
-                            width: "67px",
+                            width: "59px",
+                            fontSize:"11px"
+                            
                           }}
                           label="Archive"
                           size="small"
@@ -172,6 +166,21 @@ const Cards = (props) => {
                       {moment.unix(ele.leadGeneratedDate.seconds).fromNow()}
                     </span>
 
+                    {ele.readMore != null ? <><IconButton>
+                      <a href={ele.readMore} target="_blank">
+                        <Avatar sx={{ width: "24px", height: "24px" }}
+                          alt="indeedLogo"
+                          src={indeedLogo3}
+                          className="indeed-logo"
+                        />
+                      </a>
+                    </IconButton>
+                    </>
+                      :
+                      null
+
+
+                    }
                     <IconButton style={{ paddingBottom: "0px" }}>
                       {linkedInCompany ? (
                         <a
@@ -189,14 +198,9 @@ const Cards = (props) => {
                   </Box>
                 </Box>
                 <hr className="line" />
-                <Box
-                  style={{ display: "flex", paddingTop: "16px" }}
-                  className="lead-body"
-                >
-                  <div
-                    style={{ display: "flex", width: "100%" }}
-                    className="lead-body-row1"
-                  >
+                <Box className="lead-body" >
+                  <div className="lead-body-row1">
+
                     <div className="lead-body-column">
                       <div className="lead-body-column-card1">
                         <p className="head-body">Key Skills</p>
@@ -223,13 +227,13 @@ const Cards = (props) => {
                           style={{
                             width: "350px"
                           }}>
-                          {ele.summary.length <= 69 ? ele.summary :  <>{ele.summary.slice(0, 70)} ...<span className="readmore-popup"
+                          {ele.summary.length <= 69 ? ele.summary : <>{ele.summary.slice(0, 70)} ...<span className="readmore-popup"
                             key={ele.id}
                             id={ele.id}
                             onClick={openPopup}>
                             Read More
-                          </span></> }
-                          
+                          </span></>}
+
 
                         </p>
                       </div>

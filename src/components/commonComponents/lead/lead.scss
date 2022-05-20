@@ -12,7 +12,7 @@
     align-items: center;
     width: 100%;
     height: 45px;
-    background: #fafafa;
+    background: #fff;
     border-radius: 10px 10px 0px 0px;
     padding: 12px;
     box-sizing: border-box;
@@ -24,13 +24,47 @@
       line-height: 17px;
       letter-spacing: 0em;
       text-align: left;
-      background: #fafafa;
+      background: #fff;
     }
   }
 
   .lead-body {
+    display: flex;
+    padding-top: 27px;
+    padding-bottom: 6px;
+    background-color: #fff;
     height: 67px;
     width: 100%;
+    font-size: 20px;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0,58,210);
+    .lead-body-row1{
+      display: flex;
+      width: 100%;
+      .lead-body-column {
+        float: left;
+        padding: 5px;
+        margin-top: -19px;
+        .lead-body-column-card1 {
+          margin-right: 50px;
+          width: 10vw;
+        }
+        
+        .lead-body-column-card2 {
+          margin-right: 50px;
+          width: 10vw;
+        }
+        
+        .lead-body-column-card4 {
+          margin-right: 50px;
+        }
+      }
+      
+    }
+  
+
   }
 }
 
@@ -60,25 +94,11 @@
   margin-top: 1px;
 }
 
-.lead-body-column {
-  float: left;
-  padding: 5px;
-  margin-top: -19px;
-}
 
-.lead-body-column-card1 {
-  margin-right: 50px;
-  width: 10vw;
-}
 
-.lead-body-column-card2 {
-  margin-right: 50px;
-  width: 10vw;
-}
 
-.lead-body-column-card4 {
-  margin-right: 50px;
-}
+
+
 
 .body-detail {
   font-style: normal;
@@ -110,11 +130,17 @@
 .lead-body-row {
   padding-top: 3px;
 }
+
 .Response-time {
   margin-right: 12px;
 }
-.readmore-popup{
+
+.readmore-popup {
   color: #0800ff;
-  font-size:13px ;
+  font-size: 13px;
   cursor: pointer;
+}
+.indeed-logo{
+  width: 24px;
+  height: 24px;
 }

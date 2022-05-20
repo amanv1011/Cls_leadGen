@@ -65,7 +65,7 @@ const Table = () => {
 
   const [campaignListData, setCampaignListData] = useState([]);
   const [leadsListData, setLeadsListData] = useState([]);
-  const [order, setOrder] = useState("descendingOrder");
+  const [order, setOrder] = useState("ascendingOrder");
   const [viewDetails, setViewDetails] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
@@ -78,6 +78,12 @@ const Table = () => {
   }, []);
 
   useEffect(() => {
+    if (window.location.pathname === "/campaign") {
+      dispatch(paginationActions.setDataPerPage(10));
+    }
+  }, [window.location.pathname === "/campaign"]);
+
+  useEffect(() => {
     campaignList.forEach((element) => {
       let leadsCount = 0;
       leadsList.map((ele) => {
@@ -87,12 +93,15 @@ const Table = () => {
       });
       element.leadsNo = leadsCount;
     });
-    setCampaignListData(campaignList);
+    setCampaignListData(
+      campaignList.sort((a, b) => (a.status < b.status ? 1 : -1))
+    );
     setLeadsListData(leadsList);
   }, [campaignList, leadsList]);
 
   useEffect(() => {
     searchingTable(initialSearchValue);
+    dispatch(paginationActions.setActivePage(1));
   }, [initialSearchValue]);
 
   const getNumOfLeads = (id) => {
@@ -184,7 +193,7 @@ const Table = () => {
     indexOfLastLead
   );
 
-  if ((campaignsLoader === false && currentCampaigns.length) === 0) {
+  if (campaignsLoader === false && currentCampaigns.length === 0) {
     return (
       <div>
         <div className="outer-wrapper">
@@ -240,7 +249,9 @@ const Table = () => {
                     textAlign: "center",
                   }}
                 >
-                  Searched campaigns(s) not found
+                  {initialSearchValue
+                    ? "Searched campaigns(s) not found"
+                    : "No Campaigns found"}
                 </td>
               </tr>
             </tbody>
@@ -566,9 +577,7 @@ const Table = () => {
             <option value={4}>4</option>
             <option value={6}>6</option>
             <option value={8}>8</option>
-            <option value={10} default>
-              10
-            </option>
+            <option value={10}>10</option>
             <option value={50}>50</option>
             <option value={100}>100</option>
             <option value={150}>150</option>
