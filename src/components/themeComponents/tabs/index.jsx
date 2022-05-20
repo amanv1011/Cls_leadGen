@@ -70,7 +70,6 @@ export default function BasicTabs({ type }) {
         {type === "dashboardTabs" ? (
           <Tabs value={value} onChange={handleChange} className="form-tabs">
             <Tab
-              disableRipple
               label="Campaign"
               component={Link}
               to="/campaign"
@@ -87,7 +86,6 @@ export default function BasicTabs({ type }) {
               }}
             />
             <Tab
-              disableRipple
               label="Leads"
               component={Link}
               to="/leads"

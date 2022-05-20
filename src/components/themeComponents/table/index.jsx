@@ -12,14 +12,14 @@ const Table = (props) => {
 
   const GenratedleadData = useSelector((state) => state.allLeads.leadsList);
   leadData.forEach((element) => {
-    let leadsCount = 0
+    let leadsCount = 0;
     GenratedleadData.map((ele) => {
       if (element.id === ele.campaignId) {
         leadsCount++;
       }
     });
-    element.leadsNo = leadsCount
-  })
+    element.leadsNo = leadsCount;
+  });
 
   const sortTypes = {
     startup: {
@@ -115,10 +115,7 @@ const Table = (props) => {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <p
-          className="table-heading"
-          style={{ paddingLeft: "20px", paddingTop: "15px" }}
-        >
+        <p className="table-heading" style={{ padding: "17px 20px 15px 20px" }}>
           My Campaign(s)
         </p>
         <MoreVertIcon
@@ -128,7 +125,14 @@ const Table = (props) => {
       </div>
       <div className="table-scroll">
         <table className="table-main" width="100%">
-          <thead style={{ backgroundColor: "#FAFAFA", position:'sticky', top: "0", zIndex:'1'}}>
+          <thead
+            style={{
+              backgroundColor: "#FAFAFA",
+              position: "sticky",
+              top: "0",
+              zIndex: "1",
+            }}
+          >
             <tr className="table-header-row">
               <th
                 style={{ paddingLeft: "20px" }}
@@ -136,22 +140,40 @@ const Table = (props) => {
               >
                 Campaign
               </th>
-              <th className="table-header-row-data" style={{ cursor: "pointer" }} onClick={onSortLeads}>No. of Leads</th>
-              <th className="table-header-row-data" style={{ cursor: "pointer" }} onClick={onSortStart}>
+              <th
+                className="table-header-row-data"
+                style={{ cursor: "pointer" }}
+                onClick={onSortLeads}
+              >
+                No. of Leads
+              </th>
+              <th
+                className="table-header-row-data"
+                style={{ cursor: "pointer" }}
+                onClick={onSortStart}
+              >
                 Start Date
                 <KeyboardArrowDownIcon
                   viewBox="0 0 30 10"
                   style={{ width: "16px", height: "16px" }}
                 />
               </th>
-              <th className="table-header-row-data" style={{ cursor: "pointer" }} onClick={onSortEnd}>
+              <th
+                className="table-header-row-data"
+                style={{ cursor: "pointer" }}
+                onClick={onSortEnd}
+              >
                 End Date
                 <KeyboardArrowDownIcon
                   viewBox="0 0 30 10"
                   style={{ width: "16px", height: "16px" }}
                 />
               </th>
-              <th className="table-header-row-data" style={{ cursor: "pointer" }} onClick={onSortStatus}>
+              <th
+                className="table-header-row-data"
+                style={{ cursor: "pointer" }}
+                onClick={onSortStatus}
+              >
                 Status
                 <KeyboardArrowDownIcon
                   viewBox="0 0 30 10"
@@ -167,12 +189,11 @@ const Table = (props) => {
               {
                 let timestampStart = element.start_date.seconds;
                 let timestampEnd = element.end_date.seconds;
-                
+
                 var startDate = moment
                   .unix(timestampStart)
                   .format("MM/DD/YYYY");
                 var endDate = moment.unix(timestampEnd).format("MM/DD/YYYY");
-
               }
 
               return (

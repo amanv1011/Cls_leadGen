@@ -3,6 +3,43 @@
     opacity: 1;
 }
 
-.button-calender{
-margin-right: 20px;
+.button-calender {
+    margin-right: 20px;
+    .button-cancel {
+        font-family: Segoe UI;
+        text-transform: none;
+        height: 21px;
+        width: 64px;
+        font-weight: 600;
+        padding: 10px;
+        border-radius: 10px;
+        margin-left: 5px;
+        background-color: #424e62;
+        color: white;
+        &:hover {
+            cursor: pointer;
+            background: #2c3646;
+            color: #ffff;
+          }
+    }
+    .button-apply{
+        font-family: Segoe UI;
+        text-transform: none;
+        height: 21px;
+        width: 64px;
+        font-weight: 600;
+        padding: 10px;
+        border-radius: 10px;
+        margin-left: 5px;
+        background-color: #4ec86c;
+        color: white;
+        &:hover {
+            cursor: pointer;
+            background: #13de5a;
+            color: #ffff;
+          }
+
+    }
+
 }
+

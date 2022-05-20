@@ -13,6 +13,7 @@ import { Timestamp } from "firebase/firestore";
 import "./popup.scss";
 import PlusIcon from "./PlusIcon";
 import IInput from "../input/index";
+import { openAlert } from "../../../redux/actions/alertActions";
 
 function AddCampaginModal() {
   const style = {
@@ -35,6 +36,7 @@ function AddCampaginModal() {
 
   const isModalOpen = statesInReduxStore.allCampaigns.isModalVisible;
   const a__campgaignId = statesInReduxStore.allCampaigns.a__campgaign__Id;
+  const errorFromStore = statesInReduxStore.allCampaigns.error;
 
   const [addCampaignDetails, setAddCampaignDetails] = useState({
     name: "",
@@ -63,7 +65,6 @@ function AddCampaginModal() {
   } = addCampaignDetails;
 
   const [tags, setTags] = useState([]);
-
   const onInputChangeHandler = (event) => {
     const { name, value } = event.target;
     setAddCampaignDetails({ ...addCampaignDetails, [name]: value });
@@ -102,12 +103,22 @@ function AddCampaginModal() {
     }
   }, [a__campgaignId]);
 
+  useEffect(() => {
+    if (
+      errorFromStore === null ||
+      errorFromStore === undefined ||
+      errorFromStore === ""
+    ) {
+      dispatch(campaignActions.handleClose());
+    } else {
+      dispatch(campaignActions.showModal());
+    }
+  }, [errorFromStore]);
   const detailsForEdit = async () => {
     try {
       const documentSnapShot = await dispatch(
         campaignActions.getACampaignAction(a__campgaignId)
       );
-
       setAddCampaignDetails({
         name: documentSnapShot.payload.data().name,
         source: documentSnapShot.payload.data().source,
@@ -143,13 +154,19 @@ function AddCampaginModal() {
       dispatch(
         campaignActions.updateCampaignsAction(a__campgaignId, newCampaign)
       );
-      dispatch(campaignActions.getAllCampaignsAction());
       dispatch(campaignActions.campaignIDAction(""));
     } else {
-      dispatch(campaignActions.postCampaignsAction(newCampaign));
-      dispatch(campaignActions.getAllCampaignsAction());
+      dispatch(campaignActions.postCampaignAction(newCampaign));
     }
-    dispatch(campaignActions.handleClose());
+    if (
+      errorFromStore === null ||
+      errorFromStore === undefined ||
+      errorFromStore === ""
+    ) {
+      dispatch(campaignActions.handleClose());
+    } else {
+      dispatch(campaignActions.showModal());
+    }
     setAddCampaignDetails({
       name: "",
       source: "",
@@ -298,7 +315,7 @@ function AddCampaginModal() {
                   autoComplete="off"
                   required
                 >
-                  <option value="" disabled selected>
+                  <option value="" disabled defaultValue>
                     Select the source
                   </option>
                   <option value="seek_aus">Seek Australia</option>
@@ -366,6 +383,11 @@ function AddCampaginModal() {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
+                  min={a__campgaignId ? start_date : formatDate(new Date())}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                    dispatch(openAlert("Typing is disabled", true, "error"));
+                  }}
                 />
               </Grid>
 
@@ -394,6 +416,11 @@ function AddCampaginModal() {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
+                  min={start_date}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                    dispatch(openAlert("Typing is disabled", true, "error"));
+                  }}
                 />
               </Grid>
 

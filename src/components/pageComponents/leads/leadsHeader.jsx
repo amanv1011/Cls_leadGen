@@ -149,6 +149,9 @@ const LeadsHeader = () => {
                   boxShadow: "none",
                   backgroundColor: "#E7E7E7",
                   color: "rgba(92, 117,154)",
+                  zIndex: "1000",
+                  overflow: "auto",
+                  height: "210px",
                 },
               }}
               open={openAllCampgainsMenu}
@@ -203,6 +206,7 @@ const LeadsHeader = () => {
               <DownArrow />
             </span>
           </Button>
+
           <Menu
             id="basic-menu"
             anchorEl={ownerMenu}
@@ -215,6 +219,9 @@ const LeadsHeader = () => {
                 boxShadow: "none",
                 backgroundColor: "#E7E7E7",
                 color: "rgba(92, 117,154)",
+                zIndex: "1000",
+                overflow: "auto",
+                maxHeight: "150px",
               },
             }}
             open={openOwnerMenu}
@@ -249,6 +256,7 @@ const LeadsHeader = () => {
               );
             })}
           </Menu>
+
           <div className="filter-icon">
             <Tooltip title="Filter" placement="top-start">
               <Button onClick={clearFilterTab} className="filter-btn">
