@@ -161,7 +161,7 @@ const LeadsHeader = () => {
                 className="menu-item"
                 onClick={handleCloseAllCampgainsMenu}
                 sx={{
-                  fontSize: matches ? "12px" : "14px",
+                  fontSize: matches ? "13px" : "14px",
                 }}
               >
                 All Campaigns
@@ -174,7 +174,7 @@ const LeadsHeader = () => {
                       className="menu-item"
                       onClick={handleCloseAllCampgainsMenu}
                       sx={{
-                        fontSize: matches ? "12px" : "14px",
+                        fontSize: matches ? "13px" : "14px",
                       }}
                     >
                       {ele.name}
@@ -226,7 +226,7 @@ const LeadsHeader = () => {
             <MenuItem
               className="menu-item"
               sx={{
-                fontSize: matches ? "12px" : "14px",
+                fontSize: matches ? "13px" : "14px",
               }}
               onClick={handleCloseOwnerMenu}
             >
@@ -240,7 +240,7 @@ const LeadsHeader = () => {
                     className="menu-item"
                     onClick={handleCloseOwnerMenu}
                     sx={{
-                      fontSize: matches ? "12px" : "14px",
+                      fontSize: matches ? "13px" : "14px",
                     }}
                   >
                     {ele}

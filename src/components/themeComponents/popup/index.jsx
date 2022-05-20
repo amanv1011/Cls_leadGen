@@ -191,7 +191,7 @@ function AddCampaginModal() {
           style={{
             fontStyle: "normal",
             fontWeight: "600",
-            fontSize: matches ? "12px" : "14px",
+            fontSize: matches ? "13px" : "14px",
             lineHeight: "17px",
             color: "#1F4173",
           }}
@@ -218,7 +218,7 @@ function AddCampaginModal() {
             height: "17px",
             fontStyle: "normal",
             fontWeight: 600,
-            fontSize: matches ? "12px" : "14px",
+            fontSize: matches ? "13px" : "14px",
             lineHeight: "17px",
             color: " #FFFFFF",
           }}

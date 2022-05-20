@@ -152,3 +152,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #fafafa;
   border-radius: 15px 15px 0 0;
 }
+
+@media only screen and (max-width: 1460px) {
+  .MuiGrid-item {
+    padding-top: 4px !important;
+  }
+}
