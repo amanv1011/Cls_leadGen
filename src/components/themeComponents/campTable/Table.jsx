@@ -65,7 +65,7 @@ const Table = () => {
 
   const [campaignListData, setCampaignListData] = useState([]);
   const [leadsListData, setLeadsListData] = useState([]);
-  const [order, setOrder] = useState("ascendingOrder");
+  const [order, setOrder] = useState("descendingOrder");
   const [viewDetails, setViewDetails] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
