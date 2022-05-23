@@ -262,7 +262,7 @@ const Table = () => {
   } else {
     return (
       <React.Fragment>
-        <div>
+        <div className="camp-table-container">
           <div className="outer-wrapper">
             <table>
               <thead>
