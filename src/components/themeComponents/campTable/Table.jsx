@@ -90,7 +90,7 @@ const Table = () => {
     });
 
     const initialSort = campaignList.sort((a, b) =>
-      a.status < b.status ? 1 : -1
+      a.status === b.status ? 0 : a.status < b.status ? 1 : -1
     );
 
     setCampaignListData(initialSort);
