@@ -9,7 +9,7 @@
     font-weight: 600;
     height: 41px;
     padding-bottom: 3px;
-    width: 160px;
+    width: 125px;
     padding: 10px;
     border-radius: 10px;
     border: none;
@@ -30,4 +30,38 @@
       width: 165px;
     }
   }
+}
+
+
+@media only screen and (min-width: 650px) and (max-width: 1050px) {
+  .header-container {
+    width: 70%;
+    height: 60px;
+    white-space: nowrap;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .exportToExcel {
+      text-transform: none;
+      font-weight: 600;
+      height: 41px;
+      padding-bottom: 3px;
+      width: 125px;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      margin-left: 10px;
+      background-color: #424e62;
+      color: rgb(255, 255, 255);
+      &:hover {
+        cursor: pointer;
+        background: #2c3646;
+        color: #ffff;
+        
+      }
+    }
+  }
+
+
+
 }

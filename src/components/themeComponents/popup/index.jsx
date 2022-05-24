@@ -219,6 +219,8 @@ function AddCampaginModal() {
         onClick={() => {
           dispatch(campaignActions.showModal());
         }}
+
+        className="plus-icons-style"
         style={{
           width: "160px",
           height: "40px",
@@ -230,6 +232,7 @@ function AddCampaginModal() {
       >
         <PlusIcon />
         <span
+        className="add-campaign-button-style"
           style={{
             textTransform: "none",
             height: "17px",

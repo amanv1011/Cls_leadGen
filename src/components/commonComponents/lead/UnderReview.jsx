@@ -112,9 +112,12 @@ const UnderReview = () => {
     dispatch(getUnderreviewCount(underReviewCount));
     dispatch(getRejectCount(rejectCount));
     dispatch(getArchieveCount(archieveCount));
-    dispatch(
-      getAllCount(getTotalCount(campgainData, genratedLeadData))
-    );
+    if(searchQuery === "" && searchDate === ""){
+      dispatch(
+        getAllCount(approveCount+underReviewCount+rejectCount+archieveCount)
+      );
+    }
+
   });
 
   useEffect(() => {
