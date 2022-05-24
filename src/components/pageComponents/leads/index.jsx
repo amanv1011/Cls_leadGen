@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import BasicTabs from "../../themeComponents/tabs";
 import Lead from "../../commonComponents/lead";
 import Approve from "../../commonComponents/lead/Approve";
@@ -12,25 +12,53 @@ import Archive from "../../commonComponents/lead/Archive";
 import LeadsHeader from "./leadsHeader";
 import * as XLSX from "xlsx";
 import PaginationComponent from "../../commonComponents/PaginationComponent/index";
-import * as paginationActions from "../../../redux/actions/paginationActions";
 
 const Leads = () => {
-  const dispatch = useDispatch();
   const totalCount = useSelector((state) => state.paginationStates.totalCount);
   const dataPerPage = useSelector(
     (state) => state.paginationStates.dataPerPage
   );
   const leadsLoader = useSelector((state) => state.allLeads.loading);
   const cardsToDisplay = useSelector((state) => state.allLeads.cardsToDisplay);
-  useEffect(() => {
-    if (window.location.pathname === "/leads") {
-      dispatch(paginationActions.setDataPerPage(10));
-    }
-  }, [window.location.pathname === "/leads"]);
+
+  function formatDate(date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+    return [day, month, year].join("/");
+  }
 
   const downloadLeads = (leadsList, excelFileName) => {
+    let updatedleadsListDataToDownload = [];
+    leadsList.forEach((lead) => {
+      let campaignListDataToDownload = {
+        "Company name": lead.companyName !== null ? lead.companyName : "NA",
+        Location: lead.location !== "No location" ? "lead.location" : "NA",
+        "Lead generated date": formatDate(lead.leadGeneratedDate.toDate()),
+        "Lead posted date": formatDate(lead.leadPostedDate),
+        Link: lead.link,
+        Summary: lead.summary !== "No summary" ? lead.summary : "NA",
+        Title: lead.title,
+        "Status of the lead":
+          lead.status === 1
+            ? "Approved"
+            : lead.status === -1
+            ? "Rejected"
+            : lead.status === 2
+            ? "Archived"
+            : "Under review",
+      };
+      updatedleadsListDataToDownload = [
+        ...updatedleadsListDataToDownload,
+        campaignListDataToDownload,
+      ];
+    });
     let workBook = XLSX.utils.book_new();
-    let workSheet = XLSX.utils.json_to_sheet(leadsList);
+    let workSheet = XLSX.utils.json_to_sheet(updatedleadsListDataToDownload);
     XLSX.utils.book_append_sheet(workBook, workSheet, "Sheet 1");
     XLSX.writeFile(workBook, `${excelFileName}.xlsx`);
   };
@@ -63,7 +91,13 @@ const Leads = () => {
         <Box className="leads-table-container">
           <Box
             classNAme="leads-header-container"
-            style={{ display: "flex", paddingRight: "27px" }}
+            style={{
+              display: "flex",
+              paddingRight: "27px",
+              alignContent: "center",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
             <BasicTabs type="leadsTabs" />
             <span>
@@ -117,29 +151,7 @@ const Leads = () => {
             ) : null}
           </Box>
         </Box>
-        <div className="pagination-select ">
-          <select
-            className="card-selects"
-            value={dataPerPage}
-            onChange={(event) => {
-              dispatch(paginationActions.setDataPerPage(event.target.value));
-              dispatch(paginationActions.setActivePage(1));
-            }}
-            autoComplete="off"
-            disabled={cardsToDisplay.length === 0 ? true : false}
-            style={
-              cardsToDisplay.length === 0
-                ? {
-                    pointerEvents: "auto",
-                    cursor: "not-allowed",
-                  }
-                : {}
-            }
-          >
-            <option value={10}>10</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </select>
+        <div className="leadsPage_pagination">
           <PaginationComponent
             dataPerPage={dataPerPage}
             dataLength={totalCount}

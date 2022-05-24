@@ -8,9 +8,7 @@ import DateModal from "./DateModal";
 import DownArrow from "./DownArrow";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
-
 import Tooltip from "@mui/material/Tooltip";
-
 import "./leadsHeader.scss";
 import {
   leadsFilterCampaignName,
@@ -22,7 +20,6 @@ import {
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
-  // const SearchInput = useRef("");
   const [SearchInput, setSearchInput] = useState("");
 
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
@@ -110,7 +107,6 @@ const LeadsHeader = () => {
           display: "flex",
           justifyContent: "space-between",
           width: "100%",
-
         }}
       >
         <div style={{ display: "flex" }}>
@@ -120,7 +116,6 @@ const LeadsHeader = () => {
               backgroundColor: "#E7E7E7",
               height: "40px",
               borderRadius: "10px",
-
             }}
           >
             <input
@@ -140,7 +135,7 @@ const LeadsHeader = () => {
                 fontSize: "14px",
                 paddingLeft: "10px",
                 minWidth: "158px",
-                maxWidth: "300px"
+                maxWidth: "300px",
               }}
             />
             <div
@@ -168,7 +163,7 @@ const LeadsHeader = () => {
                 marginLeft: "10px",
                 backgroundColor: "#E7E7E7",
                 color: "rgba(92, 117,154)",
-                marginRight: "10px"
+                marginRight: "10px",
               }}
             >
               {allCampaignsFilter}
@@ -189,9 +184,7 @@ const LeadsHeader = () => {
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
                   overflow: "auto",
-                  height: "210px"
-
-
+                  height: "210px",
                 },
               }}
               open={openAllCampgainsMenu}
@@ -268,8 +261,7 @@ const LeadsHeader = () => {
                 color: "rgba(92, 117,154)",
                 zIndex: "1000",
                 overflow: "auto",
-                maxHeight:"150px",
-                
+                maxHeight: "150px",
               },
             }}
             open={openOwnerMenu}
@@ -307,7 +299,8 @@ const LeadsHeader = () => {
 
           <div className="filter-icon">
             <Tooltip title={"Clear all Filter"} arrow placement="top">
-              <Button onClick={clearFilterTab}
+              <Button
+                onClick={clearFilterTab}
                 style={{
                   fontFamily: "Segoe UI",
                   textTransform: "none",

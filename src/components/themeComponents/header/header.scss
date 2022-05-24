@@ -14,13 +14,12 @@
     border-radius: 10px;
     border: none;
     margin-left: 10px;
-    background-color: #424e62;
-    color: rgb(255, 255, 255);
+    background: #188038;
+    color: #fff;
     &:hover {
       cursor: pointer;
-      background: #2c3646;
-      color: #ffff;
-      
+      background: #017e06;
+      color: #fff;
     }
   }
 }

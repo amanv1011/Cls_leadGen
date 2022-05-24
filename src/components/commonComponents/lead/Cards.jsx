@@ -17,7 +17,7 @@ import { useSelector } from "react-redux";
 import { setTotalCount } from "../../../redux/actions/paginationActions";
 import Loader from "../../themeComponents/Loader";
 import { cardsDisplayAction } from "../../../redux/actions/leadActions";
-import indeedLogo3 from '../../../assets/icons/indeedLogo3.jpg';
+import indeedLogo3 from "../../../assets/icons/indeedLogo3.jpg";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -77,11 +77,7 @@ const Cards = (props) => {
           <Box className="lead-header">
             <Box className="lead-header-title"></Box>
           </Box>
-          <Box
-            className="lead-body"
-          >
-            No Data Found
-          </Box>
+          <Box className="lead-body">No Data Found</Box>
         </Box>
       </React.Fragment>
     );
@@ -126,7 +122,7 @@ const Cards = (props) => {
                             height: "15px",
                             marginTop: "3px",
                             width: "73px",
-                            fontSize:"11px"
+                            fontSize: "11px",
                           }}
                           label="Approved"
                           size="small"
@@ -139,7 +135,7 @@ const Cards = (props) => {
                             height: "15px",
                             marginTop: "3px",
                             width: "65px",
-                            fontSize:"11px"
+                            fontSize: "11px",
                           }}
                           label="Rejected"
                           size="small"
@@ -152,8 +148,7 @@ const Cards = (props) => {
                             height: "15px",
                             marginTop: "3px",
                             width: "59px",
-                            fontSize:"11px"
-                            
+                            fontSize: "11px",
                           }}
                           label="Archive"
                           size="small"
@@ -166,21 +161,20 @@ const Cards = (props) => {
                       {moment.unix(ele.leadGeneratedDate.seconds).fromNow()}
                     </span>
 
-                    {ele.readMore != null ? <><IconButton>
-                      <a href={ele.readMore} target="_blank">
-                        <Avatar sx={{ width: "24px", height: "24px" }}
-                          alt="indeedLogo"
-                          src={indeedLogo3}
-                          className="indeed-logo"
-                        />
-                      </a>
-                    </IconButton>
-                    </>
-                      :
-                      null
-
-
-                    }
+                    {ele.readMore != null ? (
+                      <>
+                        <IconButton>
+                          <a href={ele.readMore} target="_blank">
+                            <Avatar
+                              sx={{ width: "24px", height: "24px" }}
+                              alt="indeedLogo"
+                              src={indeedLogo3}
+                              className="indeed-logo"
+                            />
+                          </a>
+                        </IconButton>
+                      </>
+                    ) : null}
                     <IconButton style={{ paddingBottom: "0px" }}>
                       {linkedInCompany ? (
                         <a
@@ -198,9 +192,8 @@ const Cards = (props) => {
                   </Box>
                 </Box>
                 <hr className="line" />
-                <Box className="lead-body" >
+                <Box className="lead-body">
                   <div className="lead-body-row1">
-
                     <div className="lead-body-column">
                       <div className="lead-body-column-card1">
                         <p className="head-body">Key Skills</p>
@@ -223,18 +216,27 @@ const Cards = (props) => {
                       <div className="lead-body-column-card3">
                         <p className="head-body">Description</p>
 
-                        <p className="body-detail"
+                        <p
+                          className="body-detail"
                           style={{
-                            width: "350px"
-                          }}>
-                          {ele.summary.length <= 69 ? ele.summary : <>{ele.summary.slice(0, 70)} ...<span className="readmore-popup"
-                            key={ele.id}
-                            id={ele.id}
-                            onClick={openPopup}>
-                            Read More
-                          </span></>}
-
-
+                            width: "350px",
+                          }}
+                        >
+                          {ele.summary.length <= 69 ? (
+                            ele.summary
+                          ) : (
+                            <>
+                              {ele.summary.slice(0, 70)} ...
+                              <span
+                                className="readmore-popup"
+                                key={ele.id}
+                                id={ele.id}
+                                onClick={openPopup}
+                              >
+                                Read More
+                              </span>
+                            </>
+                          )}
                         </p>
                       </div>
                     </div>
@@ -318,9 +320,8 @@ const Cards = (props) => {
               </Box>
             </React.Fragment>
           );
-        })
-        }
-      </React.Fragment >
+        })}
+      </React.Fragment>
     );
   }
 };
