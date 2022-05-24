@@ -184,6 +184,7 @@ function AddCampaginModal() {
     if (day.length < 2) day = "0" + day;
     return [year, month, day].join("-");
   }
+
   return (
     <React.Fragment>
       <div className="add" style={{ display: "-webkit-inline-box" }}>
@@ -211,8 +212,6 @@ function AddCampaginModal() {
         onClick={() => {
           dispatch(campaignActions.showModal());
         }}
-
-        className="plus-icons-style"
         style={{
           width: "160px",
           height: "40px",
@@ -224,7 +223,6 @@ function AddCampaginModal() {
       >
         <PlusIcon />
         <span
-        className="add-campaign-button-style"
           style={{
             textTransform: "none",
             height: "17px",

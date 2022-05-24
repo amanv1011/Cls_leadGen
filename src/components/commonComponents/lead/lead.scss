@@ -39,8 +39,8 @@
     align-content: center;
     justify-content: center;
     align-items: center;
-    color: rgb(0,58,210);
-    .lead-body-row1{
+    color: rgb(0, 58, 210);
+    .lead-body-row1 {
       display: flex;
       width: 100%;
       .lead-body-column {
@@ -51,20 +51,17 @@
           margin-right: 50px;
           width: 10vw;
         }
-        
+
         .lead-body-column-card2 {
           margin-right: 50px;
           width: 10vw;
         }
-        
+
         .lead-body-column-card4 {
           margin-right: 50px;
         }
       }
-      
     }
-  
-
   }
 }
 
@@ -93,12 +90,6 @@
   opacity: 0.1;
   margin-top: 1px;
 }
-
-
-
-
-
-
 
 .body-detail {
   font-style: normal;
@@ -140,7 +131,7 @@
   font-size: 13px;
   cursor: pointer;
 }
-.indeed-logo{
+.indeed-logo {
   width: 24px;
   height: 24px;
 }

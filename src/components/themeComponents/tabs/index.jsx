@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 export default function BasicTabs({ type }) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const [valueTabs, setValueTabs] = useState(0);
   const approveCount = useSelector(
     (state) => state.approveRejectCount.approveCount

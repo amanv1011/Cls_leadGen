@@ -1,56 +1,66 @@
 .pagination {
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.paginationItem {
-  background: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 50%;
-  height: 35px;
-  width: 35px;
-  position: relative;
-  margin: 0 5px;
-  cursor: pointer;
-  color: rgb(92, 117, 154);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.paginationItem span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.prev,
-.next {
-  background: #fff;
-  border: none;
-  border-radius: 5px;
-  color: blue;
-  box-shadow: 0 0 3px rgb(0 0 0 / 40%);
-  margin: 0 10px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 2px;
-  width: 50px;
-}
-
-.paginationItem.active {
-  border: none;
-  color: white;
-  background: rgb(0, 58, 210);
-}
-
-.prev.disabled,
-.next.disabled {
-  box-shadow: none;
-  color: #999;
-  font-size: 16px;
-  font-weight: 600;
+  justify-content: space-between;
+  align-content: center;
+  flex-direction: row;
+  .paginationItem {
+    background: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    position: relative;
+    margin: 0 5px;
+    cursor: pointer;
+    color: rgb(92, 117, 154);
+    font-size: 14px;
+    font-weight: 600;
+    &.paginationItem span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &.paginationItem.active {
+      border: none;
+      color: white;
+      background: rgb(0, 58, 210);
+    }
+  }
+  .prev,
+  .next {
+    background: #fff;
+    border: none;
+    border-radius: 5px;
+    color: blue;
+    box-shadow: 0 0 3px rgb(0 0 0 / 40%);
+    margin: 0 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 2px;
+    width: 50px;
+    &.prev[disabled],
+    &.next[disabled] {
+      box-shadow: none;
+      color: #999;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+  .card-selects {
+    border: none;
+    outline: none;
+    padding: 4px;
+    width: 58px;
+    height: 40px;
+    background-color: rgb(231, 231, 231);
+    color: rgb(92, 117, 154);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+  }
 }
