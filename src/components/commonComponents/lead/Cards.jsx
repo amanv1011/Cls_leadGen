@@ -1,4 +1,4 @@
-import { Avatar, IconButton, Typography } from "@mui/material";
+import { Avatar, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { Box } from "@mui/system";
 import LinkedIn from "./LinkedIn";
 import moment from "moment";
@@ -21,6 +21,7 @@ import indeedLogo3 from "../../../assets/icons/indeedLogo3.jpg";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
+  const matches = useMediaQuery("(max-width:600px)");
   const leadsLoader = useSelector((state) => state.allLeads.loading);
   const currentPage = useSelector((state) => state.paginationStates.activePage);
   const dataPerPage = useSelector(
@@ -104,7 +105,7 @@ const Cards = (props) => {
                   >
                     <Typography
                       sx={{
-                        fontSize: "15px !important",
+                        fontSize: matches ? "13px" : "15px !important",
                         fontWeight: "600",
                         marginRight: "9px",
                         cursor: "pointer",

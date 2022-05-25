@@ -2,13 +2,15 @@ import React from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import { Button, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import DateModal from "./DateModal";
 import DownArrow from "./DownArrow";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
+
 import Tooltip from "@mui/material/Tooltip";
+
 import "./leadsHeader.scss";
 import {
   leadsFilterCampaignName,
@@ -20,6 +22,8 @@ import {
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
+  const matches = useMediaQuery("(max-width:1460px)");
+  // const SearchInput = useRef("");
   const [SearchInput, setSearchInput] = useState("");
 
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
@@ -102,69 +106,31 @@ const LeadsHeader = () => {
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
-        <div style={{ display: "flex" }}>
-          <div
-            style={{
-              display: "flex",
-              backgroundColor: "#E7E7E7",
-              height: "40px",
-              borderRadius: "10px",
-            }}
-          >
+      <div className="leads-header-container">
+        <div style={{ display: "flex" }} className="left-section">
+          <div className="leads-input">
             <input
               placeholder={`Search for "Keywords"`}
               onChange={handleSearch}
               type="text"
               value={SearchInput}
               className="search-input-leads"
-              style={{
-                width: "100%",
-                height: "40px",
-                borderRadius: "10px",
-                backgroundColor: "#E7E7E7",
-                border: "none",
-                fontWeight: "600",
-                color: "rgba(92, 117,154)",
-                fontSize: "14px",
-                paddingLeft: "10px",
-                minWidth: "158px",
-                maxWidth: "300px",
-              }}
+              // ref={SearchInput}
+              // ref={SearchInput}
             />
-            <div
-              className="search-icon"
-              style={{ paddingTop: "9px", paddingRight: "4px" }}
-            >
+            <div className="search-icon">
               <SearchIcon />
             </div>
           </div>
 
-          <div>
+          <div className="select-container">
             <Button
               id="basic-button"
               aria-controls={openAllCampgainsMenu ? "basic-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={openAllCampgainsMenu ? "true" : undefined}
               onClick={handleClickAllCampgainsMenu}
-              style={{
-                textTransform: "none",
-                minWidth: "181px",
-                justifyContent: "space-between",
-                padding: "6px",
-                fontWeight: "600",
-                borderRadius: "10px",
-                marginLeft: "10px",
-                backgroundColor: "#E7E7E7",
-                color: "rgba(92, 117,154)",
-                marginRight: "10px",
-              }}
+              className="select-button"
             >
               {allCampaignsFilter}
               <span style={{ paddingLeft: "45px", paddingBottom: "3px" }}>
@@ -172,6 +138,7 @@ const LeadsHeader = () => {
               </span>
             </Button>
             <Menu
+              className="menu"
               id="basic-menu"
               anchorEl={allCampgainsMenu}
               PaperProps={{
@@ -194,11 +161,11 @@ const LeadsHeader = () => {
               }}
             >
               <MenuItem
-                sx={{
-                  fontSize: "14px",
-                  fontWeight: "600",
-                }}
+                className="menu-item"
                 onClick={handleCloseAllCampgainsMenu}
+                sx={{
+                  fontSize: matches ? "13px" : "14px",
+                }}
               >
                 All Campaigns
               </MenuItem>
@@ -207,11 +174,11 @@ const LeadsHeader = () => {
                   <React.Fragment key={ele.id}>
                     <MenuItem
                       data-id={ele.id}
-                      sx={{
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
+                      className="menu-item"
                       onClick={handleCloseAllCampgainsMenu}
+                      sx={{
+                        fontSize: matches ? "13px" : "14px",
+                      }}
                     >
                       {ele.name}
                     </MenuItem>
@@ -221,26 +188,18 @@ const LeadsHeader = () => {
             </Menu>
           </div>
         </div>
-        <div style={{ display: "flex", paddingRight: "27px" }}>
+        <div
+          className="right-section"
+          style={{ display: "flex", paddingRight: "27px" }}
+        >
           <DateModal />
           <Button
             id="basic-button"
+            className="select-container"
             aria-controls={openOwnerMenu ? "basic-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={openOwnerMenu ? "true" : undefined}
             onClick={handleClickOwnerMenu}
-            style={{
-              textTransform: "none",
-              height: "40px",
-              minWidth: "181px",
-              justifyContent: "space-between",
-              padding: "10px",
-              fontWeight: "600",
-              borderRadius: "10px",
-              marginLeft: "10px",
-              backgroundColor: "#E7E7E7",
-              color: "rgba(92, 117,154)",
-            }}
           >
             {allOwnersFilter}
             <span style={{ paddingLeft: "70px", paddingBottom: "3px" }}>
@@ -251,6 +210,7 @@ const LeadsHeader = () => {
           <Menu
             id="basic-menu"
             anchorEl={ownerMenu}
+            className="menu"
             PaperProps={{
               style: {
                 width: "auto",
@@ -271,9 +231,9 @@ const LeadsHeader = () => {
             }}
           >
             <MenuItem
+              className="menu-item"
               sx={{
-                fontSize: "14px",
-                fontWeight: "600",
+                fontSize: matches ? "13px" : "14px",
               }}
               onClick={handleCloseOwnerMenu}
             >
@@ -284,11 +244,11 @@ const LeadsHeader = () => {
                 <React.Fragment key={ele.id}>
                   <MenuItem
                     data-id={ele.id}
-                    sx={{
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
+                    className="menu-item"
                     onClick={handleCloseOwnerMenu}
+                    sx={{
+                      fontSize: matches ? "13px" : "14px",
+                    }}
                   >
                     {ele}
                   </MenuItem>
@@ -298,22 +258,8 @@ const LeadsHeader = () => {
           </Menu>
 
           <div className="filter-icon">
-            <Tooltip title={"Clear all Filter"} arrow placement="top">
-              <Button
-                onClick={clearFilterTab}
-                style={{
-                  fontFamily: "Segoe UI",
-                  textTransform: "none",
-                  height: "40px",
-                  width: "35px",
-                  fontWeight: "600",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  marginLeft: "5px",
-                  backgroundColor: "rgba(231, 231, 231)",
-                  color: "rgba(92, 117, 154)",
-                }}
-              >
+            <Tooltip title="Filter" placement="top-start">
+              <Button onClick={clearFilterTab} className="filter-btn">
                 <FilterAltOffIcon />
               </Button>
             </Tooltip>

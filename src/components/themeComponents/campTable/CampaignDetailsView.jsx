@@ -183,6 +183,7 @@ export default function CampaignDetailsView({
                     <div className="label-campaign-view">End Time</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
+                        {" "}
                         {viewDetail.viewDetails.end_time.stringValue}
                       </div>
                     </div>
@@ -192,6 +193,7 @@ export default function CampaignDetailsView({
                     <div className="label-campaign-view">Location</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
+                        {" "}
                         {viewDetail.viewDetails.location.stringValue}
                       </div>
                     </div>
@@ -203,6 +205,7 @@ export default function CampaignDetailsView({
                     </div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
+                        {" "}
                         {viewDetail.viewDetails.pages.integerValue}
                       </div>
                     </div>
@@ -225,6 +228,7 @@ export default function CampaignDetailsView({
                     <div className="label-campaign-view">Created By</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
+                        {" "}
                         {viewDetail.viewDetails.owner.stringValue}
                       </div>
                     </div>

@@ -14,12 +14,20 @@
     border-radius: 10px;
     border: none;
     margin-left: 10px;
-    background: #188038;
-    color: #fff;
+    background-color: #339966;
+    color: rgb(255, 255, 255);
     &:hover {
       cursor: pointer;
-      background: #017e06;
-      color: #fff;
+      background: #2e8a5c;
+      color: #ffff;
+    }
+  }
+}
+@media screen and (max-width: 1460px) {
+  .header-container {
+    .exportToExcel {
+      font-size: 12px;
+      width: 165px;
     }
   }
 }

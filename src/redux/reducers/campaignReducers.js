@@ -7,7 +7,6 @@ const initialState = {
   isModalVisible: false,
   a__campgaign__Id: "",
   initialSearchValue: "",
-  searchedCampaignList: [],
 };
 
 // fetch all campaign list
@@ -111,12 +110,6 @@ export const getAllCampaignsReducer = (
 
     case types.SEARCH_INPUT_VALUE:
       return { ...state, initialSearchValue: payload };
-
-    case types.SEARCHED_CAMPAIGNS:
-      return {
-        ...state,
-        searchedCampaignList: payload,
-      };
 
     default:
       return state;

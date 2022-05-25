@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./paginationComponent.scss";
-import * as paginationActions from "../../../redux/actions/paginationActions";
+import { setActivePage } from "../../../redux/actions/paginationActions";
 
 function PaginationComponent({
   dataPerPage,
@@ -18,32 +18,20 @@ function PaginationComponent({
     setCurrentPage(activePage);
   }, [activePage]);
 
-  useEffect(() => {
-    if (window.location.pathname === "/campaign") {
-      dispatch(paginationActions.setDataPerPage(10));
-    }
-    if (window.location.pathname === "/leads") {
-      dispatch(paginationActions.setDataPerPage(10));
-    }
-  }, [
-    window.location.pathname === "/campaign" ||
-      window.location.pathname === "/leads",
-  ]);
-
   const goToNextPage = () => {
     setCurrentPage((page) => page + 1);
-    dispatch(paginationActions.setActivePage(currentPage + 1));
+    dispatch(setActivePage(currentPage + 1));
   };
 
   const goToPreviousPage = () => {
     setCurrentPage((page) => page - 1);
-    dispatch(paginationActions.setActivePage(currentPage - 1));
+    dispatch(setActivePage(currentPage - 1));
   };
 
   const changePage = (event) => {
     const pageNumber = Number(event.target.textContent);
     setCurrentPage(pageNumber);
-    dispatch(paginationActions.setActivePage(pageNumber));
+    dispatch(setActivePage(pageNumber));
   };
 
   const getPaginationGroup = () => {
@@ -56,77 +44,58 @@ function PaginationComponent({
   } else {
     return (
       <div className="pagination">
-        <div>
-          <select
-            className="card-selects"
-            onChange={(event) => {
-              dispatch(paginationActions.setDataPerPage(event.target.value));
-              dispatch(paginationActions.setActivePage(1));
-            }}
-            autoComplete="off"
-            value={dataPerPage}
-          >
-            <option value={10}>10</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </select>
-        </div>
-        <div style={{ display: "flex" }}>
+        <button
+          onClick={goToPreviousPage}
+          className={`prev ${currentPage === 1 ? "disabled" : ""}`}
+          disabled={currentPage === 1 ? true : false}
+          style={
+            currentPage === 1
+              ? {
+                  pointerEvents: "auto",
+                  cursor: "not-allowed",
+                }
+              : {}
+          }
+        >
+          prev
+        </button>
+
+        {getPaginationGroup().map((item, index) => (
           <button
-            onClick={goToPreviousPage}
-            className={`prev ${currentPage === 1 ? "disabled" : ""}`}
-            disabled={currentPage === 1 ? true : false}
+            key={index}
+            onClick={changePage}
+            className={`paginationItem ${currentPage === item ? "active" : ""}`}
+            disabled={item > pages ? true : false}
             style={
-              currentPage === 1
+              item > pages
                 ? {
                     pointerEvents: "auto",
                     cursor: "not-allowed",
+                    border: "none",
+                    opacity: 0.5,
                   }
                 : {}
             }
           >
-            prev
+            <span>{item}</span>
           </button>
+        ))}
 
-          {getPaginationGroup().map((item, index) => (
-            <button
-              key={index}
-              onClick={changePage}
-              className={`paginationItem ${
-                currentPage === item ? "active" : ""
-              }`}
-              disabled={item > pages ? true : false}
-              style={
-                item > pages
-                  ? {
-                      pointerEvents: "auto",
-                      cursor: "not-allowed",
-                      border: "none",
-                      opacity: 0.5,
-                    }
-                  : {}
-              }
-            >
-              <span>{item}</span>
-            </button>
-          ))}
-
-          <button
-            onClick={goToNextPage}
-            className={`next ${currentPage >= pages ? "disabled" : ""}`}
-            disabled={currentPage >= pages ? true : false}
-            style={
-              currentPage >= pages
-                ? {
-                    pointerEvents: "auto",
-                    cursor: "not-allowed",
-                  }
-                : {}
-            }
-          >
-            next
-          </button>
-        </div>
+        <button
+          onClick={goToNextPage}
+          className={`next ${currentPage >= pages ? "disabled" : ""}`}
+          disabled={currentPage >= pages ? true : false}
+          style={
+            currentPage >= pages
+              ? {
+                  pointerEvents: "auto",
+                  cursor: "not-allowed",
+                }
+              : {}
+          }
+        >
+          next
+        </button>
       </div>
     );
   }

@@ -171,12 +171,3 @@ export const getAFeildInADocumentActionActive = () => {
     await dispatch({ type: types.UPDATE_STATUS_DATA_ACTIVE });
   };
 };
-
-export const getSearchedCampaignList = (searchedCampaignList) => {
-  return async (dispatch) => {
-    await dispatch({
-      type: types.SEARCHED_CAMPAIGNS,
-      payload: searchedCampaignList,
-    });
-  };
-};

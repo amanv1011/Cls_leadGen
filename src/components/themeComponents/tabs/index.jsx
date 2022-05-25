@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -6,10 +6,13 @@ import "./tabs.scss";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useMediaQuery } from "@mui/material";
 
 export default function BasicTabs({ type }) {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = React.useState(0);
   const [valueTabs, setValueTabs] = useState(0);
+  const matches = useMediaQuery("(max-width:1460px)");
+
   const approveCount = useSelector(
     (state) => state.approveRejectCount.approveCount
   );
@@ -75,7 +78,7 @@ export default function BasicTabs({ type }) {
                 color: hover
                   ? "rgb(0,58,210)!important"
                   : "rgb(31,65,115)!important",
-                fontSize: "16px !important",
+                fontSize: matches ? "15px" : "16px",
               }}
               onClick={() => {
                 setHover(true);
@@ -91,7 +94,7 @@ export default function BasicTabs({ type }) {
                 color: leadsHover
                   ? "rgb(0,58,210)!important"
                   : "rgb(31,65,115)!important",
-                fontSize: "16px !important",
+                fontSize: matches ? "14px" : "16px !important",
               }}
               onClick={() => {
                 setHover(false);
@@ -107,7 +110,7 @@ export default function BasicTabs({ type }) {
               label={`All (${allCount})`}
               sx={{
                 textTransform: "none",
-                fontSize: "14px !important",
+                fontSize: matches ? "13px" : "14px !important",
                 fontWeight: "600",
               }}
             />
@@ -117,7 +120,7 @@ export default function BasicTabs({ type }) {
               label={`Under Review(${underreviewCount})`}
               sx={{
                 textTransform: "none",
-                fontSize: "14px !important",
+                fontSize: matches ? "13px" : "14px !important",
                 fontWeight: "600",
               }}
             />
@@ -127,7 +130,7 @@ export default function BasicTabs({ type }) {
               label={`Approved (${approveCount})`}
               sx={{
                 textTransform: "none",
-                fontSize: "14px !important",
+                fontSize: matches ? "13px" : "14px !important",
                 fontWeight: "600",
               }}
             />
@@ -137,7 +140,7 @@ export default function BasicTabs({ type }) {
               label={`Rejected (${rejectCount})`}
               sx={{
                 textTransform: "none",
-                fontSize: "14px !important",
+                fontSize: matches ? "13px" : "14px !important",
                 fontWeight: "600",
               }}
             />
@@ -147,7 +150,7 @@ export default function BasicTabs({ type }) {
               label={`Archive (${archieveCount})`}
               sx={{
                 textTransform: "none",
-                fontSize: "14px !important",
+                fontSize: matches ? "13px" : "14px !important",
                 fontWeight: "600",
               }}
             />

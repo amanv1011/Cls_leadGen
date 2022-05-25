@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import * as campaignActions from "../../../redux/actions/campaignActions";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Modal, Button, Divider, Grid } from "@mui/material";
+import {
+  Box,
+  Modal,
+  Button,
+  Divider,
+  Grid,
+  useMediaQuery,
+} from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "./popup.scss";
 import PlusIcon from "./PlusIcon";
@@ -24,6 +31,7 @@ function AddCampaginModal() {
   };
 
   const dispatch = useDispatch();
+  const matches = useMediaQuery("(max-width:1460px)");
   const statesInReduxStore = useSelector((state) => state);
 
   const isModalOpen = statesInReduxStore.allCampaigns.isModalVisible;
@@ -184,7 +192,6 @@ function AddCampaginModal() {
     if (day.length < 2) day = "0" + day;
     return [year, month, day].join("-");
   }
-
   return (
     <React.Fragment>
       <div className="add" style={{ display: "-webkit-inline-box" }}>
@@ -201,7 +208,7 @@ function AddCampaginModal() {
           style={{
             fontStyle: "normal",
             fontWeight: "600",
-            fontSize: "14px",
+            fontSize: matches ? "13px" : "14px",
             lineHeight: "17px",
             color: "#1F4173",
           }}
@@ -212,6 +219,8 @@ function AddCampaginModal() {
         onClick={() => {
           dispatch(campaignActions.showModal());
         }}
+
+        className="plus-icons-style"
         style={{
           width: "160px",
           height: "40px",
@@ -223,12 +232,13 @@ function AddCampaginModal() {
       >
         <PlusIcon />
         <span
+        className="add-campaign-button-style"
           style={{
             textTransform: "none",
             height: "17px",
             fontStyle: "normal",
             fontWeight: 600,
-            fontSize: "14px",
+            fontSize: matches ? "13px" : "14px",
             lineHeight: "17px",
             color: " #FFFFFF",
           }}
