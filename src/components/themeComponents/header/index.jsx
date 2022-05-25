@@ -4,23 +4,12 @@ import { Box } from "@mui/system";
 import BasicTabs from "../tabs";
 import Popup from "../../themeComponents/popup";
 import { useSelector } from "react-redux";
-import * as XLSX from "xlsx";
+import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
 
 const Header = () => {
   const searchedCampaignList = useSelector(
     (state) => state.allCampaigns.searchedCampaignList
   );
-
-  function formatDate(date) {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-    return [day, month, year].join("/");
-  }
 
   return (
     <Box className="header-container">
@@ -49,24 +38,57 @@ const Header = () => {
               }
               onClick={() => {
                 let updatedcampaignListDataToDownload = [];
+
                 searchedCampaignList.forEach((campaign) => {
+                  let sourceType = "";
+
+                  if (campaign.source === "seek_aus") {
+                    sourceType = "Seek Australia";
+                  } else if (campaign.source === "indeed_aus") {
+                    sourceType = "Indeed Australia";
+                  } else if (campaign.source === "indeed_ca") {
+                    sourceType = "Indeed Canada";
+                  } else if (campaign.source === "indeed_uk") {
+                    sourceType = "Indeed United";
+                  } else if (campaign.source === "indeed_il") {
+                    sourceType = "Indeed Italy";
+                  } else if (campaign.source === "indeed_ae") {
+                    sourceType = "Indeed UAE";
+                  } else if (campaign.source === "indeed_fi") {
+                    sourceType = "Indeed Finland";
+                  } else if (campaign.source === "indeed_ch") {
+                    sourceType = "Indeed China";
+                  } else if (campaign.source === "indeed_pt") {
+                    sourceType = "Indeed Portugal";
+                  } else if (campaign.source === "indeed_sg") {
+                    sourceType = "Indeed Singapore";
+                  } else {
+                    sourceType = "LinkedIn";
+                  }
+
                   let campaignListDataToDownload = {
                     "Campaign name": campaign.name,
                     Location: campaign.location,
-                    "Start date": formatDate(campaign.start_date.toDate()),
+                    "Start date": commonFunctions.formatDate(
+                      campaign.start_date.toDate(),
+                      false
+                    ),
                     "Start time": campaign.start_time,
-                    "End date": formatDate(campaign.end_date.toDate()),
+                    "End date": commonFunctions.formatDate(
+                      campaign.end_date.toDate(),
+                      false
+                    ),
                     "End time": campaign.end_time,
                     "Number of times the campign runs per day":
                       campaign.frequency,
                     "Number of leads generated": campaign.leadsNo,
                     "Campaign created by": campaign.owner,
-                    "Source of the campaign": campaign.source,
+                    "Source of the campaign": sourceType,
                     "Status of the campaign":
                       campaign.status && campaign.status === 1
                         ? "Active"
                         : "In-Active",
-                    Tags: campaign.tags.map((tag) => tag),
+                    Tags: campaign.tags.toString(),
                   };
                   updatedcampaignListDataToDownload = [
                     ...updatedcampaignListDataToDownload,
@@ -74,16 +96,10 @@ const Header = () => {
                   ];
                 });
 
-                let workBook = XLSX.utils.book_new();
-                let workSheet = XLSX.utils.json_to_sheet(
-                  updatedcampaignListDataToDownload
+                commonFunctions.downloadInExcel(
+                  updatedcampaignListDataToDownload,
+                  "List of Campigns"
                 );
-                XLSX.utils.book_append_sheet(
-                  workBook,
-                  workSheet,
-                  `List of Campigns`
-                );
-                XLSX.writeFile(workBook, `List of Campigns.xlsx`);
               }}
             >
               Export to Excel

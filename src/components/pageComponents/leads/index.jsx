@@ -10,8 +10,8 @@ import "./leads.scss";
 import UnderReview from "../../commonComponents/lead/UnderReview";
 import Archive from "../../commonComponents/lead/Archive";
 import LeadsHeader from "./leadsHeader";
-import * as XLSX from "xlsx";
 import PaginationComponent from "../../commonComponents/PaginationComponent/index";
+import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
 
 const Leads = () => {
   const totalCount = useSelector((state) => state.paginationStates.totalCount);
@@ -21,25 +21,20 @@ const Leads = () => {
   const leadsLoader = useSelector((state) => state.allLeads.loading);
   const cardsToDisplay = useSelector((state) => state.allLeads.cardsToDisplay);
 
-  function formatDate(date) {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-    return [day, month, year].join("/");
-  }
-
   const downloadLeads = (leadsList, excelFileName) => {
     let updatedleadsListDataToDownload = [];
     leadsList.forEach((lead) => {
       let campaignListDataToDownload = {
         "Company name": lead.companyName !== null ? lead.companyName : "NA",
         Location: lead.location !== "No location" ? "lead.location" : "NA",
-        "Lead generated date": formatDate(lead.leadGeneratedDate.toDate()),
-        "Lead posted date": formatDate(lead.leadPostedDate),
+        "Lead generated date": commonFunctions.formatDate(
+          lead.leadGeneratedDate.toDate(),
+          false
+        ),
+        "Lead posted date": commonFunctions.formatDate(
+          lead.leadPostedDate,
+          false
+        ),
         Link: lead.link,
         Summary: lead.summary !== "No summary" ? lead.summary : "NA",
         Title: lead.title,
@@ -52,15 +47,17 @@ const Leads = () => {
             ? "Archived"
             : "Under review",
       };
+
       updatedleadsListDataToDownload = [
         ...updatedleadsListDataToDownload,
         campaignListDataToDownload,
       ];
     });
-    let workBook = XLSX.utils.book_new();
-    let workSheet = XLSX.utils.json_to_sheet(updatedleadsListDataToDownload);
-    XLSX.utils.book_append_sheet(workBook, workSheet, "Sheet 1");
-    XLSX.writeFile(workBook, `${excelFileName}.xlsx`);
+
+    commonFunctions.downloadInExcel(
+      updatedleadsListDataToDownload,
+      `${excelFileName}`
+    );
   };
 
   const exportLeadsToExcel = () => {
@@ -68,17 +65,17 @@ const Leads = () => {
       downloadLeads(cardsToDisplay, "All leads");
     }
     if (window.location.pathname === "/leads/approve") {
-      downloadLeads(cardsToDisplay, "Approved Leads");
+      downloadLeads(cardsToDisplay, "Approved leads");
     }
 
     if (window.location.pathname === "/leads/reject") {
-      downloadLeads(cardsToDisplay, "Rejected Leads");
+      downloadLeads(cardsToDisplay, "Rejected leads");
     }
     if (window.location.pathname === "/leads/underreview") {
-      downloadLeads(cardsToDisplay, "Under Review Leads");
+      downloadLeads(cardsToDisplay, "Under review leads");
     }
     if (window.location.pathname === "/leads/archive") {
-      downloadLeads(cardsToDisplay, "Archived Leads");
+      downloadLeads(cardsToDisplay, "Archived leads");
     }
   };
 

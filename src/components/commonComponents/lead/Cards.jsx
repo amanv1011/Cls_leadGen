@@ -16,12 +16,18 @@ import "./lead.scss";
 import { useSelector } from "react-redux";
 import { setTotalCount } from "../../../redux/actions/paginationActions";
 import Loader from "../../themeComponents/Loader";
-import { cardsDisplayAction } from "../../../redux/actions/leadActions";
+import {
+  cardsDisplayAction,
+  getLeadsFullDescriptionAction,
+} from "../../../redux/actions/leadActions";
 import indeedLogo3 from "../../../assets/icons/indeedLogo3.jpg";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
   const leadsLoader = useSelector((state) => state.allLeads.loading);
+  const leadsFullDescription = useSelector(
+    (state) => state.allLeads.leadsFullDescription
+  );
   const currentPage = useSelector((state) => state.paginationStates.activePage);
   const dataPerPage = useSelector(
     (state) => state.paginationStates.dataPerPage
@@ -31,6 +37,7 @@ const Cards = (props) => {
   useEffect(() => {
     dispatch(setTotalCount(leadsData.length));
     dispatch(cardsDisplayAction(leadsData));
+    dispatch(getLeadsFullDescriptionAction());
   }, [leadsData.length]);
 
   let approveButton = (event) => {
@@ -67,6 +74,13 @@ const Cards = (props) => {
   const indexOfLastLead = currentPage * dataPerPage;
   const indexOfFirstLead = indexOfLastLead - dataPerPage;
   const currentLeads = leadsData.slice(indexOfFirstLead, indexOfLastLead);
+
+  const getDescription = (elementUniqueId) => {
+    const descNow = leadsFullDescription.filter((leadsFullDescUniqueId) => {
+      return leadsFullDescUniqueId.uniqueId === elementUniqueId;
+    });
+    return descNow.length !== 0 ? descNow.map((wow) => wow.descData) : "";
+  };
 
   if (leadsLoader === true) {
     return <Loader openLoader={leadsLoader} />;
@@ -164,7 +178,11 @@ const Cards = (props) => {
                     {ele.readMore != null ? (
                       <>
                         <IconButton>
-                          <a href={ele.readMore} target="_blank">
+                          <a
+                            href={ele.readMore}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
                             <Avatar
                               sx={{ width: "24px", height: "24px" }}
                               alt="indeedLogo"
@@ -205,9 +223,7 @@ const Cards = (props) => {
                       <div className="lead-body-column-card2">
                         <p className="head-body">Company</p>
                         <p className="body-detail">
-                          {ele.companyName !== null
-                            ? ele.companyName.slice(0, 50)
-                            : "..."}
+                          {ele.companyName !== null ? ele.companyName : "..."}
                         </p>
                       </div>
                     </div>
@@ -220,23 +236,14 @@ const Cards = (props) => {
                           className="body-detail"
                           style={{
                             width: "350px",
+                            height: "auto",
+                            textAlign: "justify",
+                            whiteSpace: "pre-wrap",
                           }}
                         >
-                          {ele.summary.length <= 69 ? (
-                            ele.summary
-                          ) : (
-                            <>
-                              {ele.summary.slice(0, 70)} ...
-                              <span
-                                className="readmore-popup"
-                                key={ele.id}
-                                id={ele.id}
-                                onClick={openPopup}
-                              >
-                                Read More
-                              </span>
-                            </>
-                          )}
+                          {getDescription(ele.uniqueId)
+                            ? getDescription(ele.uniqueId)[0]
+                            : ele.summary}
                         </p>
                       </div>
                     </div>

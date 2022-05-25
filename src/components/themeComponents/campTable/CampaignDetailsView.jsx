@@ -93,7 +93,7 @@ export default function CampaignDetailsView({
           ) {
             sourceType = "Indeed Singapore";
           } else {
-            sourceType = "Linkedin";
+            sourceType = "LinkedIn";
           }
           return (
             <React.Fragment key={viewDetail.id}>
@@ -127,9 +127,7 @@ export default function CampaignDetailsView({
                     </div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
-                        {viewDetail.viewDetails.tags.arrayValue.values.map(
-                          (item) => `${item.stringValue} `
-                        )}
+                        {viewDetail.viewDetails.tags.arrayValue.values.toString()}
                       </div>
                     </div>
                   </div>

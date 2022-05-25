@@ -7,6 +7,7 @@ import "./popup.scss";
 import PlusIcon from "./PlusIcon";
 import IInput from "../input/index";
 import { openAlert } from "../../../redux/actions/alertActions";
+import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
 
 function AddCampaginModal() {
   const style = {
@@ -82,7 +83,7 @@ function AddCampaginModal() {
       }
     } else if (source === "linkedin_aus") {
       if (tags.length > 1 || pages > 1) {
-        alert("For Linkedin only 1 tag and 1 page is permitted");
+        alert("For LinkedIn only 1 tag and 1 page is permitted");
         setTags([]);
         setAddCampaignDetails({ pages: 1 });
       }
@@ -106,27 +107,30 @@ function AddCampaginModal() {
       dispatch(campaignActions.showModal());
     }
   }, [errorFromStore]);
+
   const detailsForEdit = async () => {
-    try {
-      const documentSnapShot = await dispatch(
-        campaignActions.getACampaignAction(a__campgaignId)
-      );
-      setAddCampaignDetails({
-        name: documentSnapShot.payload.data().name,
-        source: documentSnapShot.payload.data().source,
-        frequency: parseInt(documentSnapShot.payload.data().frequency),
-        start_date: formatDate(
-          documentSnapShot.payload.data().start_date.toDate()
-        ),
-        start_time: documentSnapShot.payload.data().start_time,
-        end_date: formatDate(documentSnapShot.payload.data().end_date.toDate()),
-        end_time: documentSnapShot.payload.data().end_time,
-        location: documentSnapShot.payload.data().location,
-        pages: parseInt(documentSnapShot.payload.data().pages),
-        status: parseInt(documentSnapShot.payload.data().status),
-      });
-      setTags([...documentSnapShot.payload.data().tags]);
-    } catch (error) {}
+    const documentSnapShot = await dispatch(
+      campaignActions.getACampaignAction(a__campgaignId)
+    );
+    setAddCampaignDetails({
+      name: documentSnapShot.payload.data().name,
+      source: documentSnapShot.payload.data().source,
+      frequency: parseInt(documentSnapShot.payload.data().frequency),
+      start_date: commonFunctions.formatDate(
+        documentSnapShot.payload.data().start_date.toDate(),
+        true
+      ),
+      start_time: documentSnapShot.payload.data().start_time,
+      end_date: commonFunctions.formatDate(
+        documentSnapShot.payload.data().end_date.toDate(),
+        true
+      ),
+      end_time: documentSnapShot.payload.data().end_time,
+      location: documentSnapShot.payload.data().location,
+      pages: parseInt(documentSnapShot.payload.data().pages),
+      status: parseInt(documentSnapShot.payload.data().status),
+    });
+    setTags([...documentSnapShot.payload.data().tags]);
   };
 
   const onSubmitEventhandler = (event) => {
@@ -174,16 +178,6 @@ function AddCampaginModal() {
     });
     setTags([]);
   };
-
-  function formatDate(date) {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-    return [year, month, day].join("-");
-  }
 
   return (
     <React.Fragment>
@@ -321,7 +315,7 @@ function AddCampaginModal() {
                   <option value="indeed_ch">Indeed China</option>
                   <option value="indeed_pt">Indeed Portugal</option>
                   <option value="indeed_sg">Indeed Singapore</option>
-                  <option value="linkedin">Linkedin</option>
+                  <option value="linkedin">LinkedIn</option>
                 </select>
               </Grid>
 
@@ -376,7 +370,11 @@ function AddCampaginModal() {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
-                  min={a__campgaignId ? start_date : formatDate(new Date())}
+                  min={
+                    a__campgaignId
+                      ? start_date
+                      : commonFunctions.formatDate(new Date(), true)
+                  }
                   onKeyDown={(e) => {
                     e.preventDefault();
                     dispatch(openAlert("Typing is disabled", true, "error"));

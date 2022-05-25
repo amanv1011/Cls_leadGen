@@ -17,16 +17,16 @@ import Edit from "./Edit";
 import View from "./View";
 import Delete from "./Delete";
 import Down from "./Down";
-import * as XLSX from "xlsx";
-import * as campaignActions from "../../../redux/actions/campaignActions";
-import * as laedActions from "../../../redux/actions/leadActions";
 import { get_a_feild_in_a_document } from "../../../services/api/campaign";
 import CampaignDetailsView from "./CampaignDetailsView";
 import { Link } from "react-router-dom";
-import * as leadsFilterActions from "../../../redux/actions/leadsFilter";
 import AlertBeforeAction from "./AlertBeforeAction";
 import PaginationComponent from "../../commonComponents/PaginationComponent";
+import * as campaignActions from "../../../redux/actions/campaignActions";
+import * as laedActions from "../../../redux/actions/leadActions";
+import * as leadsFilterActions from "../../../redux/actions/leadsFilter";
 import * as paginationActions from "../../../redux/actions/paginationActions";
+import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase": {
@@ -76,6 +76,7 @@ const Table = () => {
   useEffect(() => {
     dispatch(campaignActions.getAllCampaignsAction());
     dispatch(laedActions.getAllLeadsAction());
+    // dispatch(laedActions.getLeadsFullDescriptionAction());
   }, []);
 
   useEffect(() => {
@@ -120,8 +121,14 @@ const Table = () => {
       let campaignListDataToDownload = {
         "Company name": lead.companyName !== null ? lead.companyName : "NA",
         Location: lead.location !== "No location" ? "lead.location" : "NA",
-        "Lead generated date": formatDate(lead.leadGeneratedDate.toDate()),
-        "Lead posted date": formatDate(lead.leadPostedDate),
+        "Lead generated date": commonFunctions.formatDate(
+          lead.leadGeneratedDate.toDate(),
+          false
+        ),
+        "Lead posted date": commonFunctions.formatDate(
+          lead.leadPostedDate,
+          false
+        ),
         Link: lead.link,
         Summary: lead.summary !== "No summary" ? lead.summary : "NA",
         Title: lead.title,
@@ -134,20 +141,17 @@ const Table = () => {
             ? "Archived"
             : "Under review",
       };
+
       updatedleadsListDataToDownload = [
         ...updatedleadsListDataToDownload,
         campaignListDataToDownload,
       ];
     });
 
-    let workBook = XLSX.utils.book_new();
-    let workSheet = XLSX.utils.json_to_sheet(updatedleadsListDataToDownload);
-    XLSX.utils.book_append_sheet(
-      workBook,
-      workSheet,
-      `${campaignListItemName} sheet`
+    commonFunctions.downloadInExcel(
+      updatedleadsListDataToDownload,
+      `${campaignListItemName} leads list`
     );
-    XLSX.writeFile(workBook, `${campaignListItemName} leads list.xlsx`);
   };
 
   const Viewed = async (campaignListItemId) => {
@@ -207,17 +211,6 @@ const Table = () => {
     }
     dispatch(campaignActions.getAllCampaignsAction());
   };
-
-  function formatDate(date) {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-    return [month, day, year].join("/");
-  }
 
   const indexOfLastLead = currentPage * dataPerPage;
   const indexOfFirstLead = indexOfLastLead - dataPerPage;
@@ -451,10 +444,16 @@ const Table = () => {
                           </td>
 
                           <td className="start-date">
-                            {formatDate(campaignListItem.start_date.toDate())}
+                            {commonFunctions.formatDate(
+                              campaignListItem.start_date.toDate(),
+                              false
+                            )}
                           </td>
                           <td className="end-date">
-                            {formatDate(campaignListItem.end_date.toDate())}
+                            {commonFunctions.formatDate(
+                              campaignListItem.end_date.toDate(),
+                              false
+                            )}
                           </td>
                           <td className="created-by">
                             {campaignListItem.owner}
@@ -481,7 +480,7 @@ const Table = () => {
                               title={
                                 getNumOfLeads(campaignListItem.id)
                                   ? `Download ${campaignListItem.name} leads`
-                                  : `Download ${campaignListItem.name} leads disabled`
+                                  : `Downloading ${campaignListItem.name} leads disabled`
                               }
                               arrow
                             >
@@ -548,7 +547,7 @@ const Table = () => {
                             <Tooltip
                               title={
                                 getNumOfLeads(campaignListItem.id)
-                                  ? "Delete disabled"
+                                  ? "Deleting disabled"
                                   : "Delete"
                               }
                               arrow
