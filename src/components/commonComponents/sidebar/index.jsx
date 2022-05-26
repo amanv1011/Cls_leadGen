@@ -37,7 +37,7 @@ const openedMixin = (theme) => ({
   }),
   overflowX: "hidden",
   position: "sticky",
-  height: "100%",
+  height: "100vh",
 });
 
 const closedMixin = (theme) => ({
@@ -48,7 +48,7 @@ const closedMixin = (theme) => ({
   overflowX: "hidden",
   border: "none",
   position: "sticky",
-  height: "100%",
+  height: "100vh",
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 15%)",
   width: `calc(${theme.spacing(8)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
@@ -63,7 +63,6 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  height: "100%",
 
   ...(open && {
     ...openedMixin(theme),
@@ -96,14 +95,15 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
             }
             onClick={() => {
               navigate(item.url);
-              // handleDrawerClose();
+              handleDrawerClose();
             }}
           >
             <ListItemIcon className="list-item-icon">{item.icon}</ListItemIcon>
             <ListItemText
               disableTypography
               style={{
-                // fontSize: "12px",
+                fontFamily: "Proxima Nova",
+                fontSize: "14px",
                 fontWeight: 600,
                 lineHeight: "17px",
                 letterSpacing: "0em",

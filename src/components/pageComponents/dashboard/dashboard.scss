@@ -1,19 +1,15 @@
 .dashboard-container {
-  display: flex;
   background: #f5f7fb;
   width: 100%;
-  height: calc(100vh - 60px);
+  height: 100%;
+  display: flex;
   overflow: hidden;
   .dshboard-content {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+    width: 100vw;
     margin-top: 10px;
     padding-left: 30px;
-    // margin-bottom: 15px;
-    padding-bottom: 15px;
-    padding-right: 1%;
-    overflow-y: auto;
+    height: 100%;
+    padding-right: 5px;
     .dashboard-title {
       font-size: 26px;
       font-style: normal;
@@ -23,71 +19,18 @@
       text-align: left;
       margin: 0px 4px;
     }
-    .dash-box {
+
+    .campaign-cards {
+      margin: 12px 0px;
       width: 100%;
-      height: auto;
+      height: 150px;
       display: flex;
-      margin-top: 12px;
-      margin-bottom: 30px;
       justify-content: space-between;
-      .dash-lead-box {
-        display: inline-flex;
-        height: auto;
-        width: auto;
-        flex-wrap: wrap;
-        border-radius: 20px;
-        align-items: center;
-        justify-content: center;
-        box-sizing: border-box;
-        padding: 12px;
-        margin-right: 8px;
-        background-color: #ffffff;
-        .dash-card-head {
-          font-style: normal;
-          font-weight: 600;
-          font-size: 26px;
-          margin-bottom: 0px;
-          text-transform: capitalize;
-          color: #1f4173;
-        }
-        .dash-card-subhead {
-          font-style: normal;
-          font-weight: 600;
-          font-size: 16px;
-          line-height: 19px;
-          margin-top: 10px;
-          display: inline-block;
-          letter-spacing: -0.02em;
-          text-transform: capitalize;
-          color: #1f4173;
-          opacity: 0.7;
-        }
-      }
-      .dashboard-content-second {
-        background: #f5f7fb;
-        width: 100%;
-        height: 100%;
-      }
-      .dash-card-bullet {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 4px;
+
+      .cards {
+        display: flex;
       }
     }
-
-    // .campaign-cards {
-    //   margin: 12px 0px;
-    //   width: 100%;
-    //   // height: 150px;
-    //   display: flex;
-    //   justify-content: space-between;
-
-    //   .cards {
-    //     display: flex;
-    //   }
-    // }
 
     .campaign-list-container {
       margin-top: 25px;
@@ -114,60 +57,82 @@
         }
       }
     }
-    .table-container {
-      width: 100%;
-      box-sizing: border-box;
-      border-radius: 20px;
-    }
   }
 }
 
-@media only screen and (max-width: 1460px) {
-  .dashboard-container {
-    .dshboard-content {
-      .dashboard-title {
-        font-size: 23px;
-      }
-      .dash-box {
-        .dash-lead-box {
-          padding: 13px;
-          .dash-card-head {
-            display: flex;
-            // justify-content: center;
-            font-size: 18px;
-          }
-          .dash-card-subhead,
-          .dash-card-subhead-wrapper {
-            font-size: 13px;
-            margin-top: 0px;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-          }
-        }
-      }
-      .campaign-list-container {
-        .campaign-list-header {
-          .campaign-list-title {
-            font-size: 16px;
-          }
-        }
-      }
-    }
-  }
+.dash-box {
+  width: 100%;
+  height: auto;
+  display: flex;
+  margin-top: 12px;
+  margin-bottom: 30px;
+  justify-content: space-between;
 }
-@media only screen and (max-width: 1260px) {
-  .dashboard-container {
-    .dshboard-content {
-      .dash-box {
-        .dash-lead-box {
-          .dash-card-head {
-            // display: flex;
-            justify-content: center;
-            // font-size: 18px;
-          }
-        }
-      }
-    }
+
+.dash-lead-box {
+  display: inline-flex;
+  height: auto;
+  width: auto;
+  flex-wrap: wrap;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 12px;
+  margin-right: 8px;
+  background-color: #ffffff;
+}
+
+.table-container {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+
+.dash-card-head {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+
+  margin-bottom: 0px;
+  text-transform: capitalize;
+  color: #1f4173;
+}
+
+.dash-card-subhead {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+
+  margin-top: 10px;
+  display: inline-block;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+
+  color: #1f4173;
+
+  opacity: 0.7;
+}
+.dashboard-content-second {
+  background: #f5f7fb;
+
+  width: 100%;
+  height: 100%;
+}
+.dash-card-bullet {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+@media only screen and (max-width: 1487px) {
+  .dash-card-head {
+    text-align: center;
+  }
+  .dash-card-subhead-wrapper {
+    text-align: center;
   }
 }

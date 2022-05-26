@@ -33,7 +33,7 @@
     padding-top: 27px;
     padding-bottom: 6px;
     background-color: #fff;
-    height: 67px;
+    height: max-content;
     width: 100%;
     font-size: 20px;
     align-content: center;
@@ -96,6 +96,7 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
+
   color: #1f4173;
 }
 
@@ -124,25 +125,11 @@
 .Response-time {
   margin-right: 12px;
 }
+
 .readmore-popup {
   color: #0800ff;
   font-size: 13px;
   cursor: pointer;
-}
-
-@media only screen and (max-width: 1460px) {
-  .lead-header-title-component {
-    font-size: 14px;
-  }
-  .Response-time {
-    font-size: 11px;
-  }
-  .head-body {
-    font-size: 14px;
-  }
-  .body-detail {
-    font-size: 13px;
-  }
 }
 .indeed-logo {
   width: 24px;

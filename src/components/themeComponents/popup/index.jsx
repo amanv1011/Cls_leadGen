@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 import * as campaignActions from "../../../redux/actions/campaignActions";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Box,
-  Modal,
-  Button,
-  Divider,
-  Grid,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Modal, Button, Divider, Grid } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "./popup.scss";
 import PlusIcon from "./PlusIcon";
 import IInput from "../input/index";
 import { openAlert } from "../../../redux/actions/alertActions";
+import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
 
 function AddCampaginModal() {
   const style = {
@@ -31,7 +25,6 @@ function AddCampaginModal() {
   };
 
   const dispatch = useDispatch();
-  const matches = useMediaQuery("(max-width:1460px)");
   const statesInReduxStore = useSelector((state) => state);
 
   const isModalOpen = statesInReduxStore.allCampaigns.isModalVisible;
@@ -90,7 +83,7 @@ function AddCampaginModal() {
       }
     } else if (source === "linkedin_aus") {
       if (tags.length > 1 || pages > 1) {
-        alert("For Linkedin only 1 tag and 1 page is permitted");
+        alert("For LinkedIn only 1 tag and 1 page is permitted");
         setTags([]);
         setAddCampaignDetails({ pages: 1 });
       }
@@ -114,27 +107,30 @@ function AddCampaginModal() {
       dispatch(campaignActions.showModal());
     }
   }, [errorFromStore]);
+
   const detailsForEdit = async () => {
-    try {
-      const documentSnapShot = await dispatch(
-        campaignActions.getACampaignAction(a__campgaignId)
-      );
-      setAddCampaignDetails({
-        name: documentSnapShot.payload.data().name,
-        source: documentSnapShot.payload.data().source,
-        frequency: parseInt(documentSnapShot.payload.data().frequency),
-        start_date: formatDate(
-          documentSnapShot.payload.data().start_date.toDate()
-        ),
-        start_time: documentSnapShot.payload.data().start_time,
-        end_date: formatDate(documentSnapShot.payload.data().end_date.toDate()),
-        end_time: documentSnapShot.payload.data().end_time,
-        location: documentSnapShot.payload.data().location,
-        pages: parseInt(documentSnapShot.payload.data().pages),
-        status: parseInt(documentSnapShot.payload.data().status),
-      });
-      setTags([...documentSnapShot.payload.data().tags]);
-    } catch (error) {}
+    const documentSnapShot = await dispatch(
+      campaignActions.getACampaignAction(a__campgaignId)
+    );
+    setAddCampaignDetails({
+      name: documentSnapShot.payload.data().name,
+      source: documentSnapShot.payload.data().source,
+      frequency: parseInt(documentSnapShot.payload.data().frequency),
+      start_date: commonFunctions.formatDate(
+        documentSnapShot.payload.data().start_date.toDate(),
+        true
+      ),
+      start_time: documentSnapShot.payload.data().start_time,
+      end_date: commonFunctions.formatDate(
+        documentSnapShot.payload.data().end_date.toDate(),
+        true
+      ),
+      end_time: documentSnapShot.payload.data().end_time,
+      location: documentSnapShot.payload.data().location,
+      pages: parseInt(documentSnapShot.payload.data().pages),
+      status: parseInt(documentSnapShot.payload.data().status),
+    });
+    setTags([...documentSnapShot.payload.data().tags]);
   };
 
   const onSubmitEventhandler = (event) => {
@@ -183,15 +179,13 @@ function AddCampaginModal() {
     setTags([]);
   };
 
-  function formatDate(date) {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-    return [year, month, day].join("-");
+  let hourtime = start_time.split(":")[0];
+  let secondsTime = (Number(start_time.split(":")[1]) + 5).toString();
+  if (secondsTime < 10) {
+    secondsTime = 0 + secondsTime;
   }
+  const minimumEndTime = hourtime + ":" + secondsTime;
+
   return (
     <React.Fragment>
       <div className="add" style={{ display: "-webkit-inline-box" }}>
@@ -208,7 +202,7 @@ function AddCampaginModal() {
           style={{
             fontStyle: "normal",
             fontWeight: "600",
-            fontSize: matches ? "13px" : "14px",
+            fontSize: "14px",
             lineHeight: "17px",
             color: "#1F4173",
           }}
@@ -219,8 +213,6 @@ function AddCampaginModal() {
         onClick={() => {
           dispatch(campaignActions.showModal());
         }}
-
-        className="plus-icons-style"
         style={{
           width: "160px",
           height: "40px",
@@ -232,13 +224,12 @@ function AddCampaginModal() {
       >
         <PlusIcon />
         <span
-        className="add-campaign-button-style"
           style={{
             textTransform: "none",
             height: "17px",
             fontStyle: "normal",
             fontWeight: 600,
-            fontSize: matches ? "13px" : "14px",
+            fontSize: "14px",
             lineHeight: "17px",
             color: " #FFFFFF",
           }}
@@ -331,7 +322,7 @@ function AddCampaginModal() {
                   <option value="indeed_ch">Indeed China</option>
                   <option value="indeed_pt">Indeed Portugal</option>
                   <option value="indeed_sg">Indeed Singapore</option>
-                  <option value="linkedin">Linkedin</option>
+                  <option value="linkedin">LinkedIn</option>
                 </select>
               </Grid>
 
@@ -386,11 +377,8 @@ function AddCampaginModal() {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
-                  min={a__campgaignId ? start_date : formatDate(new Date())}
-                  onKeyDown={(e) => {
-                    e.preventDefault();
-                    dispatch(openAlert("Typing is disabled", true, "error"));
-                  }}
+                  min={commonFunctions.formatDate(new Date(), true)}
+                  // pattern="(?:((?:0[1-9]|1[0-9]|2[0-9])\/(?:0[1-9]|1[0-2])|(?:30)\/(?!02)(?:0[1-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/(?:19|20)[0-9]{2})"
                 />
               </Grid>
 
@@ -404,6 +392,7 @@ function AddCampaginModal() {
                   value={start_time}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
+                  min={new Date().getHours() + ":" + new Date().getMinutes()}
                   required
                 />
               </Grid>
@@ -420,10 +409,10 @@ function AddCampaginModal() {
                   autoComplete="off"
                   required
                   min={start_date}
-                  onKeyDown={(e) => {
-                    e.preventDefault();
-                    dispatch(openAlert("Typing is disabled", true, "error"));
-                  }}
+                  // onKeyDown={(e) => {
+                  //   e.preventDefault();
+                  //   dispatch(openAlert("Typing is disabled", true, "error"));
+                  // }}
                 />
               </Grid>
 
@@ -435,9 +424,11 @@ function AddCampaginModal() {
                   className="addCampaignModal-timePicker"
                   name="end_time"
                   value={end_time}
+                  // min={start_time}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
+                  min={minimumEndTime}
                 />
               </Grid>
 

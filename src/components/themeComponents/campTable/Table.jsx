@@ -17,16 +17,16 @@ import Edit from "./Edit";
 import View from "./View";
 import Delete from "./Delete";
 import Down from "./Down";
-import * as XLSX from "xlsx";
-import * as campaignActions from "../../../redux/actions/campaignActions";
-import * as laedActions from "../../../redux/actions/leadActions";
 import { get_a_feild_in_a_document } from "../../../services/api/campaign";
 import CampaignDetailsView from "./CampaignDetailsView";
 import { Link } from "react-router-dom";
-import * as leadsFilterActions from "../../../redux/actions/leadsFilter";
 import AlertBeforeAction from "./AlertBeforeAction";
 import PaginationComponent from "../../commonComponents/PaginationComponent";
+import * as campaignActions from "../../../redux/actions/campaignActions";
+import * as laedActions from "../../../redux/actions/leadActions";
+import * as leadsFilterActions from "../../../redux/actions/leadsFilter";
 import * as paginationActions from "../../../redux/actions/paginationActions";
+import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase": {
@@ -52,11 +52,12 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
 const Table = () => {
   const dispatch = useDispatch();
 
-  const statesInReduxStore = useSelector((state) => state);
-  const campaignList = statesInReduxStore.allCampaigns.campaignList;
-  const campaignsLoader = statesInReduxStore.allCampaigns.loading;
-  const leadsList = statesInReduxStore.allLeads.leadsList;
-  const initialSearchValue = statesInReduxStore.allCampaigns.initialSearchValue;
+  const campaignList = useSelector((state) => state.allCampaigns.campaignList);
+  const campaignsLoader = useSelector((state) => state.allCampaigns.loading);
+  const leadsList = useSelector((state) => state.allLeads.leadsList);
+  const initialSearchValue = useSelector(
+    (state) => state.allCampaigns.initialSearchValue
+  );
 
   const currentPage = useSelector((state) => state.paginationStates.activePage);
   const dataPerPage = useSelector(
@@ -75,13 +76,8 @@ const Table = () => {
   useEffect(() => {
     dispatch(campaignActions.getAllCampaignsAction());
     dispatch(laedActions.getAllLeadsAction());
+    // dispatch(laedActions.getLeadsFullDescriptionAction());
   }, []);
-
-  useEffect(() => {
-    if (window.location.pathname === "/campaign") {
-      dispatch(paginationActions.setDataPerPage(10));
-    }
-  }, [window.location.pathname === "/campaign"]);
 
   useEffect(() => {
     campaignList.forEach((element) => {
@@ -93,9 +89,13 @@ const Table = () => {
       });
       element.leadsNo = leadsCount;
     });
-    setCampaignListData(
-      campaignList.sort((a, b) => (a.status < b.status ? 1 : -1))
+
+    const initialSort = campaignList.sort((a, b) =>
+      a.status === b.status ? 0 : a.status < b.status ? 1 : -1
     );
+
+    setCampaignListData(initialSort);
+    dispatch(campaignActions.getSearchedCampaignList(initialSort));
     setLeadsListData(leadsList);
   }, [campaignList, leadsList]);
 
@@ -115,14 +115,43 @@ const Table = () => {
     const val = leadsListData.filter((valID) => {
       return valID.campaignId === campaignListId;
     });
-    let workBook = XLSX.utils.book_new();
-    let workSheet = XLSX.utils.json_to_sheet(val);
-    XLSX.utils.book_append_sheet(
-      workBook,
-      workSheet,
-      `${campaignListItemName} sheet`
+
+    let updatedleadsListDataToDownload = [];
+    val.forEach((lead) => {
+      let campaignListDataToDownload = {
+        "Company name": lead.companyName !== null ? lead.companyName : "NA",
+        Location: lead.location !== "No location" ? "lead.location" : "NA",
+        "Lead generated date": commonFunctions.formatDate(
+          lead.leadGeneratedDate.toDate(),
+          false
+        ),
+        "Lead posted date": commonFunctions.formatDate(
+          lead.leadPostedDate,
+          false
+        ),
+        Link: lead.link,
+        Summary: lead.summary !== "No summary" ? lead.summary : "NA",
+        Title: lead.title,
+        "Status of the lead":
+          lead.status === 1
+            ? "Approved"
+            : lead.status === -1
+            ? "Rejected"
+            : lead.status === 2
+            ? "Archived"
+            : "Under review",
+      };
+
+      updatedleadsListDataToDownload = [
+        ...updatedleadsListDataToDownload,
+        campaignListDataToDownload,
+      ];
+    });
+
+    commonFunctions.downloadInExcel(
+      updatedleadsListDataToDownload,
+      `${campaignListItemName} leads list`
     );
-    XLSX.writeFile(workBook, `${campaignListItemName} leads list.xlsx`);
   };
 
   const Viewed = async (campaignListItemId) => {
@@ -142,11 +171,15 @@ const Table = () => {
   const sortingTable = (col) => {
     const dataToSort = [...campaignListData];
     if (order === "ascendingOrder") {
-      let sortedData = dataToSort.sort((a, b) => (a[col] < b[col] ? 1 : -1));
+      let sortedData = dataToSort.sort((a, b) =>
+        a[col] === b[col] ? 0 : a[col] < b[col] ? 1 : -1
+      );
       setCampaignListData(sortedData);
       setOrder("descendingOrder");
     } else {
-      let sortedData = dataToSort.sort((a, b) => (a[col] > b[col] ? 1 : -1));
+      let sortedData = dataToSort.sort((a, b) =>
+        a[col] === b[col] ? 0 : a[col] > b[col] ? 1 : -1
+      );
       setCampaignListData(sortedData);
       setOrder("ascendingOrder");
     }
@@ -155,14 +188,18 @@ const Table = () => {
   const keysInJSON = ["name", "location", "owner"];
   const searchingTable = (searchTerm) => {
     const lowerCasedValue = searchTerm.toLowerCase().trim();
-    if (lowerCasedValue === "") setCampaignListData(campaignList);
-    else {
-      const filteredData = campaignList.filter((item) => {
+    let filteredData = [];
+    if (lowerCasedValue === "") {
+      setCampaignListData(campaignList);
+      dispatch(campaignActions.getSearchedCampaignList(campaignList));
+    } else {
+      filteredData = campaignList.filter((item) => {
         return keysInJSON.some((key) =>
           item[key].toString().toLowerCase().includes(lowerCasedValue)
         );
       });
       setCampaignListData(filteredData);
+      dispatch(campaignActions.getSearchedCampaignList(filteredData));
     }
   };
 
@@ -174,17 +211,6 @@ const Table = () => {
     }
     dispatch(campaignActions.getAllCampaignsAction());
   };
-
-  function formatDate(date) {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-    return [day, month, year].join("/");
-  }
 
   const indexOfLastLead = currentPage * dataPerPage;
   const indexOfFirstLead = indexOfLastLead - dataPerPage;
@@ -239,7 +265,7 @@ const Table = () => {
           </table>
         </div>
         <div className="table-wrapper">
-          <table id="table-to-xls">
+          <table>
             <tbody>
               <tr>
                 <td
@@ -345,7 +371,7 @@ const Table = () => {
               </Backdrop>
             )}
 
-            <table id="table-to-xls">
+            <table>
               <tbody>
                 {currentCampaigns.length !== 0 &&
                   currentCampaigns.map((campaignListItem) => {
@@ -418,10 +444,16 @@ const Table = () => {
                           </td>
 
                           <td className="start-date">
-                            {formatDate(campaignListItem.start_date.toDate())}
+                            {commonFunctions.formatDate(
+                              campaignListItem.start_date.toDate(),
+                              false
+                            )}
                           </td>
                           <td className="end-date">
-                            {formatDate(campaignListItem.end_date.toDate())}
+                            {commonFunctions.formatDate(
+                              campaignListItem.end_date.toDate(),
+                              false
+                            )}
                           </td>
                           <td className="created-by">
                             {campaignListItem.owner}
@@ -435,114 +467,116 @@ const Table = () => {
                           </td>
 
                           <td className="actions">
-                            <div className="green-switch">
-                              <Tooltip title="Tooggle the status of the campaign">
-                                <GreenSwitch
-                                  className="toggleSwitch"
-                                  checked={
-                                    campaignListItem.status ? true : false
-                                  }
-                                  onClick={(event) =>
-                                    statusUpdate(event, campaignListItem.id)
-                                  }
-                                />
-                              </Tooltip>
-                              <Tooltip
-                                title={
-                                  getNumOfLeads(campaignListItem.id)
-                                    ? "Download"
-                                    : "Download disabled"
+                            <Tooltip title="Tooggle the status of the campaign">
+                              <GreenSwitch
+                                className="toggleSwitch"
+                                checked={campaignListItem.status ? true : false}
+                                onClick={(event) =>
+                                  statusUpdate(event, campaignListItem.id)
                                 }
-                                arrow
-                              >
-                                <span>
-                                  <IconButton
-                                    disabled={
-                                      getNumOfLeads(campaignListItem.id)
-                                        ? false
-                                        : true
-                                    }
-                                    style={
-                                      getNumOfLeads(campaignListItem.id) === 0
-                                        ? {
-                                            pointerEvents: "auto",
-                                            cursor: "not-allowed",
-                                          }
-                                        : {}
-                                    }
-                                    onClick={() =>
-                                      forDownloading(
-                                        campaignListItem.id,
-                                        campaignListItem.name
+                              />
+                            </Tooltip>
+                            <Tooltip
+                              title={
+                                getNumOfLeads(campaignListItem.id)
+                                  ? `Download ${campaignListItem.name} leads`
+                                  : `Downloading ${campaignListItem.name} leads disabled`
+                              }
+                              arrow
+                            >
+                              <span>
+                                <IconButton
+                                  disabled={
+                                    getNumOfLeads(campaignListItem.id)
+                                      ? false
+                                      : true
+                                  }
+                                  style={
+                                    getNumOfLeads(campaignListItem.id) === 0
+                                      ? {
+                                          pointerEvents: "auto",
+                                          cursor: "not-allowed",
+                                        }
+                                      : {}
+                                  }
+                                  onClick={() =>
+                                    forDownloading(
+                                      campaignListItem.id,
+                                      campaignListItem.name
+                                    )
+                                  }
+                                >
+                                  <Download />
+                                </IconButton>
+                              </span>
+                            </Tooltip>
+
+                            <Tooltip
+                              title={`Edit ${campaignListItem.name}`}
+                              arrow
+                            >
+                              <span>
+                                <IconButton
+                                  onClick={() => {
+                                    dispatch(
+                                      campaignActions.campaignIDAction(
+                                        campaignListItem.id
                                       )
-                                    }
-                                  >
-                                    <Download />
-                                  </IconButton>
-                                </span>
-                              </Tooltip>
+                                    );
+                                    dispatch(campaignActions.showModal());
+                                  }}
+                                >
+                                  <Edit />
+                                </IconButton>
+                              </span>
+                            </Tooltip>
 
-                              <Tooltip title="Edit" arrow>
-                                <span>
-                                  <IconButton
-                                    onClick={() => {
-                                      dispatch(
-                                        campaignActions.campaignIDAction(
-                                          campaignListItem.id
-                                        )
-                                      );
-                                      dispatch(campaignActions.showModal());
-                                    }}
-                                  >
-                                    <Edit />
-                                  </IconButton>
-                                </span>
-                              </Tooltip>
+                            <Tooltip
+                              title={`View ${campaignListItem.name} details`}
+                              arrow
+                            >
+                              <span>
+                                <IconButton
+                                  onClick={() => Viewed(campaignListItem.id)}
+                                >
+                                  <View />
+                                </IconButton>
+                              </span>
+                            </Tooltip>
 
-                              <Tooltip title="View" arrow>
-                                <span>
-                                  <IconButton
-                                    onClick={() => Viewed(campaignListItem.id)}
-                                  >
-                                    <View />
-                                  </IconButton>
-                                </span>
-                              </Tooltip>
-
-                              <Tooltip
-                                title={
-                                  getNumOfLeads(campaignListItem.id)
-                                    ? "Delete disabled"
-                                    : "Delete"
-                                }
-                                arrow
-                              >
-                                <span>
-                                  <IconButton
-                                    disabled={
-                                      getNumOfLeads(campaignListItem.id)
-                                        ? true
-                                        : false
-                                    }
-                                    style={
-                                      getNumOfLeads(campaignListItem.id) === 0
-                                        ? {}
-                                        : {
-                                            pointerEvents: "auto",
-                                            cursor: "not-allowed",
-                                          }
-                                    }
-                                    onClick={() => {
-                                      setOpenAlert(true);
-                                      setCampaignName(campaignListItem.name);
-                                      setIdForDelete(campaignListItem.id);
-                                    }}
-                                  >
-                                    <Delete />
-                                  </IconButton>
-                                </span>
-                              </Tooltip>
-                            </div>
+                            <Tooltip
+                              title={
+                                getNumOfLeads(campaignListItem.id)
+                                  ? "Deleting disabled"
+                                  : "Delete"
+                              }
+                              arrow
+                            >
+                              <span>
+                                <IconButton
+                                  disabled={
+                                    getNumOfLeads(campaignListItem.id)
+                                      ? true
+                                      : false
+                                  }
+                                  style={
+                                    getNumOfLeads(campaignListItem.id) === 0
+                                      ? {}
+                                      : {
+                                          pointerEvents: "auto",
+                                          cursor: "not-allowed",
+                                        }
+                                  }
+                                  onClick={() => {
+                                    setOpenAlert(true);
+                                    setCampaignName(campaignListItem.name);
+                                    setIdForDelete(campaignListItem.id);
+                                  }}
+                                >
+                                  <Delete />
+                                </IconButton>
+                              </span>
+                            </Tooltip>
                           </td>
                         </tr>
                         <tr className="bottomBorder"></tr>
@@ -553,35 +587,7 @@ const Table = () => {
             </table>
           </div>
         </div>
-        <div
-          className="pagination-select "
-          style={{
-            padding: "10px",
-            color: "#1f4173",
-            background: "#fafafa",
-            width: "100%",
-            borderRadius: "0 0 10px 10px",
-            margin: "0",
-          }}
-        >
-          <select
-            className="card-selects"
-            onChange={(event) => {
-              dispatch(paginationActions.setDataPerPage(event.target.value));
-              dispatch(paginationActions.setActivePage(1));
-            }}
-            autoComplete="off"
-            value={dataPerPage}
-          >
-            <option value={2}>2</option>
-            <option value={4}>4</option>
-            <option value={6}>6</option>
-            <option value={8}>8</option>
-            <option value={10}>10</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-            <option value={150}>150</option>
-          </select>
+        <div className="campaignTable_pagination">
           <PaginationComponent
             dataPerPage={dataPerPage}
             dataLength={campaignListData.length}

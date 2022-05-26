@@ -62,15 +62,13 @@
 }
 
 .table-scroll {
-  // height: 40vh;
-  max-height: 35vh;
-  height: 100%;
+  height: 40vh;
   overflow-y: auto;
   scrollbar-width: thin;
 }
 
 .table-scroll thead th {
-  position: sticky;
+position: sticky;
 }
 
 .table-scroll::-webkit-scrollbar-thumb {
@@ -92,24 +90,4 @@
   height: 165px;
   background: #e6eaf2;
   border-radius: 20px;
-}
-
-@media only screen and (max-width: 1460px) {
-  .table-heading {
-    font-size: 17px;
-  }
-  .table-container {
-    .table-main {
-      .table-header-row {
-        .table-header-row-data {
-          font-size: 13px;
-        }
-      }
-      .table-body-row {
-        .table-body-row-data {
-          font-size: 13px;
-        }
-      }
-    }
-  }
 }
