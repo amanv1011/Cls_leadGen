@@ -179,6 +179,13 @@ function AddCampaginModal() {
     setTags([]);
   };
 
+  let hourtime = start_time.split(":")[0];
+  let secondsTime = (Number(start_time.split(":")[1]) + 5).toString();
+  if (secondsTime < 10) {
+    secondsTime = 0 + secondsTime;
+  }
+  const minimumEndTime = hourtime + ":" + secondsTime;
+
   return (
     <React.Fragment>
       <div className="add" style={{ display: "-webkit-inline-box" }}>
@@ -370,15 +377,8 @@ function AddCampaginModal() {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
-                  min={
-                    a__campgaignId
-                      ? start_date
-                      : commonFunctions.formatDate(new Date(), true)
-                  }
-                  onKeyDown={(e) => {
-                    e.preventDefault();
-                    dispatch(openAlert("Typing is disabled", true, "error"));
-                  }}
+                  min={commonFunctions.formatDate(new Date(), true)}
+                  // pattern="(?:((?:0[1-9]|1[0-9]|2[0-9])\/(?:0[1-9]|1[0-2])|(?:30)\/(?!02)(?:0[1-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/(?:19|20)[0-9]{2})"
                 />
               </Grid>
 
@@ -392,6 +392,7 @@ function AddCampaginModal() {
                   value={start_time}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
+                  min={new Date().getHours() + ":" + new Date().getMinutes()}
                   required
                 />
               </Grid>
@@ -408,10 +409,10 @@ function AddCampaginModal() {
                   autoComplete="off"
                   required
                   min={start_date}
-                  onKeyDown={(e) => {
-                    e.preventDefault();
-                    dispatch(openAlert("Typing is disabled", true, "error"));
-                  }}
+                  // onKeyDown={(e) => {
+                  //   e.preventDefault();
+                  //   dispatch(openAlert("Typing is disabled", true, "error"));
+                  // }}
                 />
               </Grid>
 
@@ -423,9 +424,11 @@ function AddCampaginModal() {
                   className="addCampaignModal-timePicker"
                   name="end_time"
                   value={end_time}
+                  // min={start_time}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
+                  min={minimumEndTime}
                 />
               </Grid>
 
