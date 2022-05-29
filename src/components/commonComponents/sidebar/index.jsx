@@ -36,8 +36,10 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-  position: "sticky",
+  
   height: "100vh",
+  postion: "fixed",
+  marginTop:"60px",
 });
 
 const closedMixin = (theme) => ({
@@ -47,8 +49,10 @@ const closedMixin = (theme) => ({
   }),
   overflowX: "hidden",
   border: "none",
-  position: "sticky",
+  
   height: "100vh",
+  postion: "fixed",
+  marginTop:"60px",
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 15%)",
   width: `calc(${theme.spacing(8)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
@@ -64,6 +68,7 @@ const Drawer = styled(MuiDrawer, {
   whiteSpace: "nowrap",
   boxSizing: "border-box",
 
+
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
@@ -78,8 +83,8 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
   const url = window.location.pathname;
   const navigate = useNavigate();
   return (
-    <Box className="box-main" sx={{ display: "flex", border: "none " }}>
-      <Drawer className="drawer-main" variant="permanent" open={open}>
+    <Box sx={{position: "fixed" , marginTop:"60px"}} className="box-main" sx={{ display: "flex", border: "none " }}>
+      <Drawer  className="drawer-main" variant="permanent" open={open}>
         {sideBarList.map((item, index) => (
           <ListItem
             disableripple="true"
