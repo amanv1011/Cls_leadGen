@@ -1,4 +1,4 @@
-import { IconButton, Typography } from "@mui/material";
+import { Avatar, IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LinkedIn from "./LinkedIn";
 import moment from "moment";
@@ -16,11 +16,18 @@ import "./lead.scss";
 import { useSelector } from "react-redux";
 import { setTotalCount } from "../../../redux/actions/paginationActions";
 import Loader from "../../themeComponents/Loader";
-import { cardsDisplayAction } from "../../../redux/actions/leadActions";
+import {
+  cardsDisplayAction,
+  getLeadsFullDescriptionAction,
+} from "../../../redux/actions/leadActions";
+import indeedLogo3 from "../../../assets/icons/indeedLogo3.jpg";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
   const leadsLoader = useSelector((state) => state.allLeads.loading);
+  const leadsFullDescription = useSelector(
+    (state) => state.allLeads.leadsFullDescription
+  );
   const currentPage = useSelector((state) => state.paginationStates.activePage);
   const dataPerPage = useSelector(
     (state) => state.paginationStates.dataPerPage
@@ -30,6 +37,7 @@ const Cards = (props) => {
   useEffect(() => {
     dispatch(setTotalCount(leadsData.length));
     dispatch(cardsDisplayAction(leadsData));
+    dispatch(getLeadsFullDescriptionAction());
   }, [leadsData.length]);
 
   let approveButton = (event) => {
@@ -67,6 +75,13 @@ const Cards = (props) => {
   const indexOfFirstLead = indexOfLastLead - dataPerPage;
   const currentLeads = leadsData.slice(indexOfFirstLead, indexOfLastLead);
 
+  const getDescription = (elementUniqueId) => {
+    const descNow = leadsFullDescription.filter((leadsFullDescUniqueId) => {
+      return leadsFullDescUniqueId.uniqueId === elementUniqueId;
+    });
+    return descNow.length !== 0 ? descNow.map((wow) => wow.descData) : "";
+  };
+
   if (leadsLoader === true) {
     return <Loader openLoader={leadsLoader} />;
   } else if (leadsLoader === false && currentLeads.length === 0) {
@@ -76,20 +91,7 @@ const Cards = (props) => {
           <Box className="lead-header">
             <Box className="lead-header-title"></Box>
           </Box>
-          <Box
-            className="lead-body"
-            style={{
-              textAlign: "center",
-              fontSize: "20px",
-              display: "flex",
-              alignContent: "center",
-              justifyContent: "center",
-              alignItems: "center",
-              color: "rgb(0,58,210)",
-            }}
-          >
-            Nothing to show
-          </Box>
+          <Box className="lead-body">No Data Found</Box>
         </Box>
       </React.Fragment>
     );
@@ -102,6 +104,7 @@ const Cards = (props) => {
           } else {
             linkedInCompany = "";
           }
+
           return (
             <React.Fragment key={ele.id}>
               <Box className="lead-container">
@@ -130,10 +133,10 @@ const Cards = (props) => {
                           sx={{
                             background: "#16C31E",
                             color: "white",
-                            fontWeight: "600",
                             height: "15px",
                             marginTop: "3px",
-                            width: "82px",
+                            width: "73px",
+                            fontSize: "11px",
                           }}
                           label="Approved"
                           size="small"
@@ -143,10 +146,10 @@ const Cards = (props) => {
                           sx={{
                             background: "#FF6C5F",
                             color: "white",
-                            fontWeight: "600",
                             height: "15px",
                             marginTop: "3px",
-                            width: "74px",
+                            width: "65px",
+                            fontSize: "11px",
                           }}
                           label="Rejected"
                           size="small"
@@ -156,10 +159,10 @@ const Cards = (props) => {
                           sx={{
                             color: "white",
                             background: "#FFD365",
-                            fontWeight: "600",
                             height: "15px",
                             marginTop: "3px",
-                            width: "67px",
+                            width: "59px",
+                            fontSize: "11px",
                           }}
                           label="Archive"
                           size="small"
@@ -172,6 +175,24 @@ const Cards = (props) => {
                       {moment.unix(ele.leadGeneratedDate.seconds).fromNow()}
                     </span>
 
+                    {ele.readMore != null ? (
+                      <>
+                        <IconButton>
+                          <a
+                            href={ele.readMore}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <Avatar
+                              sx={{ width: "24px", height: "24px" }}
+                              alt="indeedLogo"
+                              src={indeedLogo3}
+                              className="indeed-logo"
+                            />
+                          </a>
+                        </IconButton>
+                      </>
+                    ) : null}
                     <IconButton style={{ paddingBottom: "0px" }}>
                       {linkedInCompany ? (
                         <a
@@ -189,14 +210,8 @@ const Cards = (props) => {
                   </Box>
                 </Box>
                 <hr className="line" />
-                <Box
-                  style={{ display: "flex", paddingTop: "16px" }}
-                  className="lead-body"
-                >
-                  <div
-                    style={{ display: "flex", width: "100%" }}
-                    className="lead-body-row1"
-                  >
+                <Box className="lead-body">
+                  <div className="lead-body-row1">
                     <div className="lead-body-column">
                       <div className="lead-body-column-card1">
                         <p className="head-body">Key Skills</p>
@@ -208,9 +223,7 @@ const Cards = (props) => {
                       <div className="lead-body-column-card2">
                         <p className="head-body">Company</p>
                         <p className="body-detail">
-                          {ele.companyName !== null
-                            ? ele.companyName.slice(0, 50)
-                            : "..."}
+                          {ele.companyName !== null ? ele.companyName : "..."}
                         </p>
                       </div>
                     </div>
@@ -219,18 +232,18 @@ const Cards = (props) => {
                       <div className="lead-body-column-card3">
                         <p className="head-body">Description</p>
 
-                        <p className="body-detail"
+                        <p
+                          className="body-detail"
                           style={{
-                            width: "350px"
-                          }}>
-                          {ele.summary.length <= 69 ? ele.summary :  <>{ele.summary.slice(0, 70)} ...<span className="readmore-popup"
-                            key={ele.id}
-                            id={ele.id}
-                            onClick={openPopup}>
-                            Read More
-                          </span></> }
-                          
-
+                            width: "350px",
+                            height: "auto",
+                            textAlign: "justify",
+                            whiteSpace: "pre-wrap",
+                          }}
+                        >
+                          {getDescription(ele.uniqueId)
+                            ? getDescription(ele.uniqueId)[0]
+                            : ele.summary}
                         </p>
                       </div>
                     </div>
@@ -314,9 +327,8 @@ const Cards = (props) => {
               </Box>
             </React.Fragment>
           );
-        })
-        }
-      </React.Fragment >
+        })}
+      </React.Fragment>
     );
   }
 };

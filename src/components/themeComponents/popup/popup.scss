@@ -82,6 +82,7 @@ select.addCampaignModal-selects {
   color: #1f4173;
   text-align: left;
   outline: none;
+  cursor: pointer;
   &:invalid {
     color: #1f4173;
     opacity: 0.5;
@@ -96,6 +97,7 @@ input[type="date"].addCampaignModal-datePicker {
   background: #f4f5f8;
   border-radius: 10px;
   border: none;
+  cursor: pointer;
   font-size: 14px;
   font-weight: 600;
   line-height: 17px;
@@ -152,3 +154,35 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #fafafa;
   border-radius: 15px 15px 0 0;
 }
+
+
+// .add-campaign-button-style{
+//   text-transform: none;
+//   height: 17px;
+//   font-style: normal;
+//   font-weight: 600;
+//   font-size: 14px;
+//   line-height: 17px;
+//   color: #FFFFFF;
+//   // textTransform: "none",
+//   // height: "17px",
+//   // fontStyle: "normal",
+//   // fontWeight: 600,
+//   // fontSize: "14px",
+//   // lineHeight: "17px",
+//   // color: " #FFFFFF",
+// }
+// .plus-icons-style{
+//   width: 160px;
+//   height: 40px;
+//   background:#003AD2;
+//   border-radius: 10px;
+//   margin-left: 20px;
+//   margin-right: 10px;
+//   // width: "160px",
+//   // height: "40px",
+//   // background: "#003AD2",
+//   // borderRadius: "10px",
+//   // marginLeft: "20px",
+//   // marginRight: "10px",
+// }

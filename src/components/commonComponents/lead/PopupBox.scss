@@ -19,37 +19,37 @@
   background-color: #ffffff;
   box-sizing: border-box;
   box-shadow: 0px 4px 20px;
-
   border-radius: 20px 0px 0px 0px;
   width: 29%;
   float: right;
   margin-top: 3%;
   height: 100vh;
   margin-bottom: 200px;
+  .box-contain{
+    scrollbar-width: thin;
+    position:relative;
+    z-index: 1000;
+    overflow: auto;
+    height: 87%;
+   
+  }
   
 
 }
 .box-containt-heading {
-  margin-left: 20px;
-  margin-top: 20px;
+  margin-left: 14px;
+  margin-top: 4px;
   color: "#1F4173";
   padding: 10px;
 }
 .box-container-passage {
   color: #627a9d;
-  margin-left: 20px;
-  margin-top: 20px;
+  margin-left: 14px;
   padding: 10px;
   
  
 }
-.box-contain{
-  scrollbar-width: thin;
-  position:relative;
-  z-index: 1000;
-  overflow: auto;
-  height: 100%;
-}
+
 
 .box-contain::-webkit-scrollbar-thumb {
   border-radius: 10px;

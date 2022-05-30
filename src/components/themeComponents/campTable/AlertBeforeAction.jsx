@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { useDispatch } from "react-redux";
 import {
   Button,
@@ -10,7 +10,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import * as campaignActions from "../../../redux/actions/campaignActions";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
@@ -44,9 +44,7 @@ const AlertBeforeAction = ({
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>
-          {`Do you really want to delete ${campaignName}?`}
-        </DialogTitle>
+        <DialogTitle>{`Do you want to delete ${campaignName}?`}</DialogTitle>
         <DialogActions>
           <Button
             variant="contained"
@@ -65,7 +63,11 @@ const AlertBeforeAction = ({
           <Button
             variant="contained"
             startIcon={<DeleteIcon />}
-            color="error"
+            style={{
+              borderRadius: "10px",
+              background: "rgb(138 31 27)",
+              textTransform: "none",
+            }}
             onClick={handleClickOpen}
           >
             Delete

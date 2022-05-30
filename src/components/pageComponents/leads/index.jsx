@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import React from "react";
 import BasicTabs from "../../themeComponents/tabs";
@@ -10,12 +10,10 @@ import "./leads.scss";
 import UnderReview from "../../commonComponents/lead/UnderReview";
 import Archive from "../../commonComponents/lead/Archive";
 import LeadsHeader from "./leadsHeader";
-import * as XLSX from "xlsx";
 import PaginationComponent from "../../commonComponents/PaginationComponent/index";
-import * as paginationActions from "../../../redux/actions/paginationActions";
+import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
 
 const Leads = () => {
-  const dispatch = useDispatch();
   const totalCount = useSelector((state) => state.paginationStates.totalCount);
   const dataPerPage = useSelector(
     (state) => state.paginationStates.dataPerPage
@@ -24,10 +22,42 @@ const Leads = () => {
   const cardsToDisplay = useSelector((state) => state.allLeads.cardsToDisplay);
 
   const downloadLeads = (leadsList, excelFileName) => {
-    let workBook = XLSX.utils.book_new();
-    let workSheet = XLSX.utils.json_to_sheet(leadsList);
-    XLSX.utils.book_append_sheet(workBook, workSheet, "Sheet 1");
-    XLSX.writeFile(workBook, `${excelFileName}.xlsx`);
+    let updatedleadsListDataToDownload = [];
+    leadsList.forEach((lead) => {
+      let campaignListDataToDownload = {
+        "Company name": lead.companyName !== null ? lead.companyName : "NA",
+        Location: lead.location !== "No location" ? "lead.location" : "NA",
+        "Lead generated date": commonFunctions.formatDate(
+          lead.leadGeneratedDate.toDate(),
+          false
+        ),
+        "Lead posted date": commonFunctions.formatDate(
+          lead.leadPostedDate,
+          false
+        ),
+        Link: lead.link,
+        Summary: lead.summary !== "No summary" ? lead.summary : "NA",
+        Title: lead.title,
+        "Status of the lead":
+          lead.status === 1
+            ? "Approved"
+            : lead.status === -1
+            ? "Rejected"
+            : lead.status === 2
+            ? "Archived"
+            : "Under review",
+      };
+
+      updatedleadsListDataToDownload = [
+        ...updatedleadsListDataToDownload,
+        campaignListDataToDownload,
+      ];
+    });
+
+    commonFunctions.downloadInExcel(
+      updatedleadsListDataToDownload,
+      `${excelFileName}`
+    );
   };
 
   const exportLeadsToExcel = () => {
@@ -35,17 +65,17 @@ const Leads = () => {
       downloadLeads(cardsToDisplay, "All leads");
     }
     if (window.location.pathname === "/leads/approve") {
-      downloadLeads(cardsToDisplay, "Approved Leads");
+      downloadLeads(cardsToDisplay, "Approved leads");
     }
 
     if (window.location.pathname === "/leads/reject") {
-      downloadLeads(cardsToDisplay, "Rejected Leads");
+      downloadLeads(cardsToDisplay, "Rejected leads");
     }
     if (window.location.pathname === "/leads/underreview") {
-      downloadLeads(cardsToDisplay, "Under Review Leads");
+      downloadLeads(cardsToDisplay, "Under review leads");
     }
     if (window.location.pathname === "/leads/archive") {
-      downloadLeads(cardsToDisplay, "Archived Leads");
+      downloadLeads(cardsToDisplay, "Archived leads");
     }
   };
 
@@ -58,7 +88,13 @@ const Leads = () => {
         <Box className="leads-table-container">
           <Box
             classNAme="leads-header-container"
-            style={{ display: "flex", paddingRight: "27px" }}
+            style={{
+              display: "flex",
+              paddingRight: "27px",
+              alignContent: "center",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
             <BasicTabs type="leadsTabs" />
             <span>
@@ -112,31 +148,7 @@ const Leads = () => {
             ) : null}
           </Box>
         </Box>
-        <div className="pagination-select ">
-          <select
-            className="card-selects"
-            value={dataPerPage}
-            onChange={(event) => {
-              dispatch(paginationActions.setDataPerPage(event.target.value));
-              dispatch(paginationActions.setActivePage(1));
-            }}
-            autoComplete="off"
-            disabled={cardsToDisplay.length === 0 ? true : false}
-            style={
-              cardsToDisplay.length === 0
-                ? {
-                    pointerEvents: "auto",
-                    cursor: "not-allowed",
-                  }
-                : {}
-            }
-          >
-            <option value={10} default>
-              10
-            </option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </select>
+        <div className="leadsPage_pagination">
           <PaginationComponent
             dataPerPage={dataPerPage}
             dataLength={totalCount}

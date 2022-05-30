@@ -6,6 +6,8 @@ import { Timestamp } from "firebase/firestore";
 import "./popup.scss";
 import PlusIcon from "./PlusIcon";
 import IInput from "../input/index";
+import { openAlert } from "../../../redux/actions/alertActions";
+import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
 
 function AddCampaginModal() {
   const style = {
@@ -27,6 +29,7 @@ function AddCampaginModal() {
 
   const isModalOpen = statesInReduxStore.allCampaigns.isModalVisible;
   const a__campgaignId = statesInReduxStore.allCampaigns.a__campgaign__Id;
+  const errorFromStore = statesInReduxStore.allCampaigns.error;
 
   const [addCampaignDetails, setAddCampaignDetails] = useState({
     name: "",
@@ -55,7 +58,6 @@ function AddCampaginModal() {
   } = addCampaignDetails;
 
   const [tags, setTags] = useState([]);
-
   const onInputChangeHandler = (event) => {
     const { name, value } = event.target;
     setAddCampaignDetails({ ...addCampaignDetails, [name]: value });
@@ -81,7 +83,7 @@ function AddCampaginModal() {
       }
     } else if (source === "linkedin_aus") {
       if (tags.length > 1 || pages > 1) {
-        alert("For Linkedin only 1 tag and 1 page is permitted");
+        alert("For LinkedIn only 1 tag and 1 page is permitted");
         setTags([]);
         setAddCampaignDetails({ pages: 1 });
       }
@@ -94,28 +96,41 @@ function AddCampaginModal() {
     }
   }, [a__campgaignId]);
 
-  const detailsForEdit = async () => {
-    try {
-      const documentSnapShot = await dispatch(
-        campaignActions.getACampaignAction(a__campgaignId)
-      );
+  useEffect(() => {
+    if (
+      errorFromStore === null ||
+      errorFromStore === undefined ||
+      errorFromStore === ""
+    ) {
+      dispatch(campaignActions.handleClose());
+    } else {
+      dispatch(campaignActions.showModal());
+    }
+  }, [errorFromStore]);
 
-      setAddCampaignDetails({
-        name: documentSnapShot.payload.data().name,
-        source: documentSnapShot.payload.data().source,
-        frequency: parseInt(documentSnapShot.payload.data().frequency),
-        start_date: formatDate(
-          documentSnapShot.payload.data().start_date.toDate()
-        ),
-        start_time: documentSnapShot.payload.data().start_time,
-        end_date: formatDate(documentSnapShot.payload.data().end_date.toDate()),
-        end_time: documentSnapShot.payload.data().end_time,
-        location: documentSnapShot.payload.data().location,
-        pages: parseInt(documentSnapShot.payload.data().pages),
-        status: parseInt(documentSnapShot.payload.data().status),
-      });
-      setTags([...documentSnapShot.payload.data().tags]);
-    } catch (error) {}
+  const detailsForEdit = async () => {
+    const documentSnapShot = await dispatch(
+      campaignActions.getACampaignAction(a__campgaignId)
+    );
+    setAddCampaignDetails({
+      name: documentSnapShot.payload.data().name,
+      source: documentSnapShot.payload.data().source,
+      frequency: parseInt(documentSnapShot.payload.data().frequency),
+      start_date: commonFunctions.formatDate(
+        documentSnapShot.payload.data().start_date.toDate(),
+        true
+      ),
+      start_time: documentSnapShot.payload.data().start_time,
+      end_date: commonFunctions.formatDate(
+        documentSnapShot.payload.data().end_date.toDate(),
+        true
+      ),
+      end_time: documentSnapShot.payload.data().end_time,
+      location: documentSnapShot.payload.data().location,
+      pages: parseInt(documentSnapShot.payload.data().pages),
+      status: parseInt(documentSnapShot.payload.data().status),
+    });
+    setTags([...documentSnapShot.payload.data().tags]);
   };
 
   const onSubmitEventhandler = (event) => {
@@ -135,13 +150,19 @@ function AddCampaginModal() {
       dispatch(
         campaignActions.updateCampaignsAction(a__campgaignId, newCampaign)
       );
-      dispatch(campaignActions.getAllCampaignsAction());
       dispatch(campaignActions.campaignIDAction(""));
     } else {
-      dispatch(campaignActions.postCampaignsAction(newCampaign));
-      dispatch(campaignActions.getAllCampaignsAction());
+      dispatch(campaignActions.postCampaignAction(newCampaign));
     }
-    dispatch(campaignActions.handleClose());
+    if (
+      errorFromStore === null ||
+      errorFromStore === undefined ||
+      errorFromStore === ""
+    ) {
+      dispatch(campaignActions.handleClose());
+    } else {
+      dispatch(campaignActions.showModal());
+    }
     setAddCampaignDetails({
       name: "",
       source: "",
@@ -158,15 +179,13 @@ function AddCampaginModal() {
     setTags([]);
   };
 
-  function formatDate(date) {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-    return [year, month, day].join("-");
+  let hourtime = start_time.split(":")[0];
+  let secondsTime = (Number(start_time.split(":")[1]) + 5).toString();
+  if (secondsTime < 10) {
+    secondsTime = 0 + secondsTime;
   }
+  const minimumEndTime = hourtime + ":" + secondsTime;
+
   return (
     <React.Fragment>
       <div className="add" style={{ display: "-webkit-inline-box" }}>
@@ -290,7 +309,7 @@ function AddCampaginModal() {
                   autoComplete="off"
                   required
                 >
-                  <option value="" disabled selected>
+                  <option value="" disabled defaultValue>
                     Select the source
                   </option>
                   <option value="seek_aus">Seek Australia</option>
@@ -303,7 +322,7 @@ function AddCampaginModal() {
                   <option value="indeed_ch">Indeed China</option>
                   <option value="indeed_pt">Indeed Portugal</option>
                   <option value="indeed_sg">Indeed Singapore</option>
-                  <option value="linkedin">Linkedin</option>
+                  <option value="linkedin">LinkedIn</option>
                 </select>
               </Grid>
 
@@ -358,6 +377,8 @@ function AddCampaginModal() {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
+                  min={commonFunctions.formatDate(new Date(), true)}
+                  // pattern="(?:((?:0[1-9]|1[0-9]|2[0-9])\/(?:0[1-9]|1[0-2])|(?:30)\/(?!02)(?:0[1-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/(?:19|20)[0-9]{2})"
                 />
               </Grid>
 
@@ -371,6 +392,7 @@ function AddCampaginModal() {
                   value={start_time}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
+                  min={new Date().getHours() + ":" + new Date().getMinutes()}
                   required
                 />
               </Grid>
@@ -386,6 +408,11 @@ function AddCampaginModal() {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
+                  min={start_date}
+                  // onKeyDown={(e) => {
+                  //   e.preventDefault();
+                  //   dispatch(openAlert("Typing is disabled", true, "error"));
+                  // }}
                 />
               </Grid>
 
@@ -397,9 +424,11 @@ function AddCampaginModal() {
                   className="addCampaignModal-timePicker"
                   name="end_time"
                   value={end_time}
+                  // min={start_time}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
+                  min={minimumEndTime}
                 />
               </Grid>
 

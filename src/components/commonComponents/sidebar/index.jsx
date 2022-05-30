@@ -87,7 +87,6 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
       <Drawer  className="drawer-main" variant="permanent" open={open}>
         {sideBarList.map((item, index) => (
           <ListItem
-            disableripple="true"
             button
             key={item.title}
             className={
@@ -104,9 +103,7 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
               handleDrawerClose();
             }}
           >
-            <ListItemIcon disableripple className="list-item-icon">
-              {item.icon}
-            </ListItemIcon>
+            <ListItemIcon className="list-item-icon">{item.icon}</ListItemIcon>
             <ListItemText
               disableTypography
               style={{

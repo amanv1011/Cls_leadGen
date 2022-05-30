@@ -1,11 +1,6 @@
-import { getCampaignList } from "../../services/api/campaign";
-import {
-  GET_CAMPAIGN_LIST_ERROR,
-  GET_CAMPAIGN_LIST_PENDING,
-  GET_CAMPAIGN_LIST_SUCCESS,
-} from "../type";
 import * as types from "../type";
 import * as campaignServices from "../../services/api/campaign";
+import { openAlert } from "./alertActions";
 
 export const getACampaignAction = (a__campgaignId) => {
   return async (dispatch) => {
@@ -31,51 +26,56 @@ export const getACampaignAction = (a__campgaignId) => {
 
 export const getAllCampaignsAction = () => {
   return async (dispatch) => {
-    dispatch({ type: GET_CAMPAIGN_LIST_PENDING, loading: true });
+    dispatch({ type: types.GET_CAMPAIGN_LIST_PENDING });
     try {
-      const res = await getCampaignList();
-      if (res.length === undefined) {
+      const response = await campaignServices.getCampaignList();
+      if (response.length === undefined || response.length === 0) {
         dispatch({
-          type: GET_CAMPAIGN_LIST_ERROR,
-          payload: res,
+          type: types.GET_CAMPAIGN_LIST_ERROR,
         });
+        return dispatch(openAlert(response.message, true, "error"));
       } else {
-        return dispatch({
-          type: GET_CAMPAIGN_LIST_SUCCESS,
-          payload: res,
+        dispatch({
+          type: types.GET_CAMPAIGN_LIST_SUCCESS,
+          payload: response,
         });
       }
     } catch (err) {
-      if (!!err && !!err.response && !!err.response.data) {
-        dispatch({
-          type: GET_CAMPAIGN_LIST_ERROR,
-          payload: err,
-        });
-      } else {
-        dispatch({ type: GET_CAMPAIGN_LIST_ERROR });
-      }
+      dispatch({
+        type: types.GET_CAMPAIGN_LIST_ERROR,
+        payload: err,
+      });
+      return dispatch(openAlert(err.message, true, "error"));
     }
   };
 };
 
-export const postCampaignsAction = (data) => {
+export const postCampaignAction = (data) => {
   return async (dispatch) => {
-    dispatch({ type: types.POST_CAMPAIGN_DATA_PENDING, loading: true });
+    dispatch({ type: types.POST_CAMPAIGN_DATA_PENDING });
     try {
-      await campaignServices.postCampaignData(data);
-      dispatch({
-        type: types.POST_CAMPAIGN_DATA_SUCCESS,
-        payload: data,
-      });
-    } catch (err) {
-      if (!!err && !!err.response && !!err.response.data) {
+      const addDoc = await campaignServices.postCampaignData(data);
+      if (addDoc.id) {
+        dispatch({
+          type: types.POST_CAMPAIGN_DATA_SUCCESS,
+          payload: { ...data, id: addDoc.id },
+        });
+        return dispatch(
+          openAlert("Campaign Added successfully", true, "success")
+        );
+      } else {
         dispatch({
           type: types.POST_CAMPAIGN_DATA_ERROR,
-          payload: err,
+          payload: addDoc.message,
         });
-      } else {
-        dispatch({ type: types.POST_CAMPAIGN_DATA_ERROR });
+        return dispatch(openAlert(addDoc.message, true, "error"));
       }
+    } catch (err) {
+      dispatch({
+        type: types.POST_CAMPAIGN_DATA_ERROR,
+        payload: err.message,
+      });
+      return dispatch(openAlert(err.message, true, "error"));
     }
   };
 };
@@ -83,44 +83,61 @@ export const postCampaignsAction = (data) => {
 export const deleteCampaignsAction = (campaignId) => {
   return async (dispatch) => {
     try {
-      const res = await campaignServices.deleteCampaignData(campaignId);
-      dispatch({
-        type: types.DELETE_CAMPAIGN_DATA_SUCCESS,
-        payload: res,
-      });
-    } catch (err) {
-      if (!!err && !!err.response && !!err.response.data) {
+      const response = await campaignServices.deleteCampaignData(campaignId);
+      if (response.id) {
+        dispatch({
+          type: types.DELETE_CAMPAIGN_DATA_SUCCESS,
+          payload: response,
+        });
+        return dispatch(
+          openAlert("Campaign Deleted successfully", true, "success")
+        );
+      } else {
         dispatch({
           type: types.DELETE_CAMPAIGN_DATA_ERROR,
-          payload: err,
+          payload: response.message,
         });
-      } else {
-        dispatch({ type: types.DELETE_CAMPAIGN_DATA_ERROR });
+        return dispatch(openAlert(response.message, true, "error"));
       }
+    } catch (err) {
+      dispatch({
+        type: types.DELETE_CAMPAIGN_DATA_ERROR,
+        payload: err.message,
+      });
+      return dispatch(openAlert(err.message, true, "error"));
     }
   };
 };
 
 export const updateCampaignsAction = (campaignId, campaignUpdateObject) => {
   return async (dispatch) => {
+    // dispatch({ type: types.UPDATE_CAMPAIGN_DATA_PENDING });
     try {
       const res = await campaignServices.updateCampaignData(
         campaignId,
         campaignUpdateObject
       );
-      dispatch({
-        type: types.UPDATE_CAMPAIGN_DATA_SUCCESS,
-        payload: campaignUpdateObject,
-      });
-    } catch (err) {
-      if (!!err && !!err.response && !!err.response.data) {
+      if (res === undefined) {
+        dispatch({
+          type: types.UPDATE_CAMPAIGN_DATA_SUCCESS,
+          payload: { ...campaignUpdateObject, id: campaignId },
+        });
+        return dispatch(
+          openAlert("Campaign Updated successfully", true, "success")
+        );
+      } else {
         dispatch({
           type: types.UPDATE_CAMPAIGN_DATA_ERROR,
-          payload: err,
+          payload: res.message,
         });
-      } else {
-        dispatch({ type: types.UPDATE_CAMPAIGN_DATA_ERROR });
+        return dispatch(openAlert(res.message, true, "error"));
       }
+    } catch (err) {
+      dispatch({
+        type: types.UPDATE_CAMPAIGN_DATA_ERROR,
+        payload: err.message,
+      });
+      return dispatch(openAlert(err.message, true, "error"));
     }
   };
 };
@@ -152,5 +169,14 @@ export const searchInputValueAction = (inputValue) => {
 export const getAFeildInADocumentActionActive = () => {
   return async (dispatch) => {
     await dispatch({ type: types.UPDATE_STATUS_DATA_ACTIVE });
+  };
+};
+
+export const getSearchedCampaignList = (searchedCampaignList) => {
+  return async (dispatch) => {
+    await dispatch({
+      type: types.SEARCHED_CAMPAIGNS,
+      payload: searchedCampaignList,
+    });
   };
 };
