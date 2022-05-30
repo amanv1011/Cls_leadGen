@@ -52,7 +52,7 @@ const Navbar = ({ handleDrawer }) => {
     setOpenPopUp(true);
   };
   return (
-    <AppBar position="static" sx={{ height: "60px" }}>
+    <AppBar position="fixed" sx={{ height: "60px" }}>
       <Container
         maxWidth="100%"
         sx={{ width: "100%", height: "100%" }}
