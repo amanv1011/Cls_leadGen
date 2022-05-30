@@ -127,7 +127,9 @@ export default function CampaignDetailsView({
                     </div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
-                        {viewDetail.viewDetails.tags.arrayValue.values.toString()}
+                        {viewDetail.viewDetails.tags.arrayValue.values.map(
+                          (tag) => tag.stringValue
+                        )}
                       </div>
                     </div>
                   </div>

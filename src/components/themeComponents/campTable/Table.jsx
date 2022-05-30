@@ -27,6 +27,7 @@ import * as laedActions from "../../../redux/actions/leadActions";
 import * as leadsFilterActions from "../../../redux/actions/leadsFilter";
 import * as paginationActions from "../../../redux/actions/paginationActions";
 import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
+import moment from "moment";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase": {
@@ -120,15 +121,20 @@ const Table = () => {
     val.forEach((lead) => {
       let campaignListDataToDownload = {
         "Company name": lead.companyName !== null ? lead.companyName : "NA",
-        Location: lead.location !== "No location" ? "lead.location" : "NA",
-        "Lead generated date": commonFunctions.formatDate(
-          lead.leadGeneratedDate.toDate(),
-          false
-        ),
-        "Lead posted date": commonFunctions.formatDate(
-          lead.leadPostedDate,
-          false
-        ),
+        Location: lead.location !== "No location" ? lead.location : "NA",
+        "Lead generated date":
+          lead.leadGeneratedDate !== null
+            ? moment
+                .unix(
+                  lead.leadGeneratedDate.seconds,
+                  lead.leadGeneratedDate.nanoseconds
+                )
+                .format("MM/DD/YYYY")
+            : "NA",
+        "Lead posted date":
+          lead.leadPostedDate !== null
+            ? moment(lead.leadPostedDate).format("MM/DD/YYYY")
+            : "NA",
         Link: lead.link,
         Summary: lead.summary !== "No summary" ? lead.summary : "NA",
         Title: lead.title,
@@ -147,7 +153,6 @@ const Table = () => {
         campaignListDataToDownload,
       ];
     });
-
     commonFunctions.downloadInExcel(
       updatedleadsListDataToDownload,
       `${campaignListItemName} leads list`
@@ -375,6 +380,14 @@ const Table = () => {
               <tbody>
                 {currentCampaigns.length !== 0 &&
                   currentCampaigns.map((campaignListItem) => {
+                    const current_Date = moment().format("YYYY-MM-DD");
+                    const start_Date = moment
+                      .unix(
+                        campaignListItem.start_date.seconds,
+                        campaignListItem.start_date.nanoseconds
+                      )
+                      .format("YYYY-MM-DD");
+
                     return (
                       <React.Fragment key={campaignListItem.id}>
                         <tr>
@@ -444,16 +457,20 @@ const Table = () => {
                           </td>
 
                           <td className="start-date">
-                            {commonFunctions.formatDate(
-                              campaignListItem.start_date.toDate(),
-                              false
-                            )}
+                            {moment
+                              .unix(
+                                campaignListItem.start_date.seconds,
+                                campaignListItem.start_date.nanoseconds
+                              )
+                              .format("MM/DD/YYYY")}
                           </td>
                           <td className="end-date">
-                            {commonFunctions.formatDate(
-                              campaignListItem.end_date.toDate(),
-                              false
-                            )}
+                            {moment
+                              .unix(
+                                campaignListItem.end_date.seconds,
+                                campaignListItem.end_date.nanoseconds
+                              )
+                              .format("MM/DD/YYYY")}
                           </td>
                           <td className="created-by">
                             {campaignListItem.owner}
@@ -512,11 +529,32 @@ const Table = () => {
                             </Tooltip>
 
                             <Tooltip
-                              title={`Edit ${campaignListItem.name}`}
+                              title={
+                                moment(start_Date).isSameOrBefore(current_Date)
+                                  ? `Editing ${campaignListItem.name} disabled`
+                                  : `Edit ${campaignListItem.name}`
+                              }
                               arrow
                             >
                               <span>
                                 <IconButton
+                                  disabled={
+                                    moment(start_Date).isSameOrBefore(
+                                      current_Date
+                                    )
+                                      ? true
+                                      : false
+                                  }
+                                  style={
+                                    moment(start_Date).isSameOrBefore(
+                                      current_Date
+                                    )
+                                      ? {
+                                          pointerEvents: "auto",
+                                          cursor: "not-allowed",
+                                        }
+                                      : {}
+                                  }
                                   onClick={() => {
                                     dispatch(
                                       campaignActions.campaignIDAction(

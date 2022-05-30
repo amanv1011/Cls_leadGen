@@ -11,7 +11,11 @@ export const formatDate = (date, returnFormatType) => {
 
   if (returnFormatType === true) {
     return [year, month, day].join("-");
-  } else return [month, day, year].join("/");
+  } else if (returnFormatType === false) {
+    return [month, day, year].join("/");
+  } else {
+    return [year, month, day].join("-");
+  }
 };
 
 export const downloadInExcel = (JsonToDownload, downloadedExcelFileName) => {
