@@ -8,7 +8,6 @@ const Alert = forwardRef(function Alert(props, ref) {
 
 const AlertNotification = ({ isAlertOpen, message, type, handleClose }) => {
   return (
-    // <Stack spacing={2} sx={{ width: "15px", height: "15px" }}>
     <Snackbar
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
       open={isAlertOpen}
@@ -23,8 +22,6 @@ const AlertNotification = ({ isAlertOpen, message, type, handleClose }) => {
         {message}
       </Alert>
     </Snackbar>
-
-    // </Stack>
   );
 };
 export default AlertNotification;

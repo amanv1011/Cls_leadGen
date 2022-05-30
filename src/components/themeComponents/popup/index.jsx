@@ -305,7 +305,7 @@ const AddCampaginModal = () => {
                   value={name}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  //required
+                  required
                 />
               </Grid>
 
@@ -324,7 +324,7 @@ const AddCampaginModal = () => {
                   value={source}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  //required
+                  required
                 >
                   <option value="" disabled defaultValue>
                     Select the source
@@ -360,7 +360,7 @@ const AddCampaginModal = () => {
                   value={tags}
                   onChange={tagInputChange}
                   autoComplete="off"
-                  //required
+                  required
                 />
               </Grid>
 
@@ -377,7 +377,7 @@ const AddCampaginModal = () => {
                   value={frequency}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  //required
+                  required
                   min={1}
                   max={15}
                 />
@@ -465,7 +465,7 @@ const AddCampaginModal = () => {
                   value={location}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  //required
+                  required
                 />
               </Grid>
               <Grid item xs={4}>
@@ -481,7 +481,7 @@ const AddCampaginModal = () => {
                   value={pages}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  ////required
+                  required
                   min={1}
                   max={100}
                   style={{

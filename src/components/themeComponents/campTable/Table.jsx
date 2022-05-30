@@ -77,7 +77,6 @@ const Table = () => {
   useEffect(() => {
     dispatch(campaignActions.getAllCampaignsAction());
     dispatch(laedActions.getAllLeadsAction());
-    // dispatch(laedActions.getLeadsFullDescriptionAction());
   }, []);
 
   useEffect(() => {
