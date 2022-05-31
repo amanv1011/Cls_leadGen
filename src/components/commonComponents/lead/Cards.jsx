@@ -39,7 +39,6 @@ const Cards = (props) => {
     dispatch(cardsDisplayAction(leadsData));
     dispatch(getLeadsFullDescriptionAction());
   }, [leadsData.length]);
-
   let approveButton = (event) => {
     dispatch(updateLeadStatus(event.target.value, 1));
   };
