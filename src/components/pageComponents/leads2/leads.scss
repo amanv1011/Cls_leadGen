@@ -1,0 +1,29 @@
+.leads-container {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  box-shadow: 0px 4px 8px #d9ebf2;
+  border-radius: 15px;
+  .leads-header {
+    height: 85px;
+    width: 100%;
+  }
+  .leads-body {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 330px auto 250px;
+    .section {
+    }
+    .leads-list {
+      background: rgba(248, 248, 249, 0.8);
+      border-radius: 0px 0px 0px 15px;
+    }
+    .leads-detail {
+      box-shadow: 0px 8px #d9ebf2;
+    }
+    .leads-action {
+    }
+  }
+}

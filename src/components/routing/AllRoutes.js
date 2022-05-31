@@ -1,9 +1,10 @@
 import React from "react";
 import { Navigate, useRoutes } from "react-router-dom";
-import Leads from "../pageComponents/leads";
+import Leads2 from "../pageComponents/leads2";
 import Dashboard from "../pageComponents/dashboard";
 import Header from "../themeComponents/header";
 import Campaign from "../pageComponents/campaign/index";
+import Leads from "../pageComponents/leads";
 
 const AllRoutes = () => {
   const allRoutes = useRoutes([
@@ -20,6 +21,17 @@ const AllRoutes = () => {
             </>
           ),
         },
+        // removable block
+        {
+          path: "/leads2",
+          element: (
+            <>
+              <Header />
+              <Leads2 />
+            </>
+          ),
+        },
+        // removable block end
         {
           path: "/campaign",
           element: (
