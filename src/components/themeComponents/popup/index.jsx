@@ -1,42 +1,36 @@
 import React, { useEffect, useState } from "react";
 import * as campaignActions from "../../../redux/actions/campaignActions";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Box,
-  Modal,
-  Button,
-  Divider,
-  Grid,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Modal, Button, Divider, Grid } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "./popup.scss";
 import PlusIcon from "./PlusIcon";
 import IInput from "../input/index";
-import { openAlert } from "../../../redux/actions/alertActions";
+import moment from "moment";
+import { openAlertAction } from "../../../redux/actions/alertActions";
 
-function AddCampaginModal() {
-  const style = {
-    position: "absolute",
-    display: "flex",
-    flexWrap: "wrap",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "910px",
-    bgcolor: "#FFFFFF",
-    borderRadius: "15px",
-    border: "none",
-    outline: "none",
-  };
+const style = {
+  position: "absolute",
+  display: "flex",
+  flexWrap: "wrap",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "910px",
+  bgcolor: "#FFFFFF",
+  borderRadius: "15px",
+  border: "none",
+  outline: "none",
+};
 
+const AddCampaginModal = () => {
   const dispatch = useDispatch();
-  const matches = useMediaQuery("(max-width:1460px)");
-  const statesInReduxStore = useSelector((state) => state);
 
-  const isModalOpen = statesInReduxStore.allCampaigns.isModalVisible;
-  const a__campgaignId = statesInReduxStore.allCampaigns.a__campgaign__Id;
-  const errorFromStore = statesInReduxStore.allCampaigns.error;
+  const isModalOpen = useSelector((state) => state.allCampaigns.isModalVisible);
+  const a__campgaignId = useSelector(
+    (state) => state.allCampaigns.a__campgaign__Id
+  );
+  const errorFromStore = useSelector((state) => state.allCampaigns.error);
 
   const [addCampaignDetails, setAddCampaignDetails] = useState({
     name: "",
@@ -65,6 +59,7 @@ function AddCampaginModal() {
   } = addCampaignDetails;
 
   const [tags, setTags] = useState([]);
+
   const onInputChangeHandler = (event) => {
     const { name, value } = event.target;
     setAddCampaignDetails({ ...addCampaignDetails, [name]: value });
@@ -72,7 +67,7 @@ function AddCampaginModal() {
 
   const tagInputChange = (event) => {
     const newarrayValue = event.target.value;
-    setTags(newarrayValue.split("," || ""));
+    setTags(newarrayValue.split(","));
   };
 
   useEffect(() => {
@@ -90,7 +85,7 @@ function AddCampaginModal() {
       }
     } else if (source === "linkedin_aus") {
       if (tags.length > 1 || pages > 1) {
-        alert("For Linkedin only 1 tag and 1 page is permitted");
+        alert("For LinkedIn only 1 tag and 1 page is permitted");
         setTags([]);
         setAddCampaignDetails({ pages: 1 });
       }
@@ -114,83 +109,100 @@ function AddCampaginModal() {
       dispatch(campaignActions.showModal());
     }
   }, [errorFromStore]);
+
   const detailsForEdit = async () => {
-    try {
-      const documentSnapShot = await dispatch(
-        campaignActions.getACampaignAction(a__campgaignId)
-      );
-      setAddCampaignDetails({
-        name: documentSnapShot.payload.data().name,
-        source: documentSnapShot.payload.data().source,
-        frequency: parseInt(documentSnapShot.payload.data().frequency),
-        start_date: formatDate(
-          documentSnapShot.payload.data().start_date.toDate()
-        ),
-        start_time: documentSnapShot.payload.data().start_time,
-        end_date: formatDate(documentSnapShot.payload.data().end_date.toDate()),
-        end_time: documentSnapShot.payload.data().end_time,
-        location: documentSnapShot.payload.data().location,
-        pages: parseInt(documentSnapShot.payload.data().pages),
-        status: parseInt(documentSnapShot.payload.data().status),
-      });
-      setTags([...documentSnapShot.payload.data().tags]);
-    } catch (error) {}
+    const documentSnapShot = await dispatch(
+      campaignActions.getACampaignAction(a__campgaignId)
+    );
+    setAddCampaignDetails({
+      name: documentSnapShot.payload.data().name,
+      source: documentSnapShot.payload.data().source,
+      frequency: parseInt(documentSnapShot.payload.data().frequency),
+      start_date: moment
+        .unix(documentSnapShot.payload.data().start_date.seconds)
+        .format("YYYY-MM-DD"),
+      start_time: documentSnapShot.payload.data().start_time,
+      end_date: moment
+        .unix(documentSnapShot.payload.data().end_date.seconds)
+        .format("YYYY-MM-DD"),
+      end_time: documentSnapShot.payload.data().end_time,
+      location: documentSnapShot.payload.data().location,
+      pages: parseInt(documentSnapShot.payload.data().pages),
+      status: parseInt(documentSnapShot.payload.data().status),
+    });
+    setTags([...documentSnapShot.payload.data().tags]);
   };
 
   const onSubmitEventhandler = (event) => {
     event.preventDefault();
-    const newCampaign = {
-      ...addCampaignDetails,
-      frequency: parseInt(frequency),
-      tags,
-      pages: parseInt(pages),
-      end_date: Timestamp.fromDate(new Date(end_date)),
-      start_date: Timestamp.fromDate(new Date(start_date)),
-      last_crawled_date: Timestamp.fromDate(new Date(start_date)),
-      owner: "Mithun Dominic",
-    };
 
-    if (a__campgaignId) {
+    try {
+      const newCampaign = {
+        ...addCampaignDetails,
+        frequency: parseInt(frequency),
+        tags,
+        pages: parseInt(pages),
+        end_date: Timestamp.fromDate(new Date(end_date)),
+        start_date: Timestamp.fromDate(new Date(start_date)),
+        last_crawled_date: Timestamp.fromDate(new Date(start_date)),
+        owner: "Mithun Dominic",
+      };
+
+      if (a__campgaignId) {
+        dispatch(
+          campaignActions.updateCampaignsAction(a__campgaignId, newCampaign)
+        );
+        dispatch(campaignActions.campaignIDAction(""));
+      } else {
+        dispatch(campaignActions.postCampaignAction(newCampaign));
+      }
+      if (
+        errorFromStore === null ||
+        errorFromStore === undefined ||
+        errorFromStore === ""
+      ) {
+        dispatch(campaignActions.handleClose());
+      } else {
+        dispatch(campaignActions.showModal());
+      }
+      setAddCampaignDetails({
+        name: "",
+        source: "",
+        frequency: "",
+        location: "",
+        start_date: "",
+        start_time: "",
+        last_crawled_date: "",
+        end_date: "",
+        end_time: "",
+        pages: "",
+        status: 1,
+      });
+      setTags([]);
+    } catch (error) {
       dispatch(
-        campaignActions.updateCampaignsAction(a__campgaignId, newCampaign)
+        openAlertAction(
+          `${error.message}. Please provide a valid date`,
+          true,
+          "error"
+        )
       );
-      dispatch(campaignActions.campaignIDAction(""));
-    } else {
-      dispatch(campaignActions.postCampaignAction(newCampaign));
     }
-    if (
-      errorFromStore === null ||
-      errorFromStore === undefined ||
-      errorFromStore === ""
-    ) {
-      dispatch(campaignActions.handleClose());
-    } else {
-      dispatch(campaignActions.showModal());
-    }
-    setAddCampaignDetails({
-      name: "",
-      source: "",
-      frequency: "",
-      location: "",
-      start_date: "",
-      start_time: "",
-      last_crawled_date: "",
-      end_date: "",
-      end_time: "",
-      pages: "",
-      status: 1,
-    });
-    setTags([]);
   };
 
-  function formatDate(date) {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-    return [year, month, day].join("-");
+  let minStartTime;
+  let maxStartTime;
+  let todaysDate = moment().format("YYYY-MM-DD");
+  const difference = moment(start_date).diff(todaysDate, "days");
+  const minTimeDiff = moment(start_time, "HH:mm").add(5, "m").format("HH:mm");
+  const currentTime = moment().format("HH:mm");
+
+  if (difference === 0) {
+    minStartTime = currentTime;
+    maxStartTime = "24:00";
+  } else {
+    minStartTime = "00:00";
+    maxStartTime = "24:00";
   }
   return (
     <React.Fragment>
@@ -208,7 +220,7 @@ function AddCampaginModal() {
           style={{
             fontStyle: "normal",
             fontWeight: "600",
-            fontSize: matches ? "13px" : "14px",
+            fontSize: "14px",
             lineHeight: "17px",
             color: "#1F4173",
           }}
@@ -219,8 +231,6 @@ function AddCampaginModal() {
         onClick={() => {
           dispatch(campaignActions.showModal());
         }}
-
-        className="plus-icons-style"
         style={{
           width: "160px",
           height: "40px",
@@ -232,13 +242,12 @@ function AddCampaginModal() {
       >
         <PlusIcon />
         <span
-        className="add-campaign-button-style"
           style={{
             textTransform: "none",
             height: "17px",
             fontStyle: "normal",
             fontWeight: 600,
-            fontSize: matches ? "13px" : "14px",
+            fontSize: "14px",
             lineHeight: "17px",
             color: " #FFFFFF",
           }}
@@ -331,7 +340,7 @@ function AddCampaginModal() {
                   <option value="indeed_ch">Indeed China</option>
                   <option value="indeed_pt">Indeed Portugal</option>
                   <option value="indeed_sg">Indeed Singapore</option>
-                  <option value="linkedin">Linkedin</option>
+                  <option value="linkedin">LinkedIn</option>
                 </select>
               </Grid>
 
@@ -386,11 +395,8 @@ function AddCampaginModal() {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
-                  min={a__campgaignId ? start_date : formatDate(new Date())}
-                  onKeyDown={(e) => {
-                    e.preventDefault();
-                    dispatch(openAlert("Typing is disabled", true, "error"));
-                  }}
+                  min={todaysDate}
+                  pattern="(?:((?:0[1-9]|1[0-9]|2[0-9])\/(?:0[1-9]|1[0-2])|(?:30)\/(?!02)(?:0[1-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/(?:19|20)[0-9]{2})"
                 />
               </Grid>
 
@@ -402,8 +408,19 @@ function AddCampaginModal() {
                   className="addCampaignModal-timePicker"
                   name="start_time"
                   value={start_time}
+                  disabled={start_date ? false : true}
+                  style={
+                    start_date
+                      ? {}
+                      : {
+                          pointerEvents: "auto",
+                          cursor: "not-allowed",
+                        }
+                  }
                   onChange={onInputChangeHandler}
                   autoComplete="off"
+                  min={minStartTime}
+                  max={maxStartTime}
                   required
                 />
               </Grid>
@@ -420,10 +437,6 @@ function AddCampaginModal() {
                   autoComplete="off"
                   required
                   min={start_date}
-                  onKeyDown={(e) => {
-                    e.preventDefault();
-                    dispatch(openAlert("Typing is disabled", true, "error"));
-                  }}
                 />
               </Grid>
 
@@ -435,6 +448,7 @@ function AddCampaginModal() {
                   className="addCampaignModal-timePicker"
                   name="end_time"
                   value={end_time}
+                  min={minTimeDiff}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
@@ -544,5 +558,5 @@ function AddCampaginModal() {
       </Modal>
     </React.Fragment>
   );
-}
+};
 export default AddCampaginModal;

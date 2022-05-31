@@ -6,12 +6,14 @@ import { extendMoment } from "moment-range";
 import "./DatePicker.scss";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { leadsFilterDate, datePickerState } from "../../../redux/actions/leadsFilter";
+import {
+  leadsFilterDate,
+  datePickerState,
+} from "../../../redux/actions/leadsFilter";
 import { connect } from "react-redux";
 import {
   openDateModal,
   closeDateModal,
-  
 } from "../../../redux/actions/dateModalAction";
 
 const moment = extendMoment(originalMoment);
@@ -24,25 +26,25 @@ class BasicDateRangePicker extends React.Component {
 
     this.state = {
       isOpen: true,
-      value: this.props.leadsFilter.datePickerState === 0 ? moment.range(today.clone().subtract(5, "days"), today.clone()) : this.props.leadsFilter.filterDate,
+      value:
+        this.props.leadsFilter.datePickerState === 0
+          ? moment.range(today.clone().subtract(5, "days"), today.clone())
+          : this.props.leadsFilter.filterDate,
     };
   }
-  
+
   onSelect = (value, states) => {
     this.setState({ value, states });
-
   };
 
   applyDate = () => {
     this.props.leadsFilterDate(this.state.value);
     this.props.closeDateModal();
-    this.props.datePickerState(1)
+    this.props.datePickerState(1);
   };
   closeModal = () => {
     this.props.closeDateModal();
-    
   };
-  
 
   renderSelectionValue = () => {
     return (
@@ -55,7 +57,6 @@ class BasicDateRangePicker extends React.Component {
   };
 
   render() {
-    
     return (
       <>
         <div>
@@ -69,39 +70,10 @@ class BasicDateRangePicker extends React.Component {
         </div>
         <div>
           <Typography className="button-calender">
-            <Button className="button-cancel"
-              onClick={this.closeModal}
-              // style={{
-              //   fontFamily: "Segoe UI",
-              //   textTransform: "none",
-              //   height: "21px",
-              //   width: "64px",
-              //   fontWeight: "600",
-              //   padding: "10px",
-              //   borderRadius: "10px",
-              //   marginLeft: "5px",
-              //   backgroundColor: "#424e62",
-              //   color: "white",
-              // }}
-            >
+            <Button className="button-cancel" onClick={this.closeModal}>
               Cancel
             </Button>
-            <Button className="button-apply"
-              onClick={this.applyDate}
-              // style={{
-              //   fontFamily: "Segoe UI",
-              //   textTransform: "none",
-              //   height: "21px",
-              //   width: "64px",
-              //   fontWeight: "600",
-              //   padding: "10px",
-              //   borderRadius: "10px",
-              //   marginLeft: "5px",
-              //   backgroundColor: "#16C31E",
-              //   color: "white",
-
-              // }}
-            >
+            <Button className="button-apply" onClick={this.applyDate}>
               Apply
             </Button>
           </Typography>
@@ -110,6 +82,16 @@ class BasicDateRangePicker extends React.Component {
     );
   }
 }
-const mapDispatchToProps = { leadsFilterDate, openDateModal, closeDateModal, datePickerState };
-const mapStateToProps = (state) => { return { leadsFilter:state.leadsFilter} }
-export default connect(mapStateToProps, mapDispatchToProps)(BasicDateRangePicker);
+const mapDispatchToProps = {
+  leadsFilterDate,
+  openDateModal,
+  closeDateModal,
+  datePickerState,
+};
+const mapStateToProps = (state) => {
+  return { leadsFilter: state.leadsFilter };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BasicDateRangePicker);

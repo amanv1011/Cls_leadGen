@@ -36,8 +36,10 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-  position: "sticky",
-  height: "100%",
+
+  height: "100vh",
+  postion: "fixed",
+  marginTop: "60px",
 });
 
 const closedMixin = (theme) => ({
@@ -47,8 +49,10 @@ const closedMixin = (theme) => ({
   }),
   overflowX: "hidden",
   border: "none",
-  position: "sticky",
-  height: "100%",
+
+  height: "100vh",
+  postion: "fixed",
+  marginTop: "60px",
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 15%)",
   width: `calc(${theme.spacing(8)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
@@ -63,7 +67,6 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  height: "100%",
 
   ...(open && {
     ...openedMixin(theme),
@@ -79,7 +82,11 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
   const url = window.location.pathname;
   const navigate = useNavigate();
   return (
-    <Box className="box-main" sx={{ display: "flex", border: "none " }}>
+    <Box
+      sx={{ position: "fixed", marginTop: "60px" }}
+      className="box-main"
+      sx={{ display: "flex", border: "none " }}
+    >
       <Drawer className="drawer-main" variant="permanent" open={open}>
         {sideBarList.map((item, index) => (
           <ListItem
@@ -96,14 +103,15 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
             }
             onClick={() => {
               navigate(item.url);
-              // handleDrawerClose();
+              handleDrawerClose();
             }}
           >
             <ListItemIcon className="list-item-icon">{item.icon}</ListItemIcon>
             <ListItemText
               disableTypography
               style={{
-                // fontSize: "12px",
+                fontFamily: "Proxima Nova",
+                fontSize: "14px",
                 fontWeight: 600,
                 lineHeight: "17px",
                 letterSpacing: "0em",

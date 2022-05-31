@@ -32,8 +32,6 @@ export default function UserPopover({
         sx: {
           boxShadow: "0 2px 7px 0 rgba(36, 36, 36, 0.2)",
           borderRadius: "2px",
-          // maxHeight: "233px",
-          // marginTop: "8px",
           marginRight: "14px",
         },
       }}

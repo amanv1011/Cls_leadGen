@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: "8px !important",
     color: "#1E2429",
     fontSize: (styleProps) =>
-      styleProps.fontSize ? styleProps.fontSize : "13px",
+      styleProps.fontSize ? styleProps.fontSize : "16px",
     letterSpacing: "0.35px",
     lineHeight: (styleProps) =>
       styleProps.lineHeight ? styleProps.lineHeight : "19px",

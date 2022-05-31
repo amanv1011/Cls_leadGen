@@ -6,16 +6,13 @@ import Modal from "@mui/material/Modal";
 import BasicDateRangePicker from "./DatePicker";
 import Calendar from "./Calendar";
 import { useSelector, useDispatch } from "react-redux";
-import originalMoment from "moment";
-import { extendMoment } from "moment-range";
+
 import DownArrow from "./DownArrow";
 import {
   openDateModal,
   closeDateModal,
 } from "../../../redux/actions/dateModalAction";
 import { useMediaQuery } from "@mui/material";
-
-const moment = extendMoment(originalMoment);
 
 const style = {
   position: "absolute",
