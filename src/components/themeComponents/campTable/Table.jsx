@@ -17,7 +17,10 @@ import Edit from "./Edit";
 import View from "./View";
 import Delete from "./Delete";
 import Down from "./Down";
-import { get_a_feild_in_a_document } from "../../../services/api/campaign";
+import {
+  get_a_feild_in_a_document,
+  getLastCrawledDate,
+} from "../../../services/api/campaign";
 import CampaignDetailsView from "./CampaignDetailsView";
 import { Link } from "react-router-dom";
 import AlertBeforeAction from "./AlertBeforeAction";
@@ -27,6 +30,8 @@ import * as laedActions from "../../../redux/actions/leadActions";
 import * as leadsFilterActions from "../../../redux/actions/leadsFilter";
 import * as paginationActions from "../../../redux/actions/paginationActions";
 import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
+import moment from "moment";
+import { openAlertAction } from "../../../redux/actions/alertActions";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase": {
@@ -76,7 +81,6 @@ const Table = () => {
   useEffect(() => {
     dispatch(campaignActions.getAllCampaignsAction());
     dispatch(laedActions.getAllLeadsAction());
-    // dispatch(laedActions.getLeadsFullDescriptionAction());
   }, []);
 
   useEffect(() => {
@@ -120,15 +124,20 @@ const Table = () => {
     val.forEach((lead) => {
       let campaignListDataToDownload = {
         "Company name": lead.companyName !== null ? lead.companyName : "NA",
-        Location: lead.location !== "No location" ? "lead.location" : "NA",
-        "Lead generated date": commonFunctions.formatDate(
-          lead.leadGeneratedDate.toDate(),
-          false
-        ),
-        "Lead posted date": commonFunctions.formatDate(
-          lead.leadPostedDate,
-          false
-        ),
+        Location: lead.location !== "No location" ? lead.location : "NA",
+        "Lead generated date":
+          lead.leadGeneratedDate !== null
+            ? moment
+                .unix(
+                  lead.leadGeneratedDate.seconds,
+                  lead.leadGeneratedDate.nanoseconds
+                )
+                .format("MM/DD/YYYY")
+            : "NA",
+        "Lead posted date":
+          lead.leadPostedDate !== null
+            ? moment(lead.leadPostedDate).format("MM/DD/YYYY")
+            : "NA",
         Link: lead.link,
         Summary: lead.summary !== "No summary" ? lead.summary : "NA",
         Title: lead.title,
@@ -147,7 +156,6 @@ const Table = () => {
         campaignListDataToDownload,
       ];
     });
-
     commonFunctions.downloadInExcel(
       updatedleadsListDataToDownload,
       `${campaignListItemName} leads list`
@@ -156,18 +164,23 @@ const Table = () => {
 
   const Viewed = async (campaignListItemId) => {
     setOpenDialog(true);
-    const camapignDetails = await dispatch(
-      campaignActions.getACampaignAction(campaignListItemId)
-    );
-    setViewDetails([
-      {
-        viewDetails:
-          camapignDetails.payload._document.data.value.mapValue.fields,
-        id: camapignDetails.payload.id,
-      },
-    ]);
-  };
+    try {
+      const camapignDetails = await dispatch(
+        campaignActions.getACampaignAction(campaignListItemId)
+      );
 
+      const crawledDate = await getLastCrawledDate(campaignListItemId);
+      setViewDetails([
+        {
+          ...camapignDetails.payload.data(),
+          id: camapignDetails.payload.id,
+          lastCrawledDate: crawledDate[0].last_crawled_date,
+        },
+      ]);
+    } catch (error) {
+      dispatch(openAlertAction(`${error.message}`, true, "error"));
+    }
+  };
   const sortingTable = (col) => {
     const dataToSort = [...campaignListData];
     if (order === "ascendingOrder") {
@@ -204,12 +217,16 @@ const Table = () => {
   };
 
   const statusUpdate = async (event, a__campgaignId) => {
-    if (event.target.checked) {
-      await get_a_feild_in_a_document(a__campgaignId, { status: 1 });
-    } else {
-      await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
+    try {
+      if (event.target.checked) {
+        await get_a_feild_in_a_document(a__campgaignId, { status: 1 });
+      } else {
+        await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
+      }
+      dispatch(campaignActions.getAllCampaignsAction());
+    } catch (error) {
+      dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
-    dispatch(campaignActions.getAllCampaignsAction());
   };
 
   const indexOfLastLead = currentPage * dataPerPage;
@@ -375,6 +392,14 @@ const Table = () => {
               <tbody>
                 {currentCampaigns.length !== 0 &&
                   currentCampaigns.map((campaignListItem) => {
+                    const current_Date = moment().format("YYYY-MM-DD");
+                    const start_Date = moment
+                      .unix(
+                        campaignListItem.start_date.seconds,
+                        campaignListItem.start_date.nanoseconds
+                      )
+                      .format("YYYY-MM-DD");
+
                     return (
                       <React.Fragment key={campaignListItem.id}>
                         <tr>
@@ -444,16 +469,20 @@ const Table = () => {
                           </td>
 
                           <td className="start-date">
-                            {commonFunctions.formatDate(
-                              campaignListItem.start_date.toDate(),
-                              false
-                            )}
+                            {moment
+                              .unix(
+                                campaignListItem.start_date.seconds,
+                                campaignListItem.start_date.nanoseconds
+                              )
+                              .format("MM/DD/YYYY")}
                           </td>
                           <td className="end-date">
-                            {commonFunctions.formatDate(
-                              campaignListItem.end_date.toDate(),
-                              false
-                            )}
+                            {moment
+                              .unix(
+                                campaignListItem.end_date.seconds,
+                                campaignListItem.end_date.nanoseconds
+                              )
+                              .format("MM/DD/YYYY")}
                           </td>
                           <td className="created-by">
                             {campaignListItem.owner}
@@ -512,11 +541,32 @@ const Table = () => {
                             </Tooltip>
 
                             <Tooltip
-                              title={`Edit ${campaignListItem.name}`}
+                              title={
+                                moment(start_Date).isSameOrBefore(current_Date)
+                                  ? `Editing ${campaignListItem.name} disabled`
+                                  : `Edit ${campaignListItem.name}`
+                              }
                               arrow
                             >
                               <span>
                                 <IconButton
+                                  disabled={
+                                    moment(start_Date).isSameOrBefore(
+                                      current_Date
+                                    )
+                                      ? true
+                                      : false
+                                  }
+                                  style={
+                                    moment(start_Date).isSameOrBefore(
+                                      current_Date
+                                    )
+                                      ? {
+                                          pointerEvents: "auto",
+                                          cursor: "not-allowed",
+                                        }
+                                      : {}
+                                  }
                                   onClick={() => {
                                     dispatch(
                                       campaignActions.campaignIDAction(

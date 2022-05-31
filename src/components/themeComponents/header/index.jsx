@@ -5,6 +5,7 @@ import BasicTabs from "../tabs";
 import Popup from "../../themeComponents/popup";
 import { useSelector } from "react-redux";
 import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
+import moment from "moment";
 
 const Header = () => {
   const searchedCampaignList = useSelector(
@@ -67,18 +68,22 @@ const Header = () => {
                   }
 
                   let campaignListDataToDownload = {
-                    "Campaign name": campaign.name,
+                    "Campaign Name": campaign.name,
                     Location: campaign.location,
-                    "Start date": commonFunctions.formatDate(
-                      campaign.start_date.toDate(),
-                      false
-                    ),
-                    "Start time": campaign.start_time,
-                    "End date": commonFunctions.formatDate(
-                      campaign.end_date.toDate(),
-                      false
-                    ),
-                    "End time": campaign.end_time,
+                    "Start Date": moment
+                      .unix(
+                        campaign.start_date.seconds,
+                        campaign.start_date.nanoseconds
+                      )
+                      .format("MM/DD/YYYY"),
+                    "Start Time": campaign.start_time,
+                    "End Date": moment
+                      .unix(
+                        campaign.end_date.seconds,
+                        campaign.end_date.nanoseconds
+                      )
+                      .format("MM/DD/YYYY"),
+                    "End Time": campaign.end_time,
                     "Number of times the campign runs per day":
                       campaign.frequency,
                     "Number of leads generated": campaign.leadsNo,
@@ -95,7 +100,6 @@ const Header = () => {
                     campaignListDataToDownload,
                   ];
                 });
-
                 commonFunctions.downloadInExcel(
                   updatedcampaignListDataToDownload,
                   "List of Campigns"

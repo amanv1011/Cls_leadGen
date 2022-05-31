@@ -6,30 +6,31 @@ import { Timestamp } from "firebase/firestore";
 import "./popup.scss";
 import PlusIcon from "./PlusIcon";
 import IInput from "../input/index";
-import { openAlert } from "../../../redux/actions/alertActions";
-import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
+import moment from "moment";
+import { openAlertAction } from "../../../redux/actions/alertActions";
 
-function AddCampaginModal() {
-  const style = {
-    position: "absolute",
-    display: "flex",
-    flexWrap: "wrap",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "910px",
-    bgcolor: "#FFFFFF",
-    borderRadius: "15px",
-    border: "none",
-    outline: "none",
-  };
+const style = {
+  position: "absolute",
+  display: "flex",
+  flexWrap: "wrap",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "910px",
+  bgcolor: "#FFFFFF",
+  borderRadius: "15px",
+  border: "none",
+  outline: "none",
+};
 
+const AddCampaginModal = () => {
   const dispatch = useDispatch();
-  const statesInReduxStore = useSelector((state) => state);
 
-  const isModalOpen = statesInReduxStore.allCampaigns.isModalVisible;
-  const a__campgaignId = statesInReduxStore.allCampaigns.a__campgaign__Id;
-  const errorFromStore = statesInReduxStore.allCampaigns.error;
+  const isModalOpen = useSelector((state) => state.allCampaigns.isModalVisible);
+  const a__campgaignId = useSelector(
+    (state) => state.allCampaigns.a__campgaign__Id
+  );
+  const errorFromStore = useSelector((state) => state.allCampaigns.error);
 
   const [addCampaignDetails, setAddCampaignDetails] = useState({
     name: "",
@@ -58,6 +59,7 @@ function AddCampaginModal() {
   } = addCampaignDetails;
 
   const [tags, setTags] = useState([]);
+
   const onInputChangeHandler = (event) => {
     const { name, value } = event.target;
     setAddCampaignDetails({ ...addCampaignDetails, [name]: value });
@@ -65,7 +67,7 @@ function AddCampaginModal() {
 
   const tagInputChange = (event) => {
     const newarrayValue = event.target.value;
-    setTags(newarrayValue.split("," || ""));
+    setTags(newarrayValue.split(","));
   };
 
   useEffect(() => {
@@ -116,15 +118,13 @@ function AddCampaginModal() {
       name: documentSnapShot.payload.data().name,
       source: documentSnapShot.payload.data().source,
       frequency: parseInt(documentSnapShot.payload.data().frequency),
-      start_date: commonFunctions.formatDate(
-        documentSnapShot.payload.data().start_date.toDate(),
-        true
-      ),
+      start_date: moment
+        .unix(documentSnapShot.payload.data().start_date.seconds)
+        .format("YYYY-MM-DD"),
       start_time: documentSnapShot.payload.data().start_time,
-      end_date: commonFunctions.formatDate(
-        documentSnapShot.payload.data().end_date.toDate(),
-        true
-      ),
+      end_date: moment
+        .unix(documentSnapShot.payload.data().end_date.seconds)
+        .format("YYYY-MM-DD"),
       end_time: documentSnapShot.payload.data().end_time,
       location: documentSnapShot.payload.data().location,
       pages: parseInt(documentSnapShot.payload.data().pages),
@@ -135,57 +135,75 @@ function AddCampaginModal() {
 
   const onSubmitEventhandler = (event) => {
     event.preventDefault();
-    const newCampaign = {
-      ...addCampaignDetails,
-      frequency: parseInt(frequency),
-      tags,
-      pages: parseInt(pages),
-      end_date: Timestamp.fromDate(new Date(end_date)),
-      start_date: Timestamp.fromDate(new Date(start_date)),
-      last_crawled_date: Timestamp.fromDate(new Date(start_date)),
-      owner: "Mithun Dominic",
-    };
 
-    if (a__campgaignId) {
+    try {
+      const newCampaign = {
+        ...addCampaignDetails,
+        frequency: parseInt(frequency),
+        tags,
+        pages: parseInt(pages),
+        end_date: Timestamp.fromDate(new Date(end_date)),
+        start_date: Timestamp.fromDate(new Date(start_date)),
+        last_crawled_date: Timestamp.fromDate(new Date(start_date)),
+        owner: "Mithun Dominic",
+      };
+
+      if (a__campgaignId) {
+        dispatch(
+          campaignActions.updateCampaignsAction(a__campgaignId, newCampaign)
+        );
+        dispatch(campaignActions.campaignIDAction(""));
+      } else {
+        dispatch(campaignActions.postCampaignAction(newCampaign));
+      }
+      if (
+        errorFromStore === null ||
+        errorFromStore === undefined ||
+        errorFromStore === ""
+      ) {
+        dispatch(campaignActions.handleClose());
+      } else {
+        dispatch(campaignActions.showModal());
+      }
+      setAddCampaignDetails({
+        name: "",
+        source: "",
+        frequency: "",
+        location: "",
+        start_date: "",
+        start_time: "",
+        last_crawled_date: "",
+        end_date: "",
+        end_time: "",
+        pages: "",
+        status: 1,
+      });
+      setTags([]);
+    } catch (error) {
       dispatch(
-        campaignActions.updateCampaignsAction(a__campgaignId, newCampaign)
+        openAlertAction(
+          `${error.message}. Please provide a valid date`,
+          true,
+          "error"
+        )
       );
-      dispatch(campaignActions.campaignIDAction(""));
-    } else {
-      dispatch(campaignActions.postCampaignAction(newCampaign));
     }
-    if (
-      errorFromStore === null ||
-      errorFromStore === undefined ||
-      errorFromStore === ""
-    ) {
-      dispatch(campaignActions.handleClose());
-    } else {
-      dispatch(campaignActions.showModal());
-    }
-    setAddCampaignDetails({
-      name: "",
-      source: "",
-      frequency: "",
-      location: "",
-      start_date: "",
-      start_time: "",
-      last_crawled_date: "",
-      end_date: "",
-      end_time: "",
-      pages: "",
-      status: 1,
-    });
-    setTags([]);
   };
 
-  let hourtime = start_time.split(":")[0];
-  let secondsTime = (Number(start_time.split(":")[1]) + 5).toString();
-  if (secondsTime < 10) {
-    secondsTime = 0 + secondsTime;
-  }
-  const minimumEndTime = hourtime + ":" + secondsTime;
+  let minStartTime;
+  let maxStartTime;
+  let todaysDate = moment().format("YYYY-MM-DD");
+  const difference = moment(start_date).diff(todaysDate, "days");
+  const minTimeDiff = moment(start_time, "HH:mm").add(5, "m").format("HH:mm");
+  const currentTime = moment().format("HH:mm");
 
+  if (difference === 0) {
+    minStartTime = currentTime;
+    maxStartTime = "24:00";
+  } else {
+    minStartTime = "00:00";
+    maxStartTime = "24:00";
+  }
   return (
     <React.Fragment>
       <div className="add" style={{ display: "-webkit-inline-box" }}>
@@ -377,8 +395,8 @@ function AddCampaginModal() {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
-                  min={commonFunctions.formatDate(new Date(), true)}
-                  // pattern="(?:((?:0[1-9]|1[0-9]|2[0-9])\/(?:0[1-9]|1[0-2])|(?:30)\/(?!02)(?:0[1-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/(?:19|20)[0-9]{2})"
+                  min={todaysDate}
+                  pattern="(?:((?:0[1-9]|1[0-9]|2[0-9])\/(?:0[1-9]|1[0-2])|(?:30)\/(?!02)(?:0[1-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/(?:19|20)[0-9]{2})"
                 />
               </Grid>
 
@@ -390,9 +408,19 @@ function AddCampaginModal() {
                   className="addCampaignModal-timePicker"
                   name="start_time"
                   value={start_time}
+                  disabled={start_date ? false : true}
+                  style={
+                    start_date
+                      ? {}
+                      : {
+                          pointerEvents: "auto",
+                          cursor: "not-allowed",
+                        }
+                  }
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  min={new Date().getHours() + ":" + new Date().getMinutes()}
+                  min={minStartTime}
+                  max={maxStartTime}
                   required
                 />
               </Grid>
@@ -409,10 +437,6 @@ function AddCampaginModal() {
                   autoComplete="off"
                   required
                   min={start_date}
-                  // onKeyDown={(e) => {
-                  //   e.preventDefault();
-                  //   dispatch(openAlert("Typing is disabled", true, "error"));
-                  // }}
                 />
               </Grid>
 
@@ -424,11 +448,10 @@ function AddCampaginModal() {
                   className="addCampaignModal-timePicker"
                   name="end_time"
                   value={end_time}
-                  // min={start_time}
+                  min={minTimeDiff}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
-                  min={minimumEndTime}
                 />
               </Grid>
 
@@ -535,5 +558,5 @@ function AddCampaginModal() {
       </Modal>
     </React.Fragment>
   );
-}
+};
 export default AddCampaginModal;

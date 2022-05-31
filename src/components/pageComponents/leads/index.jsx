@@ -12,6 +12,7 @@ import Archive from "../../commonComponents/lead/Archive";
 import LeadsHeader from "./leadsHeader";
 import PaginationComponent from "../../commonComponents/PaginationComponent/index";
 import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
+import moment from "moment";
 
 const Leads = () => {
   const totalCount = useSelector((state) => state.paginationStates.totalCount);
@@ -26,15 +27,20 @@ const Leads = () => {
     leadsList.forEach((lead) => {
       let campaignListDataToDownload = {
         "Company name": lead.companyName !== null ? lead.companyName : "NA",
-        Location: lead.location !== "No location" ? "lead.location" : "NA",
-        "Lead generated date": commonFunctions.formatDate(
-          lead.leadGeneratedDate.toDate(),
-          false
-        ),
-        "Lead posted date": commonFunctions.formatDate(
-          lead.leadPostedDate,
-          false
-        ),
+        Location: lead.location !== "No location" ? lead.location : "NA",
+        "Lead generated date":
+          lead.leadGeneratedDate !== null
+            ? moment
+                .unix(
+                  lead.leadGeneratedDate.seconds,
+                  lead.leadGeneratedDate.nanoseconds
+                )
+                .format("MM/DD/YYYY")
+            : "NA",
+        "Lead posted date":
+          lead.leadPostedDate !== null
+            ? moment(lead.leadPostedDate).format("MM/DD/YYYY")
+            : "NA",
         Link: lead.link,
         Summary: lead.summary !== "No summary" ? lead.summary : "NA",
         Title: lead.title,

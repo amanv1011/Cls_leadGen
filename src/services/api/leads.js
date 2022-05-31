@@ -15,7 +15,7 @@ export const getLeadsList = async () => {
 
 export const getLeadsFullDescription = async () => {
   try {
-    const leadsSnapshot = await getDocs(query(fullDescriptionCollection));
+    const leadsSnapshot = await getDocs(fullDescriptionCollection);
     const fullDescriptionList = leadsSnapshot.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
