@@ -1,6 +1,6 @@
 import * as types from "../type";
 import * as campaignServices from "../../services/api/campaign";
-import { openAlert } from "./alertActions";
+import { openAlertAction } from "./alertActions";
 
 export const getACampaignAction = (a__campgaignId) => {
   return async (dispatch) => {
@@ -33,7 +33,7 @@ export const getAllCampaignsAction = () => {
         dispatch({
           type: types.GET_CAMPAIGN_LIST_ERROR,
         });
-        return dispatch(openAlert(response.message, true, "error"));
+        return dispatch(openAlertAction(response.message, true, "error"));
       } else {
         dispatch({
           type: types.GET_CAMPAIGN_LIST_SUCCESS,
@@ -45,7 +45,7 @@ export const getAllCampaignsAction = () => {
         type: types.GET_CAMPAIGN_LIST_ERROR,
         payload: err,
       });
-      return dispatch(openAlert(err.message, true, "error"));
+      return dispatch(openAlertAction(err.message, true, "error"));
     }
   };
 };
@@ -61,21 +61,21 @@ export const postCampaignAction = (data) => {
           payload: { ...data, id: addDoc.id },
         });
         return dispatch(
-          openAlert("Campaign Added successfully", true, "success")
+          openAlertAction("Campaign Added successfully", true, "success")
         );
       } else {
         dispatch({
           type: types.POST_CAMPAIGN_DATA_ERROR,
           payload: addDoc.message,
         });
-        return dispatch(openAlert(addDoc.message, true, "error"));
+        return dispatch(openAlertAction(addDoc.message, true, "error"));
       }
     } catch (err) {
       dispatch({
         type: types.POST_CAMPAIGN_DATA_ERROR,
         payload: err.message,
       });
-      return dispatch(openAlert(err.message, true, "error"));
+      return dispatch(openAlertAction(err.message, true, "error"));
     }
   };
 };
@@ -90,21 +90,21 @@ export const deleteCampaignsAction = (campaignId) => {
           payload: response,
         });
         return dispatch(
-          openAlert("Campaign Deleted successfully", true, "success")
+          openAlertAction("Campaign Deleted successfully", true, "success")
         );
       } else {
         dispatch({
           type: types.DELETE_CAMPAIGN_DATA_ERROR,
           payload: response.message,
         });
-        return dispatch(openAlert(response.message, true, "error"));
+        return dispatch(openAlertAction(response.message, true, "error"));
       }
     } catch (err) {
       dispatch({
         type: types.DELETE_CAMPAIGN_DATA_ERROR,
         payload: err.message,
       });
-      return dispatch(openAlert(err.message, true, "error"));
+      return dispatch(openAlertAction(err.message, true, "error"));
     }
   };
 };
@@ -123,21 +123,21 @@ export const updateCampaignsAction = (campaignId, campaignUpdateObject) => {
           payload: { ...campaignUpdateObject, id: campaignId },
         });
         return dispatch(
-          openAlert("Campaign Updated successfully", true, "success")
+          openAlertAction("Campaign Updated successfully", true, "success")
         );
       } else {
         dispatch({
           type: types.UPDATE_CAMPAIGN_DATA_ERROR,
           payload: res.message,
         });
-        return dispatch(openAlert(res.message, true, "error"));
+        return dispatch(openAlertAction(res.message, true, "error"));
       }
     } catch (err) {
       dispatch({
         type: types.UPDATE_CAMPAIGN_DATA_ERROR,
         payload: err.message,
       });
-      return dispatch(openAlert(err.message, true, "error"));
+      return dispatch(openAlertAction(err.message, true, "error"));
     }
   };
 };

@@ -89,7 +89,7 @@ const Header = () => {
                     "Number of leads generated": campaign.leadsNo,
                     "Campaign created by": campaign.owner,
                     "Source of the campaign": sourceType,
-                    "Status of the ampaign":
+                    "Status of the campaign":
                       campaign.status && campaign.status === 1
                         ? "Active"
                         : "In-Active",

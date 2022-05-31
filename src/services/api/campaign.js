@@ -1,5 +1,8 @@
 import * as firebaseMethods from "firebase/firestore";
-import { campgaignCollection } from "../firebase/collections";
+import {
+  campgaignCollection,
+  crawledDataCollection,
+} from "../firebase/collections";
 import { firestore } from "../firebase/firebaseInit";
 
 export const get_a_feild_in_a_document = async (
@@ -38,10 +41,12 @@ export const getCampaignList = async () => {
         firebaseMethods.orderBy("status", "desc")
       )
     );
+
     const CompaignList = campaignSnaphot.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
+
     return CompaignList;
   } catch (err) {
     return err;
@@ -73,6 +78,21 @@ export const updateCampaignData = async (campaignId, campaignUpdateObject) => {
       campaignUpdate,
       campaignUpdateObject
     );
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getLastCrawledDate = async (campaignId) => {
+  try {
+    const crawledDataSnaphot = await firebaseMethods.getDocs(
+      crawledDataCollection
+    );
+    const CompaignList = crawledDataSnaphot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    return CompaignList.filter((item) => item.campaign_id === campaignId);
   } catch (err) {
     return err;
   }

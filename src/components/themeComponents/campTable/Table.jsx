@@ -17,7 +17,10 @@ import Edit from "./Edit";
 import View from "./View";
 import Delete from "./Delete";
 import Down from "./Down";
-import { get_a_feild_in_a_document } from "../../../services/api/campaign";
+import {
+  get_a_feild_in_a_document,
+  getLastCrawledDate,
+} from "../../../services/api/campaign";
 import CampaignDetailsView from "./CampaignDetailsView";
 import { Link } from "react-router-dom";
 import AlertBeforeAction from "./AlertBeforeAction";
@@ -28,6 +31,7 @@ import * as leadsFilterActions from "../../../redux/actions/leadsFilter";
 import * as paginationActions from "../../../redux/actions/paginationActions";
 import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
 import moment from "moment";
+import { openAlertAction } from "../../../redux/actions/alertActions";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase": {
@@ -160,18 +164,23 @@ const Table = () => {
 
   const Viewed = async (campaignListItemId) => {
     setOpenDialog(true);
-    const camapignDetails = await dispatch(
-      campaignActions.getACampaignAction(campaignListItemId)
-    );
-    setViewDetails([
-      {
-        viewDetails:
-          camapignDetails.payload._document.data.value.mapValue.fields,
-        id: camapignDetails.payload.id,
-      },
-    ]);
-  };
+    try {
+      const camapignDetails = await dispatch(
+        campaignActions.getACampaignAction(campaignListItemId)
+      );
 
+      const crawledDate = await getLastCrawledDate(campaignListItemId);
+      setViewDetails([
+        {
+          ...camapignDetails.payload.data(),
+          id: camapignDetails.payload.id,
+          lastCrawledDate: crawledDate[0].last_crawled_date,
+        },
+      ]);
+    } catch (error) {
+      dispatch(openAlertAction(`${error.message}`, true, "error"));
+    }
+  };
   const sortingTable = (col) => {
     const dataToSort = [...campaignListData];
     if (order === "ascendingOrder") {
@@ -208,12 +217,16 @@ const Table = () => {
   };
 
   const statusUpdate = async (event, a__campgaignId) => {
-    if (event.target.checked) {
-      await get_a_feild_in_a_document(a__campgaignId, { status: 1 });
-    } else {
-      await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
+    try {
+      if (event.target.checked) {
+        await get_a_feild_in_a_document(a__campgaignId, { status: 1 });
+      } else {
+        await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
+      }
+      dispatch(campaignActions.getAllCampaignsAction());
+    } catch (error) {
+      dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
-    dispatch(campaignActions.getAllCampaignsAction());
   };
 
   const indexOfLastLead = currentPage * dataPerPage;

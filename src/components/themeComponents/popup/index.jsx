@@ -7,7 +7,7 @@ import "./popup.scss";
 import PlusIcon from "./PlusIcon";
 import IInput from "../input/index";
 import moment from "moment";
-import { openAlert } from "../../../redux/actions/alertActions";
+import { openAlertAction } from "../../../redux/actions/alertActions";
 
 const style = {
   position: "absolute",
@@ -25,11 +25,12 @@ const style = {
 
 const AddCampaginModal = () => {
   const dispatch = useDispatch();
-  const statesInReduxStore = useSelector((state) => state);
 
-  const isModalOpen = statesInReduxStore.allCampaigns.isModalVisible;
-  const a__campgaignId = statesInReduxStore.allCampaigns.a__campgaign__Id;
-  const errorFromStore = statesInReduxStore.allCampaigns.error;
+  const isModalOpen = useSelector((state) => state.allCampaigns.isModalVisible);
+  const a__campgaignId = useSelector(
+    (state) => state.allCampaigns.a__campgaign__Id
+  );
+  const errorFromStore = useSelector((state) => state.allCampaigns.error);
 
   const [addCampaignDetails, setAddCampaignDetails] = useState({
     name: "",
@@ -180,7 +181,7 @@ const AddCampaginModal = () => {
       setTags([]);
     } catch (error) {
       dispatch(
-        openAlert(
+        openAlertAction(
           `${error.message}. Please provide a valid date`,
           true,
           "error"
