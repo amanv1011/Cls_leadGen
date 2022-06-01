@@ -3,6 +3,7 @@ import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import "./CampaignDetailsView.scss";
+import moment from "moment";
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -37,6 +38,7 @@ export default function CampaignDetailsView({
     setOpenDialog(false);
   };
   //added custom classname to override mui css
+
   return (
     <React.Fragment>
       <Dialog
@@ -54,46 +56,28 @@ export default function CampaignDetailsView({
         {viewDetails.map((viewDetail) => {
           let sourceType = "";
 
-          if (viewDetail.viewDetails.source.stringValue === "seek_aus") {
+          if (viewDetail.source === "seek_aus") {
             sourceType = "Seek Australia";
-          } else if (
-            viewDetail.viewDetails.source.stringValue === "indeed_aus"
-          ) {
+          } else if (viewDetail.source === "indeed_aus") {
             sourceType = "Indeed Australia";
-          } else if (
-            viewDetail.viewDetails.source.stringValue === "indeed_ca"
-          ) {
+          } else if (viewDetail.source === "indeed_ca") {
             sourceType = "Indeed Canada";
-          } else if (
-            viewDetail.viewDetails.source.stringValue === "indeed_uk"
-          ) {
+          } else if (viewDetail.source === "indeed_uk") {
             sourceType = "Indeed United";
-          } else if (
-            viewDetail.viewDetails.source.stringValue === "indeed_il"
-          ) {
+          } else if (viewDetail.source === "indeed_il") {
             sourceType = "Indeed Italy";
-          } else if (
-            viewDetail.viewDetails.source.stringValue === "indeed_ae"
-          ) {
+          } else if (viewDetail.source === "indeed_ae") {
             sourceType = "Indeed UAE";
-          } else if (
-            viewDetail.viewDetails.source.stringValue === "indeed_fi"
-          ) {
+          } else if (viewDetail.source === "indeed_fi") {
             sourceType = "Indeed Finland";
-          } else if (
-            viewDetail.viewDetails.source.stringValue === "indeed_ch"
-          ) {
+          } else if (viewDetail.source === "indeed_ch") {
             sourceType = "Indeed China";
-          } else if (
-            viewDetail.viewDetails.source.stringValue === "indeed_pt"
-          ) {
+          } else if (viewDetail.source === "indeed_pt") {
             sourceType = "Indeed Portugal";
-          } else if (
-            viewDetail.viewDetails.source.stringValue === "indeed_sg"
-          ) {
+          } else if (viewDetail.source === "indeed_sg") {
             sourceType = "Indeed Singapore";
           } else {
-            sourceType = "Linkedin";
+            sourceType = "LinkedIn";
           }
           return (
             <React.Fragment key={viewDetail.id}>
@@ -102,7 +86,7 @@ export default function CampaignDetailsView({
                 onClose={handleClose}
                 className={"view-dialoge-title"}
               >
-                {viewDetail.viewDetails.name.stringValue}
+                {viewDetail.name}
               </BootstrapDialogTitle>
               <DialogContent dividers className="view-dialoge-content">
                 <div className="main-container">
@@ -127,9 +111,7 @@ export default function CampaignDetailsView({
                     </div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
-                        {viewDetail.viewDetails.tags.arrayValue.values.map(
-                          (item) => `${item.stringValue} `
-                        )}
+                        {viewDetail.tags.toString()}
                       </div>
                     </div>
                   </div>
@@ -143,7 +125,7 @@ export default function CampaignDetailsView({
                     </div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
-                        {viewDetail.viewDetails.frequency.integerValue}
+                        {viewDetail.frequency}
                       </div>
                     </div>
                   </div>
@@ -152,9 +134,12 @@ export default function CampaignDetailsView({
                     <div className="label-campaign-view">Start Date</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
-                        {viewDetail.viewDetails.start_date.timestampValue
-                          .toString()
-                          .slice(0, 10)}
+                        {moment
+                          .unix(
+                            viewDetail.start_date.seconds,
+                            viewDetail.start_date.nanoseconds
+                          )
+                          .format("MM/DD/YYYY")}
                       </div>
                     </div>
                   </div>
@@ -163,7 +148,7 @@ export default function CampaignDetailsView({
                     <div className="label-campaign-view">Start Time</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
-                        {viewDetail.viewDetails.start_time.stringValue}
+                        {viewDetail.start_time}
                       </div>
                     </div>
                   </div>
@@ -172,9 +157,12 @@ export default function CampaignDetailsView({
                     <div className="label-campaign-view">End date</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
-                        {viewDetail.viewDetails.end_date.timestampValue
-                          .toString()
-                          .slice(0, 10)}
+                        {moment
+                          .unix(
+                            viewDetail.end_date.seconds,
+                            viewDetail.end_date.nanoseconds
+                          )
+                          .format("MM/DD/YYYY")}
                       </div>
                     </div>
                   </div>
@@ -182,20 +170,14 @@ export default function CampaignDetailsView({
                   <div className="label-container">
                     <div className="label-campaign-view">End Time</div>
                     <div className="grid-campaign-view">
-                      <div className="campaign-text">
-                        {" "}
-                        {viewDetail.viewDetails.end_time.stringValue}
-                      </div>
+                      <div className="campaign-text">{viewDetail.end_time}</div>
                     </div>
                   </div>
 
                   <div className="label-container">
                     <div className="label-campaign-view">Location</div>
                     <div className="grid-campaign-view">
-                      <div className="campaign-text">
-                        {" "}
-                        {viewDetail.viewDetails.location.stringValue}
-                      </div>
+                      <div className="campaign-text">{viewDetail.location}</div>
                     </div>
                   </div>
 
@@ -204,10 +186,7 @@ export default function CampaignDetailsView({
                       Extract No. Of Pages(s)
                     </div>
                     <div className="grid-campaign-view">
-                      <div className="campaign-text">
-                        {" "}
-                        {viewDetail.viewDetails.pages.integerValue}
-                      </div>
+                      <div className="campaign-text">{viewDetail.pages}</div>
                     </div>
                   </div>
 
@@ -217,9 +196,7 @@ export default function CampaignDetailsView({
                     </div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
-                        {parseInt(viewDetail.viewDetails.status.integerValue)
-                          ? "Active"
-                          : "In-Active"}
+                        {parseInt(viewDetail.status) ? "Active" : "In-Active"}
                       </div>
                     </div>
                   </div>
@@ -227,10 +204,7 @@ export default function CampaignDetailsView({
                   <div className="label-container">
                     <div className="label-campaign-view">Created By</div>
                     <div className="grid-campaign-view">
-                      <div className="campaign-text">
-                        {" "}
-                        {viewDetail.viewDetails.owner.stringValue}
-                      </div>
+                      <div className="campaign-text">{viewDetail.owner}</div>
                     </div>
                   </div>
 
@@ -238,9 +212,15 @@ export default function CampaignDetailsView({
                     <div className="label-campaign-view">Last crawled Date</div>
                     <div className="grid-campaign-view">
                       <div className="campaign-text">
-                        {viewDetail.viewDetails.last_crawled_date.timestampValue
-                          .toString()
-                          .slice(0, 10)}
+                        {viewDetail.lastCrawledDate &&
+                        viewDetail.lastCrawledDate !== undefined
+                          ? moment
+                              .unix(
+                                viewDetail.lastCrawledDate.seconds,
+                                viewDetail.lastCrawledDate.nanoseconds
+                              )
+                              .format("MM/DD/YYYY")
+                          : "NA"}
                       </div>
                     </div>
                   </div>

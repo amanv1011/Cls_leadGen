@@ -1,4 +1,8 @@
-import { getLeadsList, approvRejectLeads } from "../../services/api/leads";
+import {
+  getLeadsList,
+  approvRejectLeads,
+  getLeadsFullDescription,
+} from "../../services/api/leads";
 import {
   GET_LEADS_LIST_PENDING,
   GET_LEADS_LIST_SUCCESS,
@@ -7,6 +11,9 @@ import {
   GET_LEADS_UPDATESTATUS_SUCCESS,
   GET_LEADS_UPDATESTATUS_ERROR,
   CARDS_DISPLAYED,
+  GET_LEADS_LIST_FULL_DESCRIPTION_PENDING,
+  GET_LEADS_LIST_FULL_DESCRIPTION_SUCCESS,
+  GET_LEADS_LIST_FULL_DESCRIPTION_ERROR,
 } from "../type";
 
 export const getAllLeadsAction = () => {
@@ -26,6 +33,28 @@ export const getAllLeadsAction = () => {
         });
       } else {
         dispatch({ type: GET_LEADS_LIST_ERROR });
+      }
+    }
+  };
+};
+
+export const getLeadsFullDescriptionAction = () => {
+  return async (dispatch) => {
+    dispatch({ type: GET_LEADS_LIST_FULL_DESCRIPTION_PENDING, loading: true });
+    try {
+      const res = await getLeadsFullDescription();
+      return dispatch({
+        type: GET_LEADS_LIST_FULL_DESCRIPTION_SUCCESS,
+        payload: res,
+      });
+    } catch (err) {
+      if (!!err && !!err.response && !!err.response.data) {
+        dispatch({
+          type: GET_LEADS_LIST_FULL_DESCRIPTION_ERROR,
+          payload: err,
+        });
+      } else {
+        dispatch({ type: GET_LEADS_LIST_FULL_DESCRIPTION_ERROR });
       }
     }
   };

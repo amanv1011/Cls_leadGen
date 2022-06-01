@@ -165,11 +165,14 @@ const Dashboard = ({ children }) => {
         <Navbar open={open} handleDrawer={handleDrawer} />
       </div>
       <div className="dashboard-container">
-        <SideBar
-          open={open}
-          handleDrawer={handleDrawer}
-          handleDrawerClose={handleDrawerClose}
-        />
+        <div>
+          <SideBar
+            open={open}
+            handleDrawer={handleDrawer}
+            handleDrawerClose={handleDrawerClose}
+          />
+        </div>
+
         <Box component="div" className="dshboard-content">
           <Box
             style={{
@@ -199,7 +202,7 @@ const Dashboard = ({ children }) => {
                     barName={"TOTAL"}
                     innerColor={"#EFECFF"}
                   />
-                  <div>
+                  <div style={{ marginLeft: "10px" }}>
                     <h3 className="dash-card-head">{totalCamp}</h3>
                     <p className="dash-card-subhead">Total Campaigns</p>
                   </div>
@@ -240,7 +243,7 @@ const Dashboard = ({ children }) => {
                     style={{
                       marginLeft: "10px",
                       display: "flex",
-                      paddingBottom: "9px",
+                      paddingBottom: "16px",
                       paddingTop: "9px",
                     }}
                   >

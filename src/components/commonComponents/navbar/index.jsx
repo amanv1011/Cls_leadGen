@@ -7,7 +7,6 @@ import Logo from "../../../assets/Logo.svg";
 import avatar from "../../../assets/avatar.png";
 import backButton from "../../../assets/backButton.svg";
 import UserPopover from "../../themeComponents/userPopover";
-import NotificationZero from "../../../assets/icons/NotificationZero.svg";
 import Dropdown from "../../../assets/icons/Dropdown.svg";
 
 const drawerWidth = 400;
@@ -52,7 +51,7 @@ const Navbar = ({ handleDrawer }) => {
     setOpenPopUp(true);
   };
   return (
-    <AppBar position="static" sx={{ height: "60px", boxSizing: "border-box" }}>
+    <AppBar position="fixed" sx={{ height: "60px" }}>
       <Container
         maxWidth="100%"
         sx={{ width: "100%", height: "100%" }}
@@ -77,16 +76,7 @@ const Navbar = ({ handleDrawer }) => {
           />
         </Box>
         <Box style={{ display: "flex", alignItems: "center" }}>
-          <Box>
-            {" "}
-            {/* <IconButton className="notification">
-              <img
-                src={NotificationZero}
-                alt="notifications"
-                className="notification-icon"
-              />
-            </IconButton> */}
-          </Box>
+          <Box></Box>
           <Box
             component={"div"}
             className="user-profile-container"
