@@ -16,10 +16,7 @@ import "./lead.scss";
 import { useSelector } from "react-redux";
 import { setTotalCount } from "../../../redux/actions/paginationActions";
 import Loader from "../../themeComponents/Loader";
-import {
-  cardsDisplayAction,
-  getLeadsFullDescriptionAction,
-} from "../../../redux/actions/leadActions";
+import { cardsDisplayAction } from "../../../redux/actions/leadActions";
 import indeedLogo3 from "../../../assets/icons/indeedLogo3.jpg";
 
 const Cards = (props) => {
@@ -37,8 +34,8 @@ const Cards = (props) => {
   useEffect(() => {
     dispatch(setTotalCount(leadsData.length));
     dispatch(cardsDisplayAction(leadsData));
-    dispatch(getLeadsFullDescriptionAction());
   }, [leadsData.length]);
+
   let approveButton = (event) => {
     dispatch(updateLeadStatus(event.target.value, 1));
   };

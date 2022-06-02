@@ -1,10 +1,15 @@
 import { Divider } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
 import LeadDescription from "../../commonComponents/leadDescription";
 import IButton from "../../themeComponents/button";
 import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
 import "./leads.scss";
+import LeadsCheckbox from "./LeadsCheckbox";
+import LeadsDisplay from "./LeadsDisplay";
+import LeadsMenu from "./LeadsMenu";
+import LeadsSearch from "./LeadsSearch";
+import { useSelector, useDispatch } from "react-redux";
 
 const Leads2 = () => {
   //Onkar's Workspace
@@ -28,6 +33,24 @@ const Leads2 = () => {
   // };
 
   //Onkar's Workspace
+  const dispatch = useDispatch();
+
+  const leadsAllCount = useSelector(
+    (state) => state.approveRejectCount.allCount
+  );
+  const leadsAprrovedCount = useSelector(
+    (state) => state.approveRejectCount.approveCount
+  );
+  const leadsUnderReviewCount = useSelector(
+    (state) => state.approveRejectCount.underreviewCount
+  );
+  const leadsRejectedCount = useSelector(
+    (state) => state.approveRejectCount.rejectCount
+  );
+  const leadsArchievedCount = useSelector(
+    (state) => state.approveRejectCount.archieveCount
+  );
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <Box component="div" className="leads-container">
@@ -40,7 +63,23 @@ const Leads2 = () => {
       />
       <Box component={"div"} className="leads-body">
         <Box component={"div"} className="section leads-list">
-          List Here
+          <LeadsSearch />
+          <Box component={"div"} className="section checkbox-menu">
+            <LeadsCheckbox
+              label={"All"}
+              isChecked={isChecked}
+              setIsChecked={setIsChecked}
+              // onCheckboxChangeHandler={onCheckboxChangeHandler}
+            />
+            <LeadsMenu
+              leadsAllCount={leadsAllCount}
+              leadsAprrovedCount={leadsAprrovedCount}
+              leadsUnderReviewCount={leadsUnderReviewCount}
+              leadsRejectedCount={leadsRejectedCount}
+              leadsArchievedCount={leadsArchievedCount}
+            />
+          </Box>
+          <LeadsDisplay />
         </Box>
         <Box component={"div"} className="section leads-details">
           <LeadDescription />

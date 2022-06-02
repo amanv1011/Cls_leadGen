@@ -79,11 +79,6 @@ const Table = () => {
   const [campaignName, setCampaignName] = useState("");
 
   useEffect(() => {
-    dispatch(campaignActions.getAllCampaignsAction());
-    dispatch(laedActions.getAllLeadsAction());
-  }, []);
-
-  useEffect(() => {
     campaignList.forEach((element) => {
       let leadsCount = 0;
       leadsList.map((ele) => {

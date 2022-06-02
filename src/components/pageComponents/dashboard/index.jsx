@@ -13,7 +13,10 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getAllCampaignsAction } from "../../../redux/actions/campaignActions";
-import { getAllLeadsAction } from "../../../redux/actions/leadActions";
+import {
+  getAllLeadsAction,
+  getLeadsFullDescriptionAction,
+} from "../../../redux/actions/leadActions";
 
 const Dashboard = ({ children }) => {
   const dispatch = useDispatch();
@@ -53,8 +56,10 @@ const Dashboard = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log("Im happening first time");
     dispatch(getAllCampaignsAction());
     dispatch(getAllLeadsAction());
+    dispatch(getLeadsFullDescriptionAction());
   }, []);
 
   useEffect(() => {
