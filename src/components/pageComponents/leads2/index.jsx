@@ -10,29 +10,27 @@ import LeadsDisplay from "./LeadsDisplay";
 import LeadsMenu from "./LeadsMenu";
 import LeadsSearch from "./LeadsSearch";
 import { useSelector, useDispatch } from "react-redux";
+import { updateLeadStatus } from "../../../redux/actions/leadActions";
 
 const Leads2 = () => {
   //Onkar's Workspace
+  const [selectedLead, setselectedLead] = useState("");
+  //getting lead details on click of any lead
+  const LeadData = useSelector((state) => state.popupStatus.popupData[0]);
+  console.log(LeadData && LeadData.status && LeadData.status);
 
-  /*getting description of sigle lead onclick
-  const openPopup = (e) => {
-    e.preventDefault();
-    let leadsId = e.currentTarget.id;
-    let leadsIdData = leadsData.filter((ele) => ele.id === leadsId);
-    dispatch(getPopupEnable(leadsIdData));
-  };*/
-
-  // let approveButton = (event) => {
-  //   dispatch(updateLeadStatus(event.target.value, 1));
-  // };
-  // let rejectButton = (event) => {
-  //   dispatch(updateLeadStatus(event.target.value, -1));
-  // };
-  // let archieveButton = (event) => {
-  //   dispatch(updateLeadStatus(event.target.value, 2));
-  // };
-
+  const approveButton = (event) => {
+    dispatch(updateLeadStatus(selectedLead, 1));
+  };
+  const rejectButton = (event) => {
+    dispatch(updateLeadStatus(selectedLead, -1));
+  };
+  const archieveButton = (event) => {
+    dispatch(updateLeadStatus(selectedLead, 2));
+  };
+  const state = useSelector((state) => state);
   //Onkar's Workspace
+
   const dispatch = useDispatch();
 
   const leadsAllCount = useSelector(
@@ -58,7 +56,7 @@ const Leads2 = () => {
         <LeadsHeader />
       </Box>
       <Divider
-        light="true"
+        light={true}
         sx={{ height: "1px", background: "#1F4173", opacity: "0.15" }}
       />
       <Box component={"div"} className="leads-body">
@@ -79,10 +77,10 @@ const Leads2 = () => {
               leadsArchievedCount={leadsArchievedCount}
             />
           </Box>
-          <LeadsDisplay />
+          <LeadsDisplay setselectedLead={setselectedLead} />
         </Box>
         <Box component={"div"} className="section leads-details">
-          <LeadDescription />
+          <LeadDescription setselectedLead={setselectedLead} />
         </Box>
         <Box component={"div"} className="section leads-actions">
           <Box component={"div"} className="action-title">
@@ -93,26 +91,41 @@ const Leads2 = () => {
               type={"green"}
               name={"Approve"}
               children="Approve"
-              onclick={() => console.log("e")}
+              onclick={approveButton}
+              disabled={
+                LeadData && LeadData.status && LeadData.status === 1
+                  ? true
+                  : false
+              }
             />
             <IButton
               type={"yellow"}
               name={"Archive"}
               children="Archive"
-              onclick={() => console.log("e")}
+              onclick={archieveButton}
+              disabled={
+                LeadData && LeadData.status && LeadData.status === 2
+                  ? true
+                  : false
+              }
             />
             <IButton
               type={"grey"}
               name={"Under Review"}
               children="Under Review"
               onclick={() => console.log("e")}
+              disabled={true}
             />
             <IButton
               type={"pink"}
               name={"Reject"}
               children="Reject"
-              customClass={"disabled"}
-              onclick={() => console.log("e")}
+              disabled={
+                LeadData && LeadData.status && LeadData.status === -1
+                  ? true
+                  : false
+              }
+              onclick={rejectButton}
             />
           </Box>
         </Box>

@@ -56,7 +56,6 @@ const Dashboard = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("Im happening first time");
     dispatch(getAllCampaignsAction());
     dispatch(getAllLeadsAction());
     dispatch(getLeadsFullDescriptionAction());

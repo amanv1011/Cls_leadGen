@@ -27,7 +27,7 @@ const LeadDescription = () => {
             {displayLeadData === undefined ? null : displayLeadData.title}
           </Box>
           <Box component={"div"} className="subtitle">
-            Subtitle
+            Response #ASDF24
           </Box>
         </Box>
         <Box component={"div"} className="right-section">
@@ -76,7 +76,7 @@ const LeadDescription = () => {
       </Box>
       <Divider
         variant="middle"
-        light="true"
+        light={true}
         sx={{ height: "1px", background: "#1F4173", opacity: "0.15" }}
       />
       <Box component={"div"} className="leads-description-body">

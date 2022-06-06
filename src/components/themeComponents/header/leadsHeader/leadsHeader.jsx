@@ -115,9 +115,6 @@ const LeadsHeader = () => {
               }}
               open={openAllCampgainsMenu}
               onClose={handleCloseAllCampgainsMenu}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
             >
               <MenuItem
                 className="menu-item"
@@ -130,18 +127,17 @@ const LeadsHeader = () => {
               </MenuItem>
               {leadData.map((ele) => {
                 return (
-                  <React.Fragment key={ele.id}>
-                    <MenuItem
-                      data-id={ele.id}
-                      className="menu-item"
-                      onClick={handleCloseAllCampgainsMenu}
-                      sx={{
-                        fontSize: matches ? "13px" : "14px",
-                      }}
-                    >
-                      {ele.name}
-                    </MenuItem>
-                  </React.Fragment>
+                  <MenuItem
+                    key={ele.id}
+                    data-id={ele.id}
+                    className="menu-item"
+                    onClick={handleCloseAllCampgainsMenu}
+                    sx={{
+                      fontSize: matches ? "13px" : "14px",
+                    }}
+                  >
+                    {ele.name}
+                  </MenuItem>
                 );
               })}
             </Menu>
@@ -192,18 +188,17 @@ const LeadsHeader = () => {
               </MenuItem>
               {uniqueOwner.map((ele) => {
                 return (
-                  <React.Fragment key={ele.id}>
-                    <MenuItem
-                      data-id={ele.id}
-                      className="menu-item"
-                      onClick={handleCloseOwnerMenu}
-                      sx={{
-                        fontSize: matches ? "13px" : "14px",
-                      }}
-                    >
-                      {ele}
-                    </MenuItem>
-                  </React.Fragment>
+                  <MenuItem
+                    key={ele.id}
+                    data-id={ele.id}
+                    className="menu-item"
+                    onClick={handleCloseOwnerMenu}
+                    sx={{
+                      fontSize: matches ? "13px" : "14px",
+                    }}
+                  >
+                    {ele}
+                  </MenuItem>
                 );
               })}
             </Menu>

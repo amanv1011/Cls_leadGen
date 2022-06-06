@@ -191,18 +191,18 @@ const LeadsHeader = () => {
               </MenuItem>
               {leadData.map((ele) => {
                 return (
-                  <React.Fragment key={ele.id}>
-                    <MenuItem
-                      data-id={ele.id}
-                      sx={{
-                        fontSize: "14px",
-                        fontWeight: "600",
-                      }}
-                      onClick={handleCloseAllCampgainsMenu}
-                    >
-                      {ele.name}
-                    </MenuItem>
-                  </React.Fragment>
+                  // <React.Fragment key={ele.id}>
+                  <MenuItem
+                    data-id={ele.id}
+                    key={ele.id}
+                    sx={{
+                      fontSize: "14px",
+                      fontWeight: "600",
+                    }}
+                    onClick={handleCloseAllCampgainsMenu}
+                  >
+                    {ele.name}
+                  </MenuItem>
                 );
               })}
             </Menu>
@@ -268,18 +268,17 @@ const LeadsHeader = () => {
             </MenuItem>
             {uniqueOwner.map((ele) => {
               return (
-                <React.Fragment key={ele.id}>
-                  <MenuItem
-                    data-id={ele.id}
-                    sx={{
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
-                    onClick={handleCloseOwnerMenu}
-                  >
-                    {ele}
-                  </MenuItem>
-                </React.Fragment>
+                <MenuItem
+                  data-id={ele.id}
+                  key={ele.id}
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "600",
+                  }}
+                  onClick={handleCloseOwnerMenu}
+                >
+                  {ele}
+                </MenuItem>
               );
             })}
           </Menu>

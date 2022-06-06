@@ -6,6 +6,8 @@
   .lead-display-subcontainers {
     cursor: pointer;
     border: 1px solid aliceblue;
+    display: flex;
+    flex-direction: row;
     .lead-display-subcontainer1 {
       display: flex;
       align-content: center;

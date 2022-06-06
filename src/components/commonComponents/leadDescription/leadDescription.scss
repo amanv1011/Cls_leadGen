@@ -13,15 +13,26 @@
     .left-section {
       width: 50%;
       .title {
+        display: flex;
+        // justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        height: 40px;
+        width: 300px;
         font-style: normal;
         font-weight: 600;
         font-size: 20px;
-        line-height: 27px;
+        line-height: 22px;
         letter-spacing: -0.02em;
         color: #1f4173;
-        margin: 4px 0px;
+        // margin: 4px 0px;
       }
       .subtitle {
+        display: flex;
+        // justify-content: center;
+        align-items: center;
         font-style: normal;
         font-weight: 600;
         font-size: 12px;

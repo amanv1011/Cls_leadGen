@@ -4,11 +4,12 @@ import "./leadsDisplay.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { getPopupEnable } from "../../../../redux/actions/PopupAction";
 
-const LeadsDisplay = () => {
+const LeadsDisplay = ({ setselectedLead }) => {
   const dispatch = useDispatch();
   const leadsList = useSelector((state) => state.allLeads.cardsToDisplay);
 
   const handleClick = (leadId) => {
+    setselectedLead(leadId);
     let leadsIdData = leadsList.filter((ele) => ele.id === leadId);
     dispatch(getPopupEnable(leadsIdData));
   };
