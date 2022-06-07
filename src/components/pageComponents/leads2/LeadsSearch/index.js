@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { leadsFilterSearch } from "../../../../redux/actions/leadsFilter";
-import "../../leads/leads.scss";
+import "./leadsSearch.scss";
 
 const LeadsSearch = () => {
   const dispatch = useDispatch();
@@ -22,20 +22,7 @@ const LeadsSearch = () => {
         onChange={handleSearch}
         type="text"
         value={SearchInput}
-        className="search-input-leads"
-        style={{
-          width: "100%",
-          height: "40px",
-          borderRadius: "10px",
-          backgroundColor: "#E7E7E7",
-          border: "none",
-          fontWeight: "600",
-          color: "rgba(92, 117,154)",
-          fontSize: "14px",
-          paddingLeft: "10px",
-          minWidth: "158px",
-          maxWidth: "300px",
-        }}
+        className="leadsSearch"
       />
     </React.Fragment>
   );

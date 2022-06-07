@@ -1,58 +1,41 @@
-import React, { useState } from "react";
-import { Button, Menu, MenuItem } from "@mui/material";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { leadsDropDownFilterAction } from "../../../../redux/actions/leadsFilter";
+const LeadsMenu = () => {
+  const dispatch = useDispatch();
 
-const LeadsMenu = (props) => {
-  const {
-    leadsAllCount,
-    leadsAprrovedCount,
-    leadsUnderReviewCount,
-    leadsRejectedCount,
-    leadsArchievedCount,
-  } = props;
-
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const leadsAllCount = useSelector(
+    (state) => state.approveRejectCount.allCount
+  );
+  const leadsAprrovedCount = useSelector(
+    (state) => state.approveRejectCount.approveCount
+  );
+  const leadsUnderReviewCount = useSelector(
+    (state) => state.approveRejectCount.underreviewCount
+  );
+  const leadsRejectedCount = useSelector(
+    (state) => state.approveRejectCount.rejectCount
+  );
+  const leadsArchievedCount = useSelector(
+    (state) => state.approveRejectCount.archieveCount
+  );
+  const leadsDropDownFilter = useSelector(
+    (state) => state.leadsFilter.leadsDropDownFilter
+  );
 
   return (
-    <div>
-      <Button
-        id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-      >
-        All Leads ({leadsAllCount})
-      </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={handleClose}>
-          UnderReview ({leadsUnderReviewCount})
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          Approved ({leadsAprrovedCount})
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          Rejected ({leadsRejectedCount})
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          Archived ({leadsArchievedCount})
-        </MenuItem>
-      </Menu>
-    </div>
+    <select
+      value={leadsDropDownFilter}
+      onChange={(event) => {
+        dispatch(leadsDropDownFilterAction(event.target.value));
+      }}
+    >
+      <option value="AllLeads">{`All (${leadsAllCount})`}</option>
+      <option value="UnderReveiwLeads">{`UnderReveiw (${leadsUnderReviewCount})`}</option>
+      <option value="ApprovedLeads">{`Approved (${leadsAprrovedCount})`}</option>
+      <option value="RejectedLeads">{`Rejected (${leadsRejectedCount})`}</option>
+      <option value="ArcheievdLeads">{`Archieved (${leadsArchievedCount})`}</option>
+    </select>
   );
 };
 export default LeadsMenu;

@@ -1,14 +1,7 @@
-import {GET_POPUP_ENABLE} from '../type';
-import {GET_POPUP_DISABLE} from '../type';
+import { GET_LEAD_DATA } from "../type";
 
 export const getPopupEnable = (popupData) => {
-return async (dispatch) => { 
-    dispatch({ type: GET_POPUP_ENABLE , payload: popupData })
-} 
-}
-
-export const getPopupDisable = () => {
-    return async (dispatch) => { 
-        dispatch({ type: GET_POPUP_DISABLE })
-    }
-}
+  return async (dispatch) => {
+    dispatch({ type: GET_LEAD_DATA, payload: popupData });
+  };
+};

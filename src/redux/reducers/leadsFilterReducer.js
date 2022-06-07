@@ -5,15 +5,16 @@ import {
   FILTER_LEADS_DATE,
   FILTER_LEADS_CLEAR,
   SET_DATEPICKER_STATE,
+  LEADS_DROPDOWN_FILTER,
 } from "../type";
-
 
 const initialState = {
   campaignName: "All Campaigns",
   ownerName: "All Owners",
   searchQuery: "",
   filterDate: "",
-  datePickerState: 0
+  datePickerState: 0,
+  leadsDropDownFilter: "AllLeads",
 };
 
 export const leadsFilterReducer = (state = initialState, { type, payload }) => {
@@ -28,17 +29,20 @@ export const leadsFilterReducer = (state = initialState, { type, payload }) => {
       return { ...state, filterDate: payload };
     case FILTER_LEADS_CLEAR:
       return {
-        ...state, 
+        ...state,
         campaignName: "All Campaigns",
         ownerName: "All Owners",
         searchQuery: "",
-        filterDate: ""
-      }
+        filterDate: "",
+      };
     case SET_DATEPICKER_STATE:
       return {
-        ...state, datePickerState:payload
-      }
+        ...state,
+        datePickerState: payload,
+      };
+    case LEADS_DROPDOWN_FILTER:
+      return { ...state, leadsDropDownFilter: payload };
     default:
-      return { ...state, };
+      return { ...state };
   }
 };

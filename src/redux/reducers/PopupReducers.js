@@ -1,28 +1,21 @@
-import { GET_POPUP_ENABLE } from '../type';
-import { GET_POPUP_DISABLE } from '../type';
+import { GET_LEAD_DATA } from "../type";
 
 const initialState = {
-    popupStatus: false,
-    popupData: []
-
-}
+  //   popupStatus: false,
+  popupData: [],
+};
 
 export const PopupReducers = (state = initialState, { type, payload }) => {
-    switch (type) {
-        case GET_POPUP_ENABLE:
-            return {
-                popupStatus: true,
-                popupData: payload
-            }
-        case GET_POPUP_DISABLE:
-            return {
-                popupStatus: false,
-                popupData: []
-            }
-        default:
-            return {
-                ...state
-            }
-    }
-}
+  switch (type) {
+    case GET_LEAD_DATA:
+      return {
+        // popupStatus: true,
+        popupData: payload,
+      };
 
+    default:
+      return {
+        ...state,
+      };
+  }
+};

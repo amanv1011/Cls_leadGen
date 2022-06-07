@@ -4,7 +4,7 @@ import Cards from "./Cards";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { filterLeads } from "../lead/filterLeads";
-import {filterCount} from "../lead/filterCount"
+import { filterCount } from "../lead/filterCount";
 import { getTotalCount } from "../lead/getTotalCount";
 import { getRejectCount } from "../../../redux/actions/approveRejectcount";
 import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
@@ -12,7 +12,6 @@ import { getApproveCount } from "../../../redux/actions/approveRejectcount";
 import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
 import { setActivePage } from "../../../redux/actions/paginationActions";
-import PopupBox from "./PopupBox";
 
 const Archive = () => {
   const dispatch = useDispatch();
@@ -34,13 +33,12 @@ const Archive = () => {
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
     let campaignIds = campgainData;
-    leadListForCount = filterCount(campaignIds,genratedLeadData)
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
     filterArchieve = filterLeads(
       campaignIds,
       archieveList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
   if (
@@ -50,13 +48,12 @@ const Archive = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.owner === ownerNameFilter
     );
-    leadListForCount = filterCount(campaignIds,genratedLeadData)
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
     filterArchieve = filterLeads(
       campaignIds,
       archieveList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -67,13 +64,12 @@ const Archive = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    leadListForCount = filterCount(campaignIds,genratedLeadData)
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
     filterArchieve = filterLeads(
       campaignIds,
       archieveList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -84,13 +80,12 @@ const Archive = () => {
     let campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
-    leadListForCount = filterCount(campaignIds,genratedLeadData)
+    leadListForCount = filterCount(campaignIds, genratedLeadData);
     filterArchieve = filterLeads(
       campaignIds,
       archieveList,
       searchDate,
-      searchQuery,
-      
+      searchQuery
     );
   }
 
@@ -98,7 +93,10 @@ const Archive = () => {
   const rejectCount = rejectList.length;
   const underReviewList = leadListForCount.filter((ele) => ele.status === 0);
   const underReviewCount = underReviewList.length;
-  const archieveListCount = searchDate === "" && searchQuery === "" ? leadListForCount.filter((ele) => ele.status === 2) : filterArchieve.filter((ele) => ele.status === 2);
+  const archieveListCount =
+    searchDate === "" && searchQuery === ""
+      ? leadListForCount.filter((ele) => ele.status === 2)
+      : filterArchieve.filter((ele) => ele.status === 2);
   const archieveCount = archieveListCount.length;
   const approveList = leadListForCount.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
@@ -106,28 +104,26 @@ const Archive = () => {
   const popupStatus = useSelector((state) => state.popupStatus.popupStatus);
   const popupData = useSelector((state) => state.popupStatus.popupData);
 
-
-
   useEffect(() => {
     dispatch(getApproveCount(approveCount));
     dispatch(getUnderreviewCount(underReviewCount));
     dispatch(getRejectCount(rejectCount));
     dispatch(getArchieveCount(archieveCount));
-    if(searchQuery === "" && searchDate === ""){
+    if (searchQuery === "" && searchDate === "") {
       dispatch(
-        getAllCount(approveCount+underReviewCount+rejectCount+archieveCount)
+        getAllCount(
+          approveCount + underReviewCount + rejectCount + archieveCount
+        )
       );
     }
-
   });
 
   useEffect(() => {
     dispatch(setActivePage(1));
-  },[searchQuery, ownerNameFilter, searchDate, campaignNameFilter ])
+  }, [searchQuery, ownerNameFilter, searchDate, campaignNameFilter]);
 
   return (
     <>
-      {popupStatus ? <PopupBox data={popupData} /> : null}
       <Cards leadData={filterArchieve} />
     </>
   );

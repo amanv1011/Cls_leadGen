@@ -13,7 +13,6 @@ import { filterLeads } from "../lead/filterLeads";
 import { filterCount } from "../lead/filterCount";
 import { getTotalCount } from "../lead/getTotalCount";
 import { setActivePage } from "../../../redux/actions/paginationActions";
-import PopupBox from "./PopupBox";
 import "./lead.scss";
 
 const Approve = () => {
@@ -107,18 +106,18 @@ const Approve = () => {
   const popupStatus = useSelector((state) => state.popupStatus.popupStatus);
   const popupData = useSelector((state) => state.popupStatus.popupData);
 
-
   useEffect(() => {
     dispatch(getApproveCount(approveCount));
     dispatch(getUnderreviewCount(underReviewCount));
     dispatch(getRejectCount(rejectCount));
     dispatch(getArchieveCount(archieveCount));
-    if(searchQuery === "" && searchDate === ""){
+    if (searchQuery === "" && searchDate === "") {
       dispatch(
-        getAllCount(approveCount+underReviewCount+rejectCount+archieveCount)
+        getAllCount(
+          approveCount + underReviewCount + rejectCount + archieveCount
+        )
       );
     }
-
   });
 
   useEffect(() => {
@@ -127,7 +126,6 @@ const Approve = () => {
 
   return (
     <>
-      {popupStatus ? <PopupBox data={popupData} /> : null}
       <Cards leadData={filterApprov} />
     </>
   );

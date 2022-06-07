@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Avatar, Divider, IconButton, Box } from "@mui/material";
 import "./leadDescription.scss";
 
-const LeadDescription = () => {
+const LeadDescription = ({ selectedLeadIdFun }) => {
   const displayLeadData = useSelector(
     (state) => state.popupStatus.popupData[0]
   );
