@@ -63,6 +63,7 @@ const Cards = (props) => {
           <LeadsDisplay
             leadsList={leadsData}
             selectedLeadIdFun={selectedLeadIdFun}
+            selectedLeadId={selectedLeadId}
           />
         </Box>
         <Box component={"div"} className="section leads-details">
@@ -104,7 +105,6 @@ const Cards = (props) => {
               name={"Under Review"}
               children="Under Review"
               onclick={() => console.log("e")}
-              disabled={true}
             />
             <IButton
               type={"pink"}

@@ -10,7 +10,8 @@ const LeadsCheckbox = (props) => {
     <React.Fragment>
       <FormGroup>
         <FormControlLabel
-          control={<Checkbox />}
+          sx={{ marginRight: "0px" }}
+          control={<Checkbox color="primary" size="small" />}
           label={label}
           checked={isChecked}
           onChange={onCheckboxChangeHandler}
