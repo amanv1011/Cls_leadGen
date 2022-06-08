@@ -106,7 +106,8 @@ const LeadsHeader = () => {
                   borderRadius: "10px",
                   marginTop: "3px",
                   boxShadow: "none",
-                  backgroundColor: "#E7E7E7",
+                  // backgroundColor: "#E7E7E7",
+                  backgroundColor: "rgb(233,236,241)",
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
                   overflow: "auto",
@@ -164,7 +165,9 @@ const LeadsHeader = () => {
                   borderRadius: "10px",
                   marginTop: "3px",
                   boxShadow: "none",
-                  backgroundColor: "#E7E7E7",
+                  // backgroundColor: "#E7E7E7",
+                  backgroundColor: "rgb(233,236,241)",
+
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
                   overflow: "auto",
@@ -205,13 +208,13 @@ const LeadsHeader = () => {
           </div>
         </div>
         <div className="right-section">
-          {/* <div className="filter-icon">
+          <div className="filter-icon">
             <Tooltip title="Filter" placement="top-start">
               <Button onClick={clearFilterTab} className="filter-btn">
                 <FilterAltOffIcon />
               </Button>
             </Tooltip>
-          </div> */}
+          </div>
           <span>
             <Button
               variant="outlined"

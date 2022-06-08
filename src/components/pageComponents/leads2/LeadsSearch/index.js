@@ -18,7 +18,7 @@ const LeadsSearch = () => {
   return (
     <React.Fragment>
       <input
-        placeholder={`Search for "Keywords"`}
+        placeholder={`Search`}
         onChange={handleSearch}
         type="text"
         value={SearchInput}

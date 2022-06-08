@@ -13,18 +13,18 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 330px auto 250px;
+    grid-template-columns: 330px auto 180px;
     .section {
     }
     .leads-list {
-      // background: rgba(248, 248, 249, 0.8);
+      box-sizing: border-box;
       background: linear-gradient(
         270deg,
         #f1f1f1 0%,
         rgba(248, 248, 249, 0.8) 134.62%
       );
       border-radius: 0px 0px 0px 15px;
-      padding: 4px;
+      padding: 8px 4px;
       .checkbox-menu {
         display: flex;
         justify-content: space-between;

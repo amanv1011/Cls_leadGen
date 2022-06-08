@@ -1,13 +1,20 @@
 .leadsSearch {
-  width: 100%;
+  box-sizing: border-box;
   height: 40px;
-  border-radius: 10px;
-  background-color: rgb(231, 231, 231);
-  border: none;
+  width: 100%;
   font-weight: 600;
   color: rgb(92, 117, 154);
-  font-size: 14px;
   padding-left: 10px;
-  min-width: 158px;
-  max-width: 300px;
+  background: rgba(255, 255, 255, 0.719);
+  border: 1px solid rgba(31, 65, 115, 0.2);
+  border-radius: 10px;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 17px;
+  color: #1f4173;
+  opacity: 0.5;
+
+  &:focus {
+    outline: none;
+  }
 }

@@ -53,7 +53,8 @@ export default function DateModal() {
         style={{
           textTransform: "none",
           color: "#5C759A",
-          backgroundColor: "#E7E7E7",
+          // backgroundColor: "#E7E7E7",
+          backgroundColor: "rgb(233,236,241)",
           borderRadius: "10px",
           fontSize: matches ? "13px" : "14px",
         }}

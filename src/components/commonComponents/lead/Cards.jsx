@@ -52,12 +52,13 @@ const Cards = (props) => {
       />
       <Box component={"div"} className="leads-body">
         <Box component={"div"} className="section leads-list">
-          <LeadsSearch />
-
-          {/* <Box component={"div"} className="section checkbox-menu"> */}
-          {/* <LeadsCheckbox label={"All"} /> */}
-
-          {/* </Box> */}
+          <div
+            style={{
+              padding: "2px 12px",
+            }}
+          >
+            <LeadsSearch />
+          </div>
           <LeadsDisplay
             leadsList={leadsData}
             selectedLeadIdFun={selectedLeadIdFun}

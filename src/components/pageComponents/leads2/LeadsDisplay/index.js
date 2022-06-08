@@ -4,13 +4,28 @@ import "./leadsDisplay.scss";
 import { useDispatch } from "react-redux";
 import { getPopupEnable } from "../../../../redux/actions/PopupAction";
 import LeadsMenu from "../LeadsMenu";
-
+import moment from "moment";
+import { Button, Popover } from "@mui/material";
+import IButton from "../../../themeComponents/button";
+import { Box } from "@mui/system";
 const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
   const dispatch = useDispatch();
 
   const [leadsListData, setLeadsListData] = useState([]);
   const [selectedArray, setselectedArray] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handlePopClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   useEffect(() => {
     setLeadsListData(leadsList);
@@ -31,22 +46,8 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
       );
       setselectedArray(filtered);
     }
-    // event.target.checked = true;
-    // const { name, checked } = event.target;
-    // if (name === "allCheck")
-    //   let tempLeadsArray = leadsListData.map((lead) => ({
-    //     ...lead,
-    //     isChecked: checked,
-    //   }));
-    //   setLeadsListData(tempLeadsArray);
-    // } else {
-    //   let tempLeadsArray = leadsListData.map((lead) =>
-    //     lead.id === name ? { ...lead, isChecked: checked } : lead
-    //   );
-    //   setLeadsListData(tempLeadsArray);
-    // }
   };
-  console.log(selectedArray);
+
   const handleAllCheck = (e) => {
     setIsChecked(!isChecked);
     if (e.target.checked) {
@@ -61,26 +62,42 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
   };
   return (
     <React.Fragment>
-      <div
-        style={{
-          display: "flex",
-          alignContent: "center",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div>
+      <div className="checkbox-menu-container">
+        <div className="checkbox-container">
           <input
             type="checkbox"
             name="allCheck"
-            // checked={
-            //   leadsListData.filter((lead) => lead?.isChecked !== true).length <
-            //   1
-            // }
             checked={isChecked}
             onChange={handleAllCheck}
+            className="checkbox"
           />
-          <label>All</label>
+          <label className="all-label">All</label>
+          <div>
+            <div variant="contained" onClick={handlePopClick}>
+              Action
+            </div>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              PaperProps={{
+                boxShadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
+                borderRadius: "10px",
+              }}
+            >
+              <div className="popover-body">
+                <IButton type={"green"} name={"green"} children="Approve" />
+                <IButton type={"yellow"} name={"yellow"} children="Archive" />
+                <IButton type={"grey"} name={"grey"} children="Under Review" />
+                <IButton type={"pink"} name={"pink"} children=" Reject" />
+              </div>
+            </Popover>
+          </div>
         </div>
         <LeadsMenu />
       </div>
@@ -100,6 +117,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                   type="checkbox"
                   name={lead.id}
                   value={lead.id}
+                  className="checkbox"
                   checked={
                     selectedArray &&
                     selectedArray.filter((it) => it === lead.id).length > 0
@@ -115,25 +133,26 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                 }`}
               >
                 <div
+                  className="display-cont"
                   style={{
                     width: "100%",
                     display: "flex",
                     justifyContent: "space-between",
                   }}
                 >
-                  <span
-                    className={`lead-display-btn-textl ${
+                  <div
+                    className={`lead-display-btn-text ${
                       selectedLeadId === lead.id ? "selected" : ""
                     }`}
                   >
-                    {lead.title.slice(0, 15)}
-                  </span>
+                    {lead.title}
+                  </div>
                   <span
                     className={`lead-display-timestamp ${
                       selectedLeadId === lead.id ? "selected-sub" : ""
                     } `}
                   >
-                    3 Sec ago
+                    {moment.unix(lead.leadGeneratedDate.seconds).fromNow()}
                   </span>
                 </div>
 

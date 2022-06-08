@@ -1,0 +1,20 @@
+.menu-select {
+  border: none;
+  background-color: inherit;
+  width: min-content;
+  color: #003ad2;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
+  &:focus {
+    outline: none;
+  }
+  // .menu-option {
+  //   background-color: red;
+  // }
+}

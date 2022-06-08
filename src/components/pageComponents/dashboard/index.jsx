@@ -188,12 +188,12 @@ const Dashboard = ({ children }) => {
               paddingTop: "15px",
             }}
           >
-            <IconButton onClick={goBack}>
+            {/* <IconButton onClick={goBack}>
               <ArrowBackIcon />
             </IconButton>
             <Typography component="p" className="dashboard-title">
               Lead Campaign
-            </Typography>
+            </Typography> */}
           </Box>
           <Outlet />
           {window.location.pathname === "/" ? (

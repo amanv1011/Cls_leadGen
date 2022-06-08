@@ -1,6 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { leadsDropDownFilterAction } from "../../../../redux/actions/leadsFilter";
+import "./leadsMenu.scss";
+
 const LeadsMenu = () => {
   const dispatch = useDispatch();
 
@@ -29,12 +31,28 @@ const LeadsMenu = () => {
       onChange={(event) => {
         dispatch(leadsDropDownFilterAction(event.target.value));
       }}
+      className="menu-select"
     >
-      <option value="AllLeads">{`All (${leadsAllCount})`}</option>
-      <option value="UnderReveiwLeads">{`UnderReveiw (${leadsUnderReviewCount})`}</option>
-      <option value="ApprovedLeads">{`Approved (${leadsAprrovedCount})`}</option>
-      <option value="RejectedLeads">{`Rejected (${leadsRejectedCount})`}</option>
-      <option value="ArcheievdLeads">{`Archieved (${leadsArchievedCount})`}</option>
+      <option
+        className="menu-option"
+        value="AllLeads"
+      >{`All Leads(${leadsAllCount})`}</option>
+      <option
+        className="menu-option"
+        value="UnderReveiwLeads"
+      >{`UnderReveiw (${leadsUnderReviewCount})`}</option>
+      <option
+        className="menu-option"
+        value="ApprovedLeads"
+      >{`Approved (${leadsAprrovedCount})`}</option>
+      <option
+        className="menu-option"
+        value="RejectedLeads"
+      >{`Rejected (${leadsRejectedCount})`}</option>
+      <option
+        className="menu-option"
+        value="ArcheievdLeads"
+      >{`Archieved (${leadsArchievedCount})`}</option>
     </select>
   );
 };

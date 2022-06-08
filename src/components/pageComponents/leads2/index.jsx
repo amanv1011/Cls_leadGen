@@ -1,42 +1,39 @@
-import { Divider } from "@mui/material";
-import { Box } from "@mui/system";
 import React, { useState, useEffect } from "react";
-import LeadDescription from "../../commonComponents/leadDescription";
-import IButton from "../../themeComponents/button";
-import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
+// import LeadDescription from "../../commonComponents/leadDescription";
+// import IButton from "../../themeComponents/button";
+// import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
 import "./leads.scss";
-import LeadsCheckbox from "./LeadsCheckbox";
-import LeadsDisplay from "./LeadsDisplay";
-import LeadsMenu from "./LeadsMenu";
-import LeadsSearch from "./LeadsSearch";
+// import LeadsCheckbox from "./LeadsCheckbox";
+// import LeadsDisplay from "./LeadsDisplay";
+// import LeadsMenu from "./LeadsMenu";
+// import LeadsSearch from "./LeadsSearch";
 import { useSelector, useDispatch } from "react-redux";
-import { updateLeadStatus } from "../../../redux/actions/leadActions";
-import Lead from "../../commonComponents/lead";
+// import { updateLeadStatus } from "../../../redux/actions/leadActions";
+// import Lead from "../../commonComponents/lead";
 
 const Leads2 = () => {
   //Onkar's Workspace
-  const [selectedLead, setselectedLead] = useState("");
-  //getting lead details on click of any lead
-  const LeadData = useSelector((state) => state.popupStatus.popupData[0]);
+  // const [selectedLead, setselectedLead] = useState("");
+  // //getting lead details on click of any lead
+  // const LeadData = useSelector((state) => state.popupStatus.popupData[0]);
   // console.log(LeadData && LeadData.status && LeadData.status);
 
-  const approveButton = (event) => {
-    dispatch(updateLeadStatus(selectedLead, 1));
-  };
-  const rejectButton = (event) => {
-    dispatch(updateLeadStatus(selectedLead, -1));
-  };
-  const archieveButton = (event) => {
-    dispatch(updateLeadStatus(selectedLead, 2));
-  };
-  const state = useSelector((state) => state);
+  // const approveButton = (event) => {
+  //   dispatch(updateLeadStatus(selectedLead, 1));
+  // };
+  // const rejectButton = (event) => {
+  //   dispatch(updateLeadStatus(selectedLead, -1));
+  // };
+  // const archieveButton = (event) => {
+  //   dispatch(updateLeadStatus(selectedLead, 2));
+  // };
+
   //Onkar's Workspace
 
   const dispatch = useDispatch();
 
   const leadsList = useSelector((state) => state.allLeads.leadsList);
   console.log("leadsList", leadsList);
-  const [isChecked, setIsChecked] = useState(false);
 
   const [dataFromChild, setDataFromChild] = useState("");
 

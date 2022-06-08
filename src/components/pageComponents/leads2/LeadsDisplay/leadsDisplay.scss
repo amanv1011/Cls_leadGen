@@ -1,6 +1,6 @@
 .lead-display-container {
-  height: 60vh;
-  overflow-y: scroll;
+  height: 57vh;
+  overflow-y: auto;
   overflow-x: hidden;
 
   .selected {
@@ -24,7 +24,10 @@
     padding: 2px 15px;
     border-bottom: solid rgb(236, 238, 242) 2px;
     .lead-display-check {
-      margin-top: -18px;
+      box-sizing: border-box;
+      margin-top: -10px;
+      width: 20px;
+      height: 20px;
     }
     .lead-display-subcontainer1 {
       color: #003ad2;
@@ -32,14 +35,21 @@
       display: flex;
       justify-content: space-around;
       flex-direction: column;
-      .lead-display-btn-text {
-      }
-      .lead-display-timestamp {
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 15px;
-        text-align: right;
-        color: rgba(31, 65, 115, 0.5);
+      .display-cont {
+        .lead-display-btn-text {
+          width: 190px;
+          height: 18px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+        .lead-display-timestamp {
+          font-weight: 600;
+          font-size: 11px;
+          line-height: 15px;
+          text-align: right;
+          color: rgba(31, 65, 115, 0.5);
+        }
       }
     }
     .lead-display-subcontainer2 {
@@ -53,4 +63,39 @@
       color: rgba(255, 255, 255, 0.5) !important;
     }
   }
+}
+
+.checkbox-menu-container {
+  box-sizing: border-box;
+  height: 42px;
+  width: auto;
+  padding: 6px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid rgb(236, 238, 242) 2px;
+  .checkbox-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .all-label {
+      margin-left: 5px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 16px;
+      color: #1f4173;
+      opacity: 0.5;
+      justify-content: center;
+    }
+  }
+}
+.popover-body {
+  box-shadow: none;
+  display: grid;
+  grid-template-columns: auto;
+  box-sizing: border-box;
+  padding: 10px;
+  grid-row-gap: 10px;
+  background: #ffffff;
 }

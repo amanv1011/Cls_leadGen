@@ -82,7 +82,24 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
       <Box component={"div"} className="leads-description-body">
         <Box component={"div"} className="leads-description-heading">
           <Box component={"div"} className="heading-element">
-            Name : "Onkar Singh"
+            <div className="header-item">
+              <span className="header-key">Contact Person:</span>
+              <span className="header-value">NA</span>
+            </div>
+            <div className="header-item">
+              <span className="header-key">Contact Email ID:</span>
+              <span className="header-value">NA</span>
+            </div>
+            <div className="header-item">
+              <span className="header-key">Company Name:</span>
+              <span className="header-value">
+                {displayLeadData && displayLeadData.companyName}
+              </span>
+            </div>
+            <div className="header-item">
+              <span className="header-key">Experience(Yrs):</span>
+              <span className="header-value">NA</span>
+            </div>
           </Box>
         </Box>
         <Box component={"div"} className="leads-description-desc">

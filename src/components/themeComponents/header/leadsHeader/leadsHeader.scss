@@ -3,9 +3,11 @@
   width: 100%;
   justify-content: space-between;
   .left-section {
-    display: flex;
-    justify-content: center;
+    display: grid;
     align-items: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 8px;
+    padding: 0px 10px;
     .leads-input {
       display: flex;
       width: auto;
@@ -44,8 +46,9 @@
         padding: 10px;
         font-weight: 600;
         border-radius: 10px;
-        margin-left: 10px;
-        background-color: #e7e7e7;
+        // margin-left: 10px;
+        // background-color: #e7e7e7;
+        background-color: rgb(233, 236, 241);
         color: rgba(92, 117, 154);
       }
       .menu {

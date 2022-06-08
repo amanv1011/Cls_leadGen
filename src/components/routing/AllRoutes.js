@@ -16,7 +16,7 @@ const AllRoutes = () => {
           path: "/leads",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
@@ -26,7 +26,7 @@ const AllRoutes = () => {
           path: "/leads2",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads2 />
             </>
           ),
@@ -36,7 +36,7 @@ const AllRoutes = () => {
           path: "/campaign",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Campaign />
             </>
           ),
@@ -45,7 +45,7 @@ const AllRoutes = () => {
           path: "/leads/all",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
@@ -54,7 +54,7 @@ const AllRoutes = () => {
           path: "/leads/underreview",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
@@ -63,7 +63,7 @@ const AllRoutes = () => {
           path: "/leads/approve",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
@@ -72,7 +72,7 @@ const AllRoutes = () => {
           path: "/leads/reject",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
@@ -81,7 +81,7 @@ const AllRoutes = () => {
           path: "/leads/archive",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
