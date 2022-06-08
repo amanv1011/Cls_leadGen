@@ -6,9 +6,7 @@ import { updateLeadStatus } from "../../../redux/actions/leadActions";
 import { cardsDisplayAction } from "../../../redux/actions/leadActions";
 import IButton from "../../themeComponents/button";
 import LeadDescription from "../../commonComponents/leadDescription";
-import LeadsCheckbox from "../../pageComponents/leads2/LeadsCheckbox";
 import LeadsDisplay from "../../pageComponents/leads2/LeadsDisplay";
-import LeadsMenu from "../../pageComponents/leads2/LeadsMenu";
 import LeadsSearch from "../../pageComponents/leads2/LeadsSearch";
 import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
 import "./lead.scss";
@@ -56,10 +54,10 @@ const Cards = (props) => {
         <Box component={"div"} className="section leads-list">
           <LeadsSearch />
 
-          <Box component={"div"} className="section checkbox-menu">
-            <LeadsCheckbox label={"All"} />
-            <LeadsMenu />
-          </Box>
+          {/* <Box component={"div"} className="section checkbox-menu"> */}
+          {/* <LeadsCheckbox label={"All"} /> */}
+
+          {/* </Box> */}
           <LeadsDisplay
             leadsList={leadsData}
             selectedLeadIdFun={selectedLeadIdFun}
