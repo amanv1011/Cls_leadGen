@@ -61,10 +61,12 @@ export const getLeadsFullDescriptionAction = () => {
 };
 
 export const updateLeadStatus = (leadsId, Status) => {
+  console.log(leadsId);
   return async (dispatch) => {
     dispatch({ type: GET_LEADS_UPDATESTATUS_PENDING });
     try {
       const res = await approvRejectLeads(leadsId, Status);
+      console.log(res);
       dispatch({
         type: GET_LEADS_UPDATESTATUS_SUCCESS,
         payload: res,

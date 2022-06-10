@@ -46,6 +46,7 @@
         padding: 10px;
         font-weight: 600;
         border-radius: 10px;
+        width: 160px;
         // margin-left: 10px;
         // background-color: #e7e7e7;
         background-color: rgb(233, 236, 241);
@@ -68,13 +69,34 @@
         font-family: Segoe UI;
         text-transform: none;
         height: 40px;
-        width: 35px;
+        width: 25px;
         font-weight: 600;
         padding: 10px;
         border-radius: 10px;
         margin-left: 5px;
         background-color: rgba(231, 231, 231);
         color: rgba(92, 117, 154);
+      }
+    }
+    .export-to-excel-button {
+      text-transform: none;
+      height: 30px;
+      font-weight: 600;
+      width: 130px;
+      padding: 10px;
+      border-radius: 10px;
+      margin-left: 10px;
+      height: 40px;
+      background: #003ad2;
+      color: rgb(255, 255, 255);
+      border: none;
+      box-shadow: none;
+      &:hover {
+        cursor: pointer;
+        background: #2e8a5c;
+        color: #ffff;
+        box-shadow: none;
+        border: none;
       }
     }
   }

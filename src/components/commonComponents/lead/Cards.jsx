@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
-import { Divider } from "@mui/material";
+import { Divider, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { updateLeadStatus } from "../../../redux/actions/leadActions";
 import { cardsDisplayAction } from "../../../redux/actions/leadActions";
@@ -11,10 +11,13 @@ import LeadsSearch from "../../pageComponents/leads2/LeadsSearch";
 import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
 import "./lead.scss";
 import "../../pageComponents/leads2/leads.scss";
+import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
+import Textarea from "../../themeComponents/textarea/textarea";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
-
+  const [openText, setopenText] = useState(false);
+  const [value, setValue] = useState("");
   const leadsData = props.leadData;
 
   const displayLeadData = useSelector(
@@ -40,7 +43,13 @@ const Cards = (props) => {
   const selectedLeadIdFun = (leadId) => {
     setSlectedLeadId(leadId);
   };
-
+  console.log("render");
+  const disable =
+    Number(
+      displayLeadData && displayLeadData.status && displayLeadData.status
+    ) === Number(0)
+      ? true
+      : false;
   return (
     <Box component="div" className="leads-container">
       <Box component={"div"} className="leads-header">
@@ -69,55 +78,81 @@ const Cards = (props) => {
           <LeadDescription leadsList={leadsData} />
         </Box>
         <Box component={"div"} className="section leads-actions">
-          <Box component={"div"} className="action-title">
-            Move To:
+          <Box>
+            <Box component={"div"} className="action-title">
+              Move To:
+            </Box>
+            <Box component={"div"} className="action-buttons">
+              <IButton
+                type={"green"}
+                name={"Approve"}
+                children="Approve"
+                onclick={approveButton}
+                disabled={
+                  displayLeadData &&
+                  displayLeadData.status &&
+                  displayLeadData.status === 1
+                    ? true
+                    : false
+                }
+              />
+
+              <IButton
+                type={"yellow"}
+                name={"Archive"}
+                children="Archive"
+                onclick={archieveButton}
+                disabled={
+                  displayLeadData &&
+                  displayLeadData.status &&
+                  displayLeadData.status === 2
+                    ? true
+                    : false
+                }
+              />
+              <IButton
+                type={"grey"}
+                name={"Under Review"}
+                children="Under Review"
+                disabled={disable}
+                onclick={() => console.log("e")}
+              />
+              <IButton
+                type={"pink"}
+                name={"Reject"}
+                children="Reject"
+                disabled={
+                  displayLeadData &&
+                  displayLeadData.status &&
+                  displayLeadData.status === -1
+                    ? true
+                    : false
+                }
+                onclick={rejectButton}
+              />
+            </Box>
           </Box>
-          <Box component={"div"} className="action-buttons">
-            <IButton
-              type={"green"}
-              name={"Approve"}
-              children="Approve"
-              onclick={approveButton}
-              disabled={
-                displayLeadData &&
-                displayLeadData.status &&
-                displayLeadData.status === 1
-                  ? true
-                  : false
-              }
-            />
-            <IButton
-              type={"yellow"}
-              name={"Archive"}
-              children="Archive"
-              onclick={archieveButton}
-              disabled={
-                displayLeadData &&
-                displayLeadData.status &&
-                displayLeadData.status === 2
-                  ? true
-                  : false
-              }
-            />
-            <IButton
-              type={"grey"}
-              name={"Under Review"}
-              children="Under Review"
-              onclick={() => console.log("e")}
-            />
-            <IButton
-              type={"pink"}
-              name={"Reject"}
-              children="Reject"
-              disabled={
-                displayLeadData &&
-                displayLeadData.status &&
-                displayLeadData.status === -1
-                  ? true
-                  : false
-              }
-              onclick={rejectButton}
-            />
+          <Box className="autocomplete-container">
+            <Box className="autocomplete-title">Assign To</Box>
+            <IAutocomplete />
+          </Box>
+          <Box className="autocomplete-container">
+            <Box>
+              {/* <TextField
+                value={value}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                }}
+                className={openText ? "show" : "hide"}
+              /> */}
+              <Textarea />
+              <IButton
+                type={"blue"}
+                name={"blue"}
+                children={"Add Notes"}
+                onclick={() => setopenText(!openText)}
+              />
+            </Box>
           </Box>
         </Box>
       </Box>

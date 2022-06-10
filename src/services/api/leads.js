@@ -27,9 +27,19 @@ export const getLeadsFullDescription = async () => {
 };
 
 export const approvRejectLeads = async (leadsId, leadStatus) => {
+  console.log(leadsId);
   try {
-    const updateApproveReject = doc(leadsCollection, leadsId);
-    await updateDoc(updateApproveReject, { status: leadStatus });
+    if (typeof leadsId === "string") {
+      const updateApproveReject = doc(leadsCollection, leadsId);
+      await updateDoc(updateApproveReject, { status: leadStatus });
+      return { leadsId, leadStatus };
+    } else {
+      leadsId.map(async (lead) => {
+        const updateApproveReject = doc(leadsCollection, lead);
+        await updateDoc(updateApproveReject, { status: leadStatus });
+        return { leadsId, leadStatus };
+      });
+    }
   } catch (err) {
     return err;
   }

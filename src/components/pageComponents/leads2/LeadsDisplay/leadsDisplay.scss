@@ -84,9 +84,20 @@
       font-weight: 600;
       font-size: 13px;
       line-height: 16px;
-      color: #1f4173;
-      opacity: 0.5;
+      color: #003ad2;
       justify-content: center;
+    }
+    .action-btn {
+      margin-left: 4px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 16px;
+      color: #003ad2;
+      justify-content: center;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }
