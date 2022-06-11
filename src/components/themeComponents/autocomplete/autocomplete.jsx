@@ -19,18 +19,47 @@ const IAutocomplete = () => {
       size="small"
       id="combo-box-demo"
       options={options}
+      isOptionEqualToValue={(option, value) => option.label === value.label}
       sx={{
         width: 180,
         background: "#e9ecf1",
         borderRadius: "10px",
         border: "none",
         outline: "none",
+        "& .MuiAutocomplete-input": {
+          fontSize: 13,
+          fontWeight: 600,
+        },
+        "& .MuiAutocomplete-popper": {
+          borderRadius: "20px",
+        },
+        "& .MuiInputBase-root": {
+          opacity: 0.8,
+        },
+        "& legend": {
+          visibility: "hidden",
+        },
+      }}
+      ListboxProps={{
+        sx: {
+          fontSize: 13,
+          color: "#1F4173",
+          opacity: 0.7,
+        },
       }}
       className="autocomplete"
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search or Select"
+          InputLabelProps={{
+            style: {
+              fontSize: 13,
+              // paddingTop: "4px",
+              fontWeight: 600,
+              opacity: 0.8,
+            },
+          }}
+          placeholder="Search or Select"
           className="autocomplete-text-input"
         />
       )}

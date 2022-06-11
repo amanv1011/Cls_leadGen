@@ -5,6 +5,7 @@ import "./App.scss";
 import AllRoutes from "./components/routing/AllRoutes";
 import AlertNotification from "./components/themeComponents/Alerts";
 import { closeAlertAction } from "./redux/actions/alertActions";
+import Loader from "./components/themeComponents/loader/index.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ function App() {
   const handleClose = () => {
     dispatch(closeAlertAction());
   };
+  const LoaderData = useSelector((state) => state.loaderReducer.isLoading);
 
   return (
     <div className="App">
@@ -22,6 +24,7 @@ function App() {
         type={snackBarStates.type}
         handleClose={handleClose}
       />
+      {LoaderData && LoaderData === true ? <Loader open={LoaderData} /> : null}
       <Router>
         <AllRoutes />
       </Router>

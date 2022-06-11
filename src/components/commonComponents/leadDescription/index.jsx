@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { Avatar, Divider, IconButton, Box } from "@mui/material";
 import "./leadDescription.scss";
 import LinkedIn from "../../commonComponents/lead/LinkedIn";
+import avatar from "../../../assets/avatar.png";
+import Logo from "../../../assets/Logo.svg";
 
 const LeadDescription = ({ selectedLeadIdFun }) => {
   const displayLeadData = useSelector(
@@ -122,7 +124,21 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
               </Box>
             </Box>
           </>
-        ) : null}
+        ) : (
+          <img
+            src={Logo}
+            alt="logo"
+            height="50%"
+            width="75%"
+            style={{
+              opacity: 0.05,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "25% 10% ",
+            }}
+          />
+        )}
       </Box>
     </Box>
   );

@@ -72,3 +72,6 @@ export const OPEN_ALERT = "OPEN_ALERT";
 export const CLOSE_ALERT = "CLOSE_ALERT";
 
 export const LEADS_DROPDOWN_FILTER = "LEADS_DROPDOWN_FILTER";
+
+export const OPEN_LOADER = "OPEN_LOADER";
+export const CLOSE_LOADER = "CLOSE_LOADER";

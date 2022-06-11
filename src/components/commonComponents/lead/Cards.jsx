@@ -18,12 +18,35 @@ const Cards = (props) => {
   const dispatch = useDispatch();
   const [openText, setopenText] = useState(false);
   const [value, setValue] = useState("");
+  const [displayLeadData, setdisplayLeadData] = useState([]);
   const leadsData = props.leadData;
 
-  const displayLeadData = useSelector(
-    (state) => state.popupStatus.popupData[0]
+  const allLeadData = useSelector((state) => state.popupStatus.popupData[0]);
+  const approveRejectResponse = useSelector(
+    (state) => state.allLeads.approveRejectResponse
   );
+  useEffect(() => {
+    setdisplayLeadData(allLeadData);
+  }, [allLeadData]);
 
+  useEffect(() => {
+    // if (
+    //   approveRejectResponse &&
+    //   approveRejectResponse.status &&
+    //   displayLeadData &&
+    //   displayLeadData.status
+    // ) {
+    //   displayLeadData.status = approveRejectResponse.status;
+    // }
+    // console.log(displayLeadData && displayLeadData.status);
+    if (approveRejectResponse && approveRejectResponse.status) {
+      let data = displayLeadData;
+      data.status = approveRejectResponse && approveRejectResponse.status;
+      setdisplayLeadData(data);
+    }
+  }, [approveRejectResponse]);
+
+  console.log(approveRejectResponse);
   useEffect(() => {
     dispatch(cardsDisplayAction(leadsData));
   }, [leadsData.length]);
