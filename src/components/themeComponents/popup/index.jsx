@@ -206,11 +206,11 @@ const AddCampaginModal = () => {
   }
   return (
     <React.Fragment>
-      <div className="add" style={{ display: "-webkit-inline-box" }}>
+      {/* <div className="add" style={{ display: "-webkit-inline-box" }}>
         <IInput
           type={"text"}
           placeholder={"Search"}
-          isSearch={true}
+          // isSearch={true}
           onChangeInput={(event) => {
             dispatch(
               campaignActions.searchInputValueAction(event.target.value)
@@ -226,7 +226,7 @@ const AddCampaginModal = () => {
           }}
           autoComplete="off"
         />
-      </div>
+      </div> */}
       <Button
         onClick={() => {
           dispatch(campaignActions.showModal());

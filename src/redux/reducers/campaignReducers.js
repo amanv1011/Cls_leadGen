@@ -7,6 +7,7 @@ const initialState = {
   isModalVisible: false,
   a__campgaign__Id: "",
   initialSearchValue: "",
+  campaignDoc: {},
   searchedCampaignList: [],
 };
 
@@ -97,6 +98,29 @@ export const getAllCampaignsReducer = (
     case types.UPDATE_CAMPAIGN_DATA_ERROR:
       return {
         ...state,
+        error: payload,
+      };
+
+    case types.GET_A_CAMPAIGN_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+
+    case types.GET_A_CAMPAIGN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        campaignDoc: payload,
+        error: null,
+      };
+
+    case types.GET_A_CAMPAIGN_ERROR:
+      return {
+        ...state,
+        loading: false,
+        campaignDoc: {},
         error: payload,
       };
 

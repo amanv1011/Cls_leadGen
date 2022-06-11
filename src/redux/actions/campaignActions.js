@@ -6,10 +6,10 @@ export const getACampaignAction = (a__campgaignId) => {
   return async (dispatch) => {
     dispatch({ type: types.GET_A_CAMPAIGN_PENDING, loading: true });
     try {
-      const res = await campaignServices.get_A_Campaign(a__campgaignId);
+      const response = await campaignServices.get_A_Campaign(a__campgaignId);
       return dispatch({
         type: types.GET_A_CAMPAIGN_SUCCESS,
-        payload: res,
+        payload: { ...response.data(), id: response.id },
       });
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {
