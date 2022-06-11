@@ -7,6 +7,7 @@ import { leadsFilterReducer } from "./leadsFilterReducer";
 import { dateModalReducer } from "./dateModalReducer";
 import { paginationReducer } from "./paginationReducer";
 import { alertReducer } from "./alertReducer";
+import loaderReducer from "./globalLoaderReducer";
 
 const rootReducer = combineReducers({
   allCampaigns: getAllCampaignsReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   dateModal: dateModalReducer,
   paginationStates: paginationReducer,
   snackBar: alertReducer,
+  loaderReducer: loaderReducer,
 });
 
 export default rootReducer;

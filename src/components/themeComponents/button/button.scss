@@ -32,6 +32,7 @@
   color: #1f4173;
   border: none;
   cursor: pointer;
+  border-radius: 10px;
 }
 button:disabled {
   cursor: not-allowed;
@@ -44,20 +45,19 @@ button:disabled {
 .green-btn {
   // background: #24d6a5;
   background: #e0f9f2;
-  border-radius: 10px;
 }
 .yellow-btn {
   // background: #ffbd00;
   background: #fdf6db;
-  border-radius: 10px;
 }
 .grey-btn {
   // background: #737b8b;
   background: #ebedef;
-  border-radius: 10px;
 }
 .pink-btn {
   // background: #f2383a;
   background: #f9e3e4;
-  border-radius: 10px;
+}
+.blue-btn {
+  background: #deedff;
 }

@@ -15,23 +15,28 @@ import {
   GET_LEADS_LIST_FULL_DESCRIPTION_SUCCESS,
   GET_LEADS_LIST_FULL_DESCRIPTION_ERROR,
 } from "../type";
+import { closeLoader, openLoader } from "./globalLoaderAction";
 
 export const getAllLeadsAction = () => {
   return async (dispatch) => {
     dispatch({ type: GET_LEADS_LIST_PENDING, loading: true });
+    dispatch(openLoader({ isLoading: true }));
     try {
       const res = await getLeadsList();
+      dispatch(closeLoader());
       return dispatch({
         type: GET_LEADS_LIST_SUCCESS,
         payload: res,
       });
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {
+        dispatch(closeLoader());
         dispatch({
           type: GET_LEADS_LIST_ERROR,
           payload: err,
         });
       } else {
+        dispatch(closeLoader());
         dispatch({ type: GET_LEADS_LIST_ERROR });
       }
     }
@@ -61,10 +66,12 @@ export const getLeadsFullDescriptionAction = () => {
 };
 
 export const updateLeadStatus = (leadsId, Status) => {
+  console.log(leadsId);
   return async (dispatch) => {
     dispatch({ type: GET_LEADS_UPDATESTATUS_PENDING });
     try {
       const res = await approvRejectLeads(leadsId, Status);
+      console.log(res);
       dispatch({
         type: GET_LEADS_UPDATESTATUS_SUCCESS,
         payload: res,

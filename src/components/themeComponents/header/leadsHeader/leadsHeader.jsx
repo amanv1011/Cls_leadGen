@@ -15,6 +15,8 @@ import {
   clearFilters,
   datePickerState,
 } from "../../../../redux/actions/leadsFilter";
+import moment from "moment";
+import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
@@ -25,7 +27,8 @@ const LeadsHeader = () => {
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
-  const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
+  const cardsToDisplay = useSelector((state) => state.allLeads.cardsToDisplay);
+  // const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
 
   const [allCampgainsMenu, setAllCampgainsMenu] = React.useState(null);
   const [allCampaignsFilter, setAllCampgainsFilter] = useState("All Campgains");
@@ -80,6 +83,69 @@ const LeadsHeader = () => {
     dispatch(clearFilters());
     dispatch(datePickerState(0));
   };
+  // Export to leads functions
+  const downloadLeads = (leadsList, excelFileName) => {
+    let updatedleadsListDataToDownload = [];
+    leadsList.forEach((lead) => {
+      let campaignListDataToDownload = {
+        "Company name": lead.companyName !== null ? lead.companyName : "NA",
+        Location: lead.location !== "No location" ? lead.location : "NA",
+        "Lead generated date":
+          lead.leadGeneratedDate !== null
+            ? moment
+                .unix(
+                  lead.leadGeneratedDate.seconds,
+                  lead.leadGeneratedDate.nanoseconds
+                )
+                .format("MM/DD/YYYY")
+            : "NA",
+        "Lead posted date":
+          lead.leadPostedDate !== null
+            ? moment(lead.leadPostedDate).format("MM/DD/YYYY")
+            : "NA",
+        Link: lead.link,
+        Summary: lead.summary !== "No summary" ? lead.summary : "NA",
+        Title: lead.title,
+        "Status of the lead":
+          lead.status === 1
+            ? "Approved"
+            : lead.status === -1
+            ? "Rejected"
+            : lead.status === 2
+            ? "Archived"
+            : "Under review",
+      };
+
+      updatedleadsListDataToDownload = [
+        ...updatedleadsListDataToDownload,
+        campaignListDataToDownload,
+      ];
+    });
+
+    commonFunctions.downloadInExcel(
+      updatedleadsListDataToDownload,
+      `${excelFileName}`
+    );
+  };
+
+  const exportLeadsToExcel = () => {
+    if (window.location.pathname === "/leads") {
+      downloadLeads(cardsToDisplay, "All leads");
+    }
+    if (window.location.pathname === "/leads/approve") {
+      downloadLeads(cardsToDisplay, "Approved leads");
+    }
+
+    if (window.location.pathname === "/leads/reject") {
+      downloadLeads(cardsToDisplay, "Rejected leads");
+    }
+    if (window.location.pathname === "/leads/underreview") {
+      downloadLeads(cardsToDisplay, "Under review leads");
+    }
+    if (window.location.pathname === "/leads/archive") {
+      downloadLeads(cardsToDisplay, "Archived leads");
+    }
+  };
 
   return (
     <>
@@ -92,7 +158,7 @@ const LeadsHeader = () => {
               className="select-button"
             >
               {allCampaignsFilter}
-              <span style={{ paddingLeft: "45px", paddingBottom: "3px" }}>
+              <span style={{ paddingLeft: "15px", paddingBottom: "3px" }}>
                 <DownArrow />
               </span>
             </Button>
@@ -118,6 +184,7 @@ const LeadsHeader = () => {
               onClose={handleCloseAllCampgainsMenu}
             >
               <MenuItem
+                key={"abc"}
                 className="menu-item"
                 onClick={handleCloseAllCampgainsMenu}
                 sx={{
@@ -151,7 +218,7 @@ const LeadsHeader = () => {
               onClick={handleClickOwnerMenu}
             >
               {allOwnersFilter}
-              <span style={{ paddingLeft: "70px", paddingBottom: "3px" }}>
+              <span style={{ paddingLeft: "15px", paddingBottom: "3px" }}>
                 <DownArrow />
               </span>
             </Button>
@@ -181,6 +248,7 @@ const LeadsHeader = () => {
               }}
             >
               <MenuItem
+                key={"xyz"}
                 className="menu-item"
                 sx={{
                   fontSize: matches ? "13px" : "14px",
@@ -209,7 +277,7 @@ const LeadsHeader = () => {
         </div>
         <div className="right-section">
           <div className="filter-icon">
-            <Tooltip title="Filter" placement="top-start">
+            <Tooltip title="Clear Filter" placement="top-start">
               <Button onClick={clearFilterTab} className="filter-btn">
                 <FilterAltOffIcon />
               </Button>
@@ -218,17 +286,17 @@ const LeadsHeader = () => {
           <span>
             <Button
               variant="outlined"
-              // onClick={exportLeadsToExcel}
+              onClick={exportLeadsToExcel}
               className="export-to-excel-button"
-              // disabled={cardsToDisplay.length === 0 ? true : false}
-              // style={
-              //   cardsToDisplay.length === 0
-              //     ? {
-              //         pointerEvents: "auto",
-              //         cursor: "not-allowed",
-              //       }
-              //     : {}
-              // }
+              disabled={cardsToDisplay.length === 0 ? true : false}
+              style={
+                cardsToDisplay.length === 0
+                  ? {
+                      pointerEvents: "auto",
+                      cursor: "not-allowed",
+                    }
+                  : {}
+              }
             >
               Export to Excel
             </Button>

@@ -13,7 +13,7 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 330px auto 180px;
+    grid-template-columns: 330px auto 200px;
     .section {
     }
     .leads-list {
@@ -24,7 +24,7 @@
         rgba(248, 248, 249, 0.8) 134.62%
       );
       border-radius: 0px 0px 0px 15px;
-      padding: 8px 4px;
+      padding: 8px 4px 16px 4px;
       .checkbox-menu {
         display: flex;
         justify-content: space-between;
@@ -37,7 +37,7 @@
     }
     .leads-actions {
       box-sizing: border-box;
-      margin-top: 20px;
+      margin-top: 15px;
       padding: 0px 5px;
       .action-title {
         font-style: normal;
@@ -48,9 +48,28 @@
       }
       .action-buttons {
         box-sizing: border-box;
-        padding: 10px 0px;
+        padding: 6px 0px;
         display: grid;
-        grid-gap: 10px;
+        grid-gap: 6px;
+      }
+      .autocomplete-container {
+        margin: 6px 0px;
+        display: grid;
+        grid-template-rows: auto;
+        row-gap: 6px;
+        .autocomplete-title {
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 17px;
+          color: rgba(31, 65, 115, 0.7);
+        }
+        .hide {
+          display: none;
+        }
+        .show {
+          display: grid;
+        }
       }
     }
   }

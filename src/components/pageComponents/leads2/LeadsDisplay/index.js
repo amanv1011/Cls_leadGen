@@ -8,6 +8,8 @@ import moment from "moment";
 import { Button, Popover } from "@mui/material";
 import IButton from "../../../themeComponents/button";
 import { Box } from "@mui/system";
+import { updateLeadStatus } from "../../../../redux/actions/leadActions";
+import DownArrow from "../../leads/DownArrow";
 const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
   const dispatch = useDispatch();
 
@@ -16,6 +18,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+  //functions for popover
   const handlePopClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -60,6 +63,12 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
       setselectedArray([]);
     }
   };
+
+  const updateLeadBatchStatus = (status) => {
+    handleClose();
+    dispatch(updateLeadStatus(selectedArray, status));
+    setselectedArray([]);
+  };
   return (
     <React.Fragment>
       <div className="checkbox-menu-container">
@@ -71,11 +80,19 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
             onChange={handleAllCheck}
             className="checkbox"
           />
-          <label className="all-label">All</label>
-          <div>
-            <div variant="contained" onClick={handlePopClick}>
+          {selectedArray.length > 0 ? (
+            <div
+              variant="contained"
+              className="action-btn"
+              onClick={handlePopClick}
+            >
               Action
+              <DownArrow />
             </div>
+          ) : (
+            <label className="all-label">All</label>
+          )}
+          <div>
             <Popover
               id={id}
               open={open}
@@ -85,16 +102,42 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                 vertical: "bottom",
                 horizontal: "left",
               }}
-              PaperProps={{
-                boxShadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
-                borderRadius: "10px",
-              }}
             >
               <div className="popover-body">
-                <IButton type={"green"} name={"green"} children="Approve" />
-                <IButton type={"yellow"} name={"yellow"} children="Archive" />
-                <IButton type={"grey"} name={"grey"} children="Under Review" />
-                <IButton type={"pink"} name={"pink"} children=" Reject" />
+                <IButton
+                  type={"green"}
+                  name={"green"}
+                  children="Approve"
+                  onclick={() => updateLeadBatchStatus(1)}
+                />
+                <IButton
+                  type={"blue"}
+                  name={"blue"}
+                  children={"Assign"}
+                  onclick={() => {
+                    console.log("Assigned");
+                  }}
+                />
+                <IButton
+                  type={"yellow"}
+                  name={"yellow"}
+                  children={"Archive"}
+                  onclick={() => {
+                    updateLeadBatchStatus(2);
+                  }}
+                />
+                <IButton
+                  type={"grey"}
+                  name={"grey"}
+                  children="Under Review"
+                  onclick={() => updateLeadBatchStatus(0)}
+                />
+                <IButton
+                  type={"pink"}
+                  name={"pink"}
+                  children=" Reject"
+                  onclick={() => updateLeadBatchStatus(-1)}
+                />
               </div>
             </Popover>
           </div>
