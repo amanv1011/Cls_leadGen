@@ -21,17 +21,7 @@ const AllRoutes = () => {
             </>
           ),
         },
-        // removable block
-        {
-          path: "/leads2",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads2 />
-            </>
-          ),
-        },
-        // removable block end
+
         {
           path: "/campaign",
           element: (

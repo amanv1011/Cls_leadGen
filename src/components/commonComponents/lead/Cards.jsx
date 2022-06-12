@@ -9,36 +9,27 @@ import LeadDescription from "../../commonComponents/leadDescription";
 import LeadsDisplay from "../../pageComponents/leads2/LeadsDisplay";
 import LeadsSearch from "../../pageComponents/leads2/LeadsSearch";
 import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
-import "./lead.scss";
+// import "./lead.scss";
 import "../../pageComponents/leads2/leads.scss";
 import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
 import Textarea from "../../themeComponents/textarea/textarea";
+import { assignLead } from "../../../services/api/leads";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
   const [openText, setopenText] = useState(false);
-  const [value, setValue] = useState("");
   const [displayLeadData, setdisplayLeadData] = useState([]);
   const leadsData = props.leadData;
-
   const allLeadData = useSelector((state) => state.popupStatus.popupData[0]);
   const approveRejectResponse = useSelector(
     (state) => state.allLeads.approveRejectResponse
   );
+  const allUsers = useSelector((state) => state.users.users);
   useEffect(() => {
     setdisplayLeadData(allLeadData);
   }, [allLeadData]);
 
   useEffect(() => {
-    // if (
-    //   approveRejectResponse &&
-    //   approveRejectResponse.status &&
-    //   displayLeadData &&
-    //   displayLeadData.status
-    // ) {
-    //   displayLeadData.status = approveRejectResponse.status;
-    // }
-    // console.log(displayLeadData && displayLeadData.status);
     if (approveRejectResponse && approveRejectResponse.status) {
       let data = displayLeadData;
       data.status = approveRejectResponse && approveRejectResponse.status;
@@ -46,7 +37,6 @@ const Cards = (props) => {
     }
   }, [approveRejectResponse]);
 
-  console.log(approveRejectResponse);
   useEffect(() => {
     dispatch(cardsDisplayAction(leadsData));
   }, [leadsData.length]);
@@ -66,13 +56,21 @@ const Cards = (props) => {
   const selectedLeadIdFun = (leadId) => {
     setSlectedLeadId(leadId);
   };
-  console.log("render");
   const disable =
     Number(
       displayLeadData && displayLeadData.status && displayLeadData.status
     ) === Number(0)
       ? true
       : false;
+
+  const onChangeOption = (e, option) => {
+    console.log(option);
+    if (selectedLeadId.length > 0 && option && option.empId) {
+      //assign user to leadId here
+      console.log(selectedLeadId, option.empId);
+      assignLead(selectedLeadId, option.empId);
+    }
+  };
   return (
     <Box component="div" className="leads-container">
       <Box component={"div"} className="leads-header">
@@ -157,25 +155,17 @@ const Cards = (props) => {
           </Box>
           <Box className="autocomplete-container">
             <Box className="autocomplete-title">Assign To</Box>
-            <IAutocomplete />
+            <IAutocomplete options={allUsers} onChangeOption={onChangeOption} />
           </Box>
-          <Box className="autocomplete-container">
-            <Box>
-              {/* <TextField
-                value={value}
-                onChange={(e) => {
-                  setValue(e.target.value);
-                }}
-                className={openText ? "show" : "hide"}
-              /> */}
-              <Textarea />
-              <IButton
-                type={"blue"}
-                name={"blue"}
-                children={"Add Notes"}
-                onclick={() => setopenText(!openText)}
-              />
-            </Box>
+          <Box className="add-notes-container">
+            {openText ? <Textarea openText={openText} /> : null}
+            <IButton
+              type={"blue"}
+              name={"blue"}
+              children={"Add Notes"}
+              customClass={"add-nts-btn"}
+              onclick={() => setopenText(!openText)}
+            />
           </Box>
         </Box>
       </Box>
