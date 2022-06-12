@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box } from "@mui/system";
+import { Box, color } from "@mui/system";
 import { Divider, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { updateLeadStatus } from "../../../redux/actions/leadActions";
@@ -12,7 +12,11 @@ import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
 import "./lead.scss";
 import "../../pageComponents/leads2/leads.scss";
 import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
+import AddIcon from '@mui/icons-material/Add';
 import Textarea from "../../themeComponents/textarea/textarea";
+import { Input } from "@mui/material";
+import { TextFields } from "@mui/icons-material";
+import { Button } from "@mui/material";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -73,6 +77,18 @@ const Cards = (props) => {
     ) === Number(0)
       ? true
       : false;
+
+  const openTextField =()=>{
+      if(openText===false)
+      {
+        setopenText(true)
+      }
+         if(openText===true){
+           setopenText(false)
+         }
+      
+  }
+
   return (
     <Box component="div" className="leads-container">
       <Box component={"div"} className="leads-header">
@@ -168,13 +184,41 @@ const Cards = (props) => {
                 }}
                 className={openText ? "show" : "hide"}
               /> */}
-              <Textarea />
+
+              {openText ? <textarea 
+                  placeholder="Add Notes"
+              style={{
+                width:"180px",
+                border:"none",
+                height:"140px",
+                outline:"none",
+                padding:"10px",
+                
+                borderRadius:"10px",
+                
+            background:" rgba(31, 65, 115, 0.1)"
+              }}/> : " "}
+
+
+              {/* <Textarea /> */}
               <IButton
+              // sx={{
+              //   textTransform:"none",
+              //   width:"180px",
+              //   height:"40px",
+              //   color:"white",
+              //   borderRadius:"10px",
+              //   backgroundColor:"#003AD2"
+              // }}
+
+                // sx={{color:"blue"}}
                 type={"blue"}
                 name={"blue"}
-                children={"Add Notes"}
-                onclick={() => setopenText(!openText)}
-              />
+                
+                children={" + Add Notes"}
+                // onclick={() => setopenText(true)}
+                onclick={openTextField}
+             /> 
             </Box>
           </Box>
         </Box>

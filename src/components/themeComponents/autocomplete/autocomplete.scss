@@ -14,3 +14,8 @@
     font-size: 12px;
   }
 }
+
+textarea::-webkit-input-placeholder {
+  color:rgba(31, 65, 115, 0.5);
+
+}

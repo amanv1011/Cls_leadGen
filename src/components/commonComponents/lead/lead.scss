@@ -135,3 +135,12 @@
   width: 24px;
   height: 24px;
 }
+
+
+textarea::-webkit-input-placeholder {
+  color:rgba(31, 65, 115, 0.5);
+  
+}
+// .message::-webkit-input-placeholder {
+//   padding-top: 10px;
+// }
