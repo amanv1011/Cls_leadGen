@@ -1,9 +1,9 @@
-import { ArrowDownwardSharp } from "@mui/icons-material";
 import { MenuItem, Select } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { leadsDropDownFilterAction } from "../../../../redux/actions/leadsFilter";
-import DownArrow from "../../leads/DownArrow";
+// import DownArrow from "../../leads/DownArrow";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./leadsMenu.scss";
 
 const LeadsMenu = () => {
@@ -38,35 +38,6 @@ const LeadsMenu = () => {
   );
 
   return (
-    // <select
-    //   value={leadsDropDownFilter}
-    //   onChange={(event) => {
-    //     dispatch(leadsDropDownFilterAction(event.target.value));
-    //   }}
-    //   className="menu-select"
-    // >
-    //   <option
-    //     className="menu-option"
-    //     value="AllLeads"
-    //   >{`All Leads(${leadsAllCount})`}</option>
-    //   <option
-    //     className="menu-option"
-    //     value="UnderReveiwLeads"
-    //   >{`UnderReveiw (${leadsUnderReviewCount})`}</option>
-    //   <option
-    //     className="menu-option"
-    //     value="ApprovedLeads"
-    //   >{`Approved (${leadsAprrovedCount})`}</option>
-    //   <option
-    //     className="menu-option"
-    //     value="RejectedLeads"
-    //   >{`Rejected (${leadsRejectedCount})`}</option>
-    //   <option
-    //     className="menu-option"
-    //     value="ArcheievdLeads"
-    //   >{`Archieved (${leadsArchievedCount})`}</option>
-    // </select>
-
     <Select
       labelId="select-label"
       id="simple-select"
@@ -78,7 +49,7 @@ const LeadsMenu = () => {
       className="select-container"
       variant="standard"
       disableUnderline
-      IconComponent={() => <DownArrow />}
+      IconComponent={() => <KeyboardArrowDownIcon fontSize="small" />}
       MenuProps={{
         PaperProps: {
           sx: {

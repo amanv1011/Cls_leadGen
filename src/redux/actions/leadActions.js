@@ -70,7 +70,6 @@ export const getLeadsFullDescriptionAction = () => {
 };
 
 export const updateLeadStatus = (leadsId, Status) => {
-  console.log(leadsId);
   return async (dispatch) => {
     dispatch({ type: GET_LEADS_UPDATESTATUS_PENDING });
     try {

@@ -4,10 +4,7 @@ import {
   updateDoc,
   orderBy,
   query,
-  where,
   setDoc,
-  collection,
-  addDoc,
   arrayUnion,
 } from "firebase/firestore";
 import {
@@ -15,7 +12,6 @@ import {
   fullDescriptionCollection,
   assignedLeadCollection,
 } from "../firebase/collections";
-import { firestore } from "../firebase/firebaseInit";
 
 export const getLeadsList = async () => {
   const leadsSnapshot = await getDocs(query(leadsCollection, orderBy("title")));
@@ -50,8 +46,8 @@ export const approvRejectLeads = async (leadsId, leadStatus) => {
       leadsId.map(async (lead) => {
         const updateApproveReject = doc(leadsCollection, lead);
         await updateDoc(updateApproveReject, { status: leadStatus });
-        return { leadsId: leadsId, status: leadStatus };
       });
+      return { leadsId: leadsId, status: leadStatus };
     }
   } catch (err) {
     return err;

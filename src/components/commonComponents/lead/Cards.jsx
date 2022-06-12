@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
-import { Divider, TextField } from "@mui/material";
+import { Divider } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   assignLeadToUsersAction,
+  getAllLeadsAction,
   updateLeadStatus,
 } from "../../../redux/actions/leadActions";
 import { cardsDisplayAction } from "../../../redux/actions/leadActions";
@@ -16,7 +17,6 @@ import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
 import "../../pageComponents/leads2/leads.scss";
 import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
 import Textarea from "../../themeComponents/textarea/textarea";
-import { assignLead } from "../../../services/api/leads";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -33,6 +33,7 @@ const Cards = (props) => {
   }, [allLeadData]);
 
   useEffect(() => {
+    dispatch(getAllLeadsAction());
     if (approveRejectResponse && approveRejectResponse.status) {
       let data = displayLeadData;
       data.status = approveRejectResponse && approveRejectResponse.status;
@@ -53,18 +54,15 @@ const Cards = (props) => {
   let archieveButton = () => {
     dispatch(updateLeadStatus(selectedLeadId, 2));
   };
+  let underReviewButton = () => {
+    dispatch(updateLeadStatus(selectedLeadId, 0));
+  };
 
   const [selectedLeadId, setSlectedLeadId] = useState("");
 
   const selectedLeadIdFun = (leadId) => {
     setSlectedLeadId(leadId);
   };
-  const disable =
-    Number(
-      displayLeadData && displayLeadData.status && displayLeadData.status
-    ) === Number(0)
-      ? true
-      : false;
 
   const onChangeOption = (e, option) => {
     console.log(option);
@@ -137,8 +135,16 @@ const Cards = (props) => {
                 type={"grey"}
                 name={"Under Review"}
                 children="Under Review"
-                disabled={disable}
-                onclick={() => console.log("e")}
+                disabled={
+                  Number(
+                    displayLeadData &&
+                      displayLeadData.status &&
+                      displayLeadData.status
+                  ) === Number(0)
+                    ? true
+                    : false
+                }
+                onclick={underReviewButton}
               />
               <IButton
                 type={"pink"}

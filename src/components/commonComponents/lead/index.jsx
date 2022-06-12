@@ -117,7 +117,7 @@ const Lead = () => {
     dispatch(
       getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
     );
-  }, []);
+  });
   useEffect(() => {
     dispatch(getAllUsersAction());
   }, []);
