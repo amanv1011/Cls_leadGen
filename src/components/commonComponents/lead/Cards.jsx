@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
 import { Divider, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { updateLeadStatus } from "../../../redux/actions/leadActions";
+import {
+  assignLeadToUsersAction,
+  updateLeadStatus,
+} from "../../../redux/actions/leadActions";
 import { cardsDisplayAction } from "../../../redux/actions/leadActions";
 import IButton from "../../themeComponents/button";
 import LeadDescription from "../../commonComponents/leadDescription";
@@ -67,8 +70,7 @@ const Cards = (props) => {
     console.log(option);
     if (selectedLeadId.length > 0 && option && option.empId) {
       //assign user to leadId here
-      console.log(selectedLeadId, option.empId);
-      assignLead(selectedLeadId, option.empId);
+      dispatch(assignLeadToUsersAction(selectedLeadId, option.empId));
     }
   };
   return (
