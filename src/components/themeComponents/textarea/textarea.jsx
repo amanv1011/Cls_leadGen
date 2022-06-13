@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Textarea = ({ openText }) => {
-  const [value, setValue] = useState("");
-
+const Textarea = ({ openText, setValue, value }) => {
   return (
     <textarea
       style={{
@@ -23,7 +21,6 @@ const Textarea = ({ openText }) => {
       placeholder={"Add Notes"}
       value={value}
       onChange={(e) => {
-        e.preventDefault();
         setValue(e.target.value);
       }}
       className={openText ? "show" : "hide"}

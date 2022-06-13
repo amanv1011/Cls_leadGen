@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Button, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import DateModal from "../../../pageComponents/leads/DateModal";
-import DownArrow from "../../../pageComponents/leads/DownArrow";
+import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import Tooltip from "@mui/material/Tooltip";
 import "./leadsHeader.scss";

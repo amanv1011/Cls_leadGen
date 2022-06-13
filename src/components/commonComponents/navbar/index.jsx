@@ -3,9 +3,9 @@ import { Avatar, Box, Container, IconButton, Typography } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import React, { useState } from "react";
 import "./navbar.scss";
-import Logo from "../../../assets/Logo.svg";
-import avatar from "../../../assets/avatar.png";
-import backButton from "../../../assets/backButton.svg";
+import Logo from "../../../assets/icons/Logo.svg";
+import avatar from "../../../assets/icons/avatar.png";
+import backButton from "../../../assets/icons/backButton.svg";
 import UserPopover from "../../themeComponents/userPopover";
 import Dropdown from "../../../assets/icons/Dropdown.svg";
 

@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from "react";
-import "./leads.scss";
+// import React, { useState, useEffect } from "react";
+// import "./leads.scss";
 
-const Leads2 = () => {
-  const [dataFromChild, setDataFromChild] = useState("");
+// const Leads2 = () => {
+//   const [dataFromChild, setDataFromChild] = useState("");
 
-  const dropDownFunc = (childData) => {
-    setDataFromChild(childData);
-    console.log("Child data: " + childData);
-  };
+//   const dropDownFunc = (childData) => {
+//     setDataFromChild(childData);
+//     console.log("Child data: " + childData);
+//   };
 
-  useEffect(() => {
-    dropDownFunc("AllLeads");
-  }, []);
+//   useEffect(() => {
+//     dropDownFunc("AllLeads");
+//   }, []);
 
-  if (dataFromChild === "AllLeads") {
-    console.log("AllLeads");
-  }
-  if (dataFromChild === "UnderReveiwLeads") {
-    console.log("UnderReveiwLeads");
-  }
-  if (dataFromChild === "ApprovedLeads") {
-    console.log("ApprovedLeads");
-  }
-  if (dataFromChild === "RejectedLeads") {
-    console.log("RejectedLeads");
-  }
-  if (dataFromChild === "ArcheievdLeads") {
-    console.log("ArcheievdLeads");
-  }
+//   if (dataFromChild === "AllLeads") {
+//     console.log("AllLeads");
+//   }
+//   if (dataFromChild === "UnderReveiwLeads") {
+//     console.log("UnderReveiwLeads");
+//   }
+//   if (dataFromChild === "ApprovedLeads") {
+//     console.log("ApprovedLeads");
+//   }
+//   if (dataFromChild === "RejectedLeads") {
+//     console.log("RejectedLeads");
+//   }
+//   if (dataFromChild === "ArcheievdLeads") {
+//     console.log("ArcheievdLeads");
+//   }
 
-  return <h1>Hello</h1>;
-};
+//   return <h1>Hello</h1>;
+// };
 
-export default Leads2;
+// export default Leads2;

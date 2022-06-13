@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import { Divider } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addNotestoLeadAction,
   assignLeadToUsersAction,
   getAllLeadsAction,
   updateLeadStatus,
@@ -26,6 +27,8 @@ const Cards = (props) => {
   const dispatch = useDispatch();
   const [openText, setopenText] = useState(false);
   const [displayLeadData, setdisplayLeadData] = useState([]);
+  const [value, setValue] = useState("");
+
   const leadsData = props.leadData;
   const allLeadData = useSelector((state) => state.popupStatus.popupData[0]);
   const approveRejectResponse = useSelector(
@@ -70,11 +73,19 @@ const Cards = (props) => {
 
   const onChangeOption = (e, option) => {
     console.log(option);
-    if (selectedLeadId.length > 0 && option && option.empId) {
+    if (selectedLeadId.length > 0 && option && option.userId) {
       //assign user to leadId here
-      dispatch(assignLeadToUsersAction(selectedLeadId, option.empId));
+      dispatch(assignLeadToUsersAction(selectedLeadId, option.userId));
     }
   };
+
+  const addNotesFunction = () => {
+    if (openText && value.length > 0) {
+      dispatch(addNotestoLeadAction(selectedLeadId, value));
+    }
+    setopenText(!openText);
+  };
+
   return (
     <Box component="div" className="leads-container">
       <Box component={"div"} className="leads-header">
@@ -170,13 +181,15 @@ const Cards = (props) => {
             <IAutocomplete options={allUsers} onChangeOption={onChangeOption} />
           </Box>
           <Box className="add-notes-container">
-            {openText ? <Textarea openText={openText} /> : null}
+            {openText ? (
+              <Textarea openText={openText} value={value} setValue={setValue} />
+            ) : null}
             <IButton
               type={"blue"}
               name={"blue"}
               children={" + Add Notes"}
               customClass={"add-nts-btn"}
-              onclick={() => setopenText(!openText)}
+              onclick={addNotesFunction}
             />
           </Box>
         </Box>
