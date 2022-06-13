@@ -6,20 +6,45 @@ import Edit from "../../../themeComponents/campTable/Edit";
 import Cancel from "../../../themeComponents/campTable/Cancel";
 import * as commonFunctions from "../commonFunctions";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
-import moment from "moment";
-import "./campaignButtonActions.scss";
 import AlertBeforeAction from "../../../themeComponents/campTable/AlertBeforeAction";
+import { Timestamp } from "firebase/firestore";
+import moment from "moment";
+import { openAlertAction } from "../../../../redux/actions/alertActions";
+import "./campaignButtonActions.scss";
 
-const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
+const CampaignButtonActions = ({
+  campaignDoc,
+  addCampaignDetails,
+  tags,
+  campgaignId,
+  leadsList,
+}) => {
   const dispatch = useDispatch();
   const [openAlert, setOpenAlert] = useState(false);
   const [campaignName, setCampaignName] = useState("");
   const [idForDelete, setIdForDelete] = useState("");
 
+  console.log(addCampaignDetails);
+
+  const newCampaign = {
+    ...addCampaignDetails,
+    frequency: parseInt(addCampaignDetails.frequency),
+    tags,
+    pages: parseInt(addCampaignDetails.pages),
+    end_date: Timestamp.fromDate(new Date(addCampaignDetails.end_date)),
+    start_date: Timestamp.fromDate(new Date(addCampaignDetails.start_date)),
+    last_crawled_date: Timestamp.fromDate(
+      new Date(addCampaignDetails.start_date)
+    ),
+    owner: "Mithun Dominic",
+  };
+
   const getNumOfLeads = (id) => {
-    const val = leadsList.filter((valID) => {
-      return valID.campaignId === id;
-    });
+    const val =
+      leadsList &&
+      leadsList.filter((valID) => {
+        return valID.campaignId === id;
+      });
     return val.length;
   };
 
@@ -74,14 +99,36 @@ const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
   if (campgaignId) {
     return (
       <div className="campaignButton-actions">
-        <button className="campaign-btn save-btn">
+        <button
+          className="campaign-btn save-btn"
+          onClick={() => {
+            try {
+              if (campaignDoc.id === campgaignId) {
+                dispatch(
+                  campaignActions.updateCampaignsAction(
+                    campgaignId,
+                    newCampaign
+                  )
+                );
+                dispatch(campaignActions.campaignIDAction(""));
+              }
+            } catch (error) {
+              dispatch(
+                openAlertAction(
+                  `${error.message}. Please provide a valid date`,
+                  true,
+                  "error"
+                )
+              );
+            }
+          }}
+        >
           <Cancel /> <span className="campaign-btn-text">Save</span>
         </button>
         <button
           className="campaign-btn cancel-btn"
           onClick={() => {
             dispatch(campaignActions.campaignIDAction(""));
-            // dispatch(campaignActions.showModal());
           }}
         >
           <Cancel /> <span className="campaign-btn-text">Cancel</span>
@@ -114,7 +161,6 @@ const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
             // }
             onClick={() => {
               dispatch(campaignActions.campaignIDAction(campaignDoc.id));
-              // dispatch(campaignActions.showModal());
             }}
           >
             <Edit /> <span className="campaign-btn-text">Edit</span>

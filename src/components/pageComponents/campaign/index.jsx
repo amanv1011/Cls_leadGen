@@ -6,9 +6,6 @@ import CampaignHeader from "./CampaignHeader";
 import CampaignSearch from "./CampaignSearch";
 import CampaignDisplay from "./CampaignDisplay";
 import CampaignDescription from "./CampaignDescription";
-import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
-import * as campaignActions from "../../../redux/actions/campaignActions";
-import CampaignButtonActions from "./CampaignButtonActions";
 import "./campaign.scss";
 
 const Campaign = () => {
@@ -51,19 +48,6 @@ const Campaign = () => {
     setLeadsList(leadsListData);
   }, [campaignsListData, campaignDocData, leadsListData]);
 
-  const onChangeOption = (e, option) => {
-    console.log(option);
-    if (campaignDoc && campaignDoc.id.length > 0 && option && option.empId) {
-      //assign user to leadId here
-      console.log("campaignDoc.id", campaignDoc.id);
-      dispatch(
-        campaignActions.assignCampaignToUsersAction(
-          campaignDoc.id,
-          option.empId
-        )
-      );
-    }
-  };
   return (
     <Box component="div" className="campaign-container">
       <Box component={"div"} className="campaign-header">
@@ -102,6 +86,7 @@ const Campaign = () => {
             currentPage={currentPage}
             dataPerPage={dataPerPage}
             leadsList={leadsList}
+            campgaignId={campgaignId}
           />
         </Box>
         <Box component={"div"} className="section campaign-details">
@@ -111,7 +96,7 @@ const Campaign = () => {
             leadsList={leadsList}
           />
         </Box>
-        <Box component={"div"} className="section campaign-actions">
+        {/* <Box component={"div"} className="section campaign-actions">
           <Box className="autocomplete-container">
             <Box
               className="autocomplete-title"
@@ -138,7 +123,7 @@ const Campaign = () => {
               leadsList={leadsList}
             />
           </Box>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
