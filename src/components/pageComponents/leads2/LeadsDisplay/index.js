@@ -7,7 +7,7 @@ import moment from "moment";
 import { Popover } from "@mui/material";
 import IButton from "../../../themeComponents/button";
 import { updateLeadStatus } from "../../../../redux/actions/leadActions";
-import DownArrow from "../../leads/DownArrow";
+import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
   const dispatch = useDispatch();
 

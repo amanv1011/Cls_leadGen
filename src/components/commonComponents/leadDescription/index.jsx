@@ -2,9 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Avatar, Divider, IconButton, Box } from "@mui/material";
 import "./leadDescription.scss";
-import LinkedIn from "../../commonComponents/lead/LinkedIn";
 import Details from "../../../assets/icons/Details.png";
-import Logo from "../../../assets/Logo.svg";
+import Logo from "../../../assets/icons/Logo.svg";
 import LinkedInIcon from "../../../assets/icons/LinkedInIcon.png";
 
 const LeadDescription = ({ selectedLeadIdFun }) => {
