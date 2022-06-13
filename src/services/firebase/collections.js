@@ -8,3 +8,5 @@ export const fullDescriptionCollection = collection(
   "fullDescription"
 );
 export const leadsCollection = collection(firestore, "leads");
+export const usersCollection = collection(firestore, "users");
+export const assignedLeadCollection = collection(firestore, "assignedLead");

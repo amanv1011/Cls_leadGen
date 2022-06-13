@@ -78,6 +78,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    .checkbox {
+      background-color: #003ad2;
+      &:hover {
+        cursor: pointer;
+      }
+    }
     .all-label {
       margin-left: 5px;
       font-style: normal;
@@ -109,4 +115,5 @@
   padding: 10px;
   grid-row-gap: 10px;
   background: #ffffff;
+  border-radius: 10px;
 }

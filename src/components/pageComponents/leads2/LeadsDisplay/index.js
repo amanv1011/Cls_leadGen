@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
-import LeadsCheckbox from "../LeadsCheckbox";
 import "./leadsDisplay.scss";
 import { useDispatch } from "react-redux";
 import { getPopupEnable } from "../../../../redux/actions/PopupAction";
 import LeadsMenu from "../LeadsMenu";
 import moment from "moment";
-import { Button, Popover } from "@mui/material";
+import { Popover } from "@mui/material";
 import IButton from "../../../themeComponents/button";
-import { Box } from "@mui/system";
 import { updateLeadStatus } from "../../../../redux/actions/leadActions";
-import DownArrow from "../../leads/DownArrow";
+import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
   const dispatch = useDispatch();
 
-  const [leadsListData, setLeadsListData] = useState([]);
+  const [, setLeadsListData] = useState([]);
   const [selectedArray, setselectedArray] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -45,7 +43,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
       setselectedArray([...selectedArray, event.target.value]);
     } else {
       const filtered = selectedArray.filter(
-        (item) => item != event.target.value
+        (item) => item !== event.target.value
       );
       setselectedArray(filtered);
     }
@@ -111,14 +109,14 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                   children="Approve"
                   onclick={() => updateLeadBatchStatus(1)}
                 />
-                <IButton
+                {/* <IButton
                   type={"blue"}
                   name={"blue"}
                   children={"Assign"}
                   onclick={() => {
                     console.log("Assigned");
                   }}
-                />
+                /> */}
                 <IButton
                   type={"yellow"}
                   name={"yellow"}

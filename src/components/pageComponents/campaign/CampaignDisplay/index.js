@@ -7,7 +7,7 @@ import IButton from "../../../themeComponents/button";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import { openAlertAction } from "../../../../redux/actions/alertActions";
 import PaginationComponent from "../../../commonComponents/PaginationComponent";
-import DownArrow from "../../leads/DownArrow";
+import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import Download from "../../../themeComponents/campTable/Download";
 import Delete from "../../../themeComponents/campTable/Delete";
 import "./campaignDisplay.scss";

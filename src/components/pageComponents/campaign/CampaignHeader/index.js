@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Button, Menu, MenuItem, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
-import DownArrow from "../../../pageComponents/leads/DownArrow";
+// import DownArrow from "../../../pageComponents/leads/DownArrow";
+import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import moment from "moment";
 import "./campaignHeader.scss";
 import {

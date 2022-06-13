@@ -8,8 +8,7 @@ import CampaignSearch from "./CampaignSearch";
 import CampaignDisplay from "./CampaignDisplay";
 import CampaignDescription from "./CampaignDescription";
 import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
-import IButton from "../../themeComponents/button";
-import DownArrow from "../../pageComponents/leads/DownArrow";
+
 import CampaignButtonActions from "./CampaignButtonActions";
 import "./campaign.scss";
 

@@ -2,6 +2,7 @@ import {
   getLeadsList,
   approvRejectLeads,
   getLeadsFullDescription,
+  assignLead,
 } from "../../services/api/leads";
 import {
   GET_LEADS_LIST_PENDING,
@@ -14,6 +15,9 @@ import {
   GET_LEADS_LIST_FULL_DESCRIPTION_PENDING,
   GET_LEADS_LIST_FULL_DESCRIPTION_SUCCESS,
   GET_LEADS_LIST_FULL_DESCRIPTION_ERROR,
+  ASSIGN_LEAD_PENDING,
+  ASSIGN_LEAD_SUCCESS,
+  ASSIGN_LEAD_ERROR,
 } from "../type";
 import { closeLoader, openLoader } from "./globalLoaderAction";
 
@@ -66,7 +70,6 @@ export const getLeadsFullDescriptionAction = () => {
 };
 
 export const updateLeadStatus = (leadsId, Status) => {
-  console.log(leadsId);
   return async (dispatch) => {
     dispatch({ type: GET_LEADS_UPDATESTATUS_PENDING });
     try {
@@ -93,5 +96,31 @@ export const updateLeadStatus = (leadsId, Status) => {
 export const cardsDisplayAction = (cards) => {
   return async (dispatch) => {
     await dispatch({ type: CARDS_DISPLAYED, payload: cards });
+  };
+};
+
+export const assignLeadToUsersAction = (leadId, userId) => {
+  return async (dispatch) => {
+    dispatch({ type: ASSIGN_LEAD_PENDING, loading: true });
+    dispatch(openLoader({ isLoading: true }));
+    try {
+      const res = await assignLead(leadId, userId);
+      dispatch(closeLoader());
+      return dispatch({
+        type: ASSIGN_LEAD_SUCCESS,
+        payload: res,
+      });
+    } catch (err) {
+      if (!!err && !!err.response && !!err.response.data) {
+        dispatch(closeLoader());
+        dispatch({
+          type: ASSIGN_LEAD_ERROR,
+          payload: err,
+        });
+      } else {
+        dispatch(closeLoader());
+        dispatch({ type: ASSIGN_LEAD_ERROR });
+      }
+    }
   };
 };

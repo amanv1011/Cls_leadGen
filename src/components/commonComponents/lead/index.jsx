@@ -9,6 +9,7 @@ import { getApproveCount } from "../../../redux/actions/approveRejectcount";
 import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
 import { setActivePage } from "../../../redux/actions/paginationActions";
+import { getAllUsersAction } from "../../../redux/actions/usersAction";
 import { useEffect } from "react";
 import "./lead.scss";
 
@@ -117,6 +118,9 @@ const Lead = () => {
       getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
     );
   });
+  useEffect(() => {
+    dispatch(getAllUsersAction());
+  }, []);
 
   useEffect(() => {
     dispatch(setActivePage(1));
