@@ -69,9 +69,9 @@ const Cards = (props) => {
 
   const onChangeOption = (e, option) => {
     console.log(option);
-    if (selectedLeadId.length > 0 && option && option.empId) {
+    if (selectedLeadId.length > 0 && option && option.userId) {
       //assign user to leadId here
-      dispatch(assignLeadToUsersAction(selectedLeadId, option.empId));
+      dispatch(assignLeadToUsersAction(selectedLeadId, option.userId));
     }
   };
 
@@ -81,7 +81,7 @@ const Cards = (props) => {
     }
     setopenText(!openText);
   };
-  console.log(value);
+
   return (
     <Box component="div" className="leads-container">
       <Box component={"div"} className="leads-header">
