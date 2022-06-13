@@ -11,7 +11,6 @@ import { getApproveCount } from "../../../redux/actions/approveRejectcount";
 import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
 import { setActivePage } from "../../../redux/actions/paginationActions";
-import PopupBox from "./PopupBox";
 import "./lead.scss";
 
 const Reject = () => {
@@ -105,19 +104,18 @@ const Reject = () => {
   const popupStatus = useSelector((state) => state.popupStatus.popupStatus);
   const popupData = useSelector((state) => state.popupStatus.popupData);
 
-
-
   useEffect(() => {
     dispatch(getApproveCount(approveCount));
     dispatch(getUnderreviewCount(underReviewCount));
     dispatch(getRejectCount(rejectCount));
     dispatch(getArchieveCount(archieveCount));
-    if(searchQuery === "" && searchDate === ""){
+    if (searchQuery === "" && searchDate === "") {
       dispatch(
-        getAllCount(approveCount+underReviewCount+rejectCount+archieveCount)
+        getAllCount(
+          approveCount + underReviewCount + rejectCount + archieveCount
+        )
       );
     }
-
   });
 
   useEffect(() => {
@@ -125,7 +123,6 @@ const Reject = () => {
   }, [searchQuery, ownerNameFilter, searchDate, campaignNameFilter]);
   return (
     <>
-      {popupStatus ? <PopupBox data={popupData} /> : null}
       <Cards leadData={filterReject} />
     </>
   );

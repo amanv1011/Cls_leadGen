@@ -4,7 +4,8 @@ import {
   FILTER_LEADS_SEARCH,
   FILTER_LEADS_DATE,
   FILTER_LEADS_CLEAR,
-  SET_DATEPICKER_STATE
+  SET_DATEPICKER_STATE,
+  LEADS_DROPDOWN_FILTER,
 } from "../type";
 
 export const leadsFilterCampaignName = (campaignNameFilter) => {
@@ -38,7 +39,12 @@ export const clearFilters = () => {
 
 export const datePickerState = (showDate) => {
   return async (dispatch) => {
-    dispatch({ type:SET_DATEPICKER_STATE , payload: showDate });
+    dispatch({ type: SET_DATEPICKER_STATE, payload: showDate });
   };
 };
 
+export const leadsDropDownFilterAction = (FilterValue) => {
+  return async (dispatch) => {
+    dispatch({ type: LEADS_DROPDOWN_FILTER, payload: FilterValue });
+  };
+};

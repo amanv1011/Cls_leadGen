@@ -9,6 +9,12 @@ import {
   GET_LEADS_LIST_FULL_DESCRIPTION_PENDING,
   GET_LEADS_LIST_FULL_DESCRIPTION_SUCCESS,
   GET_LEADS_LIST_FULL_DESCRIPTION_ERROR,
+  GET_USERS_PENDING,
+  GET_USERS_SUCCESS,
+  GET_USERS_ERROR,
+  ADD_NOTES_PENDING,
+  ADD_NOTES_SUCCESS,
+  ADD_NOTES_ERROR,
 } from "../type";
 
 const initialState = {
@@ -20,6 +26,8 @@ const initialState = {
   approveRejectResponse: null,
   cardsToDisplay: [],
   leadsFullDescription: [],
+  assignLead: {},
+  addedNotes: {},
 };
 
 // fetch all campaign list
@@ -92,6 +100,66 @@ export const getAllLeadsReducer = (state = initialState, { type, payload }) => {
         cardsToDisplay: payload,
       };
 
+    default:
+      return state;
+  }
+};
+
+export const assignLeadToReducer = (
+  state = initialState,
+  { type, payload }
+) => {
+  switch (type) {
+    case GET_USERS_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case GET_USERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        assignLead: payload,
+        error: null,
+      };
+    case GET_USERS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        assignLead: payload,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const addNotesToUserReducer = (
+  state = initialState,
+  { type, payload }
+) => {
+  switch (type) {
+    case ADD_NOTES_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case ADD_NOTES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        addedNotes: payload,
+        error: null,
+      };
+    case ADD_NOTES_ERROR:
+      return {
+        ...state,
+        loading: false,
+        addedNotes: [],
+        error: payload,
+      };
     default:
       return state;
   }

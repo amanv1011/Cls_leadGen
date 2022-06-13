@@ -11,6 +11,7 @@ export const setDataPerPage = (value) => {
     dispatch({ type: types.GET_DATA_PER_PAGE, payload: Number(value) });
   };
 };
+
 export const setActivePage = (value) => {
   return async (dispatch) => {
     dispatch({ type: types.GET_ACTIVE_COUNT, payload: value });

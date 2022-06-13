@@ -5,8 +5,7 @@ export const filterLeads = (
   campaignIds,
   leadsList,
   searchDate,
-  searchQuery,
-  
+  searchQuery
 ) => {
   var finalFilteredResults = [];
   var filteredResults = [];

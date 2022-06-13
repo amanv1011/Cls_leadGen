@@ -5,16 +5,16 @@ export default function IButton({
   type,
   children,
   name,
-  handleClick,
+  onclick,
   customClass,
   disabled,
 }) {
   return (
     <>
       <button
-        className={`${type}-btn ${customClass}`}
+        className={`btn ${type}-btn ${customClass}`}
         name={name}
-        onClick={handleClick}
+        onClick={onclick}
         disabled={disabled}
       >
         {children}

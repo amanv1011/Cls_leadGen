@@ -13,7 +13,10 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getAllCampaignsAction } from "../../../redux/actions/campaignActions";
-import { getAllLeadsAction } from "../../../redux/actions/leadActions";
+import {
+  getAllLeadsAction,
+  getLeadsFullDescriptionAction,
+} from "../../../redux/actions/leadActions";
 
 const Dashboard = ({ children }) => {
   const dispatch = useDispatch();
@@ -55,6 +58,7 @@ const Dashboard = ({ children }) => {
   useEffect(() => {
     dispatch(getAllCampaignsAction());
     dispatch(getAllLeadsAction());
+    dispatch(getLeadsFullDescriptionAction());
   }, []);
 
   useEffect(() => {
@@ -184,12 +188,12 @@ const Dashboard = ({ children }) => {
               paddingTop: "15px",
             }}
           >
-            <IconButton onClick={goBack}>
+            {/* <IconButton onClick={goBack}>
               <ArrowBackIcon />
             </IconButton>
             <Typography component="p" className="dashboard-title">
               Lead Campaign
-            </Typography>
+            </Typography> */}
           </Box>
           <Outlet />
           {window.location.pathname === "/" ? (

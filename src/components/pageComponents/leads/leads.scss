@@ -17,27 +17,6 @@
       scrollbar-width: thin;
     }
   }
-  .export-to-excel-button {
-    text-transform: none;
-    height: 30px;
-    font-weight: 600;
-    width: 130px;
-    padding: 10px;
-    border-radius: 10px;
-    margin-left: 10px;
-    // background-color: #424e62;
-    background-color: #339966;
-    color: rgb(255, 255, 255);
-    border: none;
-    box-shadow: none;
-    &:hover {
-      cursor: pointer;
-      background: #2e8a5c;
-      color: #ffff;
-      box-shadow: none;
-      border: none;
-    }
-  }
 }
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
   font: inherit;

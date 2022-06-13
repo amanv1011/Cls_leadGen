@@ -98,6 +98,22 @@ export default function BasicTabs({ type }) {
                 setLeadsHover(true);
               }}
             />
+            {/* ////////////////////////////////////// */}
+            <Tab
+              label="Leads2"
+              component={Link}
+              to="/leads2"
+              sx={{
+                textTransform: "none",
+                color: leadsHover
+                  ? "rgb(0,58,210)!important"
+                  : "rgb(31,65,115)!important",
+              }}
+              onClick={() => {
+                setHover(false);
+                setLeadsHover(true);
+              }}
+            />
           </Tabs>
         ) : (
           <Tabs value={valueTabs} onChange={handleChange} className="form-tabs">

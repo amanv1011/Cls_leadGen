@@ -1,0 +1,119 @@
+.lead-display-container {
+  height: 57vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .selected {
+    background: #003ad2;
+    // border-radius: 10% 0 0 10%;
+    color: #ffff !important;
+  }
+
+  .lead-display-subcontainers {
+    cursor: pointer;
+    width: 100%;
+    height: 65px;
+    // border: 1px solid aliceblue;
+    display: flex;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #003ad2;
+    align-items: center;
+    padding: 2px 15px;
+    border-bottom: solid rgb(236, 238, 242) 2px;
+    .lead-display-check {
+      box-sizing: border-box;
+      margin-top: -10px;
+      width: 20px;
+      height: 20px;
+    }
+    .lead-display-subcontainer1 {
+      color: #003ad2;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      flex-direction: column;
+      .display-cont {
+        .lead-display-btn-text {
+          width: 190px;
+          height: 18px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+        .lead-display-timestamp {
+          font-weight: 600;
+          font-size: 11px;
+          line-height: 15px;
+          text-align: right;
+          color: rgba(31, 65, 115, 0.5);
+        }
+      }
+    }
+    .lead-display-subcontainer2 {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 15px;
+      color: rgba(31, 65, 115, 0.5);
+    }
+    .selected-sub {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+  }
+}
+
+.checkbox-menu-container {
+  box-sizing: border-box;
+  height: 42px;
+  width: auto;
+  padding: 6px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid rgb(236, 238, 242) 2px;
+  .checkbox-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .checkbox {
+      background-color: #003ad2;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .all-label {
+      margin-left: 5px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 16px;
+      color: #003ad2;
+      justify-content: center;
+    }
+    .action-btn {
+      margin-left: 4px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 16px;
+      color: #003ad2;
+      justify-content: center;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+.popover-body {
+  box-shadow: none;
+  display: grid;
+  grid-template-columns: auto;
+  box-sizing: border-box;
+  padding: 10px;
+  grid-row-gap: 10px;
+  background: #ffffff;
+  border-radius: 10px;
+}

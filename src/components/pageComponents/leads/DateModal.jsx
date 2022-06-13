@@ -4,10 +4,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import BasicDateRangePicker from "./DatePicker";
-import Calendar from "./Calendar";
+import Calendar from "../../../assets/jsxIcon/Calendar";
 import { useSelector, useDispatch } from "react-redux";
 
-import DownArrow from "./DownArrow";
+import DownArrow from "../../../assets/jsxIcon/DownArrow";
 import {
   openDateModal,
   closeDateModal,
@@ -53,7 +53,8 @@ export default function DateModal() {
         style={{
           textTransform: "none",
           color: "#5C759A",
-          backgroundColor: "#E7E7E7",
+          // backgroundColor: "#E7E7E7",
+          backgroundColor: "rgb(233,236,241)",
           borderRadius: "10px",
           fontSize: matches ? "13px" : "14px",
         }}

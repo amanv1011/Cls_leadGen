@@ -1,9 +1,10 @@
 import React from "react";
 import { Navigate, useRoutes } from "react-router-dom";
-import Leads from "../pageComponents/leads";
+import Leads2 from "../pageComponents/leads2";
 import Dashboard from "../pageComponents/dashboard";
 import Header from "../themeComponents/header";
 import Campaign from "../pageComponents/campaign/index";
+import Leads from "../pageComponents/leads";
 
 const AllRoutes = () => {
   const allRoutes = useRoutes([
@@ -15,16 +16,17 @@ const AllRoutes = () => {
           path: "/leads",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
         },
+
         {
           path: "/campaign",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Campaign />
             </>
           ),
@@ -33,7 +35,7 @@ const AllRoutes = () => {
           path: "/leads/all",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
@@ -42,7 +44,7 @@ const AllRoutes = () => {
           path: "/leads/underreview",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
@@ -51,7 +53,7 @@ const AllRoutes = () => {
           path: "/leads/approve",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
@@ -60,7 +62,7 @@ const AllRoutes = () => {
           path: "/leads/reject",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
@@ -69,7 +71,7 @@ const AllRoutes = () => {
           path: "/leads/archive",
           element: (
             <>
-              <Header />
+              {/* <Header /> */}
               <Leads />
             </>
           ),
