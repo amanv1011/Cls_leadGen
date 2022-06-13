@@ -69,6 +69,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
     dispatch(updateLeadStatus(selectedArray, status));
     setselectedArray([]);
   };
+
   return (
     <React.Fragment>
       <div className="checkbox-menu-container">
@@ -76,7 +77,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
           <input
             type="checkbox"
             name="allCheck"
-            checked={isChecked}
+            checked={selectedArray.length !== leadsList.length ? false : true}
             onChange={handleAllCheck}
             className="checkbox"
           />

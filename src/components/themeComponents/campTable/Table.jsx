@@ -537,7 +537,7 @@ const Table = () => {
 
                             <Tooltip
                               title={
-                                moment(start_Date).isSameOrBefore(current_Date)
+                                moment(start_Date).isSameOrAfter(current_Date)
                                   ? `Editing ${campaignListItem.name} disabled`
                                   : `Edit ${campaignListItem.name}`
                               }
@@ -546,14 +546,14 @@ const Table = () => {
                               <span>
                                 <IconButton
                                   disabled={
-                                    moment(start_Date).isSameOrBefore(
+                                    moment(start_Date).isSameOrAfter(
                                       current_Date
                                     )
                                       ? true
                                       : false
                                   }
                                   style={
-                                    moment(start_Date).isSameOrBefore(
+                                    moment(start_Date).isSameOrAfter(
                                       current_Date
                                     )
                                       ? {

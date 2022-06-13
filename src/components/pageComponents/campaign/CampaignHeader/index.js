@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Menu, MenuItem, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
 import DownArrow from "../../../pageComponents/leads/DownArrow";
-
+import moment from "moment";
 import "./campaignHeader.scss";
 import {
   leadsFilterCampaignName,
@@ -11,7 +12,7 @@ import {
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import AddCampaginModal from "../../../themeComponents/popup/index";
 
-const CampaignHeader = ({ campaignsList }) => {
+const CampaignHeader = ({ campaignsList, searchedCampaignList }) => {
   const dispatch = useDispatch();
   const matches = useMediaQuery("(max-width:1460px)");
 
@@ -47,7 +48,7 @@ const CampaignHeader = ({ campaignsList }) => {
   const handleCloseAllCampgainsMenu = (event) => {
     if (event.target.innerText === "") {
       dispatch(leadsFilterCampaignName("All Locations"));
-      setAllCampgainsFilter("All Campaigns");
+      setAllCampgainsFilter("Country");
     } else {
       dispatch(leadsFilterCampaignName(event.target.innerText));
       setAllCampgainsFilter(event.target.innerText);
@@ -69,6 +70,66 @@ const CampaignHeader = ({ campaignsList }) => {
       setAllOwnersFilter(event.target.innerText);
     }
     setOwnerMenu(null);
+  };
+
+  const exportCampaignToExcel = () => {
+    let updatedcampaignListDataToDownload = [];
+
+    searchedCampaignList.forEach((campaign) => {
+      let sourceType = "";
+
+      if (campaign.source === "seek_aus") {
+        sourceType = "Seek Australia";
+      } else if (campaign.source === "indeed_aus") {
+        sourceType = "Indeed Australia";
+      } else if (campaign.source === "indeed_ca") {
+        sourceType = "Indeed Canada";
+      } else if (campaign.source === "indeed_uk") {
+        sourceType = "Indeed United";
+      } else if (campaign.source === "indeed_il") {
+        sourceType = "Indeed Italy";
+      } else if (campaign.source === "indeed_ae") {
+        sourceType = "Indeed UAE";
+      } else if (campaign.source === "indeed_fi") {
+        sourceType = "Indeed Finland";
+      } else if (campaign.source === "indeed_ch") {
+        sourceType = "Indeed China";
+      } else if (campaign.source === "indeed_pt") {
+        sourceType = "Indeed Portugal";
+      } else if (campaign.source === "indeed_sg") {
+        sourceType = "Indeed Singapore";
+      } else {
+        sourceType = "LinkedIn";
+      }
+
+      let campaignListDataToDownload = {
+        "Campaign Name": campaign.name,
+        Location: campaign.location,
+        "Start Date": moment
+          .unix(campaign.start_date.seconds, campaign.start_date.nanoseconds)
+          .format("MM/DD/YYYY"),
+        "Start Time": campaign.start_time,
+        "End Date": moment
+          .unix(campaign.end_date.seconds, campaign.end_date.nanoseconds)
+          .format("MM/DD/YYYY"),
+        "End Time": campaign.end_time,
+        "Number of times the campign runs per day": campaign.frequency,
+        "Number of leads generated": campaign.leadsNo,
+        "Campaign created by": campaign.owner,
+        "Source of the campaign": sourceType,
+        "Status of the campaign":
+          campaign.status && campaign.status === 1 ? "Active" : "In-Active",
+        Tags: campaign.tags.toString(),
+      };
+      updatedcampaignListDataToDownload = [
+        ...updatedcampaignListDataToDownload,
+        campaignListDataToDownload,
+      ];
+    });
+    commonFunctions.downloadInExcel(
+      updatedcampaignListDataToDownload,
+      "List of Campigns"
+    );
   };
 
   return (
@@ -200,17 +261,21 @@ const CampaignHeader = ({ campaignsList }) => {
             <AddCampaginModal />
             <Button
               variant="outlined"
-              // onClick={exportLeadsToExcel}
+              onClick={exportCampaignToExcel}
               className="export-to-excel-button"
-              // disabled={cardsToDisplay.length === 0 ? true : false}
-              // style={
-              //   cardsToDisplay.length === 0
-              //     ? {
-              //         pointerEvents: "auto",
-              //         cursor: "not-allowed",
-              //       }
-              //     : {}
-              // }
+              disabled={
+                searchedCampaignList && searchedCampaignList.length === 0
+                  ? true
+                  : false
+              }
+              style={
+                searchedCampaignList && searchedCampaignList.length === 0
+                  ? {
+                      pointerEvents: "auto",
+                      cursor: "not-allowed",
+                    }
+                  : {}
+              }
             >
               Export to Excel
             </Button>

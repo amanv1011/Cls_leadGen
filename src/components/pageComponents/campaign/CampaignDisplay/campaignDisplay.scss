@@ -105,4 +105,34 @@
   padding: 10px;
   grid-row-gap: 10px;
   background: #ffffff;
+  .campaign-btn {
+    cursor: pointer;
+    width: 281px;
+    height: 44px;
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    .campaign-btn-text {
+      width: 240px;
+      height: 17px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 17px;
+      text-align: start;
+      color: #ffffff;
+      margin-left: 13px;
+    }
+    &.delete-btn {
+      color: #ff6c5f;
+      background: #ff6c5f;
+      opacity: 1;
+    }
+    &.download-btn {
+      background: #003ad2;
+    }
+  }
 }

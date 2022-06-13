@@ -7,6 +7,9 @@ import IButton from "../../../themeComponents/button";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import { openAlertAction } from "../../../../redux/actions/alertActions";
 import PaginationComponent from "../../../commonComponents/PaginationComponent";
+import DownArrow from "../../leads/DownArrow";
+import Download from "../../../themeComponents/campTable/Download";
+import Delete from "../../../themeComponents/campTable/Delete";
 import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
@@ -20,12 +23,10 @@ const CampaignDisplay = ({
   leadsList,
 }) => {
   const dispatch = useDispatch();
-  console.log("campaignDoc", campaignDoc);
   const [campaignsListData, setcampaignsListData] = useState([]);
   const [selectedArray, setselectedArray] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  console.log("searchedCampaignList CampaignDisplay", searchedCampaignList);
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
@@ -55,7 +56,6 @@ const CampaignDisplay = ({
 
   useEffect(() => {
     setcampaignsListData(campaignsList);
-    // Viewed("ulCDBY8ls05gaONjp0kS");
   }, [campaignsList]);
 
   const handleOnCheckboxChange = (event) => {
@@ -81,8 +81,7 @@ const CampaignDisplay = ({
       setselectedArray([]);
     }
   };
-
-  console.log("campaignsListData", campaignsListData);
+  console.log("selectedArray", selectedArray);
 
   const indexOfLastLead = currentPage * dataPerPage;
   const indexOfFirstLead = indexOfLastLead - dataPerPage;
@@ -93,12 +92,6 @@ const CampaignDisplay = ({
 
   if (campaignLoader === false && searchedCampaignList.length === 0) {
     if (searchValue) {
-      // return (
-      //   <div className="searched-campaign-empty">
-      //     <h1>Searched campaigns(s) not found</h1>
-      //   </div>
-
-      // );
       return (
         <React.Fragment>
           <div className="checkbox-menu-container">
@@ -139,15 +132,25 @@ const CampaignDisplay = ({
             <input
               type="checkbox"
               name="allCheck"
-              checked={isChecked}
+              checked={
+                selectedArray.length !== campaignsList.length ? false : true
+              }
               onChange={handleAllCheck}
               className="checkbox"
             />
-            <label className="all-label">All</label>
-            <div>
-              <div variant="contained" onClick={handlePopClick}>
+            {selectedArray.length > 0 ? (
+              <div
+                variant="contained"
+                className="action-btn"
+                onClick={handlePopClick}
+              >
                 Action
+                <DownArrow />
               </div>
+            ) : (
+              <label className="all-label">All</label>
+            )}
+            <div>
               <Popover
                 id={id}
                 open={open}
@@ -163,14 +166,27 @@ const CampaignDisplay = ({
                 }}
               >
                 <div className="popover-body">
-                  <IButton type={"green"} name={"green"} children="Approve" />
+                  {/* <IButton type={"green"} name={"green"} children="Approve" />
                   <IButton type={"yellow"} name={"yellow"} children="Archive" />
                   <IButton
                     type={"grey"}
                     name={"grey"}
                     children="Under Review"
                   />
-                  <IButton type={"pink"} name={"pink"} children=" Reject" />
+                  <IButton type={"pink"} name={"pink"} children=" Reject" /> */}
+                  <button className="campaign-btn download-btn">
+                    <Download />
+                    <span className="campaign-btn-text">
+                      Download selected campaigns
+                    </span>
+                  </button>
+
+                  <button className="campaign-btn delete-btn">
+                    <Delete />
+                    <span className="campaign-btn-text">
+                      Delete selected campaigns
+                    </span>
+                  </button>
                 </div>
               </Popover>
             </div>

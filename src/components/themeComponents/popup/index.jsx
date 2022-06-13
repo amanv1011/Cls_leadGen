@@ -111,26 +111,26 @@ const AddCampaginModal = () => {
   }, [errorFromStore]);
 
   const detailsForEdit = async () => {
-    const documentSnapShot = await dispatch(
-      campaignActions.getACampaignAction(a__campgaignId)
-    );
-    setAddCampaignDetails({
-      name: documentSnapShot.payload.data().name,
-      source: documentSnapShot.payload.data().source,
-      frequency: parseInt(documentSnapShot.payload.data().frequency),
-      start_date: moment
-        .unix(documentSnapShot.payload.data().start_date.seconds)
-        .format("YYYY-MM-DD"),
-      start_time: documentSnapShot.payload.data().start_time,
-      end_date: moment
-        .unix(documentSnapShot.payload.data().end_date.seconds)
-        .format("YYYY-MM-DD"),
-      end_time: documentSnapShot.payload.data().end_time,
-      location: documentSnapShot.payload.data().location,
-      pages: parseInt(documentSnapShot.payload.data().pages),
-      status: parseInt(documentSnapShot.payload.data().status),
-    });
-    setTags([...documentSnapShot.payload.data().tags]);
+    // const documentSnapShot = await dispatch(
+    //   campaignActions.getACampaignAction(a__campgaignId)
+    // );
+    // setAddCampaignDetails({
+    //   name: documentSnapShot.payload.data().name,
+    //   source: documentSnapShot.payload.data().source,
+    //   frequency: parseInt(documentSnapShot.payload.data().frequency),
+    //   start_date: moment
+    //     .unix(documentSnapShot.payload.data().start_date.seconds)
+    //     .format("YYYY-MM-DD"),
+    //   start_time: documentSnapShot.payload.data().start_time,
+    //   end_date: moment
+    //     .unix(documentSnapShot.payload.data().end_date.seconds)
+    //     .format("YYYY-MM-DD"),
+    //   end_time: documentSnapShot.payload.data().end_time,
+    //   location: documentSnapShot.payload.data().location,
+    //   pages: parseInt(documentSnapShot.payload.data().pages),
+    //   status: parseInt(documentSnapShot.payload.data().status),
+    // });
+    // setTags([...documentSnapShot.payload.data().tags]);
   };
 
   const onSubmitEventhandler = (event) => {

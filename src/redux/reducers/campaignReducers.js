@@ -9,6 +9,7 @@ const initialState = {
   initialSearchValue: "",
   campaignDoc: {},
   searchedCampaignList: [],
+  campaignDetailsToUpdate: {},
 };
 
 // fetch all campaign list
@@ -140,6 +141,12 @@ export const getAllCampaignsReducer = (
       return {
         ...state,
         searchedCampaignList: payload,
+      };
+
+    case types.CAMPAIGN_DETAILS_TO_UPDATE:
+      return {
+        ...state,
+        campaignDetailsToUpdate: payload,
       };
 
     default:
