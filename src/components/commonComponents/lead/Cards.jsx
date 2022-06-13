@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import { Divider } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addNotestoLeadAction,
   assignLeadToUsersAction,
   getAllLeadsAction,
   updateLeadStatus,
@@ -22,6 +23,8 @@ const Cards = (props) => {
   const dispatch = useDispatch();
   const [openText, setopenText] = useState(false);
   const [displayLeadData, setdisplayLeadData] = useState([]);
+  const [value, setValue] = useState("");
+
   const leadsData = props.leadData;
   const allLeadData = useSelector((state) => state.popupStatus.popupData[0]);
   const approveRejectResponse = useSelector(
@@ -71,6 +74,14 @@ const Cards = (props) => {
       dispatch(assignLeadToUsersAction(selectedLeadId, option.empId));
     }
   };
+
+  const addNotesFunction = () => {
+    if (openText && value.length > 0) {
+      dispatch(addNotestoLeadAction(selectedLeadId, value));
+    }
+    setopenText(!openText);
+  };
+  console.log(value);
   return (
     <Box component="div" className="leads-container">
       <Box component={"div"} className="leads-header">
@@ -166,13 +177,15 @@ const Cards = (props) => {
             <IAutocomplete options={allUsers} onChangeOption={onChangeOption} />
           </Box>
           <Box className="add-notes-container">
-            {openText ? <Textarea openText={openText} /> : null}
+            {openText ? (
+              <Textarea openText={openText} value={value} setValue={setValue} />
+            ) : null}
             <IButton
               type={"blue"}
               name={"blue"}
               children={"Add Notes"}
               customClass={"add-nts-btn"}
-              onclick={() => setopenText(!openText)}
+              onclick={addNotesFunction}
             />
           </Box>
         </Box>

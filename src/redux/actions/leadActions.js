@@ -3,6 +3,7 @@ import {
   approvRejectLeads,
   getLeadsFullDescription,
   assignLead,
+  addNotes,
 } from "../../services/api/leads";
 import {
   GET_LEADS_LIST_PENDING,
@@ -18,6 +19,9 @@ import {
   ASSIGN_LEAD_PENDING,
   ASSIGN_LEAD_SUCCESS,
   ASSIGN_LEAD_ERROR,
+  ADD_NOTES_PENDING,
+  ADD_NOTES_SUCCESS,
+  ADD_NOTES_ERROR,
 } from "../type";
 import { closeLoader, openLoader } from "./globalLoaderAction";
 
@@ -120,6 +124,32 @@ export const assignLeadToUsersAction = (leadId, userId) => {
       } else {
         dispatch(closeLoader());
         dispatch({ type: ASSIGN_LEAD_ERROR });
+      }
+    }
+  };
+};
+
+export const addNotestoLeadAction = (leadId, notes) => {
+  return async (dispatch) => {
+    dispatch({ type: ADD_NOTES_PENDING, loading: true });
+    dispatch(openLoader({ isLoading: true }));
+    try {
+      const res = await addNotes(leadId, notes);
+      dispatch(closeLoader());
+      return dispatch({
+        type: ADD_NOTES_SUCCESS,
+        payload: res,
+      });
+    } catch (err) {
+      if (!!err && !!err.response && !!err.response.data) {
+        dispatch(closeLoader());
+        dispatch({
+          type: ADD_NOTES_ERROR,
+          payload: err,
+        });
+      } else {
+        dispatch(closeLoader());
+        dispatch({ type: ADD_NOTES_ERROR });
       }
     }
   };
