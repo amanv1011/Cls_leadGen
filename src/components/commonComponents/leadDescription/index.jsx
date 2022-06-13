@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { Avatar, Divider, IconButton, Box } from "@mui/material";
 import "./leadDescription.scss";
 import LinkedIn from "../../commonComponents/lead/LinkedIn";
-import avatar from "../../../assets/avatar.png";
+import Details from "../../../assets/icons/Details.png";
 import Logo from "../../../assets/Logo.svg";
+import LinkedInIcon from "../../../assets/icons/LinkedInIcon.png";
 
 const LeadDescription = ({ selectedLeadIdFun }) => {
   const displayLeadData = useSelector(
@@ -40,9 +41,9 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
                   <IconButton sx={{ padding: "4px" }}>
                     {/* <a href={ele.readMore} target="_blank"> */}
                     <Avatar
-                      sx={{ width: "18px", height: "18px" }}
+                      sx={{ width: "20px", height: "20px" }}
                       alt="indeedLogo"
-                      // src={indeedLogo3}
+                      src={LinkedInIcon}
                       className="indeed-logo"
                     />
                     {/* </a> */}
@@ -53,9 +54,9 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
                   <IconButton sx={{ padding: "4px" }}>
                     {/* <a href={ele.readMore} target="_blank"> */}
                     <Avatar
-                      sx={{ width: "18px", height: "18px" }}
+                      sx={{ width: "20px", height: "20px" }}
                       alt="indeedLogo"
-                      // src={indeedLogo3}
+                      src={LinkedInIcon}
                       className="indeed-logo"
                     />
                     {/* </a> */}
@@ -66,9 +67,9 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
                   <IconButton sx={{ padding: "4px" }}>
                     {/* <a href={ele.readMore} target="_blank"> */}
                     <Avatar
-                      sx={{ width: "18px", height: "18px" }}
+                      sx={{ width: "20px", height: "20px" }}
                       alt="indeedLogo"
-                      // src={indeedLogo3}
+                      src={Details}
                       className="indeed-logo"
                     />
                     {/* </a> */}

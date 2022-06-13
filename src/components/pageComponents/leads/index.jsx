@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Lead from "../../commonComponents/lead";
 import Approve from "../../commonComponents/lead/Approve";
@@ -7,11 +7,11 @@ import UnderReview from "../../commonComponents/lead/UnderReview";
 import Archive from "../../commonComponents/lead/Archive";
 import "./leads.scss";
 import "../../pageComponents/leads2/leads.scss";
-
 const Leads = () => {
   const leadsDropDownFilter = useSelector(
     (state) => state.leadsFilter.leadsDropDownFilter
   );
+
   return (
     <React.Fragment>
       {leadsDropDownFilter === "AllLeads" ? (

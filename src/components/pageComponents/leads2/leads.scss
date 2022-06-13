@@ -53,7 +53,7 @@
         grid-gap: 6px;
       }
       .autocomplete-container {
-        margin: 6px 0px;
+        margin: 10px 0px;
         display: grid;
         grid-template-rows: auto;
         row-gap: 6px;
@@ -64,12 +64,28 @@
           line-height: 17px;
           color: rgba(31, 65, 115, 0.7);
         }
-        .hide {
-          display: none;
-        }
-        .show {
-          display: grid;
-        }
+      }
+      .add-notes-container {
+        display: grid;
+        grid-template-columns: auto;
+        grid-gap: 6px;
+      }
+      .add-nts-btn {
+        background: #003AD2;
+        border-radius: 10px;
+        width: 180px;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+        text-align: center;
+        color:white;
+      }
+      .hide {
+        display: none;
+      }
+      .show {
+        display: grid;
       }
     }
   }
