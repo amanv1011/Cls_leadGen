@@ -4,6 +4,7 @@ import {
   getLeadsFullDescription,
   assignLead,
   addNotes,
+  updateLeadViewStatus,
 } from "../../services/api/leads";
 import {
   GET_LEADS_LIST_PENDING,
@@ -22,6 +23,9 @@ import {
   ADD_NOTES_PENDING,
   ADD_NOTES_SUCCESS,
   ADD_NOTES_ERROR,
+  UPDATE_LEAD_VIEW_SUCCESS,
+  UPDATE_LEAD_VIEW_ERROR,
+  UPDATE_LEAD_VIEW_PENDING,
 } from "../type";
 import { closeLoader, openLoader } from "./globalLoaderAction";
 
@@ -150,6 +154,33 @@ export const addNotestoLeadAction = (leadId, notes) => {
       } else {
         dispatch(closeLoader());
         dispatch({ type: ADD_NOTES_ERROR });
+      }
+    }
+  };
+};
+
+export const updateLeadViewStatusAction = (leadId) => {
+  return async (dispatch) => {
+    dispatch({ type: UPDATE_LEAD_VIEW_PENDING, loading: true });
+    dispatch(openLoader({ isLoading: true }));
+    try {
+      const res = await updateLeadViewStatus(leadId);
+      console.log({ res });
+      dispatch(closeLoader());
+      return dispatch({
+        type: UPDATE_LEAD_VIEW_SUCCESS,
+        payload: res,
+      });
+    } catch (err) {
+      if (!!err && !!err.response && !!err.response.data) {
+        dispatch(closeLoader());
+        dispatch({
+          type: UPDATE_LEAD_VIEW_ERROR,
+          payload: err,
+        });
+      } else {
+        dispatch(closeLoader());
+        dispatch({ type: UPDATE_LEAD_VIEW_ERROR });
       }
     }
   };

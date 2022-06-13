@@ -84,3 +84,8 @@ export const addNotes = async (leadsId, notes) => {
   await updateDoc(leadObject, { notes: arrayUnion(notes) });
   return { leadsId: leadsId, notes: notes };
 };
+export const updateLeadViewStatus = async (leadsId) => {
+  const leadObject = doc(leadsCollection, leadsId);
+  await updateDoc(leadObject, { seen: true });
+  return { leadsId: leadsId, seen: true };
+};

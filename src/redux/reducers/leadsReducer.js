@@ -15,6 +15,9 @@ import {
   ADD_NOTES_PENDING,
   ADD_NOTES_SUCCESS,
   ADD_NOTES_ERROR,
+  UPDATE_LEAD_VIEW_PENDING,
+  UPDATE_LEAD_VIEW_SUCCESS,
+  UPDATE_LEAD_VIEW_ERROR,
 } from "../type";
 
 const initialState = {
@@ -28,6 +31,7 @@ const initialState = {
   leadsFullDescription: [],
   assignLead: {},
   addedNotes: {},
+  leadViewStatus: {},
 };
 
 // fetch all campaign list
@@ -158,6 +162,36 @@ export const addNotesToUserReducer = (
         ...state,
         loading: false,
         addedNotes: [],
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const updateLeadViewStatusReducer = (
+  state = initialState,
+  { type, payload }
+) => {
+  switch (type) {
+    case UPDATE_LEAD_VIEW_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case UPDATE_LEAD_VIEW_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        leadViewStatus: payload,
+        error: null,
+      };
+    case UPDATE_LEAD_VIEW_ERROR:
+      return {
+        ...state,
+        loading: false,
+        leadViewStatus: {},
         error: payload,
       };
     default:
