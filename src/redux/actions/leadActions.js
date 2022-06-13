@@ -82,7 +82,6 @@ export const updateLeadStatus = (leadsId, Status) => {
     dispatch({ type: GET_LEADS_UPDATESTATUS_PENDING });
     try {
       const res = await approvRejectLeads(leadsId, Status);
-      console.log(res);
       dispatch({
         type: GET_LEADS_UPDATESTATUS_SUCCESS,
         payload: res,

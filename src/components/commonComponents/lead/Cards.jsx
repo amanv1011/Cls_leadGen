@@ -68,7 +68,6 @@ const Cards = (props) => {
   };
 
   const onChangeOption = (e, option) => {
-    console.log(option);
     if (selectedLeadId.length > 0 && option && option.userId) {
       //assign user to leadId here
       dispatch(assignLeadToUsersAction(selectedLeadId, option.userId));

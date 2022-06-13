@@ -54,7 +54,6 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
     selectedLeadIdFun(leadsIdData[0].id);
     dispatch(getPopupEnable(leadsIdData));
     //update seen status here
-    console.log(leadsIdData[0].seen);
     if ((leadsIdData[0] && leadsIdData[0].seen !== true) || undefined) {
       dispatch(updateLeadViewStatusAction(leadId));
     }
@@ -89,6 +88,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
     dispatch(updateLeadStatus(selectedArray, status));
     setselectedArray([]);
   };
+
   return (
     <React.Fragment>
       <div className="checkbox-menu-container">
