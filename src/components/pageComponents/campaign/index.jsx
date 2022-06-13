@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Box } from "@mui/system";
-import { Divider, Button, Menu, MenuItem } from "@mui/material";
-import CampTable from "../../themeComponents/campTable/Table";
+import { Divider } from "@mui/material";
 import CampaignHeader from "./CampaignHeader";
 import CampaignSearch from "./CampaignSearch";
 import CampaignDisplay from "./CampaignDisplay";
 import CampaignDescription from "./CampaignDescription";
 import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
-
+import * as campaignActions from "../../../redux/actions/campaignActions";
 import CampaignButtonActions from "./CampaignButtonActions";
 import "./campaign.scss";
 
 const Campaign = () => {
-  const campaignsList = useSelector((state) => state.allCampaigns.campaignList);
-  const campaignDoc = useSelector((state) => state.allCampaigns.campaignDoc);
-  const leadsList = useSelector((state) => state.allLeads.leadsList);
+  const dispatch = useDispatch();
+  const campaignsListData = useSelector(
+    (state) => state.allCampaigns.campaignList
+  );
+  const campaignDocData = useSelector(
+    (state) => state.allCampaigns.campaignDoc
+  );
+  const leadsListData = useSelector((state) => state.allLeads.leadsList);
   const searchValue = useSelector(
     (state) => state.allCampaigns.initialSearchValue
   );
@@ -30,8 +34,36 @@ const Campaign = () => {
   const campgaignId = useSelector(
     (state) => state.allCampaigns.a__campgaign__Id
   );
-  // useEffect(() => {}, []);
+  const allUsers = useSelector((state) => state.users.users);
+  const [campaignsList, setCampaignList] = useState([]);
+  const [campaignDoc, setCampaignDoc] = useState([]);
+  const [leadsList, setLeadsList] = useState([]);
 
+  // useEffect(() => {
+  //   dispatch(campaignActions.getAllCampaignsAction());
+  //   // dispatch(getAllLeadsAction());
+  //   // dispatch(getLeadsFullDescriptionAction());
+  // }, [campaignsListData, campaignDocData, leadsListData]);
+
+  useEffect(() => {
+    setCampaignList(campaignsListData);
+    setCampaignDoc(campaignDocData);
+    setLeadsList(leadsListData);
+  }, [campaignsListData, campaignDocData, leadsListData]);
+
+  const onChangeOption = (e, option) => {
+    console.log(option);
+    if (campaignDoc && campaignDoc.id.length > 0 && option && option.empId) {
+      //assign user to leadId here
+      console.log("campaignDoc.id", campaignDoc.id);
+      dispatch(
+        campaignActions.assignCampaignToUsersAction(
+          campaignDoc.id,
+          option.empId
+        )
+      );
+    }
+  };
   return (
     <Box component="div" className="campaign-container">
       <Box component={"div"} className="campaign-header">
@@ -43,7 +75,11 @@ const Campaign = () => {
       </Box>
       <Divider
         light={true}
-        sx={{ height: "1px", background: "#1F4173", opacity: "0.15" }}
+        sx={{
+          height: "1px",
+          background: "#1F4173",
+          opacity: "0.15",
+        }}
       />
       <Box component={"div"} className="campaign-body">
         <Box component={"div"} className="section campaign-list">
@@ -87,11 +123,12 @@ const Campaign = () => {
                 fontSize: "14px",
                 lineHeight: "17px",
                 color: "rgba(31, 65, 115, 0.7)",
+                marginBottom: "12px",
               }}
             >
               Assign To
             </Box>
-            <IAutocomplete />
+            <IAutocomplete options={allUsers} onChangeOption={onChangeOption} />
           </Box>
 
           <Box component={"div"} className="action-buttons">

@@ -2,6 +2,7 @@ import * as firebaseMethods from "firebase/firestore";
 import {
   campgaignCollection,
   crawledDataCollection,
+  assignedCampaignCollection,
 } from "../firebase/collections";
 import { firestore } from "../firebase/firebaseInit";
 
@@ -95,5 +96,40 @@ export const getLastCrawledDate = async (campaignId) => {
     return CompaignList.filter((item) => item.campaign_id === campaignId);
   } catch (err) {
     return err;
+  }
+};
+
+export const assignCampaign = async (campaignId, userId) => {
+  const leadsSnapshot = await firebaseMethods.getDocs(
+    assignedCampaignCollection
+  );
+  const list = leadsSnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
+  const filt = list.filter((element) => element.campaignId === campaignId);
+
+  if (filt.length === 0) {
+    // await addDoc(assignedCampaignCollection, { campaignId: campaignId, userId: [userId] });
+    const newCityRef = firebaseMethods.doc(
+      assignedCampaignCollection,
+      campaignId
+    );
+    await firebaseMethods.setDoc(newCityRef, {
+      campaignId: campaignId,
+      userId: [userId],
+    });
+    return "Assigned Successfully";
+  } else {
+    //find for existing user
+    const documnet = firebaseMethods.doc(
+      assignedCampaignCollection,
+      campaignId
+    );
+    await firebaseMethods.updateDoc(documnet, {
+      campaignId: campaignId,
+      userId: firebaseMethods.arrayUnion(userId),
+    });
+    return "Assigned Successfully";
   }
 };

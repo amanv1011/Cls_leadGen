@@ -118,9 +118,10 @@ const Lead = () => {
       getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
     );
   });
-  useEffect(() => {
-    dispatch(getAllUsersAction());
-  }, []);
+
+  // useEffect(() => {
+  //   dispatch(getAllUsersAction());
+  // }, []);
 
   useEffect(() => {
     dispatch(setActivePage(1));

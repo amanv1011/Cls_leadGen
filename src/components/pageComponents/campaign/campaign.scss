@@ -13,7 +13,7 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 330px auto 180px;
+    grid-template-columns: 291px auto 252px;
     .section {
     }
     .campaign-list {
@@ -38,7 +38,12 @@
     .campaign-actions {
       box-sizing: border-box;
       margin-top: 20px;
-      padding: 0px 5px;
+      padding: 0px 15px;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      align-items: flex-end;
+      justify-content: flex-start;
       .action-title {
         font-style: normal;
         font-weight: 600;
@@ -51,7 +56,7 @@
         padding: 10px 0px;
         display: grid;
         grid-gap: 10px;
-        margin-top: 30px;
+        // margin-top: 30px;
       }
     }
   }

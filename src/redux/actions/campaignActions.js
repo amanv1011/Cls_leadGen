@@ -1,6 +1,7 @@
 import * as types from "../type";
 import * as campaignServices from "../../services/api/campaign";
 import { openAlertAction } from "./alertActions";
+import { closeLoader, openLoader } from "./globalLoaderAction";
 
 export const getACampaignAction = (a__campgaignId) => {
   return async (dispatch) => {
@@ -187,5 +188,32 @@ export const gettingCampaignDetailsToUpdateAction = (detailsToUpdate) => {
       type: types.CAMPAIGN_DETAILS_TO_UPDATE,
       payload: detailsToUpdate,
     });
+  };
+};
+
+export const assignCampaignToUsersAction = (campaignId, userId) => {
+  console.log("campaignId", campaignId);
+  return async (dispatch) => {
+    dispatch({ type: types.ASSIGN_CAMPAIGN_PENDING, loading: true });
+    dispatch(openLoader({ isLoading: true }));
+    try {
+      const res = await campaignServices.assignCampaign(campaignId, userId);
+      dispatch(closeLoader());
+      return dispatch({
+        type: types.ASSIGN_CAMPAIGN_SUCCESS,
+        payload: res,
+      });
+    } catch (err) {
+      if (!!err && !!err.response && !!err.response.data) {
+        dispatch(closeLoader());
+        dispatch({
+          type: types.ASSIGN_CAMPAIGN_ERROR,
+          payload: err,
+        });
+      } else {
+        dispatch(closeLoader());
+        dispatch({ type: types.ASSIGN_CAMPAIGN_ERROR });
+      }
+    }
   };
 };

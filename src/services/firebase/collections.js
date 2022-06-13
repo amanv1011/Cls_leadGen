@@ -10,3 +10,7 @@ export const fullDescriptionCollection = collection(
 export const leadsCollection = collection(firestore, "leads");
 export const usersCollection = collection(firestore, "users");
 export const assignedLeadCollection = collection(firestore, "assignedLead");
+export const assignedCampaignCollection = collection(
+  firestore,
+  "assignedCampaign"
+);

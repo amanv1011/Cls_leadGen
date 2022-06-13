@@ -1,14 +1,14 @@
 .campaignButton-actions {
   display: flex;
   flex-direction: column-reverse;
-  align-content: space-around;
-  align-items: center;
-  height: 225px;
+  align-content: flex-end;
+  align-items: baseline;
+  height: 156px;
   width: 100%;
   justify-content: space-evenly;
   .campaign-btn {
     cursor: pointer;
-    width: 165px;
+    width: 180px;
     height: 44px;
     border-radius: 10px;
     border: none;

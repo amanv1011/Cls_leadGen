@@ -18,18 +18,6 @@ function PaginationComponent({
     setCurrentPage(activePage);
   }, [activePage]);
 
-  // useEffect(() => {
-  //   if (window.location.pathname === "/campaign") {
-  //     dispatch(paginationActions.setDataPerPage(10));
-  //   }
-  //   if (window.location.pathname === "/leads") {
-  //     dispatch(paginationActions.setDataPerPage(10));
-  //   }
-  // }, [
-  //   window.location.pathname === "/campaign" ||
-  //     window.location.pathname === "/leads",
-  // ]);
-
   const goToNextPage = () => {
     setCurrentPage((page) => page + 1);
     dispatch(paginationActions.setActivePage(currentPage + 1));

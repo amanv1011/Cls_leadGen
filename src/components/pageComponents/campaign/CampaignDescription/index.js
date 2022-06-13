@@ -33,6 +33,11 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
 
 const CampaignDescription = ({ campaignDoc, campgaignId }) => {
   const dispatch = useDispatch();
+  const [campaignDocValue, setCampaignDocValue] = useState(campaignDoc);
+
+  useEffect(() => {
+    setCampaignDocValue(campaignDoc);
+  }, [campaignDoc]);
 
   const [addCampaignDetails, setAddCampaignDetails] = useState({
     name: "",
@@ -85,55 +90,56 @@ const CampaignDescription = ({ campaignDoc, campgaignId }) => {
     }
   };
 
-  // console.log("campaignDoc", campaignDoc);
+  // console.log("campaignDocValue", campaignDocValue);
   let sourceType = "";
 
-  if (campaignDoc && campaignDoc.source === "seek_aus") {
+  if (campaignDocValue && campaignDocValue.source === "seek_aus") {
     sourceType = "Seek Australia";
-  } else if (campaignDoc && campaignDoc.source === "indeed_aus") {
+  } else if (campaignDocValue && campaignDocValue.source === "indeed_aus") {
     sourceType = "Indeed Australia";
-  } else if (campaignDoc && campaignDoc.source === "indeed_ca") {
+  } else if (campaignDocValue && campaignDocValue.source === "indeed_ca") {
     sourceType = "Indeed Canada";
-  } else if (campaignDoc && campaignDoc.source === "indeed_uk") {
+  } else if (campaignDocValue && campaignDocValue.source === "indeed_uk") {
     sourceType = "Indeed United";
-  } else if (campaignDoc && campaignDoc.source === "indeed_il") {
+  } else if (campaignDocValue && campaignDocValue.source === "indeed_il") {
     sourceType = "Indeed Italy";
-  } else if (campaignDoc && campaignDoc.source === "indeed_ae") {
+  } else if (campaignDocValue && campaignDocValue.source === "indeed_ae") {
     sourceType = "Indeed UAE";
-  } else if (campaignDoc && campaignDoc.source === "indeed_fi") {
+  } else if (campaignDocValue && campaignDocValue.source === "indeed_fi") {
     sourceType = "Indeed Finland";
-  } else if (campaignDoc && campaignDoc.source === "indeed_ch") {
+  } else if (campaignDocValue && campaignDocValue.source === "indeed_ch") {
     sourceType = "Indeed China";
-  } else if (campaignDoc && campaignDoc.source === "indeed_pt") {
+  } else if (campaignDocValue && campaignDocValue.source === "indeed_pt") {
     sourceType = "Indeed Portugal";
-  } else if (campaignDoc && campaignDoc.source === "indeed_sg") {
+  } else if (campaignDocValue && campaignDocValue.source === "indeed_sg") {
     sourceType = "Indeed Singapore";
   } else {
     sourceType = "LinkedIn";
   }
+  let updatedCampaignDetails = "";
 
   useEffect(() => {
     if (campgaignId) {
       setAddCampaignDetails({
-        name: campaignDoc.name,
-        source: campaignDoc.source,
-        frequency: parseInt(campaignDoc.frequency),
+        name: campaignDocValue.name,
+        source: campaignDocValue.source,
+        frequency: parseInt(campaignDocValue.frequency),
         start_date: moment
-          .unix(campaignDoc.start_date.seconds)
+          .unix(campaignDocValue.start_date.seconds)
           .format("YYYY-MM-DD"),
-        start_time: campaignDoc.start_time,
+        start_time: campaignDocValue.start_time,
         end_date: moment
-          .unix(campaignDoc.end_date.seconds)
+          .unix(campaignDocValue.end_date.seconds)
           .format("YYYY-MM-DD"),
-        end_time: campaignDoc.end_time,
-        location: campaignDoc.location,
-        pages: parseInt(campaignDoc.pages),
-        status: parseInt(campaignDoc.status),
+        end_time: campaignDocValue.end_time,
+        location: campaignDocValue.location,
+        pages: parseInt(campaignDocValue.pages),
+        status: parseInt(campaignDocValue.status),
       });
-      setTags([...campaignDoc.tags]);
+      setTags([...campaignDocValue.tags]);
     }
 
-    const updatedCampaignDetails = {
+    updatedCampaignDetails = {
       ...addCampaignDetails,
       frequency: parseInt(frequency),
       tags,
@@ -143,14 +149,14 @@ const CampaignDescription = ({ campaignDoc, campgaignId }) => {
       last_crawled_date: Timestamp.fromDate(new Date(start_date)),
       owner: "Mithun Dominic",
     };
+  }, [campgaignId]);
 
-    // if (updatedCampaignDetails.frequency  isNaN()) {
+  useEffect(() => {
     dispatch(
       campaignActions.gettingCampaignDetailsToUpdateAction(
         updatedCampaignDetails
       )
     );
-    // }
   }, [campgaignId]);
 
   if (campgaignId) {
@@ -169,6 +175,7 @@ const CampaignDescription = ({ campaignDoc, campgaignId }) => {
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
+                  style={{ width: "max-content" }}
                 />
               </Box>
               <Box component={"div"} className="subtitle">
@@ -186,19 +193,28 @@ const CampaignDescription = ({ campaignDoc, campgaignId }) => {
             </Box>
             <Box component={"div"} className="right-section">
               <span className="status-text">
-                {campaignDoc && campaignDoc.status ? "Active" : "In-Active"}
+                {campaignDocValue && campaignDocValue.status
+                  ? "Active"
+                  : "In-Active"}
               </span>
               <GreenSwitch
                 className="toggleSwitch"
-                checked={campaignDoc && campaignDoc.status ? true : false}
-                onClick={(event) => statusUpdate(event, campaignDoc.id)}
+                checked={
+                  campaignDocValue && campaignDocValue.status ? true : false
+                }
+                onClick={(event) => statusUpdate(event, campaignDocValue.id)}
               />
             </Box>
           </Box>
           <Divider
             variant="middle"
             light={true}
-            sx={{ height: "1px", background: "#1F4173", opacity: "0.15" }}
+            sx={{
+              height: "1px",
+              background: "#1F4173",
+              opacity: "0.15",
+              marginTop: "30px",
+            }}
           />
 
           <Box className="campaign-description-body">
@@ -311,19 +327,19 @@ const CampaignDescription = ({ campaignDoc, campgaignId }) => {
               <div className="header-item">
                 <span className="header-key">Created By</span>
                 <span className="header-value">
-                  {campaignDoc && campaignDoc.owner}
+                  {campaignDocValue && campaignDocValue.owner}
                 </span>
               </div>
               <div className="header-item">
                 <span className="header-key">Last Crawled Data</span>
                 <span className="header-value">
-                  {campaignDoc?.lastCrawledDate &&
-                  campaignDoc.lastCrawledDate &&
-                  campaignDoc.lastCrawledDate !== undefined
+                  {campaignDocValue?.lastCrawledDate &&
+                  campaignDocValue.lastCrawledDate &&
+                  campaignDocValue.lastCrawledDate !== undefined
                     ? moment
                         .unix(
-                          campaignDoc.lastCrawledDate.seconds,
-                          campaignDoc.lastCrawledDate.nanoseconds
+                          campaignDocValue.lastCrawledDate.seconds,
+                          campaignDocValue.lastCrawledDate.nanoseconds
                         )
                         .format("MM/DD/YYYY")
                     : "NA"}
@@ -382,43 +398,53 @@ const CampaignDescription = ({ campaignDoc, campgaignId }) => {
         <Box component={"div"} className="campaign-description-header">
           <Box component={"div"} className="left-section">
             <Box component={"div"} className="title">
-              {campaignDoc && campaignDoc.name}
+              {campaignDocValue && campaignDocValue.name}
             </Box>
             <Box component={"div"} className="subtitle">
-              Tag: {campaignDoc.tags && campaignDoc.tags.toString()}
+              Tag: {campaignDocValue.tags && campaignDocValue.tags.toString()}
             </Box>
           </Box>
           <Box component={"div"} className="right-section">
             <span className="status-text">
-              {campaignDoc && campaignDoc.status ? "Active" : "In-Active"}
+              {campaignDocValue && campaignDocValue.status
+                ? "Active"
+                : "In-Active"}
             </span>
             <GreenSwitch
               className="toggleSwitch"
-              checked={campaignDoc && campaignDoc.status ? true : false}
-              onClick={(event) => statusUpdate(event, campaignDoc.id)}
+              checked={
+                campaignDocValue && campaignDocValue.status ? true : false
+              }
+              onClick={(event) => statusUpdate(event, campaignDocValue.id)}
             />
           </Box>
         </Box>
         <Divider
           variant="middle"
           light={true}
-          sx={{ height: "1px", background: "#1F4173", opacity: "0.15" }}
+          sx={{
+            height: "1px",
+            background: "#1F4173",
+            opacity: "0.15",
+          }}
         />
 
         <Box className="campaign-description-body">
           <Box className="campaign-description-left-sec">
             <div className="header-item">
               <span className="header-key">Source Type</span>
-              <span className="header-value">{campaignDoc && sourceType}</span>
+              <span className="header-value">
+                {campaignDocValue && sourceType}
+              </span>
             </div>
             <div className="header-item">
               <span className="header-key">Start Date</span>
               <span className="header-value">
-                {campaignDoc?.start_date &&
+                {campaignDocValue?.start_date &&
                   moment
                     .unix(
-                      campaignDoc.start_date.seconds,
-                      campaignDoc.start_date.nanoseconds
+                      campaignDocValue.start_date.seconds,
+                      campaignDocValue.start_date.nanoseconds
                     )
                     .format("MM/DD/YYYY")}
               </span>
@@ -426,11 +452,11 @@ const CampaignDescription = ({ campaignDoc, campgaignId }) => {
             <div className="header-item">
               <span className="header-key">End Date</span>
               <span className="header-value">
-                {campaignDoc?.end_date &&
+                {campaignDocValue?.end_date &&
                   moment
                     .unix(
-                      campaignDoc.end_date.seconds,
-                      campaignDoc.end_date.nanoseconds
+                      campaignDocValue.end_date.seconds,
+                      campaignDocValue.end_date.nanoseconds
                     )
                     .format("MM/DD/YYYY")}
               </span>
@@ -438,37 +464,37 @@ const CampaignDescription = ({ campaignDoc, campgaignId }) => {
             <div className="header-item">
               <span className="header-key">Frequency</span>
               <span className="header-value">
-                {campaignDoc && campaignDoc.frequency}
+                {campaignDocValue && campaignDocValue.frequency}
               </span>
             </div>
             <div className="header-item">
               <span className="header-key">Extract No. Of Page(s)</span>
               <span className="header-value">
-                {campaignDoc && campaignDoc.pages}
+                {campaignDocValue && campaignDocValue.pages}
               </span>
             </div>
             <div className="header-item">
               <span className="header-key">Locaion</span>
               <span className="header-value">
-                {campaignDoc && campaignDoc.location}
+                {campaignDocValue && campaignDocValue.location}
               </span>
             </div>
             <div className="header-item">
               <span className="header-key">Created By</span>
               <span className="header-value">
-                {campaignDoc && campaignDoc.owner}
+                {campaignDocValue && campaignDocValue.owner}
               </span>
             </div>
             <div className="header-item">
               <span className="header-key">Last Crawled Data</span>
               <span className="header-value">
-                {campaignDoc?.lastCrawledDate &&
-                campaignDoc.lastCrawledDate &&
-                campaignDoc.lastCrawledDate !== undefined
+                {campaignDocValue?.lastCrawledDate &&
+                campaignDocValue.lastCrawledDate &&
+                campaignDocValue.lastCrawledDate !== undefined
                   ? moment
                       .unix(
-                        campaignDoc.lastCrawledDate.seconds,
-                        campaignDoc.lastCrawledDate.nanoseconds
+                        campaignDocValue.lastCrawledDate.seconds,
+                        campaignDocValue.lastCrawledDate.nanoseconds
                       )
                       .format("MM/DD/YYYY")
                   : "NA"}
@@ -479,13 +505,13 @@ const CampaignDescription = ({ campaignDoc, campgaignId }) => {
             <div className="header-item" style={{ marginBottom: "20px" }}>
               <span className="header-key">Start Time</span>
               <span className="header-value">
-                {campaignDoc && campaignDoc.start_time}
+                {campaignDocValue && campaignDocValue.start_time}
               </span>
             </div>
             <div className="header-item">
               <span className="header-key">End Time</span>
               <span className="header-value">
-                {campaignDoc && campaignDoc.end_time}
+                {campaignDocValue && campaignDocValue.end_time}
               </span>
             </div>
           </Box>
