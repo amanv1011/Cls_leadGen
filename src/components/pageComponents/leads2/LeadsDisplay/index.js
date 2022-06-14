@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./leadsDisplay.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getPopupEnable } from "../../../../redux/actions/PopupAction";
+import { getSingleLeadDetail } from "../../../../redux/actions/PopupAction";
 import LeadsMenu from "../LeadsMenu";
 import moment from "moment";
 import { Popover } from "@mui/material";
@@ -52,7 +52,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
   const handleClick = (leadId) => {
     let leadsIdData = leadsList.filter((ele) => ele.id === leadId);
     selectedLeadIdFun(leadsIdData[0].id);
-    dispatch(getPopupEnable(leadsIdData));
+    dispatch(getSingleLeadDetail(leadsIdData[0]));
     //update seen status here
     if ((leadsIdData[0] && leadsIdData[0].seen !== true) || undefined) {
       dispatch(updateLeadViewStatusAction(leadId));
