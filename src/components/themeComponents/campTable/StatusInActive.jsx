@@ -7,7 +7,7 @@ const StatusInActive = () => {
         style={{
           width: "12px",
           height: "12px",
-          borderradius: "3px",
+          borderRadius: "3px",
           background: "linear-gradient(180deg, #FFDA70 0%, #FFBD00 100%)",
           display: "inline-flex",
           marginRight: "10px",

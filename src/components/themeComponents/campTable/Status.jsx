@@ -7,7 +7,7 @@ const Status = () => {
         style={{
           width: "12px",
           height: "12px",
-          borderradius: "3px",
+          borderRadius: "3px",
           backgroundColor: "lightgreen",
           display: "inline-flex",
           background: "linear-gradient(180deg, #24D6A5 0%, #17C293 100%)",

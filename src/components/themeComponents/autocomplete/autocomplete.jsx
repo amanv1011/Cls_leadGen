@@ -26,7 +26,7 @@ const IAutocomplete = ({ options, onChangeOption, disabled }) => {
       sx={{
         width: 180,
         background: "#e9ecf1",
-        borderradius: "10px",
+        borderRadius: "10px",
         border: "none",
         outline: "none",
         "& .MuiAutocomplete-input": {
@@ -34,7 +34,7 @@ const IAutocomplete = ({ options, onChangeOption, disabled }) => {
           fontWeight: 600,
         },
         "& .MuiAutocomplete-popper": {
-          borderradius: "20px",
+          borderRadius: "20px",
         },
         "& .MuiInputBase-root": {
           opacity: 0.8,
@@ -49,7 +49,7 @@ const IAutocomplete = ({ options, onChangeOption, disabled }) => {
           color: "#1F4173",
           opacity: 0.7,
           padding: "8px",
-          borderradius: "10px",
+          borderRadius: "10px",
           maxHeight: "150px",
         },
       }}

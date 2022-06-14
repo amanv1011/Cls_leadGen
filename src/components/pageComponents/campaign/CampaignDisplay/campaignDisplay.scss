@@ -36,7 +36,7 @@
       flex-direction: column;
       .display-cont {
         .campaign-display-btn-text {
-          width: 190px;
+          width: 240px;
           height: 18px;
           overflow: hidden;
           white-space: nowrap;
@@ -50,16 +50,13 @@
             width: 100%;
           }
         }
-        .campaign-display-timestamp {
-          font-weight: 600;
-          font-size: 11px;
-          line-height: 15px;
-          text-align: right;
-          color: rgba(31, 65, 115, 0.5);
-        }
       }
     }
     .campaign-display-subcontainer2 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      align-content: center;
       font-style: normal;
       font-weight: 600;
       font-size: 12px;

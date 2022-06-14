@@ -24,7 +24,7 @@ const CampaignButtonActions = ({
   const [campaignName, setCampaignName] = useState("");
   const [idForDelete, setIdForDelete] = useState("");
 
-  console.log(addCampaignDetails);
+  // console.log(addCampaignDetails);
 
   const newCampaign = {
     ...addCampaignDetails,
@@ -49,7 +49,6 @@ const CampaignButtonActions = ({
   };
 
   const forDownloading = (campaignListId, campaignListItemName) => {
-    console.log("Yes it's a campaign");
     const val = leadsList.filter((valID) => {
       return valID.campaignId === campaignListId;
     });

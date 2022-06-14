@@ -31,7 +31,7 @@ export default function UserPopover({
       PaperProps={{
         sx: {
           boxshadow: "0 2px 7px 0 rgba(36, 36, 36, 0.2)",
-          borderradius: "2px",
+          borderRadius: "2px",
           marginRight: "14px",
         },
       }}

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-// import LeadsMenu from "../LeadsMenu";
 import moment from "moment";
 import { Popover } from "@mui/material";
-import IButton from "../../../themeComponents/button";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import { openAlertAction } from "../../../../redux/actions/alertActions";
 import PaginationComponent from "../../../commonComponents/PaginationComponent";
@@ -43,6 +41,7 @@ const CampaignDisplay = ({
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };
+  console.log("campaignDoc.id", campaignDoc.id);
 
   const handlePopClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -57,6 +56,7 @@ const CampaignDisplay = ({
 
   useEffect(() => {
     setcampaignsListData(campaignsList);
+    campaignsList && campaignsList[0]?.id && Viewed(campaignsList[0].id);
   }, [campaignsList]);
 
   const handleOnCheckboxChange = (event) => {
@@ -165,7 +165,6 @@ const CampaignDisplay = ({
               <input type="checkbox" disabled="true" />
               <label className="all-label">All</label>
             </div>
-            {/* <LeadsMenu /> */}
           </div>
           <div className="campaign-display-container">
             <div className="campaign-display-subcontainers">
@@ -204,18 +203,16 @@ const CampaignDisplay = ({
               onChange={handleAllCheck}
               className="checkbox"
             />
-            {selectedArray.length > 0 ? (
-              <div
-                variant="contained"
-                className="action-btn"
-                onClick={handlePopClick}
-              >
-                Action
-                <DownArrow />
-              </div>
-            ) : (
-              <label className="all-label">All</label>
-            )}
+            <label className="all-label">All</label>
+            <div
+              variant="contained"
+              className="action-btn"
+              onClick={handlePopClick}
+            >
+              Action
+              <DownArrow />
+            </div>
+
             <div>
               <Popover
                 id={id}
@@ -228,7 +225,7 @@ const CampaignDisplay = ({
                 }}
                 PaperProps={{
                   boxshadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
-                  borderradius: "10px",
+                  borderRadius: "10px",
                 }}
               >
                 <div className="popover-body">
@@ -252,7 +249,6 @@ const CampaignDisplay = ({
               </Popover>
             </div>
           </div>
-          {/* <LeadsMenu /> */}
         </div>
         <div className="campaign-display-container">
           {currentCampaigns.length !== 0 &&
@@ -265,7 +261,6 @@ const CampaignDisplay = ({
                 key={campaign.id}
               >
                 <div className="campaign-display-check">
-                  {/* <campaignsCheckbox /> */}
                   <input
                     type="checkbox"
                     name={campaign.id}
@@ -301,15 +296,6 @@ const CampaignDisplay = ({
                     >
                       {campaign.name}
                     </div>
-                    <span
-                      className={`campaign-display-timestamp ${
-                        campaignDoc.id === campaign.id ? "selected-sub" : ""
-                      } `}
-                    >
-                      {`${getNumOfLeads(campaign.id)} leads`}
-
-                      {/* {`${campaignDoc.id === campaign.id}?campaignDoc.`} */}
-                    </span>
                   </div>
 
                   <div
@@ -320,6 +306,22 @@ const CampaignDisplay = ({
                     <p>
                       {campaign.location === null ? "NA" : campaign.location}
                     </p>
+                    <span
+                      className={`campaign-display-timestamp ${
+                        campaignDoc.id === campaign.id ? "selected-sub" : ""
+                      } `}
+                    >
+                      {campaignDoc.id === campaign.id
+                        ? campaignDoc?.campaignCreatedAt
+                          ? moment
+                              .unix(
+                                campaignDoc.campaignCreatedAt.seconds,
+                                campaignDoc.campaignCreatedAt.nanoseconds
+                              )
+                              .fromNow()
+                          : "long back"
+                        : `${getNumOfLeads(campaign.id)} leads`}
+                    </span>
                   </div>
                 </div>
               </div>

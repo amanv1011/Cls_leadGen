@@ -97,10 +97,10 @@ const CampaignDescription = ({
   };
 
   const onChangeOption = (e, option) => {
-    console.log(option);
+    // console.log(option);
     if (campaignDoc && campaignDoc.id.length > 0 && option && option.empId) {
       //assign user to leadId here
-      console.log("campaignDoc.id", campaignDoc.id);
+      // console.log("campaignDoc.id", campaignDoc.id);
       dispatch(
         campaignActions.assignCampaignToUsersAction(
           campaignDoc.id,
@@ -340,15 +340,13 @@ const CampaignDescription = ({
                     </span>
                   </div>
                   <div className="header-item">
-                    <span className="header-key">Last Crawled Data</span>
+                    <span className="header-key">Last Crawled Date</span>
                     <span className="header-value">
-                      {campaignDocValue?.lastCrawledDate &&
-                      campaignDocValue.lastCrawledDate &&
-                      campaignDocValue.lastCrawledDate !== undefined
+                      {campaignDocValue && campaignDocValue?.last_crawled_date
                         ? moment
                             .unix(
-                              campaignDocValue.lastCrawledDate.seconds,
-                              campaignDocValue.lastCrawledDate.nanoseconds
+                              campaignDocValue.last_crawled_date.seconds,
+                              campaignDocValue.last_crawled_date.nanoseconds
                             )
                             .format("MM/DD/YYYY")
                         : "NA"}
@@ -537,15 +535,13 @@ const CampaignDescription = ({
                     </span>
                   </div>
                   <div className="header-item">
-                    <span className="header-key">Last Crawled Data</span>
+                    <span className="header-key">Last Crawled Date</span>
                     <span className="header-value">
-                      {campaignDocValue?.lastCrawledDate &&
-                      campaignDocValue.lastCrawledDate &&
-                      campaignDocValue.lastCrawledDate !== undefined
+                      {campaignDocValue && campaignDocValue?.last_crawled_date
                         ? moment
                             .unix(
-                              campaignDocValue.lastCrawledDate.seconds,
-                              campaignDocValue.lastCrawledDate.nanoseconds
+                              campaignDocValue.last_crawled_date.seconds,
+                              campaignDocValue.last_crawled_date.nanoseconds
                             )
                             .format("MM/DD/YYYY")
                         : "NA"}

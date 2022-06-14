@@ -11,6 +11,7 @@ import {
   updateLeadViewStatusAction,
 } from "../../../../redux/actions/leadActions";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
+
 const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
   const dispatch = useDispatch();
 
@@ -135,7 +136,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                   name={"blue"}
                   children={"Assign"}
                   onclick={() => {
-                    console.log("Assigned");
+                    // console.log("Assigned");
                   }}
                 /> */}
                 <IButton

@@ -53,13 +53,13 @@ const LeadsMenu = () => {
       MenuProps={{
         PaperProps: {
           sx: {
-            borderradius: "10px",
+            borderRadius: "10px",
             boxshadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
             "& .MuiList-padding": {
               padding: "10px",
             },
             "& .Mui-selected": {
-              borderradius: "10px",
+              borderRadius: "10px",
               background: "#e9ecf1",
               color: "#003ad2",
             },
