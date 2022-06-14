@@ -101,9 +101,6 @@ const Reject = () => {
   const approveList = leadListForCount.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
 
-  const popupStatus = useSelector((state) => state.popupStatus.popupStatus);
-  const popupData = useSelector((state) => state.popupStatus.popupData);
-
   useEffect(() => {
     dispatch(getApproveCount(approveCount));
     dispatch(getUnderreviewCount(underReviewCount));

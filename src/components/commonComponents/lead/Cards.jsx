@@ -18,15 +18,17 @@ import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
 import "../../pageComponents/leads2/leads.scss";
 import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
 import Textarea from "../../themeComponents/textarea/textarea";
+import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
   const [openText, setopenText] = useState(false);
   const [displayLeadData, setdisplayLeadData] = useState([]);
   const [value, setValue] = useState("");
+  const [selectedLeadId, setSlectedLeadId] = useState("");
 
   const leadsData = props.leadData;
-  const allLeadData = useSelector((state) => state.popupStatus.popupData[0]);
+  const allLeadData = useSelector((state) => state.PopupReducer.popupData);
   const approveRejectResponse = useSelector(
     (state) => state.allLeads.approveRejectResponse
   );
@@ -34,6 +36,16 @@ const Cards = (props) => {
   useEffect(() => {
     setdisplayLeadData(allLeadData);
   }, [allLeadData]);
+
+  useEffect(() => {
+    if (
+      (allLeadData && Object.keys(allLeadData).length === 0) ||
+      allLeadData === undefined
+    ) {
+      dispatch(getSingleLeadDetail(leadsData[0]));
+      setSlectedLeadId(leadsData[0] && leadsData[0].id);
+    }
+  }, [leadsData, allLeadData]);
 
   useEffect(() => {
     dispatch(getAllLeadsAction());
@@ -61,14 +73,11 @@ const Cards = (props) => {
     dispatch(updateLeadStatus(selectedLeadId, 0));
   };
 
-  const [selectedLeadId, setSlectedLeadId] = useState("");
-
   const selectedLeadIdFun = (leadId) => {
     setSlectedLeadId(leadId);
   };
 
   const onChangeOption = (e, option) => {
-    console.log(option);
     if (selectedLeadId.length > 0 && option && option.userId) {
       //assign user to leadId here
       dispatch(assignLeadToUsersAction(selectedLeadId, option.userId));

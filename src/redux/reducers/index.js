@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   allLeads: getAllLeadsReducer,
   assignLeadToReducer,
   approveRejectCount: getApproveRejectCountReducer,
-  popupStatus: PopupReducers,
+  PopupReducer: PopupReducers,
   leadsFilter: leadsFilterReducer,
   dateModal: dateModalReducer,
   paginationStates: paginationReducer,
