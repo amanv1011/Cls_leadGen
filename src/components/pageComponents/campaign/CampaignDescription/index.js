@@ -32,7 +32,12 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-const CampaignDescription = ({ campaignDoc, campgaignId, leadsList }) => {
+const CampaignDescription = ({
+  campaignDoc,
+  campgaignId,
+  leadsList,
+  allUsers,
+}) => {
   const dispatch = useDispatch();
   const [campaignDocValue, setCampaignDocValue] = useState(campaignDoc);
 
@@ -153,22 +158,6 @@ const CampaignDescription = ({ campaignDoc, campgaignId, leadsList }) => {
     }
   }, [campgaignId]);
 
-  // useEffect(() => {
-  //   setUpdatedCampaignDetails({
-  //     ...addCampaignDetails,
-  //     frequency: parseInt(frequency),
-  //     tags,
-  //     pages: parseInt(pages),
-  //     end_date: Timestamp.fromDate(new Date(end_date)),
-  //     start_date: Timestamp.fromDate(new Date(start_date)),
-  //     last_crawled_date: Timestamp.fromDate(new Date(start_date)),
-  //     owner: "Mithun Dominic",
-  //   });
-  // }, []);
-
-  console.log("addCampaignDetails", addCampaignDetails);
-  // console.log("updatedCampaignDetails", updatedCampaignDetails);
-
   if (campgaignId) {
     return (
       <React.Fragment>
@@ -246,7 +235,7 @@ const CampaignDescription = ({ campaignDoc, campgaignId, leadsList }) => {
                         value={source}
                         onChange={onInputChangeHandler}
                         autoComplete="off"
-                        style={{ width: "max-content" }}
+                        // style={{ width: "max-content" }}
                         required
                       >
                         <option value="" disabled defaultValue>
@@ -339,7 +328,7 @@ const CampaignDescription = ({ campaignDoc, campgaignId, leadsList }) => {
                         value={location}
                         onChange={onInputChangeHandler}
                         autoComplete="off"
-                        style={{ width: "max-content" }}
+                        // style={{ width: "max-content" }}
                         required
                       />
                     </span>
@@ -430,10 +419,10 @@ const CampaignDescription = ({ campaignDoc, campgaignId, leadsList }) => {
                   Assign To
                 </Box>
                 <IAutocomplete
-                // options={allUsers} onChangeOption={onChangeOption}
+                  options={allUsers}
+                  onChangeOption={onChangeOption}
                 />
               </Box>
-
               <Box component={"div"} className="action-buttons">
                 <CampaignButtonActions
                   campaignDoc={campaignDoc}
@@ -459,7 +448,7 @@ const CampaignDescription = ({ campaignDoc, campgaignId, leadsList }) => {
                   {campaignDocValue && campaignDocValue.name}
                 </Box>
                 <Box component={"div"} className="subtitle">
-                  Tag:{" "}
+                  Tag:
                   {campaignDocValue.tags && campaignDocValue.tags.toString()}
                 </Box>
               </Box>
@@ -599,7 +588,8 @@ const CampaignDescription = ({ campaignDoc, campgaignId, leadsList }) => {
                   Assign To
                 </Box>
                 <IAutocomplete
-                // options={allUsers} onChangeOption={onChangeOption}
+                  options={allUsers}
+                  onChangeOption={onChangeOption}
                 />
               </Box>
 

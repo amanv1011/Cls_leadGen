@@ -94,6 +94,7 @@ const Campaign = () => {
             campaignDoc={campaignDoc}
             campgaignId={campgaignId}
             leadsList={leadsList}
+            allUsers={allUsers}
           />
         </Box>
       </Box>
