@@ -18,7 +18,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: "910px",
   bgcolor: "#FFFFFF",
-  borderRadius: "15px",
+  borderradius: "15px",
   border: "none",
   outline: "none",
 };
@@ -111,26 +111,26 @@ const AddCampaginModal = () => {
   }, [errorFromStore]);
 
   const detailsForEdit = async () => {
-    const documentSnapShot = await dispatch(
-      campaignActions.getACampaignAction(a__campgaignId)
-    );
-    setAddCampaignDetails({
-      name: documentSnapShot.payload.data().name,
-      source: documentSnapShot.payload.data().source,
-      frequency: parseInt(documentSnapShot.payload.data().frequency),
-      start_date: moment
-        .unix(documentSnapShot.payload.data().start_date.seconds)
-        .format("YYYY-MM-DD"),
-      start_time: documentSnapShot.payload.data().start_time,
-      end_date: moment
-        .unix(documentSnapShot.payload.data().end_date.seconds)
-        .format("YYYY-MM-DD"),
-      end_time: documentSnapShot.payload.data().end_time,
-      location: documentSnapShot.payload.data().location,
-      pages: parseInt(documentSnapShot.payload.data().pages),
-      status: parseInt(documentSnapShot.payload.data().status),
-    });
-    setTags([...documentSnapShot.payload.data().tags]);
+    // const documentSnapShot = await dispatch(
+    //   campaignActions.getACampaignAction(a__campgaignId)
+    // );
+    // setAddCampaignDetails({
+    //   name: documentSnapShot.payload.data().name,
+    //   source: documentSnapShot.payload.data().source,
+    //   frequency: parseInt(documentSnapShot.payload.data().frequency),
+    //   start_date: moment
+    //     .unix(documentSnapShot.payload.data().start_date.seconds)
+    //     .format("YYYY-MM-DD"),
+    //   start_time: documentSnapShot.payload.data().start_time,
+    //   end_date: moment
+    //     .unix(documentSnapShot.payload.data().end_date.seconds)
+    //     .format("YYYY-MM-DD"),
+    //   end_time: documentSnapShot.payload.data().end_time,
+    //   location: documentSnapShot.payload.data().location,
+    //   pages: parseInt(documentSnapShot.payload.data().pages),
+    //   status: parseInt(documentSnapShot.payload.data().status),
+    // });
+    // setTags([...documentSnapShot.payload.data().tags]);
   };
 
   const onSubmitEventhandler = (event) => {
@@ -206,27 +206,6 @@ const AddCampaginModal = () => {
   }
   return (
     <React.Fragment>
-      <div className="add" style={{ display: "-webkit-inline-box" }}>
-        <IInput
-          type={"text"}
-          placeholder={"Search"}
-          isSearch={true}
-          onChangeInput={(event) => {
-            dispatch(
-              campaignActions.searchInputValueAction(event.target.value)
-            );
-          }}
-          className="my-input"
-          style={{
-            fontStyle: "normal",
-            fontWeight: "600",
-            fontSize: "14px",
-            lineHeight: "17px",
-            color: "#1F4173",
-          }}
-          autoComplete="off"
-        />
-      </div>
       <Button
         onClick={() => {
           dispatch(campaignActions.showModal());
@@ -235,7 +214,7 @@ const AddCampaginModal = () => {
           width: "160px",
           height: "40px",
           background: "#003AD2",
-          borderRadius: "10px",
+          borderradius: "10px",
           marginLeft: "20px",
           marginRight: "10px",
         }}
@@ -509,7 +488,7 @@ const AddCampaginModal = () => {
                   <Button
                     variant="contained"
                     style={{
-                      borderRadius: "10px",
+                      borderradius: "10px",
                       background: "#1F4173",
                       textTransform: "none",
                       fontWeight: "600",
@@ -542,7 +521,7 @@ const AddCampaginModal = () => {
                     type="submit"
                     variant="contained"
                     style={{
-                      borderRadius: "10px",
+                      borderradius: "10px",
                       background: "#003AD2",
                       textTransform: "none",
                       fontWeight: "600",

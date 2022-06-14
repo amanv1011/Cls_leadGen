@@ -7,15 +7,17 @@ import Logo from "../../../assets/icons/Logo.svg";
 import LinkedInIcon from "../../../assets/icons/LinkedInIcon.png";
 
 const LeadDescription = ({ selectedLeadIdFun }) => {
-  const displayLeadData = useSelector(
-    (state) => state.popupStatus.popupData[0]
-  );
+  const displayLeadData = useSelector((state) => state.PopupReducer.popupData);
 
   const leadsFullDescription = useSelector(
     (state) => state.allLeads.leadsFullDescription
   );
   let linkedInCompany;
-  if (displayLeadData && displayLeadData.companyName !== null) {
+  if (
+    displayLeadData &&
+    displayLeadData.companyName &&
+    displayLeadData.companyName !== null
+  ) {
     linkedInCompany =
       displayLeadData &&
       displayLeadData.companyName.toLowerCase().split(" ").join("");

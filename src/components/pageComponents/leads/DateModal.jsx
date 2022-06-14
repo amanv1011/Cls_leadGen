@@ -22,7 +22,7 @@ const style = {
   width: 311,
   bgcolor: "#fefefe",
   border: "none",
-  borderRadius: "10px",
+  borderradius: "10px",
   color: "green",
 };
 export default function DateModal() {
@@ -55,7 +55,7 @@ export default function DateModal() {
           color: "#5C759A",
           // backgroundColor: "#E7E7E7",
           backgroundColor: "rgb(233,236,241)",
-          borderRadius: "10px",
+          borderradius: "10px",
           fontSize: matches ? "13px" : "14px",
         }}
         onClick={handleOpen}

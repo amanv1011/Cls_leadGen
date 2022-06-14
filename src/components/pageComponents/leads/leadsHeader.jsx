@@ -115,7 +115,7 @@
 //               display: "flex",
 //               backgroundColor: "#E7E7E7",
 //               height: "40px",
-//               borderRadius: "10px",
+//               borderradius: "10px",
 //             }}
 //           >
 //             <input
@@ -146,7 +146,7 @@
 //                 justifyContent: "space-between",
 //                 padding: "6px",
 //                 fontWeight: "600",
-//                 borderRadius: "10px",
+//                 borderradius: "10px",
 //                 marginLeft: "10px",
 //                 backgroundColor: "#E7E7E7",
 //                 color: "rgba(92, 117,154)",
@@ -164,9 +164,9 @@
 //               PaperProps={{
 //                 style: {
 //                   width: "auto",
-//                   borderRadius: "10px",
+//                   borderradius: "10px",
 //                   marginTop: "3px",
-//                   boxShadow: "none",
+//                   boxshadow: "none",
 //                   backgroundColor: "#E7E7E7",
 //                   color: "rgba(92, 117,154)",
 //                   zIndex: "1000",
@@ -223,7 +223,7 @@
 //               justifyContent: "space-between",
 //               padding: "10px",
 //               fontWeight: "600",
-//               borderRadius: "10px",
+//               borderradius: "10px",
 //               marginLeft: "10px",
 //               backgroundColor: "#E7E7E7",
 //               color: "rgba(92, 117,154)",
@@ -241,9 +241,9 @@
 //             PaperProps={{
 //               style: {
 //                 width: "auto",
-//                 borderRadius: "10px",
+//                 borderradius: "10px",
 //                 marginTop: "3px",
-//                 boxShadow: "none",
+//                 boxshadow: "none",
 //                 backgroundColor: "#E7E7E7",
 //                 color: "rgba(92, 117,154)",
 //                 zIndex: "1000",
@@ -294,7 +294,7 @@
 //                   width: "35px",
 //                   fontWeight: "600",
 //                   padding: "10px",
-//                   borderRadius: "10px",
+//                   borderradius: "10px",
 //                   marginLeft: "5px",
 //                   backgroundColor: "rgba(231, 231, 231)",
 //                   color: "rgba(92, 117, 154)",

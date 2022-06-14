@@ -8,7 +8,7 @@ const Status = (props) => {
             style={{
               width: "12px",
               height: "12px",
-              borderRadius: "3px",
+              borderradius: "3px",
               background: "linear-gradient(180deg, #24D6A5 0%, #17C293 100%)",
               display: "inline-flex",
               marginRight: "10px",
@@ -22,7 +22,7 @@ const Status = (props) => {
             style={{
               width: "12px",
               height: "12px",
-              borderRadius: "3px",
+              borderradius: "3px",
               background: "linear-gradient(180deg, #FFDA70 0%, #FFBD00 100%)",
               display: "inline-flex",
               marginRight: "10px",

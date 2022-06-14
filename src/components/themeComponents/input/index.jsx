@@ -9,7 +9,7 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#E5E5E5",
     width: "100%",
     height: "25px",
-    borderRadius: "10px",
+    borderradius: "10px",
     "& .MuiFormLabel-root": {
       color: "#8B97A2",
       fontFamily: "Product Sans",
@@ -19,14 +19,14 @@ const useStyles = makeStyles(() => ({
     },
     "& .MuiFilledInput-root": {
       background: "#E5E5E5",
-      borderRadius: "8px !important",
+      borderradius: "8px !important",
       height: "25px",
     },
   },
   input: {
     border: (styleProps) => (styleProps.border ? styleProps.border : "none"),
     backgroundColor: "#E5E5E5",
-    borderRadius: "8px !important",
+    borderradius: "8px !important",
     color: "#1E2429",
     fontSize: (styleProps) =>
       styleProps.fontSize ? styleProps.fontSize : "16px",
@@ -53,7 +53,7 @@ export default function IInput({
   const classes = useStyles(styleProps);
   const iInputContainerStyle = {
     position: "relative",
-    borderRadius: "10px",
+    borderradius: "10px",
     marginTop: "6px",
     height: "30px",
     opacity: 0.9,

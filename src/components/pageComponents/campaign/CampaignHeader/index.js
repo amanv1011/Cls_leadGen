@@ -1,24 +1,19 @@
-import React from "react";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useEffect, useState } from "react";
-import { Button, useMediaQuery } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Button, Menu, MenuItem, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import DateModal from "../../../pageComponents/leads/DateModal";
+import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
+// import DownArrow from "../../../pageComponents/leads/DownArrow";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
-import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
-import Tooltip from "@mui/material/Tooltip";
-import "./leadsHeader.scss";
+import moment from "moment";
+import "./campaignHeader.scss";
 import {
   leadsFilterCampaignName,
   leadsFilterOwnerName,
-  clearFilters,
-  datePickerState,
 } from "../../../../redux/actions/leadsFilter";
-import moment from "moment";
-import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
+import * as campaignActions from "../../../../redux/actions/campaignActions";
+import AddCampaginModal from "../../../themeComponents/popup/index";
 
-const LeadsHeader = () => {
+const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
   const dispatch = useDispatch();
   const matches = useMediaQuery("(max-width:1460px)");
 
@@ -27,12 +22,11 @@ const LeadsHeader = () => {
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
-  const cardsToDisplay = useSelector((state) => state.allLeads.cardsToDisplay);
-  // const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
+  const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
 
-  const [allCampgainsMenu, setAllCampgainsMenu] = React.useState(null);
-  const [allCampaignsFilter, setAllCampgainsFilter] = useState("All Campgains");
-  const [allOwnersFilter, setAllOwnersFilter] = useState("All Owners");
+  const [allCampgainsMenu, setAllCampgainsMenu] = useState(null);
+  const [allCampaignsFilter, setAllCampgainsFilter] = useState("Country");
+  const [allOwnersFilter, setAllOwnersFilter] = useState("Owner");
   const openAllCampgainsMenu = Boolean(allCampgainsMenu);
   const handleClickAllCampgainsMenu = (event) => {
     setAllCampgainsMenu(event.currentTarget);
@@ -40,9 +34,9 @@ const LeadsHeader = () => {
 
   const uniqueOwner = [];
 
-  leadData.forEach((c) => {
-    if (!uniqueOwner.includes(c.owner)) {
-      uniqueOwner.push(c.owner);
+  campaignsList.forEach((campaign) => {
+    if (!uniqueOwner.includes(campaign.owner)) {
+      uniqueOwner.push(campaign.owner);
     }
   });
 
@@ -54,8 +48,8 @@ const LeadsHeader = () => {
 
   const handleCloseAllCampgainsMenu = (event) => {
     if (event.target.innerText === "") {
-      dispatch(leadsFilterCampaignName("All Campaigns"));
-      setAllCampgainsFilter("All Campaigns");
+      dispatch(leadsFilterCampaignName("All Locations"));
+      setAllCampgainsFilter("Country");
     } else {
       dispatch(leadsFilterCampaignName(event.target.innerText));
       setAllCampgainsFilter(event.target.innerText);
@@ -78,78 +72,75 @@ const LeadsHeader = () => {
     }
     setOwnerMenu(null);
   };
-
-  const clearFilterTab = () => {
-    dispatch(clearFilters());
-    dispatch(datePickerState(0));
+  const getNumOfLeads = (id) => {
+    const val = leadsList.filter((valID) => {
+      return valID.campaignId === id;
+    });
+    return val.length;
   };
-  // Export to leads functions
-  const downloadLeads = (leadsList, excelFileName) => {
-    let updatedleadsListDataToDownload = [];
-    leadsList.forEach((lead) => {
-      let campaignListDataToDownload = {
-        "Company name": lead.companyName !== null ? lead.companyName : "NA",
-        Location: lead.location !== "No location" ? lead.location : "NA",
-        "Lead generated date":
-          lead.leadGeneratedDate !== null
-            ? moment
-                .unix(
-                  lead.leadGeneratedDate.seconds,
-                  lead.leadGeneratedDate.nanoseconds
-                )
-                .format("MM/DD/YYYY")
-            : "NA",
-        "Lead posted date":
-          lead.leadPostedDate !== null
-            ? moment(lead.leadPostedDate).format("MM/DD/YYYY")
-            : "NA",
-        Link: lead.link,
-        Summary: lead.summary !== "No summary" ? lead.summary : "NA",
-        Title: lead.title,
-        "Status of the lead":
-          lead.status === 1
-            ? "Approved"
-            : lead.status === -1
-            ? "Rejected"
-            : lead.status === 2
-            ? "Archived"
-            : "Under review",
-      };
+  const exportCampaignToExcel = () => {
+    let updatedcampaignListDataToDownload = [];
 
-      updatedleadsListDataToDownload = [
-        ...updatedleadsListDataToDownload,
+    searchedCampaignList.forEach((campaign) => {
+      let sourceType = "";
+
+      if (campaign.source === "seek_aus") {
+        sourceType = "Seek Australia";
+      } else if (campaign.source === "indeed_aus") {
+        sourceType = "Indeed Australia";
+      } else if (campaign.source === "indeed_ca") {
+        sourceType = "Indeed Canada";
+      } else if (campaign.source === "indeed_uk") {
+        sourceType = "Indeed United";
+      } else if (campaign.source === "indeed_il") {
+        sourceType = "Indeed Italy";
+      } else if (campaign.source === "indeed_ae") {
+        sourceType = "Indeed UAE";
+      } else if (campaign.source === "indeed_fi") {
+        sourceType = "Indeed Finland";
+      } else if (campaign.source === "indeed_ch") {
+        sourceType = "Indeed China";
+      } else if (campaign.source === "indeed_pt") {
+        sourceType = "Indeed Portugal";
+      } else if (campaign.source === "indeed_sg") {
+        sourceType = "Indeed Singapore";
+      } else {
+        sourceType = "LinkedIn";
+      }
+
+      let campaignListDataToDownload = {
+        "Campaign Name": campaign.name,
+        Location: campaign.location,
+        "Start Date": moment
+          .unix(campaign.start_date.seconds, campaign.start_date.nanoseconds)
+          .format("MM/DD/YYYY"),
+        "Start Time": campaign.start_time,
+        "End Date": moment
+          .unix(campaign.end_date.seconds, campaign.end_date.nanoseconds)
+          .format("MM/DD/YYYY"),
+        "End Time": campaign.end_time,
+        "Number of times the campign runs per day": campaign.frequency,
+        "Number of leads generated": getNumOfLeads(campaign.id),
+        "Campaign created by": campaign.owner,
+        "Source of the campaign": sourceType,
+        "Status of the campaign":
+          campaign.status && campaign.status === 1 ? "Active" : "In-Active",
+        Tags: campaign.tags.toString(),
+      };
+      updatedcampaignListDataToDownload = [
+        ...updatedcampaignListDataToDownload,
         campaignListDataToDownload,
       ];
     });
-
     commonFunctions.downloadInExcel(
-      updatedleadsListDataToDownload,
-      `${excelFileName}`
+      updatedcampaignListDataToDownload,
+      "List of Campigns"
     );
   };
 
-  const exportLeadsToExcel = () => {
-    if (window.location.pathname === "/leads") {
-      downloadLeads(cardsToDisplay, "All leads");
-    }
-    if (window.location.pathname === "/leads/approve") {
-      downloadLeads(cardsToDisplay, "Approved leads");
-    }
-
-    if (window.location.pathname === "/leads/reject") {
-      downloadLeads(cardsToDisplay, "Rejected leads");
-    }
-    if (window.location.pathname === "/leads/underreview") {
-      downloadLeads(cardsToDisplay, "Under review leads");
-    }
-    if (window.location.pathname === "/leads/archive") {
-      downloadLeads(cardsToDisplay, "Archived leads");
-    }
-  };
-
   return (
-    <>
-      <div className="leads-header-container">
+    <React.Fragment>
+      <div className="campaign-header-container">
         <div style={{ display: "flex" }} className="left-section">
           <div className="select-container">
             <Button
@@ -158,7 +149,7 @@ const LeadsHeader = () => {
               className="select-button"
             >
               {allCampaignsFilter}
-              <span style={{ paddingLeft: "15px", paddingBottom: "3px" }}>
+              <span style={{ paddingLeft: "45px", paddingBottom: "3px" }}>
                 <DownArrow />
               </span>
             </Button>
@@ -184,33 +175,31 @@ const LeadsHeader = () => {
               onClose={handleCloseAllCampgainsMenu}
             >
               <MenuItem
-                key={"abc"}
                 className="menu-item"
                 onClick={handleCloseAllCampgainsMenu}
                 sx={{
                   fontSize: matches ? "13px" : "14px",
                 }}
               >
-                All Campaigns
+                All Locations
               </MenuItem>
-              {leadData.map((ele) => {
+              {campaignsList.map((campaign) => {
                 return (
                   <MenuItem
-                    key={ele.id}
-                    data-id={ele.id}
+                    key={campaign.id}
+                    data-id={campaign.id}
                     className="menu-item"
                     onClick={handleCloseAllCampgainsMenu}
                     sx={{
                       fontSize: matches ? "13px" : "14px",
                     }}
                   >
-                    {ele.name}
+                    {campaign.location}
                   </MenuItem>
                 );
               })}
             </Menu>
           </div>
-          <DateModal />
           <div className="select-container">
             <Button
               id="basic-button"
@@ -218,7 +207,7 @@ const LeadsHeader = () => {
               onClick={handleClickOwnerMenu}
             >
               {allOwnersFilter}
-              <span style={{ paddingLeft: "15px", paddingBottom: "3px" }}>
+              <span style={{ paddingLeft: "70px", paddingBottom: "3px" }}>
                 <DownArrow />
               </span>
             </Button>
@@ -232,7 +221,6 @@ const LeadsHeader = () => {
                   borderradius: "10px",
                   marginTop: "3px",
                   boxshadow: "none",
-                  // backgroundColor: "#E7E7E7",
                   backgroundColor: "rgb(233,236,241)",
 
                   color: "rgba(92, 117,154)",
@@ -248,7 +236,6 @@ const LeadsHeader = () => {
               }}
             >
               <MenuItem
-                key={"xyz"}
                 className="menu-item"
                 sx={{
                   fontSize: matches ? "13px" : "14px",
@@ -276,21 +263,19 @@ const LeadsHeader = () => {
           </div>
         </div>
         <div className="right-section">
-          <div className="filter-icon">
-            <Tooltip title="Clear Filter" placement="top-start">
-              <Button onClick={clearFilterTab} className="filter-btn">
-                <FilterAltOffIcon />
-              </Button>
-            </Tooltip>
-          </div>
           <span>
+            <AddCampaginModal />
             <Button
               variant="outlined"
-              onClick={exportLeadsToExcel}
+              onClick={exportCampaignToExcel}
               className="export-to-excel-button"
-              disabled={cardsToDisplay.length === 0 ? true : false}
+              disabled={
+                searchedCampaignList && searchedCampaignList.length === 0
+                  ? true
+                  : false
+              }
               style={
-                cardsToDisplay.length === 0
+                searchedCampaignList && searchedCampaignList.length === 0
                   ? {
                       pointerEvents: "auto",
                       cursor: "not-allowed",
@@ -303,8 +288,8 @@ const LeadsHeader = () => {
           </span>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 
-export default LeadsHeader;
+export default CampaignHeader;

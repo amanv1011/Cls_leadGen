@@ -23,9 +23,9 @@ const Lead = () => {
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
-
   var filterAllLeads;
   var leadListForCount;
+  console.log(filterAllLeads);
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
@@ -118,9 +118,10 @@ const Lead = () => {
       getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
     );
   });
-  useEffect(() => {
-    dispatch(getAllUsersAction());
-  }, []);
+
+  // useEffect(() => {
+  //   dispatch(getAllUsersAction());
+  // }, []);
 
   useEffect(() => {
     dispatch(setActivePage(1));

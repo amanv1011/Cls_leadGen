@@ -7,7 +7,7 @@ const Textarea = ({ openText, setValue, value }) => {
         width: "180px",
         height: "120px",
         background: "rgba(31, 65, 115, 0.1)",
-        borderRadius: "10px",
+        borderradius: "10px",
         border: "none",
         outline: "none",
         padding: "3px 6px",
