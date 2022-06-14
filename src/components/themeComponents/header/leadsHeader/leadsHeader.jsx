@@ -169,9 +169,9 @@ const LeadsHeader = () => {
               PaperProps={{
                 style: {
                   width: "auto",
-                  borderRadius: "10px",
+                  borderradius: "10px",
                   marginTop: "3px",
-                  boxShadow: "none",
+                  boxshadow: "none",
                   // backgroundColor: "#E7E7E7",
                   backgroundColor: "rgb(233,236,241)",
                   color: "rgba(92, 117,154)",
@@ -229,9 +229,9 @@ const LeadsHeader = () => {
               PaperProps={{
                 style: {
                   width: "auto",
-                  borderRadius: "10px",
+                  borderradius: "10px",
                   marginTop: "3px",
-                  boxShadow: "none",
+                  boxshadow: "none",
                   // backgroundColor: "#E7E7E7",
                   backgroundColor: "rgb(233,236,241)",
 

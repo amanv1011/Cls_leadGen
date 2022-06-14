@@ -13,7 +13,7 @@ import {
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import AddCampaginModal from "../../../themeComponents/popup/index";
 
-const CampaignHeader = ({ campaignsList, searchedCampaignList }) => {
+const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
   const dispatch = useDispatch();
   const matches = useMediaQuery("(max-width:1460px)");
 
@@ -72,7 +72,12 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList }) => {
     }
     setOwnerMenu(null);
   };
-
+  const getNumOfLeads = (id) => {
+    const val = leadsList.filter((valID) => {
+      return valID.campaignId === id;
+    });
+    return val.length;
+  };
   const exportCampaignToExcel = () => {
     let updatedcampaignListDataToDownload = [];
 
@@ -115,7 +120,7 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList }) => {
           .format("MM/DD/YYYY"),
         "End Time": campaign.end_time,
         "Number of times the campign runs per day": campaign.frequency,
-        "Number of leads generated": campaign.leadsNo,
+        "Number of leads generated": getNumOfLeads(campaign.id),
         "Campaign created by": campaign.owner,
         "Source of the campaign": sourceType,
         "Status of the campaign":
@@ -155,9 +160,9 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList }) => {
               PaperProps={{
                 style: {
                   width: "auto",
-                  borderRadius: "10px",
+                  borderradius: "10px",
                   marginTop: "3px",
-                  boxShadow: "none",
+                  boxshadow: "none",
                   // backgroundColor: "#E7E7E7",
                   backgroundColor: "rgb(233,236,241)",
                   color: "rgba(92, 117,154)",
@@ -213,9 +218,9 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList }) => {
               PaperProps={{
                 style: {
                   width: "auto",
-                  borderRadius: "10px",
+                  borderradius: "10px",
                   marginTop: "3px",
-                  boxShadow: "none",
+                  boxshadow: "none",
                   backgroundColor: "rgb(233,236,241)",
 
                   color: "rgba(92, 117,154)",

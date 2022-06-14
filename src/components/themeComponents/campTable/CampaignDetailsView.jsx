@@ -49,7 +49,7 @@ export default function CampaignDetailsView({
         PaperProps={{
           style: {
             maxWidth: "100%",
-            borderRadius: "10px",
+            borderradius: "10px",
           },
         }}
       >

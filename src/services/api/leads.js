@@ -77,3 +77,15 @@ export const assignLead = async (leadId, userId) => {
     return "Assigned Successfully";
   }
 };
+
+export const addNotes = async (leadsId, notes) => {
+  console.log(leadsId, notes);
+  const leadObject = doc(leadsCollection, leadsId);
+  await updateDoc(leadObject, { notes: arrayUnion(notes) });
+  return { leadsId: leadsId, notes: notes };
+};
+export const updateLeadViewStatus = async (leadsId) => {
+  const leadObject = doc(leadsCollection, leadsId);
+  await updateDoc(leadObject, { seen: true });
+  return { leadsId: leadsId, seen: true };
+};

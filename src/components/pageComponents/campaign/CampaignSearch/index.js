@@ -38,7 +38,6 @@ const CampaignSearch = ({ campaignsList, searchValue }) => {
       <input
         type={"text"}
         placeholder={"Search"}
-        isSearch={true}
         onChange={(event) => {
           dispatch(campaignActions.searchInputValueAction(event.target.value));
           searchingTable(searchValue);

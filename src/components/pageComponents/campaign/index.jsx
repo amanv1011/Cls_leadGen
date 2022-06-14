@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Box } from "@mui/system";
 import { Divider } from "@mui/material";
 import CampaignHeader from "./CampaignHeader";
@@ -9,7 +9,6 @@ import CampaignDescription from "./CampaignDescription";
 import "./campaign.scss";
 
 const Campaign = () => {
-  const dispatch = useDispatch();
   const campaignsListData = useSelector(
     (state) => state.allCampaigns.campaignList
   );
@@ -31,6 +30,7 @@ const Campaign = () => {
   const campgaignId = useSelector(
     (state) => state.allCampaigns.a__campgaign__Id
   );
+
   const allUsers = useSelector((state) => state.users.users);
   const [campaignsList, setCampaignList] = useState([]);
   const [campaignDoc, setCampaignDoc] = useState([]);
@@ -96,34 +96,6 @@ const Campaign = () => {
             leadsList={leadsList}
           />
         </Box>
-        {/* <Box component={"div"} className="section campaign-actions">
-          <Box className="autocomplete-container">
-            <Box
-              className="autocomplete-title"
-              style={{
-                width: "75px",
-                height: "17px",
-                fontStyle: "normal",
-                fontWeight: "600",
-                fontSize: "14px",
-                lineHeight: "17px",
-                color: "rgba(31, 65, 115, 0.7)",
-                marginBottom: "12px",
-              }}
-            >
-              Assign To
-            </Box>
-            <IAutocomplete options={allUsers} onChangeOption={onChangeOption} />
-          </Box>
-
-          <Box component={"div"} className="action-buttons">
-            <CampaignButtonActions
-              campaignDoc={campaignDoc}
-              campgaignId={campgaignId}
-              leadsList={leadsList}
-            />
-          </Box>
-        </Box> */}
       </Box>
     </Box>
   );

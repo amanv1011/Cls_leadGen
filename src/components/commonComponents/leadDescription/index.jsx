@@ -14,6 +14,14 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
   const leadsFullDescription = useSelector(
     (state) => state.allLeads.leadsFullDescription
   );
+  let linkedInCompany;
+  if (displayLeadData && displayLeadData.companyName !== null) {
+    linkedInCompany =
+      displayLeadData &&
+      displayLeadData.companyName.toLowerCase().split(" ").join("");
+  } else {
+    linkedInCompany = "";
+  }
 
   const getDescription = (elementUniqueId) => {
     const descNow = leadsFullDescription.filter((leadsFullDescUniqueId) => {
@@ -36,45 +44,68 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
             </Box>
             <Box component={"div"} className="right-section">
               <Box component={"div"} className="links">
-                <Box component={"div"} className="link">
-                  <IconButton sx={{ padding: "4px" }}>
-                    {/* <a href={ele.readMore} target="_blank"> */}
-                    <Avatar
-                      sx={{ width: "20px", height: "20px" }}
-                      alt="indeedLogo"
-                      src={LinkedInIcon}
-                      className="indeed-logo"
-                    />
-                    {/* </a> */}
-                  </IconButton>
-                  Company
-                </Box>
-                <Box component={"div"} className="link">
-                  <IconButton sx={{ padding: "4px" }}>
-                    {/* <a href={ele.readMore} target="_blank"> */}
-                    <Avatar
-                      sx={{ width: "20px", height: "20px" }}
-                      alt="indeedLogo"
-                      src={LinkedInIcon}
-                      className="indeed-logo"
-                    />
-                    {/* </a> */}
-                  </IconButton>
-                  People
-                </Box>
-                <Box component={"div"} className="link">
-                  <IconButton sx={{ padding: "4px" }}>
-                    {/* <a href={ele.readMore} target="_blank"> */}
-                    <Avatar
-                      sx={{ width: "20px", height: "20px" }}
-                      alt="indeedLogo"
-                      src={Details}
-                      className="indeed-logo"
-                    />
-                    {/* </a> */}
-                  </IconButton>
-                  Details
-                </Box>
+                <a
+                  href={
+                    linkedInCompany
+                      ? `https://www.linkedin.com/company/${linkedInCompany}`
+                      : "https://www.linkedin.com"
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                  className="link"
+                >
+                  <Box component={"div"}>
+                    <IconButton sx={{ padding: "4px" }}>
+                      <Avatar
+                        sx={{ width: "20px", height: "20px" }}
+                        alt="indeedLogo"
+                        src={LinkedInIcon}
+                        className="indeed-logo"
+                      />
+                    </IconButton>
+                    Company
+                  </Box>
+                </a>
+                <a
+                  href={"https://www.linkedin.com"}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="link"
+                >
+                  <Box component={"div"}>
+                    <IconButton sx={{ padding: "4px" }}>
+                      <Avatar
+                        sx={{ width: "20px", height: "20px" }}
+                        alt="indeedLogo"
+                        src={LinkedInIcon}
+                        className="indeed-logo"
+                      />
+                    </IconButton>
+                    People
+                  </Box>
+                </a>
+                <a
+                  href={
+                    displayLeadData && displayLeadData.readMore
+                      ? displayLeadData.readMore
+                      : displayLeadData.link
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                  className="link"
+                >
+                  <Box component={"div"}>
+                    <IconButton sx={{ padding: "4px" }}>
+                      <Avatar
+                        sx={{ width: "20px", height: "20px" }}
+                        alt="indeedLogo"
+                        src={Details}
+                        className="indeed-logo"
+                      />
+                    </IconButton>
+                    Details
+                  </Box>
+                </a>
               </Box>
             </Box>{" "}
           </>

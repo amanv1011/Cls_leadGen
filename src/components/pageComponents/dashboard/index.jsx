@@ -201,7 +201,7 @@ const Dashboard = ({ children }) => {
           {window.location.pathname === "/" ? (
             <>
               <Box className="dash-box">
-                <Box sx={{ boxShadow: 3 }} className="dash-lead-box">
+                <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
                   <Circular
                     value={totalCampPer}
                     barColor={"#3575FF"}
@@ -213,7 +213,7 @@ const Dashboard = ({ children }) => {
                     <p className="dash-card-subhead">Total Campaigns</p>
                   </div>
                 </Box>
-                <Box sx={{ boxShadow: 3 }} className="dash-lead-box">
+                <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
                   <Circular
                     value={activeCampPer}
                     barColor={"#20C997"}
@@ -225,7 +225,7 @@ const Dashboard = ({ children }) => {
                     <p className="dash-card-subhead">Active Campaigns</p>
                   </div>
                 </Box>
-                <Box sx={{ boxShadow: 3 }} className="dash-lead-box">
+                <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
                   <Circular
                     value={leadsExtractedPer}
                     barColor={"#F36643"}
@@ -238,7 +238,7 @@ const Dashboard = ({ children }) => {
                   </div>
                 </Box>
 
-                <Box sx={{ boxShadow: 3 }} className="dash-lead-box">
+                <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
                   <CircularChart
                     Todays={todaysLeadsPer}
                     Yesterdays={yesterdaysLeadsPer}
@@ -296,7 +296,7 @@ const Dashboard = ({ children }) => {
                 </Box>
               </Box>
               <Box
-                sx={{ boxShadow: 3, backgroundColor: "#FFFFFF" }}
+                sx={{ boxshadow: 3, backgroundColor: "#FFFFFF" }}
                 className="table-container"
               >
                 {leadReduxState === false && leadReduxStateErr !== null ? (

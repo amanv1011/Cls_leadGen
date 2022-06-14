@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "./leadsDisplay.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPopupEnable } from "../../../../redux/actions/PopupAction";
 import LeadsMenu from "../LeadsMenu";
 import moment from "moment";
 import { Popover } from "@mui/material";
 import IButton from "../../../themeComponents/button";
-import { updateLeadStatus } from "../../../../redux/actions/leadActions";
+import {
+  updateLeadStatus,
+  updateLeadViewStatusAction,
+} from "../../../../redux/actions/leadActions";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
   const dispatch = useDispatch();
 
-  const [, setLeadsListData] = useState([]);
+  const [leadsListData, setLeadsListData] = useState([]);
   const [selectedArray, setselectedArray] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -20,6 +23,10 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
   const handlePopClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const leadViewUpdate = useSelector(
+    (state) => state.updateLeadViewStatusReducer.leadViewStatus
+  );
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -32,10 +39,25 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
     setLeadsListData(leadsList);
   }, [leadsList]);
 
+  useEffect(() => {
+    leadViewUpdate &&
+      leadsListData &&
+      leadsListData.forEach((e) => {
+        if (e.id === leadViewUpdate.leadsId) {
+          e.seen = leadViewUpdate.seen;
+        }
+      });
+  }, [leadViewUpdate]);
+
   const handleClick = (leadId) => {
     let leadsIdData = leadsList.filter((ele) => ele.id === leadId);
     selectedLeadIdFun(leadsIdData[0].id);
     dispatch(getPopupEnable(leadsIdData));
+    //update seen status here
+    console.log(leadsIdData[0].seen);
+    if ((leadsIdData[0] && leadsIdData[0].seen !== true) || undefined) {
+      dispatch(updateLeadViewStatusAction(leadId));
+    }
   };
 
   const handleOnCheckboxChange = (event) => {
@@ -149,7 +171,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
             <div
               className={`lead-display-subcontainers ${
                 selectedLeadId === lead.id ? "selected" : ""
-              } `}
+              }  ${lead && lead.seen && lead.seen === true ? "seen" : ""} `}
               onClick={() => handleClick(lead.id)}
               key={lead.id}
             >
@@ -185,9 +207,20 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                   <div
                     className={`lead-display-btn-text ${
                       selectedLeadId === lead.id ? "selected" : ""
+                    }  ${
+                      lead && lead.seen && lead.seen === true ? "seen" : ""
                     }`}
                   >
                     {lead.title}
+                  </div>
+                </div>
+                <div
+                  className={`lead-display-subcontainer2 ${
+                    selectedLeadId === lead.id ? "selected-sub" : ""
+                  }`}
+                >
+                  <div>
+                    {lead.companyName === null ? "NA" : lead.companyName}
                   </div>
                   <span
                     className={`lead-display-timestamp ${
@@ -196,14 +229,6 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                   >
                     {moment.unix(lead.leadGeneratedDate.seconds).fromNow()}
                   </span>
-                </div>
-
-                <div
-                  className={`lead-display-subcontainer2 ${
-                    selectedLeadId === lead.id ? "selected-sub" : ""
-                  }`}
-                >
-                  <p>{lead.companyName === null ? "NA" : lead.companyName}</p>
                 </div>
               </div>
             </div>

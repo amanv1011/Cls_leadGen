@@ -51,7 +51,7 @@ const AlertBeforeAction = ({
             color="success"
             onClick={handleClose}
             style={{
-              borderRadius: "10px",
+              borderradius: "10px",
               background: "#1F4173",
               textTransform: "none",
               fontWeight: "600",
@@ -64,7 +64,7 @@ const AlertBeforeAction = ({
             variant="contained"
             startIcon={<DeleteIcon />}
             style={{
-              borderRadius: "10px",
+              borderradius: "10px",
               background: "rgb(138 31 27)",
               textTransform: "none",
             }}

@@ -12,6 +12,12 @@ import {
   GET_USERS_PENDING,
   GET_USERS_SUCCESS,
   GET_USERS_ERROR,
+  ADD_NOTES_PENDING,
+  ADD_NOTES_SUCCESS,
+  ADD_NOTES_ERROR,
+  UPDATE_LEAD_VIEW_PENDING,
+  UPDATE_LEAD_VIEW_SUCCESS,
+  UPDATE_LEAD_VIEW_ERROR,
 } from "../type";
 
 const initialState = {
@@ -24,6 +30,8 @@ const initialState = {
   cardsToDisplay: [],
   leadsFullDescription: [],
   assignLead: {},
+  addedNotes: {},
+  leadViewStatus: {},
 };
 
 // fetch all campaign list
@@ -124,6 +132,66 @@ export const assignLeadToReducer = (
         ...state,
         loading: false,
         assignLead: payload,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const addNotesToUserReducer = (
+  state = initialState,
+  { type, payload }
+) => {
+  switch (type) {
+    case ADD_NOTES_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case ADD_NOTES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        addedNotes: payload,
+        error: null,
+      };
+    case ADD_NOTES_ERROR:
+      return {
+        ...state,
+        loading: false,
+        addedNotes: [],
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const updateLeadViewStatusReducer = (
+  state = initialState,
+  { type, payload }
+) => {
+  switch (type) {
+    case UPDATE_LEAD_VIEW_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case UPDATE_LEAD_VIEW_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        leadViewStatus: payload,
+        error: null,
+      };
+    case UPDATE_LEAD_VIEW_ERROR:
+      return {
+        ...state,
+        loading: false,
+        leadViewStatus: {},
         error: payload,
       };
     default:

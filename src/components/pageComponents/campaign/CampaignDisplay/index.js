@@ -10,6 +10,7 @@ import PaginationComponent from "../../../commonComponents/PaginationComponent";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import Download from "../../../themeComponents/campTable/Download";
 import Delete from "../../../themeComponents/campTable/Delete";
+import * as commonFunctions from "../commonFunctions";
 import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
@@ -90,6 +91,71 @@ const CampaignDisplay = ({
     indexOfLastLead
   );
 
+  // To download selected campaigns
+  const downloadSelectedCampaigns = () => {
+    const filteredcampaignsForDownload = campaignsList.filter((campaign) =>
+      selectedArray.find((item) => campaign.id === item)
+    );
+    console.log("filteredcampaignsForDownload", filteredcampaignsForDownload);
+    let updatedcampaignListDataToDownload = [];
+
+    filteredcampaignsForDownload.forEach((campaign) => {
+      let sourceType = "";
+
+      if (campaign.source === "seek_aus") {
+        sourceType = "Seek Australia";
+      } else if (campaign.source === "indeed_aus") {
+        sourceType = "Indeed Australia";
+      } else if (campaign.source === "indeed_ca") {
+        sourceType = "Indeed Canada";
+      } else if (campaign.source === "indeed_uk") {
+        sourceType = "Indeed United";
+      } else if (campaign.source === "indeed_il") {
+        sourceType = "Indeed Italy";
+      } else if (campaign.source === "indeed_ae") {
+        sourceType = "Indeed UAE";
+      } else if (campaign.source === "indeed_fi") {
+        sourceType = "Indeed Finland";
+      } else if (campaign.source === "indeed_ch") {
+        sourceType = "Indeed China";
+      } else if (campaign.source === "indeed_pt") {
+        sourceType = "Indeed Portugal";
+      } else if (campaign.source === "indeed_sg") {
+        sourceType = "Indeed Singapore";
+      } else {
+        sourceType = "LinkedIn";
+      }
+
+      let campaignListDataToDownload = {
+        "Campaign Name": campaign.name,
+        Location: campaign.location,
+        "Start Date": moment
+          .unix(campaign.start_date.seconds, campaign.start_date.nanoseconds)
+          .format("MM/DD/YYYY"),
+        "Start Time": campaign.start_time,
+        "End Date": moment
+          .unix(campaign.end_date.seconds, campaign.end_date.nanoseconds)
+          .format("MM/DD/YYYY"),
+        "End Time": campaign.end_time,
+        "Number of times the campign runs per day": campaign.frequency,
+        "Number of leads generated": getNumOfLeads(campaign.id),
+        "Campaign created by": campaign.owner,
+        "Source of the campaign": sourceType,
+        "Status of the campaign":
+          campaign.status && campaign.status === 1 ? "Active" : "In-Active",
+        Tags: campaign.tags.toString(),
+      };
+      updatedcampaignListDataToDownload = [
+        ...updatedcampaignListDataToDownload,
+        campaignListDataToDownload,
+      ];
+    });
+    commonFunctions.downloadInExcel(
+      updatedcampaignListDataToDownload,
+      "List of Campigns"
+    );
+  };
+
   if (campaignLoader === false && searchedCampaignList.length === 0) {
     if (searchValue) {
       return (
@@ -161,20 +227,15 @@ const CampaignDisplay = ({
                   horizontal: "left",
                 }}
                 PaperProps={{
-                  boxShadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
-                  borderRadius: "10px",
+                  boxshadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
+                  borderradius: "10px",
                 }}
               >
                 <div className="popover-body">
-                  {/* <IButton type={"green"} name={"green"} children="Approve" />
-                  <IButton type={"yellow"} name={"yellow"} children="Archive" />
-                  <IButton
-                    type={"grey"}
-                    name={"grey"}
-                    children="Under Review"
-                  />
-                  <IButton type={"pink"} name={"pink"} children=" Reject" /> */}
-                  <button className="campaign-btn download-btn">
+                  <button
+                    className="campaign-btn download-btn"
+                    onClick={downloadSelectedCampaigns}
+                  >
                     <Download />
                     <span className="campaign-btn-text">
                       Download selected campaigns
@@ -200,7 +261,7 @@ const CampaignDisplay = ({
                 onClick={() => Viewed(campaign.id)}
                 className={`campaign-display-subcontainers ${
                   campaignDoc.id === campaign.id ? "selected" : ""
-                } `}
+                }`}
                 key={campaign.id}
               >
                 <div className="campaign-display-check">

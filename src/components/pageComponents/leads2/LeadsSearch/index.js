@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { leadsFilterSearch } from "../../../../redux/actions/leadsFilter";
 import "./leadsSearch.scss";
+import search from "../../../../assets/icons/search.svg";
 
 const LeadsSearch = () => {
   const dispatch = useDispatch();
@@ -16,15 +17,16 @@ const LeadsSearch = () => {
   };
 
   return (
-    <React.Fragment>
+    <div className="lead-search">
       <input
         placeholder={`Search`}
         onChange={handleSearch}
         type="text"
         value={SearchInput}
-        className="leadsSearch"
+        className="search-box"
       />
-    </React.Fragment>
+      <img src={search} alt="search" className="search-icon" />
+    </div>
   );
 };
 
