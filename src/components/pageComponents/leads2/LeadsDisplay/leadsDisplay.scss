@@ -37,31 +37,41 @@
       flex-direction: column;
       .display-cont {
         .lead-display-btn-text {
-          width: 190px;
+          width: 260px;
           height: 18px;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
         }
-        .lead-display-timestamp {
-          font-weight: 600;
-          font-size: 11px;
-          line-height: 15px;
-          text-align: right;
-          color: rgba(31, 65, 115, 0.5);
-        }
       }
     }
+
     .lead-display-subcontainer2 {
       font-style: normal;
       font-weight: 600;
       font-size: 12px;
       line-height: 15px;
       color: rgba(31, 65, 115, 0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .lead-display-timestamp {
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 15px;
+        text-align: right;
+        color: rgba(31, 65, 115, 0.5);
+      }
     }
     .selected-sub {
       color: rgba(255, 255, 255, 0.5) !important;
     }
+    &:hover {
+      // background-color: #e5e5e5;
+    }
+  }
+  .seen {
+    color: #1f4173;
   }
 }
 

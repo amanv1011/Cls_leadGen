@@ -1,6 +1,10 @@
 import { combineReducers } from "redux";
 import { getAllCampaignsReducer } from "./campaignReducers";
-import { getAllLeadsReducer, assignLeadToReducer } from "./leadsReducer";
+import {
+  getAllLeadsReducer,
+  assignLeadToReducer,
+  updateLeadViewStatusReducer,
+} from "./leadsReducer";
 import { getApproveRejectCountReducer } from "./approveRejectCountReducer";
 import { PopupReducers } from "./PopupReducers";
 import { leadsFilterReducer } from "./leadsFilterReducer";
@@ -22,6 +26,7 @@ const rootReducer = combineReducers({
   snackBar: alertReducer,
   loaderReducer: loaderReducer,
   users: getUsersReducer,
+  updateLeadViewStatusReducer: updateLeadViewStatusReducer,
 });
 
 export default rootReducer;

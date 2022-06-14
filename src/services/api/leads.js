@@ -36,7 +36,6 @@ export const getLeadsFullDescription = async () => {
 };
 
 export const approvRejectLeads = async (leadsId, leadStatus) => {
-  console.log(leadsId);
   try {
     if (typeof leadsId === "string") {
       const updateApproveReject = doc(leadsCollection, leadsId);
@@ -61,7 +60,6 @@ export const assignLead = async (leadId, userId) => {
     id: doc.id,
   }));
   const filt = list.filter((element) => element.leadId === leadId);
-
   if (filt.length === 0) {
     // await addDoc(assignedLeadCollection, { leadId: leadId, userId: [userId] });
     const newCityRef = doc(assignedLeadCollection, leadId);
@@ -79,8 +77,13 @@ export const assignLead = async (leadId, userId) => {
 };
 
 export const addNotes = async (leadsId, notes) => {
-  console.log(leadsId, notes);
   const leadObject = doc(leadsCollection, leadsId);
   await updateDoc(leadObject, { notes: arrayUnion(notes) });
   return { leadsId: leadsId, notes: notes };
+};
+
+export const updateLeadViewStatus = async (leadsId) => {
+  const leadObject = doc(leadsCollection, leadsId);
+  await updateDoc(leadObject, { seen: true });
+  return { leadsId: leadsId, seen: true };
 };

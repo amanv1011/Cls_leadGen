@@ -50,7 +50,7 @@
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
-          width: 50px;
+          width: 55px;
           justify-content: center;
           align-items: center;
           // height: 50px;
@@ -63,6 +63,8 @@
           align-items: center;
           text-align: center;
           color: #2a7ab9;
+          text-decoration: none;
+          border-radius: 50%;
           &:hover {
             cursor: pointer;
           }
