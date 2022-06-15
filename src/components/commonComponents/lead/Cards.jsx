@@ -20,6 +20,7 @@ import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
 import Textarea from "../../themeComponents/textarea/textarea";
 import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
+import AddIcon from "@mui/icons-material/Add";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -98,6 +99,7 @@ const Cards = (props) => {
       } else {
         dispatch(addNotestoLeadAction([selectedLeadId], value));
       }
+      setValue("");
     }
     setopenText(!openText);
   };
@@ -252,7 +254,12 @@ const Cards = (props) => {
               <IButton
                 type={"blue"}
                 name={"blue"}
-                children={"Add Notes"}
+                children={
+                  <>
+                    <AddIcon fontSize="small" />
+                    {"Add Notes"}
+                  </>
+                }
                 customClass={"add-nts-btn"}
                 onclick={addNotesFunction}
               />

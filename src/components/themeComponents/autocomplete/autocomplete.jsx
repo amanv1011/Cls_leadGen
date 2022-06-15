@@ -34,6 +34,7 @@ const IAutocomplete = ({
     >
       <Autocomplete
         closeText={"close"}
+        freeSolo
         disablePortal
         multiple
         disabled={disabled}
