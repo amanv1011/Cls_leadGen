@@ -13,7 +13,7 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 330px auto 200px;
+    grid-template-columns: 330px auto 230px;
     .section {
     }
     .leads-list {
@@ -37,8 +37,10 @@
     }
     .leads-actions {
       box-sizing: border-box;
+      height: 95vh;
       margin-top: 15px;
       padding: 0px 5px;
+      overflow-y: auto;
       .action-title {
         font-style: normal;
         font-weight: 600;

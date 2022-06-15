@@ -65,13 +65,16 @@ export const assignLead = async (leadId, userId) => {
     const newCityRef = doc(assignedLeadCollection, leadId);
     await setDoc(newCityRef, {
       leadId: leadId,
-      userId: [userId],
+      userId: userId,
     });
     return "Assigned Successfully";
   } else {
     //find for existing user
     const documnet = doc(assignedLeadCollection, leadId);
-    await updateDoc(documnet, { leadId: leadId, userId: arrayUnion(userId) });
+    await updateDoc(documnet, {
+      leadId: leadId,
+      userId: arrayUnion(...userId),
+    });
     return "Assigned Successfully";
   }
 };

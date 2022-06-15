@@ -30,6 +30,7 @@ const Cards = (props) => {
   const [open, setOpen] = useState(false);
   const [openMultipleLeadPopup, setOpenMultipleLeadPopup] = useState(false);
   const [status, setStatus] = useState(null);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const leadsData = props.leadData;
   const allLeadData = useSelector((state) => state.PopupReducer.popupData);
   const approveRejectResponse = useSelector(
@@ -63,19 +64,6 @@ const Cards = (props) => {
     dispatch(cardsDisplayAction(leadsData));
   }, [leadsData.length]);
 
-  // let approveButton = () => {
-  //   // dispatch(updateLeadStatus(selectedLeadId, 1));
-  //   setOpen(true);
-  // };
-  // let rejectButton = () => {
-  //   dispatch(updateLeadStatus(selectedLeadId, -1));
-  // };
-  // let archieveButton = () => {
-  //   dispatch(updateLeadStatus(selectedLeadId, 2));
-  // };
-  // let underReviewButton = () => {
-  //   dispatch(updateLeadStatus(selectedLeadId, 0));
-  // };
   const handleUpdateStatus = (status) => {
     setOpen(true);
     setStatus(status);
@@ -86,9 +74,18 @@ const Cards = (props) => {
   };
   //assigning lead to a user
   const onChangeOption = (e, option) => {
-    if (selectedLeadId.length > 0 && option && option.userId) {
-      //assign user to leadId here
-      dispatch(assignLeadToUsersAction(selectedLeadId, option.userId));
+    let arr = [];
+    option &&
+      option.forEach((e) => {
+        arr.push(e.userId);
+      });
+    setSelectedUsers(arr);
+  };
+
+  const assignUsers = () => {
+    if (selectedLeadId.length > 0 && selectedUsers.length > 0) {
+      console.log(selectedLeadId, selectedUsers);
+      dispatch(assignLeadToUsersAction(selectedLeadId, selectedUsers));
     }
   };
 
@@ -108,13 +105,12 @@ const Cards = (props) => {
     setStatus(status);
   };
   const handleApply = () => {
-    console.log("called signle");
     if (selectedLeadId && status !== null) {
       dispatch(updateLeadStatus(selectedLeadId, status));
       onClosePopup();
     }
   };
-
+  console.log(selectedUsers);
   return (
     <>
       {
@@ -224,6 +220,8 @@ const Cards = (props) => {
               <IAutocomplete
                 options={allUsers}
                 onChangeOption={onChangeOption}
+                assignUsers={assignUsers}
+                selectedUsers={selectedUsers}
               />
             </Box>
             <Box className="add-notes-container">
