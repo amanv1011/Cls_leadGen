@@ -2,7 +2,7 @@ import { GET_TOTAL_COUNT, GET_DATA_PER_PAGE, GET_ACTIVE_COUNT } from "../type";
 
 const initialState = {
   totalCount: 0,
-  dataPerPage: 10,
+  dataPerPage: 5,
   activePage: 1,
 };
 

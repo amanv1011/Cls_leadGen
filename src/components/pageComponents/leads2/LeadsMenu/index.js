@@ -54,7 +54,7 @@ const LeadsMenu = () => {
         PaperProps: {
           sx: {
             borderRadius: "10px",
-            boxShadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
+            boxshadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
             "& .MuiList-padding": {
               padding: "10px",
             },

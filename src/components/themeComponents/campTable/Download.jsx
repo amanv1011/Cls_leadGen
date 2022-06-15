@@ -2,39 +2,35 @@ import React from "react";
 
 function Download() {
   return (
-    <>
-      <svg
-        width="15"
-        height="16"
-        viewBox="0 0 15 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g opacity="0.7">
-          <path
-            d="M14.1765 10.8824V13.3529C14.1765 14.2626 13.4391 15 12.5294 15H2.64706C1.73741 15 1 14.2626 1 13.3529V10.8824"
-            stroke="#001A72"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M4.29492 7.58823L7.58904 10.8824L10.8832 7.58823"
-            stroke="#001A72"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M7.58789 10.8824V1"
-            stroke="#001A72"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </g>
-      </svg>
-    </>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 15 15"
+      fill="none"
+    >
+      <path
+        d="M13.5 10.5V12.75C13.5 13.5784 12.8284 14.25 12 14.25H3C2.17157 14.25 1.5 13.5784 1.5 12.75V10.5"
+        stroke="white"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4.5 7.5L7.5 10.5L10.5 7.5"
+        stroke="white"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7.5 10.5V1.5"
+        stroke="white"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 

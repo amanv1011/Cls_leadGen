@@ -7,7 +7,9 @@ const initialState = {
   isModalVisible: false,
   a__campgaign__Id: "",
   initialSearchValue: "",
+  campaignDoc: {},
   searchedCampaignList: [],
+  campaignDetailsToUpdate: {},
 };
 
 // fetch all campaign list
@@ -100,6 +102,29 @@ export const getAllCampaignsReducer = (
         error: payload,
       };
 
+    case types.GET_A_CAMPAIGN_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+
+    case types.GET_A_CAMPAIGN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        campaignDoc: payload,
+        error: null,
+      };
+
+    case types.GET_A_CAMPAIGN_ERROR:
+      return {
+        ...state,
+        loading: false,
+        campaignDoc: {},
+        error: payload,
+      };
+
     case types.SHOW_MODAL:
       return { ...state, isModalVisible: true };
 
@@ -116,6 +141,12 @@ export const getAllCampaignsReducer = (
       return {
         ...state,
         searchedCampaignList: payload,
+      };
+
+    case types.CAMPAIGN_DETAILS_TO_UPDATE:
+      return {
+        ...state,
+        campaignDetailsToUpdate: payload,
       };
 
     default:

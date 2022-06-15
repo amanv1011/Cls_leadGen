@@ -146,7 +146,7 @@ const LeadsDisplay = ({
           <input
             type="checkbox"
             name="allCheck"
-            checked={isChecked}
+            checked={selectedArray.length !== leadsList.length ? false : true}
             onChange={handleAllCheck}
             className="checkbox"
           />

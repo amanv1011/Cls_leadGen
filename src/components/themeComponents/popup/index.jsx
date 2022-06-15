@@ -5,7 +5,6 @@ import { Box, Modal, Button, Divider, Grid } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "./popup.scss";
 import PlusIcon from "./PlusIcon";
-import IInput from "../input/index";
 import moment from "moment";
 import { openAlertAction } from "../../../redux/actions/alertActions";
 
@@ -93,12 +92,6 @@ const AddCampaginModal = () => {
   }, [source, tags.length, pages]);
 
   useEffect(() => {
-    if (a__campgaignId !== undefined && a__campgaignId !== "") {
-      detailsForEdit();
-    }
-  }, [a__campgaignId]);
-
-  useEffect(() => {
     if (
       errorFromStore === null ||
       errorFromStore === undefined ||
@@ -109,29 +102,6 @@ const AddCampaginModal = () => {
       dispatch(campaignActions.showModal());
     }
   }, [errorFromStore]);
-
-  const detailsForEdit = async () => {
-    const documentSnapShot = await dispatch(
-      campaignActions.getACampaignAction(a__campgaignId)
-    );
-    setAddCampaignDetails({
-      name: documentSnapShot.payload.data().name,
-      source: documentSnapShot.payload.data().source,
-      frequency: parseInt(documentSnapShot.payload.data().frequency),
-      start_date: moment
-        .unix(documentSnapShot.payload.data().start_date.seconds)
-        .format("YYYY-MM-DD"),
-      start_time: documentSnapShot.payload.data().start_time,
-      end_date: moment
-        .unix(documentSnapShot.payload.data().end_date.seconds)
-        .format("YYYY-MM-DD"),
-      end_time: documentSnapShot.payload.data().end_time,
-      location: documentSnapShot.payload.data().location,
-      pages: parseInt(documentSnapShot.payload.data().pages),
-      status: parseInt(documentSnapShot.payload.data().status),
-    });
-    setTags([...documentSnapShot.payload.data().tags]);
-  };
 
   const onSubmitEventhandler = (event) => {
     event.preventDefault();
@@ -146,6 +116,7 @@ const AddCampaginModal = () => {
         start_date: Timestamp.fromDate(new Date(start_date)),
         last_crawled_date: Timestamp.fromDate(new Date(start_date)),
         owner: "Mithun Dominic",
+        campaignCreatedAt: Timestamp.fromDate(new Date()),
       };
 
       if (a__campgaignId) {
@@ -206,27 +177,6 @@ const AddCampaginModal = () => {
   }
   return (
     <React.Fragment>
-      <div className="add" style={{ display: "-webkit-inline-box" }}>
-        <IInput
-          type={"text"}
-          placeholder={"Search"}
-          isSearch={true}
-          onChangeInput={(event) => {
-            dispatch(
-              campaignActions.searchInputValueAction(event.target.value)
-            );
-          }}
-          className="my-input"
-          style={{
-            fontStyle: "normal",
-            fontWeight: "600",
-            fontSize: "14px",
-            lineHeight: "17px",
-            color: "#1F4173",
-          }}
-          autoComplete="off"
-        />
-      </div>
       <Button
         onClick={() => {
           dispatch(campaignActions.showModal());

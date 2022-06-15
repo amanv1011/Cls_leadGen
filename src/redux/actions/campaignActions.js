@@ -1,15 +1,16 @@
 import * as types from "../type";
 import * as campaignServices from "../../services/api/campaign";
 import { openAlertAction } from "./alertActions";
+import { closeLoader, openLoader } from "./globalLoaderAction";
 
 export const getACampaignAction = (a__campgaignId) => {
   return async (dispatch) => {
     dispatch({ type: types.GET_A_CAMPAIGN_PENDING, loading: true });
     try {
-      const res = await campaignServices.get_A_Campaign(a__campgaignId);
+      const response = await campaignServices.get_A_Campaign(a__campgaignId);
       return dispatch({
         type: types.GET_A_CAMPAIGN_SUCCESS,
-        payload: res,
+        payload: { ...response.data(), id: response.id },
       });
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {
@@ -178,5 +179,41 @@ export const getSearchedCampaignList = (searchedCampaignList) => {
       type: types.SEARCHED_CAMPAIGNS,
       payload: searchedCampaignList,
     });
+  };
+};
+
+export const gettingCampaignDetailsToUpdateAction = (detailsToUpdate) => {
+  return async (dispatch) => {
+    await dispatch({
+      type: types.CAMPAIGN_DETAILS_TO_UPDATE,
+      payload: detailsToUpdate,
+    });
+  };
+};
+
+export const assignCampaignToUsersAction = (campaignId, userId) => {
+  // console.log("campaignId", campaignId);
+  return async (dispatch) => {
+    dispatch({ type: types.ASSIGN_CAMPAIGN_PENDING, loading: true });
+    dispatch(openLoader({ isLoading: true }));
+    try {
+      const res = await campaignServices.assignCampaign(campaignId, userId);
+      dispatch(closeLoader());
+      return dispatch({
+        type: types.ASSIGN_CAMPAIGN_SUCCESS,
+        payload: res,
+      });
+    } catch (err) {
+      if (!!err && !!err.response && !!err.response.data) {
+        dispatch(closeLoader());
+        dispatch({
+          type: types.ASSIGN_CAMPAIGN_ERROR,
+          payload: err,
+        });
+      } else {
+        dispatch(closeLoader());
+        dispatch({ type: types.ASSIGN_CAMPAIGN_ERROR });
+      }
+    }
   };
 };
