@@ -37,10 +37,11 @@
     }
     .leads-actions {
       box-sizing: border-box;
-      height: 95vh;
+      height: calc(100vh - 190px);
       margin-top: 15px;
       padding: 0px 5px;
       overflow-y: auto;
+      overflow-x: hidden;
       .action-title {
         font-style: normal;
         font-weight: 600;
@@ -53,6 +54,10 @@
         padding: 6px 0px;
         display: grid;
         grid-gap: 6px;
+      }
+      .disabled {
+        pointer-events: none;
+        opacity: 0.5;
       }
       .autocomplete-container {
         margin: 10px 0px;

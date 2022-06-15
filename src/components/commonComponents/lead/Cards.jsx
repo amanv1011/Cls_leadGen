@@ -31,6 +31,7 @@ const Cards = (props) => {
   const [openMultipleLeadPopup, setOpenMultipleLeadPopup] = useState(false);
   const [status, setStatus] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedArray, setselectedArray] = useState([]);
   const leadsData = props.leadData;
   const allLeadData = useSelector((state) => state.PopupReducer.popupData);
   const approveRejectResponse = useSelector(
@@ -74,24 +75,29 @@ const Cards = (props) => {
   };
   //assigning lead to a user
   const onChangeOption = (e, option) => {
-    let arr = [];
-    option &&
-      option.forEach((e) => {
-        arr.push(e.userId);
-      });
-    setSelectedUsers(arr);
+    setSelectedUsers(option);
   };
 
   const assignUsers = () => {
     if (selectedLeadId.length > 0 && selectedUsers.length > 0) {
-      console.log(selectedLeadId, selectedUsers);
-      dispatch(assignLeadToUsersAction(selectedLeadId, selectedUsers));
+      let arr = [];
+      selectedUsers &&
+        selectedUsers.forEach((e) => {
+          arr.push(e.userId);
+        });
+      dispatch(assignLeadToUsersAction([selectedLeadId], arr));
+      setSelectedUsers([]);
     }
   };
 
   const addNotesFunction = () => {
     if (openText && value.length > 0) {
-      dispatch(addNotestoLeadAction(selectedLeadId, value));
+      if (selectedArray.length > 0) {
+        dispatch(addNotestoLeadAction(selectedArray, value));
+        setselectedArray([]);
+      } else {
+        dispatch(addNotestoLeadAction([selectedLeadId], value));
+      }
     }
     setopenText(!openText);
   };
@@ -106,11 +112,11 @@ const Cards = (props) => {
   };
   const handleApply = () => {
     if (selectedLeadId && status !== null) {
-      dispatch(updateLeadStatus(selectedLeadId, status));
+      dispatch(updateLeadStatus([selectedLeadId], status));
       onClosePopup();
     }
   };
-  console.log(selectedUsers);
+
   return (
     <>
       {
@@ -118,8 +124,7 @@ const Cards = (props) => {
           open={open}
           onClosePopup={onClosePopup}
           handleApply={handleApply}
-          title={"Update this Lead Status"}
-          subtitle={"Single Lead"}
+          title={"Update Lead Status"}
         />
       }
       <Box component="div" className="leads-container">
@@ -147,6 +152,13 @@ const Cards = (props) => {
               onClosePopup={onClosePopup}
               handleBatchUpdateStatus={handleBatchUpdateStatus}
               status={status}
+              //autocomplete props
+              options={allUsers}
+              onChangeOption={onChangeOption}
+              selectedUsers={selectedUsers}
+              setSelectedUsers={setSelectedUsers}
+              selectedArray={selectedArray}
+              setselectedArray={setselectedArray}
             />
           </Box>
           <Box component={"div"} className="section leads-details">
@@ -157,7 +169,12 @@ const Cards = (props) => {
               <Box component={"div"} className="action-title">
                 Move To:
               </Box>
-              <Box component={"div"} className="action-buttons">
+              <Box
+                component={"div"}
+                className={`action-buttons ${
+                  selectedArray.length > 0 ? "disabled" : ""
+                }`}
+              >
                 <IButton
                   type={"green"}
                   name={"Approve"}

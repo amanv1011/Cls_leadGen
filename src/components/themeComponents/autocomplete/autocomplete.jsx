@@ -6,6 +6,7 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckIcon from "@mui/icons-material/Check";
 import { display } from "@mui/system";
 import IButton from "../button";
+import { useState } from "react";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -17,7 +18,7 @@ const IAutocomplete = ({
   selectedUsers,
   assignUsers,
 }) => {
-  console.log(selectedUsers);
+  const [first, setfirst] = useState([]);
   return (
     <div
       style={{
@@ -44,6 +45,7 @@ const IAutocomplete = ({
         getOptionLabel={(option) => option.name.toString()}
         options={options}
         disableClearable
+        value={selectedUsers}
         onChange={(e, option) => onChangeOption(e, option)}
         isOptionEqualToValue={(option, value) => option.name === value.name}
         renderOption={(props, option, { selected }) => (
@@ -118,7 +120,8 @@ const IAutocomplete = ({
       {selectedUsers && selectedUsers.length > 0 ? (
         <div className="okay-icon" onClick={assignUsers}>
           <CheckIcon
-            fontSize="small"
+            fontSize="medium"
+            sx={{ strokeWidth: 2 }}
             style={{
               color: "green",
               fontWeight: 600,
