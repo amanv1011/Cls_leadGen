@@ -9,13 +9,9 @@ import CampaignDescription from "./CampaignDescription";
 import "./campaign.scss";
 
 const Campaign = () => {
-  const campaignsListData = useSelector(
-    (state) => state.allCampaigns.campaignList
-  );
-  const campaignDocData = useSelector(
-    (state) => state.allCampaigns.campaignDoc
-  );
-  const leadsListData = useSelector((state) => state.allLeads.leadsList);
+  const campaignsList = useSelector((state) => state.allCampaigns.campaignList);
+  const campaignDoc = useSelector((state) => state.allCampaigns.campaignDoc);
+  const leadsList = useSelector((state) => state.allLeads.leadsList);
   const searchValue = useSelector(
     (state) => state.allCampaigns.initialSearchValue
   );
@@ -30,23 +26,7 @@ const Campaign = () => {
   const campgaignId = useSelector(
     (state) => state.allCampaigns.a__campgaign__Id
   );
-
   const allUsers = useSelector((state) => state.users.users);
-  const [campaignsList, setCampaignList] = useState([]);
-  const [campaignDoc, setCampaignDoc] = useState([]);
-  const [leadsList, setLeadsList] = useState([]);
-
-  // useEffect(() => {
-  //   dispatch(campaignActions.getAllCampaignsAction());
-  //   // dispatch(getAllLeadsAction());
-  //   // dispatch(getLeadsFullDescriptionAction());
-  // }, [campaignsListData, campaignDocData, leadsListData]);
-
-  useEffect(() => {
-    setCampaignList(campaignsListData);
-    setCampaignDoc(campaignDocData);
-    setLeadsList(leadsListData);
-  }, [campaignsListData, campaignDocData, leadsListData]);
 
   return (
     <Box component="div" className="campaign-container">

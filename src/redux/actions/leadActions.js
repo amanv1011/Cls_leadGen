@@ -164,7 +164,7 @@ export const updateLeadViewStatusAction = (leadId) => {
     dispatch(openLoader({ isLoading: true }));
     try {
       const res = await updateLeadViewStatus(leadId);
-      console.log({ res });
+      // console.log({ res });
       dispatch(closeLoader());
       return dispatch({
         type: UPDATE_LEAD_VIEW_SUCCESS,

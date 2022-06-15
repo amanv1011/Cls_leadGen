@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Button, Menu, MenuItem, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
-// import DownArrow from "../../../pageComponents/leads/DownArrow";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import moment from "moment";
 import "./campaignHeader.scss";
@@ -10,19 +9,16 @@ import {
   leadsFilterCampaignName,
   leadsFilterOwnerName,
 } from "../../../../redux/actions/leadsFilter";
-import * as campaignActions from "../../../../redux/actions/campaignActions";
 import AddCampaginModal from "../../../themeComponents/popup/index";
 
 const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
   const dispatch = useDispatch();
   const matches = useMediaQuery("(max-width:1460px)");
 
-  const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
-  const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
 
   const [allCampgainsMenu, setAllCampgainsMenu] = useState(null);
   const [allCampaignsFilter, setAllCampgainsFilter] = useState("Country");
@@ -160,7 +156,7 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
               PaperProps={{
                 style: {
                   width: "auto",
-                  borderradius: "10px",
+                  borderRadius: "10px",
                   marginTop: "3px",
                   boxshadow: "none",
                   // backgroundColor: "#E7E7E7",
@@ -218,7 +214,7 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
               PaperProps={{
                 style: {
                   width: "auto",
-                  borderradius: "10px",
+                  borderRadius: "10px",
                   marginTop: "3px",
                   boxshadow: "none",
                   backgroundColor: "rgb(233,236,241)",
