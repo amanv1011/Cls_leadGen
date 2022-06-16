@@ -13,7 +13,7 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 330px auto 200px;
+    grid-template-columns: 330px auto 230px;
     .section {
     }
     .leads-list {
@@ -37,8 +37,11 @@
     }
     .leads-actions {
       box-sizing: border-box;
+      height: calc(100vh - 180px);
       margin-top: 15px;
       padding: 0px 5px;
+      overflow-y: auto;
+      overflow-x: hidden;
       .action-title {
         font-style: normal;
         font-weight: 600;
@@ -51,6 +54,10 @@
         padding: 6px 0px;
         display: grid;
         grid-gap: 6px;
+      }
+      .disabled {
+        pointer-events: none;
+        opacity: 0.5;
       }
       .autocomplete-container {
         margin: 10px 0px;

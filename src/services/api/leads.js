@@ -59,27 +59,36 @@ export const assignLead = async (leadId, userId) => {
     ...doc.data(),
     id: doc.id,
   }));
-  const filt = list.filter((element) => element.leadId === leadId);
-  if (filt.length === 0) {
-    // await addDoc(assignedLeadCollection, { leadId: leadId, userId: [userId] });
-    const newCityRef = doc(assignedLeadCollection, leadId);
-    await setDoc(newCityRef, {
-      leadId: leadId,
-      userId: [userId],
+  leadId &&
+    leadId.forEach(async (ele) => {
+      const filt = list.filter((element) => element.leadId === leadId);
+      if (filt.length === 0) {
+        // await addDoc(assignedLeadCollection, { leadId: leadId, userId: [userId] });
+        const newCityRef = doc(assignedLeadCollection, ele);
+        await setDoc(newCityRef, {
+          leadId: ele,
+          userId: userId,
+        });
+        return "Assigned Successfully";
+      } else {
+        //find for existing user
+        const documnet = doc(assignedLeadCollection, ele);
+        await updateDoc(documnet, {
+          leadId: ele,
+          userId: arrayUnion(...userId),
+        });
+        return "Assigned Successfully";
+      }
     });
-    return "Assigned Successfully";
-  } else {
-    //find for existing user
-    const documnet = doc(assignedLeadCollection, leadId);
-    await updateDoc(documnet, { leadId: leadId, userId: arrayUnion(userId) });
-    return "Assigned Successfully";
-  }
 };
 
 export const addNotes = async (leadsId, notes) => {
-  const leadObject = doc(leadsCollection, leadsId);
-  await updateDoc(leadObject, { notes: arrayUnion(notes) });
-  return { leadsId: leadsId, notes: notes };
+  leadsId &&
+    leadsId.forEach(async (ele) => {
+      const leadObject = doc(leadsCollection, ele);
+      await updateDoc(leadObject, { notes: arrayUnion(notes) });
+      return { leadsId: ele, notes: notes };
+    });
 };
 
 export const updateLeadViewStatus = async (leadsId) => {

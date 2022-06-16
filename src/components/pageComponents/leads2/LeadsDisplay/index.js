@@ -7,18 +7,36 @@ import moment from "moment";
 import { Popover } from "@mui/material";
 import IButton from "../../../themeComponents/button";
 import {
+  assignLeadToUsersAction,
   updateLeadStatus,
   updateLeadViewStatusAction,
 } from "../../../../redux/actions/leadActions";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
+import IPopup from "../../../themeComponents/popup/leadPopup";
+import IModal from "../../../themeComponents/popup/modal";
 
-const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
+const LeadsDisplay = ({
+  leadsList,
+  selectedLeadIdFun,
+  selectedLeadId,
+  onClosePopup,
+  handleBatchUpdateStatus,
+  openDeletePopup,
+  status,
+  options,
+  onChangeOption,
+  selectedUsers,
+  setSelectedUsers,
+  selectedArray,
+  setselectedArray,
+}) => {
   const dispatch = useDispatch();
 
   const [leadsListData, setLeadsListData] = useState([]);
-  const [selectedArray, setselectedArray] = useState([]);
+
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openAssignModel, setOpenAssignModel] = useState(false);
 
   //functions for popover
   const handlePopClick = (event) => {
@@ -84,14 +102,45 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
     }
   };
 
-  const updateLeadBatchStatus = (status) => {
+  const handleBatchApply = () => {
     handleClose();
     dispatch(updateLeadStatus(selectedArray, status));
     setselectedArray([]);
+    onClosePopup();
   };
 
+  const assignBatchUsers = () => {
+    if (selectedArray.length > 0 && selectedUsers.length > 0) {
+      let arr = [];
+      selectedUsers &&
+        selectedUsers.forEach((e) => {
+          arr.push(e.userId);
+        });
+      dispatch(assignLeadToUsersAction(selectedArray, arr));
+      setSelectedUsers([]);
+    }
+  };
   return (
     <React.Fragment>
+      {
+        <IPopup
+          open={openDeletePopup}
+          onClosePopup={onClosePopup}
+          handleApply={handleBatchApply}
+          title={"Update Lead Status"}
+          // subtitle={"Multiple Leads"}
+        />
+      }
+      {
+        <IModal
+          openAssignModel={openAssignModel}
+          setOpenAssignModel={setOpenAssignModel}
+          options={options}
+          onChangeOption={onChangeOption}
+          assignUsers={assignBatchUsers}
+          selectedUsers={selectedUsers}
+        />
+      }
       <div className="checkbox-menu-container">
         <div className="checkbox-container">
           <input
@@ -129,35 +178,33 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                   type={"green"}
                   name={"green"}
                   children="Approve"
-                  onclick={() => updateLeadBatchStatus(1)}
+                  onclick={() => handleBatchUpdateStatus(1)}
                 />
-                {/* <IButton
+                <IButton
                   type={"blue"}
                   name={"blue"}
                   children={"Assign"}
-                  onclick={() => {
-                    // console.log("Assigned");
-                  }}
-                /> */}
+                  onclick={() => setOpenAssignModel(true)}
+                />
                 <IButton
                   type={"yellow"}
                   name={"yellow"}
                   children={"Archive"}
                   onclick={() => {
-                    updateLeadBatchStatus(2);
+                    handleBatchUpdateStatus(2);
                   }}
                 />
                 <IButton
                   type={"grey"}
                   name={"grey"}
                   children="Under Review"
-                  onclick={() => updateLeadBatchStatus(0)}
+                  onclick={() => handleBatchUpdateStatus(0)}
                 />
                 <IButton
                   type={"pink"}
                   name={"pink"}
                   children=" Reject"
-                  onclick={() => updateLeadBatchStatus(-1)}
+                  onclick={() => handleBatchUpdateStatus(-1)}
                 />
               </div>
             </Popover>
