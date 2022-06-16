@@ -20,6 +20,7 @@ import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
 import Textarea from "../../themeComponents/textarea/textarea";
 import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
+import AddIcon from "@mui/icons-material/Add";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -30,6 +31,8 @@ const Cards = (props) => {
   const [open, setOpen] = useState(false);
   const [openMultipleLeadPopup, setOpenMultipleLeadPopup] = useState(false);
   const [status, setStatus] = useState(null);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedArray, setselectedArray] = useState([]);
   const leadsData = props.leadData;
   const allLeadData = useSelector((state) => state.PopupReducer.popupData);
   const approveRejectResponse = useSelector(
@@ -63,19 +66,6 @@ const Cards = (props) => {
     dispatch(cardsDisplayAction(leadsData));
   }, [leadsData.length]);
 
-  // let approveButton = () => {
-  //   // dispatch(updateLeadStatus(selectedLeadId, 1));
-  //   setOpen(true);
-  // };
-  // let rejectButton = () => {
-  //   dispatch(updateLeadStatus(selectedLeadId, -1));
-  // };
-  // let archieveButton = () => {
-  //   dispatch(updateLeadStatus(selectedLeadId, 2));
-  // };
-  // let underReviewButton = () => {
-  //   dispatch(updateLeadStatus(selectedLeadId, 0));
-  // };
   const handleUpdateStatus = (status) => {
     setOpen(true);
     setStatus(status);
@@ -86,15 +76,30 @@ const Cards = (props) => {
   };
   //assigning lead to a user
   const onChangeOption = (e, option) => {
-    if (selectedLeadId.length > 0 && option && option.userId) {
-      //assign user to leadId here
-      dispatch(assignLeadToUsersAction(selectedLeadId, option.userId));
+    setSelectedUsers(option);
+  };
+
+  const assignUsers = () => {
+    if (selectedLeadId.length > 0 && selectedUsers.length > 0) {
+      let arr = [];
+      selectedUsers &&
+        selectedUsers.forEach((e) => {
+          arr.push(e.userId);
+        });
+      dispatch(assignLeadToUsersAction([selectedLeadId], arr));
+      setSelectedUsers([]);
     }
   };
 
   const addNotesFunction = () => {
     if (openText && value.length > 0) {
-      dispatch(addNotestoLeadAction(selectedLeadId, value));
+      if (selectedArray.length > 0) {
+        dispatch(addNotestoLeadAction(selectedArray, value));
+        setselectedArray([]);
+      } else {
+        dispatch(addNotestoLeadAction([selectedLeadId], value));
+      }
+      setValue("");
     }
     setopenText(!openText);
   };
@@ -108,9 +113,8 @@ const Cards = (props) => {
     setStatus(status);
   };
   const handleApply = () => {
-    // console.log("called signle");
     if (selectedLeadId && status !== null) {
-      dispatch(updateLeadStatus(selectedLeadId, status));
+      dispatch(updateLeadStatus([selectedLeadId], status));
       onClosePopup();
     }
   };
@@ -122,8 +126,7 @@ const Cards = (props) => {
           open={open}
           onClosePopup={onClosePopup}
           handleApply={handleApply}
-          title={"Update this Lead Status"}
-          subtitle={"Single Lead"}
+          title={"Update Lead Status"}
         />
       }
       <Box component="div" className="leads-container">
@@ -151,6 +154,13 @@ const Cards = (props) => {
               onClosePopup={onClosePopup}
               handleBatchUpdateStatus={handleBatchUpdateStatus}
               status={status}
+              //autocomplete props
+              options={allUsers}
+              onChangeOption={onChangeOption}
+              selectedUsers={selectedUsers}
+              setSelectedUsers={setSelectedUsers}
+              selectedArray={selectedArray}
+              setselectedArray={setselectedArray}
             />
           </Box>
           <Box component={"div"} className="section leads-details">
@@ -161,7 +171,12 @@ const Cards = (props) => {
               <Box component={"div"} className="action-title">
                 Move To:
               </Box>
-              <Box component={"div"} className="action-buttons">
+              <Box
+                component={"div"}
+                className={`action-buttons ${
+                  selectedArray.length > 0 ? "disabled" : ""
+                }`}
+              >
                 <IButton
                   type={"green"}
                   name={"Approve"}
@@ -224,6 +239,8 @@ const Cards = (props) => {
               <IAutocomplete
                 options={allUsers}
                 onChangeOption={onChangeOption}
+                assignUsers={assignUsers}
+                selectedUsers={selectedUsers}
               />
             </Box>
             <Box className="add-notes-container">
@@ -237,7 +254,12 @@ const Cards = (props) => {
               <IButton
                 type={"blue"}
                 name={"blue"}
-                children={"Add Notes"}
+                children={
+                  <>
+                    <AddIcon fontSize="small" />
+                    {"Add Notes"}
+                  </>
+                }
                 customClass={"add-nts-btn"}
                 onclick={addNotesFunction}
               />

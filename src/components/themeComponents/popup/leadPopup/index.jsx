@@ -61,7 +61,7 @@ export default function IPopup(props) {
             style={{
               fontStyle: "normal",
               fontWeight: 600,
-              fontSize: "15px",
+              fontSize: "14px",
               lineHeight: "26px",
               color: "#1f4173",
               opacity: 0.8,
