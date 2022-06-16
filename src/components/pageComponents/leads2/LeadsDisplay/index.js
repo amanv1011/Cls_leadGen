@@ -11,8 +11,17 @@ import {
   updateLeadViewStatusAction,
 } from "../../../../redux/actions/leadActions";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
+import IPopup from "../../../themeComponents/popup/leadPopup";
 
-const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
+const LeadsDisplay = ({
+  leadsList,
+  selectedLeadIdFun,
+  selectedLeadId,
+  onClosePopup,
+  handleBatchUpdateStatus,
+  openDeletePopup,
+  status,
+}) => {
   const dispatch = useDispatch();
 
   const [leadsListData, setLeadsListData] = useState([]);
@@ -84,14 +93,30 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
     }
   };
 
-  const updateLeadBatchStatus = (status) => {
+  // const updateLeadBatchStatus = (status) => {
+  //   handleClose();
+  //   dispatch(updateLeadStatus(selectedArray, status));
+  //   setselectedArray([]);
+  // };
+  const handleBatchApply = () => {
     handleClose();
+    console.log(selectedArray, status);
     dispatch(updateLeadStatus(selectedArray, status));
     setselectedArray([]);
+    onClosePopup();
   };
 
   return (
     <React.Fragment>
+      {
+        <IPopup
+          open={openDeletePopup}
+          onClosePopup={onClosePopup}
+          handleApply={handleBatchApply}
+          title={"Update These Lead Status"}
+          subtitle={"Multiple Leads"}
+        />
+      }
       <div className="checkbox-menu-container">
         <div className="checkbox-container">
           <input
@@ -129,7 +154,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                   type={"green"}
                   name={"green"}
                   children="Approve"
-                  onclick={() => updateLeadBatchStatus(1)}
+                  onclick={() => handleBatchUpdateStatus(1)}
                 />
                 {/* <IButton
                   type={"blue"}
@@ -144,20 +169,20 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                   name={"yellow"}
                   children={"Archive"}
                   onclick={() => {
-                    updateLeadBatchStatus(2);
+                    handleBatchUpdateStatus(2);
                   }}
                 />
                 <IButton
                   type={"grey"}
                   name={"grey"}
                   children="Under Review"
-                  onclick={() => updateLeadBatchStatus(0)}
+                  onclick={() => handleBatchUpdateStatus(0)}
                 />
                 <IButton
                   type={"pink"}
                   name={"pink"}
                   children=" Reject"
-                  onclick={() => updateLeadBatchStatus(-1)}
+                  onclick={() => handleBatchUpdateStatus(-1)}
                 />
               </div>
             </Popover>

@@ -182,15 +182,6 @@ export const getSearchedCampaignList = (searchedCampaignList) => {
   };
 };
 
-export const gettingCampaignDetailsToUpdateAction = (detailsToUpdate) => {
-  return async (dispatch) => {
-    await dispatch({
-      type: types.CAMPAIGN_DETAILS_TO_UPDATE,
-      payload: detailsToUpdate,
-    });
-  };
-};
-
 export const assignCampaignToUsersAction = (campaignId, userId) => {
   // console.log("campaignId", campaignId);
   return async (dispatch) => {

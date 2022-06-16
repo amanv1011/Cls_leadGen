@@ -69,31 +69,61 @@
   }
 }
 
-.checkbox-menu-container {
-  box-sizing: border-box;
+// .campaign-checkbox-menu-container {
+//   box-sizing: border-box;
+//   height: 42px;
+//   width: auto;
+//   padding: 6px 15px;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   border-bottom: solid rgb(236, 238, 242) 2px;
+//   .campaign-checkbox-container {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+
+//   }
+// }
+.campaign-checkbox-menu-container {
   height: 42px;
-  width: auto;
-  padding: 6px 15px;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  width: 100%;
   align-items: center;
-  border-bottom: solid rgb(236, 238, 242) 2px;
-  .checkbox-container {
+  justify-content: space-between;
+  padding: 6px 6px;
+
+  .campaign-checkbox-container {
     display: flex;
+    align-content: center;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     .all-label {
-      margin-left: 5px;
+      margin-left: 6px;
+      width: 20px;
+      height: 18px;
       font-style: normal;
       font-weight: 600;
       font-size: 13px;
       line-height: 16px;
       color: #1f4173;
       opacity: 0.5;
-      justify-content: center;
+      margin-top: 4px;
     }
   }
+  .campaign-display-actions {
+    border: none;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    color: #003ad2;
+    cursor: pointer;
+  }
 }
+
 .popover-body {
   box-shadow: none;
   display: grid;
