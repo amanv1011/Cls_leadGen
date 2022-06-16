@@ -180,7 +180,7 @@ const CampaignDisplay = ({
         <React.Fragment>
           <div className="campaign-checkbox-menu-container">
             <div className="campaign-checkbox-container">
-              <input type="checkbox" disabled="true" />
+              <input type="checkbox" checked={false} disabled="true" />
               <label className="all-label">All</label>
             </div>
           </div>
