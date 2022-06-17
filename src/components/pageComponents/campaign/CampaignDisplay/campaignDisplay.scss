@@ -69,22 +69,6 @@
   }
 }
 
-// .campaign-checkbox-menu-container {
-//   box-sizing: border-box;
-//   height: 42px;
-//   width: auto;
-//   padding: 6px 15px;
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   border-bottom: solid rgb(236, 238, 242) 2px;
-//   .campaign-checkbox-container {
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-
-//   }
-// }
 .campaign-checkbox-menu-container {
   height: 42px;
   width: 100%;
@@ -92,7 +76,7 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 6px;
+  padding: 2px 8px;
 
   .campaign-checkbox-container {
     display: flex;
