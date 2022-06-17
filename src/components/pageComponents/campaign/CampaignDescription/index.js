@@ -40,6 +40,7 @@ const CampaignDescription = ({
 }) => {
   const dispatch = useDispatch();
   const [campaignDocValue, setCampaignDocValue] = useState(campaignDoc);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   useEffect(() => {
     setCampaignDocValue(campaignDoc);
@@ -90,26 +91,31 @@ const CampaignDescription = ({
       } else {
         await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
       }
-      dispatch(campaignActions.getAllCampaignsAction());
+      // dispatch(campaignActions.getAllCampaignsAction());
     } catch (error) {
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };
 
+  //assigning lead to a user
   const onChangeOption = (e, option) => {
-    // console.log(option);
-    if (campaignDoc && campaignDoc.id.length > 0 && option && option.empId) {
-      //assign user to leadId here
-      // console.log("campaignDoc.id", campaignDoc.id);
+    setSelectedUsers(option);
+  };
+
+  const assignUsers = () => {
+    if (campaignDocValue.id.length > 0 && selectedUsers.length > 0) {
+      let arr = [];
+      selectedUsers &&
+        selectedUsers.forEach((e) => {
+          arr.push(e.userId);
+        });
       dispatch(
-        campaignActions.assignCampaignToUsersAction(
-          campaignDoc.id,
-          option.empId
-        )
+        campaignActions.assignCampaignToUsersAction([campaignDocValue.id], arr)
       );
+      setSelectedUsers([]);
     }
   };
-  // console.log("campaignDocValue", campaignDocValue);
+
   let sourceType = "";
 
   if (campaignDocValue && campaignDocValue.source === "seek_aus") {
@@ -419,6 +425,8 @@ const CampaignDescription = ({
                 <IAutocomplete
                   options={allUsers}
                   onChangeOption={onChangeOption}
+                  assignUsers={assignUsers}
+                  selectedUsers={selectedUsers}
                 />
               </Box>
               <Box component={"div"} className="action-buttons">
@@ -586,6 +594,8 @@ const CampaignDescription = ({
                 <IAutocomplete
                   options={allUsers}
                   onChangeOption={onChangeOption}
+                  assignUsers={assignUsers}
+                  selectedUsers={selectedUsers}
                 />
               </Box>
 
