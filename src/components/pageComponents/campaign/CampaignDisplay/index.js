@@ -196,7 +196,7 @@ const CampaignDisplay = ({
                   }}
                 >
                   <div className="campaign-display-btn-text searched-campaign-empty">
-                    Campaigns(s) not found
+                    Campaign(s) not found
                   </div>
                 </div>
               </div>
@@ -205,7 +205,34 @@ const CampaignDisplay = ({
         </React.Fragment>
       );
     } else {
-      return "No Campaigns found";
+      return (
+        <React.Fragment>
+          <div className="campaign-checkbox-menu-container">
+            <div className="campaign-checkbox-container">
+              <input type="checkbox" checked={false} disabled="true" />
+              <label className="all-label">All</label>
+            </div>
+          </div>
+          <div className="campaign-display-container">
+            <div className="campaign-display-subcontainers">
+              <div className="campaign-display-subcontainer1">
+                <div
+                  className="display-cont"
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div className="campaign-display-btn-text searched-campaign-empty">
+                    No Campaign(s) found
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+      );
     }
   } else {
     return (
