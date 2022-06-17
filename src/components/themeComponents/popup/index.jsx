@@ -63,6 +63,7 @@ const AddCampaginModal = () => {
     const { name, value } = event.target;
     setAddCampaignDetails({ ...addCampaignDetails, [name]: value });
   };
+  console.log("addCampaignDetails", addCampaignDetails);
 
   const tagInputChange = (event) => {
     const newarrayValue = event.target.value;
@@ -167,6 +168,12 @@ const AddCampaginModal = () => {
   const difference = moment(start_date).diff(todaysDate, "days");
   const minTimeDiff = moment(start_time, "HH:mm").add(5, "m").format("HH:mm");
   const currentTime = moment().format("HH:mm");
+  const difference_startDate_endDate = moment(end_date).diff(
+    start_date,
+    "days"
+  );
+  console.log("difference", difference);
+  console.log("difference_startDate_endDate", difference_startDate_endDate);
 
   if (difference === 0) {
     minStartTime = currentTime;
@@ -398,7 +405,7 @@ const AddCampaginModal = () => {
                   className="addCampaignModal-timePicker"
                   name="end_time"
                   value={end_time}
-                  min={minTimeDiff}
+                  min={difference_startDate_endDate ? "" : minTimeDiff}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
