@@ -86,7 +86,7 @@ export const updateLeadStatus = (leadsId, Status) => {
         type: GET_LEADS_UPDATESTATUS_SUCCESS,
         payload: res,
       });
-      dispatch(getAllLeadsAction());
+      // dispatch(getAllLeadsAction());
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {
         dispatch({

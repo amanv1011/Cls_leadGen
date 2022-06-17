@@ -42,7 +42,7 @@ export const approvRejectLeads = async (leadsId, leadStatus) => {
       await updateDoc(updateApproveReject, { status: leadStatus });
       return { leadsId: leadsId, status: leadStatus };
     } else {
-      leadsId.map(async (lead) => {
+      leadsId.forEach(async (lead) => {
         const updateApproveReject = doc(leadsCollection, lead);
         await updateDoc(updateApproveReject, { status: leadStatus });
       });

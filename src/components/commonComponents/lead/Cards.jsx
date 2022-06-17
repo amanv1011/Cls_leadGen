@@ -60,6 +60,20 @@ const Cards = (props) => {
       data.status = approveRejectResponse && approveRejectResponse.status;
       setdisplayLeadData(data);
     }
+    if (
+      approveRejectResponse &&
+      approveRejectResponse.status &&
+      approveRejectResponse.leadsId
+    ) {
+      approveRejectResponse.leadsId.forEach((ele) => {
+        leadsData &&
+          leadsData.forEach((lead) => {
+            if (lead.id === ele) {
+              lead.status = approveRejectResponse.status;
+            }
+          });
+      });
+    }
   }, [approveRejectResponse]);
 
   useEffect(() => {
