@@ -41,7 +41,6 @@ const CampaignDisplay = ({
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };
-  console.log("campaignDoc.id", campaignDoc.id);
 
   const handlePopClick = (event) => {
     setAnchorEl(event.currentTarget);

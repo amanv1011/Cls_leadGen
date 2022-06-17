@@ -133,7 +133,7 @@ const LeadsDisplay = ({
       }
       {
         <IModal
-          openAssignModel={openAssignModel}
+          open={openAssignModel}
           setOpenAssignModel={setOpenAssignModel}
           options={options}
           onChangeOption={onChangeOption}

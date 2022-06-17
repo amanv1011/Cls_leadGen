@@ -137,11 +137,11 @@ export const addNotestoLeadAction = (leadId, notes) => {
     dispatch({ type: ADD_NOTES_PENDING, loading: true });
     dispatch(openLoader({ isLoading: true }));
     try {
-      const res = await addNotes(leadId, notes);
+      const NotesRes = await addNotes(leadId, notes);
       dispatch(closeLoader());
       return dispatch({
         type: ADD_NOTES_SUCCESS,
-        payload: res,
+        payload: NotesRes,
       });
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {

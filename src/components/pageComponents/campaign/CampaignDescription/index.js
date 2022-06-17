@@ -100,7 +100,6 @@ const CampaignDescription = ({
     // console.log(option);
     if (campaignDoc && campaignDoc.id.length > 0 && option && option.empId) {
       //assign user to leadId here
-      // console.log("campaignDoc.id", campaignDoc.id);
       dispatch(
         campaignActions.assignCampaignToUsersAction(
           campaignDoc.id,
