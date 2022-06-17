@@ -14,6 +14,7 @@ import { paginationReducer } from "./paginationReducer";
 import { alertReducer } from "./alertReducer";
 import loaderReducer from "./globalLoaderReducer";
 import { getUsersReducer } from "./usersReducer";
+import { campaignFilterReducer } from "./campaignFilterReducer";
 
 const rootReducer = combineReducers({
   allCampaigns: getAllCampaignsReducer,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   users: getUsersReducer,
   updateLeadViewStatusReducer: updateLeadViewStatusReducer,
   addNotesToUserReducer: addNotesToUserReducer,
+  campaignFilters: campaignFilterReducer,
 });
 
 export default rootReducer;

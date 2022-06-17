@@ -63,33 +63,12 @@ const AddCampaginModal = () => {
     const { name, value } = event.target;
     setAddCampaignDetails({ ...addCampaignDetails, [name]: value });
   };
+  console.log("addCampaignDetails", addCampaignDetails);
 
   const tagInputChange = (event) => {
     const newarrayValue = event.target.value;
     setTags(newarrayValue.split(","));
   };
-
-  useEffect(() => {
-    if (source === "seek_aus") {
-      if (tags.length > 1 || pages > 2) {
-        alert("For SEEK only 1 tag and 2 pages are permitted");
-        setTags([]);
-        setAddCampaignDetails({ pages: 1 });
-      }
-    } else if (source === "indeed_aus") {
-      if (tags.length > 15 || pages > 15) {
-        alert("For Indeed only 10 tags and 10 pages are permitted");
-        setTags([]);
-        setAddCampaignDetails({ pages: 1 });
-      }
-    } else if (source === "linkedin_aus") {
-      if (tags.length > 1 || pages > 1) {
-        alert("For LinkedIn only 1 tag and 1 page is permitted");
-        setTags([]);
-        setAddCampaignDetails({ pages: 1 });
-      }
-    }
-  }, [source, tags.length, pages]);
 
   useEffect(() => {
     if (
@@ -107,6 +86,38 @@ const AddCampaginModal = () => {
     event.preventDefault();
 
     try {
+      if (source === "seek_aus") {
+        if (tags.length > 1 || pages > 2) {
+          alert(
+            "For SEEK only 1 tag and 2 pages are permitted.Tags are seperated by commas"
+          );
+          return;
+        }
+      } else if (
+        source === "indeed_aus" ||
+        source === "indeed_ca" ||
+        source === "indeed_uk" ||
+        source === "indeed_il" ||
+        source === "indeed_fi" ||
+        source === "indeed_ch" ||
+        source === "indeed_pt" ||
+        source === "indeed_sg" ||
+        source === "indeed_ae"
+      ) {
+        if (tags.length > 10 || pages > 10) {
+          alert(
+            "For Indeed only 10 tags and 10 pages are permitted.Tags are seperated by commas"
+          );
+          return;
+        }
+      } else if (source === "linkedin_aus") {
+        if (tags.length > 1 || pages > 1) {
+          alert(
+            "For LinkedIn only 1 tag and 1 page is permitted.Tags are seperated by commas"
+          );
+          return;
+        }
+      }
       const newCampaign = {
         ...addCampaignDetails,
         frequency: parseInt(frequency),
@@ -153,7 +164,7 @@ const AddCampaginModal = () => {
     } catch (error) {
       dispatch(
         openAlertAction(
-          `${error.message}. Please provide a valid date`,
+          `${error.message}. Please provide a valid input`,
           true,
           "error"
         )
@@ -167,6 +178,10 @@ const AddCampaginModal = () => {
   const difference = moment(start_date).diff(todaysDate, "days");
   const minTimeDiff = moment(start_time, "HH:mm").add(5, "m").format("HH:mm");
   const currentTime = moment().format("HH:mm");
+  const difference_startDate_endDate = moment(end_date).diff(
+    start_date,
+    "days"
+  );
 
   if (difference === 0) {
     minStartTime = currentTime;
@@ -398,7 +413,7 @@ const AddCampaginModal = () => {
                   className="addCampaignModal-timePicker"
                   name="end_time"
                   value={end_time}
-                  min={minTimeDiff}
+                  min={difference_startDate_endDate ? "" : minTimeDiff}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
