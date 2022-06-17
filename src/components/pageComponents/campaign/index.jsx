@@ -28,6 +28,11 @@ const Campaign = () => {
   );
   const allUsers = useSelector((state) => state.users.users);
 
+  const countryFilterValue = useSelector(
+    (state) => state.campaignFilters.country
+  );
+  const ownerFilterValue = useSelector((state) => state.campaignFilters.owner);
+
   return (
     <Box component="div" className="campaign-container">
       <Box component={"div"} className="campaign-header">
@@ -55,6 +60,9 @@ const Campaign = () => {
             <CampaignSearch
               campaignsList={campaignsList}
               searchValue={searchValue}
+              countryFilterValue={countryFilterValue}
+              searchedCampaignList={searchedCampaignList}
+              ownerFilterValue={ownerFilterValue}
             />
           </div>
           <CampaignDisplay
@@ -67,6 +75,8 @@ const Campaign = () => {
             dataPerPage={dataPerPage}
             leadsList={leadsList}
             campgaignId={campgaignId}
+            countryFilterValue={countryFilterValue}
+            ownerFilterValue={ownerFilterValue}
           />
         </Box>
         <Box component={"div"} className="section campaign-details">

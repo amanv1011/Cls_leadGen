@@ -6,6 +6,7 @@ import * as campaignActions from "../../../../redux/actions/campaignActions";
 import { openAlertAction } from "../../../../redux/actions/alertActions";
 import PaginationComponent from "../../../commonComponents/PaginationComponent";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
+import * as paginationActions from "../../../../redux/actions/paginationActions";
 import Download from "../../../themeComponents/campTable/Download";
 import Delete from "../../../themeComponents/campTable/Delete";
 import * as commonFunctions from "../commonFunctions";
@@ -17,9 +18,12 @@ const CampaignDisplay = ({
   campaignLoader,
   searchValue,
   campaignDoc,
+  campgaignId,
   currentPage,
   dataPerPage,
   leadsList,
+  countryFilterValue,
+  ownerFilterValue,
 }) => {
   const dispatch = useDispatch();
   const [campaignsListData, setcampaignsListData] = useState([]);
@@ -41,7 +45,7 @@ const CampaignDisplay = ({
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };
-  console.log("campaignDoc.id", campaignDoc.id);
+  // console.log("campaignDoc.id", campaignDoc.id);
 
   const handlePopClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -55,9 +59,12 @@ const CampaignDisplay = ({
   const id = open ? "simple-popover" : undefined;
 
   useEffect(() => {
-    setcampaignsListData(campaignsList);
-    campaignsList && campaignsList[0]?.id && Viewed(campaignsList[0].id);
-  }, [campaignsList]);
+    setcampaignsListData(searchedCampaignList);
+    searchedCampaignList &&
+      searchedCampaignList[0]?.id &&
+      Viewed(searchedCampaignList[0].id);
+    dispatch(paginationActions.setActivePage(1));
+  }, [searchedCampaignList]);
 
   const handleOnCheckboxChange = (event) => {
     if (event.target.checked) {
@@ -74,7 +81,7 @@ const CampaignDisplay = ({
     setIsChecked(!isChecked);
     if (e.target.checked) {
       let arr = [];
-      campaignsList.forEach((element) => {
+      campaignsListData.forEach((element) => {
         arr.push(element.id);
       });
       setselectedArray(arr);
@@ -82,21 +89,32 @@ const CampaignDisplay = ({
       setselectedArray([]);
     }
   };
-  console.log("selectedArray", selectedArray);
+
+  useEffect(() => {
+    if (ownerFilterValue === "Owner") {
+      setcampaignsListData(searchedCampaignList);
+    } else {
+      const ownerFiltered = searchedCampaignList.filter(
+        (campaign) => campaign.owner === ownerFilterValue
+      );
+
+      setcampaignsListData(ownerFiltered);
+    }
+  }, [ownerFilterValue]);
 
   const indexOfLastLead = currentPage * dataPerPage;
   const indexOfFirstLead = indexOfLastLead - dataPerPage;
-  const currentCampaigns = searchedCampaignList.slice(
+  const currentCampaigns = campaignsListData.slice(
     indexOfFirstLead,
     indexOfLastLead
   );
 
   // To download selected campaigns
   const downloadSelectedCampaigns = () => {
-    const filteredcampaignsForDownload = campaignsList.filter((campaign) =>
+    const filteredcampaignsForDownload = campaignsListData.filter((campaign) =>
       selectedArray.find((item) => campaign.id === item)
     );
-    console.log("filteredcampaignsForDownload", filteredcampaignsForDownload);
+    // console.log("filteredcampaignsForDownload", filteredcampaignsForDownload);
     let updatedcampaignListDataToDownload = [];
 
     filteredcampaignsForDownload.forEach((campaign) => {
@@ -160,9 +178,9 @@ const CampaignDisplay = ({
     if (searchValue) {
       return (
         <React.Fragment>
-          <div className="checkbox-menu-container">
-            <div className="checkbox-container">
-              <input type="checkbox" disabled="true" />
+          <div className="campaign-checkbox-menu-container">
+            <div className="campaign-checkbox-container">
+              <input type="checkbox" checked={false} disabled="true" />
               <label className="all-label">All</label>
             </div>
           </div>
@@ -178,7 +196,7 @@ const CampaignDisplay = ({
                   }}
                 >
                   <div className="campaign-display-btn-text searched-campaign-empty">
-                    Searched campaigns(s) not found
+                    Campaign(s) not found
                   </div>
                 </div>
               </div>
@@ -187,67 +205,100 @@ const CampaignDisplay = ({
         </React.Fragment>
       );
     } else {
-      return "No Campaigns found";
+      return (
+        <React.Fragment>
+          <div className="campaign-checkbox-menu-container">
+            <div className="campaign-checkbox-container">
+              <input type="checkbox" checked={false} disabled="true" />
+              <label className="all-label">All</label>
+            </div>
+          </div>
+          <div className="campaign-display-container">
+            <div className="campaign-display-subcontainers">
+              <div className="campaign-display-subcontainer1">
+                <div
+                  className="display-cont"
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div className="campaign-display-btn-text searched-campaign-empty">
+                    No Campaign(s) found
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+      );
     }
   } else {
     return (
       <React.Fragment>
-        <div className="checkbox-menu-container">
-          <div className="checkbox-container">
-            <input
-              type="checkbox"
-              name="allCheck"
-              checked={
-                selectedArray.length !== campaignsList.length ? false : true
-              }
-              onChange={handleAllCheck}
-              className="checkbox"
-            />
-            <label className="all-label">All</label>
-            <div
-              variant="contained"
-              className="action-btn"
+        <div className="campaign-checkbox-menu-container">
+          <div className="campaign-checkbox-menu-container">
+            <div className="campaign-checkbox-container">
+              <div>
+                <input
+                  type="checkbox"
+                  name="allCheck"
+                  checked={
+                    selectedArray.length !== campaignsListData.length
+                      ? false
+                      : true
+                  }
+                  onChange={handleAllCheck}
+                  className="campaign-checkbox"
+                />
+              </div>
+              <label className="all-label">All</label>
+            </div>
+            <button
+              className="campaign-display-actions"
               onClick={handlePopClick}
+              disabled={selectedArray.length === 0 ? true : false}
             >
               Action
               <DownArrow />
-            </div>
+            </button>
+          </div>
 
-            <div>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                PaperProps={{
-                  boxshadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
-                  borderRadius: "10px",
-                }}
-              >
-                <div className="popover-body">
-                  <button
-                    className="campaign-btn download-btn"
-                    onClick={downloadSelectedCampaigns}
-                  >
-                    <Download />
-                    <span className="campaign-btn-text">
-                      Download selected campaigns
-                    </span>
-                  </button>
+          <div>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              PaperProps={{
+                boxshadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
+                borderRadius: "10px",
+              }}
+            >
+              <div className="popover-body">
+                <button
+                  className="campaign-btn download-btn"
+                  onClick={downloadSelectedCampaigns}
+                >
+                  <Download />
+                  <span className="campaign-btn-text">
+                    Download selected campaigns
+                  </span>
+                </button>
 
-                  <button className="campaign-btn delete-btn">
-                    <Delete />
-                    <span className="campaign-btn-text">
-                      Delete selected campaigns
-                    </span>
-                  </button>
-                </div>
-              </Popover>
-            </div>
+                <button className="campaign-btn delete-btn">
+                  <Delete />
+                  <span className="campaign-btn-text">
+                    Delete selected campaigns
+                  </span>
+                </button>
+              </div>
+            </Popover>
           </div>
         </div>
         <div className="campaign-display-container">
@@ -265,7 +316,7 @@ const CampaignDisplay = ({
                     type="checkbox"
                     name={campaign.id}
                     value={campaign.id}
-                    className="checkbox"
+                    className="check box"
                     checked={
                       selectedArray &&
                       selectedArray.filter((it) => it === campaign.id).length >
@@ -329,7 +380,7 @@ const CampaignDisplay = ({
         </div>
         <PaginationComponent
           dataPerPage={dataPerPage}
-          dataLength={searchedCampaignList.length}
+          dataLength={campaignsListData.length}
         />
       </React.Fragment>
     );

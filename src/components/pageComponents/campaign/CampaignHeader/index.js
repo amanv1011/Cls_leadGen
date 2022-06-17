@@ -2,30 +2,69 @@ import React, { useEffect, useState } from "react";
 import { Button, Menu, MenuItem, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
+import * as campaignFilterActions from "../../../../redux/actions/campaignFilterActions";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
+import AddCampaginModal from "../../../themeComponents/popup/index";
+import * as paginationActions from "../../../../redux/actions/paginationActions";
 import moment from "moment";
 import "./campaignHeader.scss";
-import {
-  leadsFilterCampaignName,
-  leadsFilterOwnerName,
-} from "../../../../redux/actions/leadsFilter";
-import AddCampaginModal from "../../../themeComponents/popup/index";
 
 const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
   const dispatch = useDispatch();
   const matches = useMediaQuery("(max-width:1460px)");
 
-  const campaignNameFilter = useSelector(
-    (state) => state.leadsFilter.campaignName
+  const countryFilterValue = useSelector(
+    (state) => state.campaignFilters.country
   );
-  const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
+  const ownerFilterValue = useSelector((state) => state.campaignFilters.owner);
 
-  const [allCampgainsMenu, setAllCampgainsMenu] = useState(null);
-  const [allCampaignsFilter, setAllCampgainsFilter] = useState("Country");
-  const [allOwnersFilter, setAllOwnersFilter] = useState("Owner");
-  const openAllCampgainsMenu = Boolean(allCampgainsMenu);
-  const handleClickAllCampgainsMenu = (event) => {
-    setAllCampgainsMenu(event.currentTarget);
+  const [countryFilter, setCountryFilter] = useState("Country");
+  const [ownerFilter, setOwnerFilter] = useState("Owner");
+  const [ownerMenu, setOwnerMenu] = useState(null);
+  const [countryMenu, setCountryMenu] = useState(null);
+  const openCountryMenu = Boolean(countryMenu);
+  const openOwnerMenu = Boolean(ownerMenu);
+
+  const handleClickCountryMenu = (event) => {
+    setCountryMenu(event.currentTarget);
+  };
+
+  const handleClickOwnerMenu = (event) => {
+    setOwnerMenu(event.currentTarget);
+  };
+
+  const handleClosecountryMenu = (event) => {
+    if (event.target.innerText === "") {
+      dispatch(
+        campaignFilterActions.campaignCountryFilterValueAction("Country")
+      );
+      setCountryFilter("Country");
+    } else {
+      dispatch(
+        campaignFilterActions.campaignCountryFilterValueAction(
+          event.target.innerText
+        )
+      );
+      dispatch(paginationActions.setActivePage(1));
+      setCountryFilter(event.target.innerText);
+    }
+    setCountryMenu(null);
+  };
+
+  const handleCloseOwnerMenu = (event) => {
+    if (event.target.innerText === "") {
+      dispatch(campaignFilterActions.campaignOwnerFilterValueAction("Owner"));
+      setOwnerFilter("Owner");
+    } else {
+      dispatch(
+        campaignFilterActions.campaignOwnerFilterValueAction(
+          event.target.innerText
+        )
+      );
+      dispatch(paginationActions.setActivePage(1));
+      setOwnerFilter(event.target.innerText);
+    }
+    setOwnerMenu(null);
   };
 
   const uniqueOwner = [];
@@ -37,37 +76,11 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
   });
 
   useEffect(() => {
-    setAllCampgainsFilter(campaignNameFilter);
-    setAllOwnersFilter(ownerNameFilter);
-    setAllCampgainsMenu(null);
-  }, [campaignNameFilter, ownerNameFilter]);
+    setCountryFilter(countryFilterValue);
+    setOwnerFilter(ownerFilterValue);
+    setCountryMenu(null);
+  }, [countryFilterValue, ownerFilterValue]);
 
-  const handleCloseAllCampgainsMenu = (event) => {
-    if (event.target.innerText === "") {
-      dispatch(leadsFilterCampaignName("All Locations"));
-      setAllCampgainsFilter("Country");
-    } else {
-      dispatch(leadsFilterCampaignName(event.target.innerText));
-      setAllCampgainsFilter(event.target.innerText);
-    }
-    setAllCampgainsMenu(null);
-  };
-
-  const [ownerMenu, setOwnerMenu] = useState(null);
-  const openOwnerMenu = Boolean(ownerMenu);
-  const handleClickOwnerMenu = (event) => {
-    setOwnerMenu(event.currentTarget);
-  };
-  const handleCloseOwnerMenu = (event) => {
-    if (event.target.innerText === "") {
-      dispatch(leadsFilterOwnerName("All Owners"));
-      setAllOwnersFilter("All Owners");
-    } else {
-      dispatch(leadsFilterOwnerName(event.target.innerText));
-      setAllOwnersFilter(event.target.innerText);
-    }
-    setOwnerMenu(null);
-  };
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
       return valID.campaignId === id;
@@ -141,10 +154,10 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
           <div className="select-container">
             <Button
               id="basic-button"
-              onClick={handleClickAllCampgainsMenu}
+              onClick={handleClickCountryMenu}
               className="select-button"
             >
-              {allCampaignsFilter}
+              {countryFilter}
               <span style={{ paddingLeft: "45px", paddingBottom: "3px" }}>
                 <DownArrow />
               </span>
@@ -152,7 +165,7 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
             <Menu
               className="menu"
               id="basic-menu"
-              anchorEl={allCampgainsMenu}
+              anchorEl={countryMenu}
               PaperProps={{
                 style: {
                   width: "auto",
@@ -167,17 +180,17 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
                   height: "210px",
                 },
               }}
-              open={openAllCampgainsMenu}
-              onClose={handleCloseAllCampgainsMenu}
+              open={openCountryMenu}
+              onClose={handleClosecountryMenu}
             >
               <MenuItem
                 className="menu-item"
-                onClick={handleCloseAllCampgainsMenu}
+                onClick={handleClosecountryMenu}
                 sx={{
                   fontSize: matches ? "13px" : "14px",
                 }}
               >
-                All Locations
+                Country
               </MenuItem>
               {campaignsList.map((campaign) => {
                 return (
@@ -185,7 +198,7 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
                     key={campaign.id}
                     data-id={campaign.id}
                     className="menu-item"
-                    onClick={handleCloseAllCampgainsMenu}
+                    onClick={handleClosecountryMenu}
                     sx={{
                       fontSize: matches ? "13px" : "14px",
                     }}
@@ -202,7 +215,7 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
               className="select-button"
               onClick={handleClickOwnerMenu}
             >
-              {allOwnersFilter}
+              {ownerFilter}
               <span style={{ paddingLeft: "70px", paddingBottom: "3px" }}>
                 <DownArrow />
               </span>
@@ -238,20 +251,20 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
                 }}
                 onClick={handleCloseOwnerMenu}
               >
-                All Owners
+                Owner
               </MenuItem>
-              {uniqueOwner.map((ele) => {
+              {uniqueOwner.map((owner) => {
                 return (
                   <MenuItem
-                    key={ele.id}
-                    data-id={ele.id}
+                    key={owner.id}
+                    data-id={owner.id}
                     className="menu-item"
                     onClick={handleCloseOwnerMenu}
                     sx={{
                       fontSize: matches ? "13px" : "14px",
                     }}
                   >
-                    {ele}
+                    {owner}
                   </MenuItem>
                 );
               })}
