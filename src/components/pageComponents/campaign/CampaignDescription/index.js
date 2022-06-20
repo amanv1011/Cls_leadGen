@@ -91,7 +91,6 @@ const CampaignDescription = ({
       } else {
         await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
       }
-      dispatch(campaignActions.getAllCampaignsAction());
     } catch (error) {
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }

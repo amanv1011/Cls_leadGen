@@ -63,7 +63,6 @@ const AddCampaginModal = () => {
     const { name, value } = event.target;
     setAddCampaignDetails({ ...addCampaignDetails, [name]: value });
   };
-  // console.log("addCampaignDetails", addCampaignDetails);
 
   const tagInputChange = (event) => {
     const newarrayValue = event.target.value;
