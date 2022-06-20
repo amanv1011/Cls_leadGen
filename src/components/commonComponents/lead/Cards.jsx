@@ -39,6 +39,11 @@ const Cards = (props) => {
     (state) => state.allLeads.approveRejectResponse
   );
   const allUsers = useSelector((state) => state.users.users);
+  const dataPerPage = useSelector(
+    (state) => state.paginationStates.dataPerPage
+  );
+  const currentPage = useSelector((state) => state.paginationStates.activePage);
+
   useEffect(() => {
     setdisplayLeadData(allLeadData);
   }, [allLeadData]);
@@ -161,6 +166,8 @@ const Cards = (props) => {
               setSelectedUsers={setSelectedUsers}
               selectedArray={selectedArray}
               setselectedArray={setselectedArray}
+              dataPerPage={dataPerPage}
+              currentPage={currentPage}
             />
           </Box>
           <Box component={"div"} className="section leads-details">

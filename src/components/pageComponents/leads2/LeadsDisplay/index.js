@@ -14,6 +14,7 @@ import {
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import IPopup from "../../../themeComponents/popup/leadPopup";
 import IModal from "../../../themeComponents/popup/modal";
+import PaginationComponent from "../../../commonComponents/PaginationComponent";
 
 const LeadsDisplay = ({
   leadsList,
@@ -29,6 +30,8 @@ const LeadsDisplay = ({
   setSelectedUsers,
   selectedArray,
   setselectedArray,
+  dataPerPage,
+  currentPage,
 }) => {
   const dispatch = useDispatch();
 
@@ -120,6 +123,11 @@ const LeadsDisplay = ({
       setSelectedUsers([]);
     }
   };
+
+  const indexOfLastLead = currentPage * dataPerPage;
+  const indexOfFirstLead = indexOfLastLead - dataPerPage;
+  const currentleads = leadsListData.slice(indexOfFirstLead, indexOfLastLead);
+
   return (
     <React.Fragment>
       {
@@ -213,8 +221,8 @@ const LeadsDisplay = ({
         <LeadsMenu />
       </div>
       <div className="lead-display-container">
-        {leadsList &&
-          leadsList.map((lead) => (
+        {currentleads &&
+          currentleads.map((lead) => (
             <div
               className={`lead-display-subcontainers ${
                 selectedLeadId === lead.id ? "selected" : ""
@@ -281,6 +289,7 @@ const LeadsDisplay = ({
             </div>
           ))}
       </div>
+      <PaginationComponent dataPerPage={6} dataLength={leadsListData.length} />
     </React.Fragment>
   );
 };

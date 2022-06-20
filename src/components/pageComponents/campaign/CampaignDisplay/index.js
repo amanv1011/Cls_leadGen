@@ -31,6 +31,32 @@ const CampaignDisplay = ({
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
+  useEffect(() => {
+    setcampaignsListData(
+      searchedCampaignList.sort((a, b) =>
+        a.status === b.status ? 0 : a.status < b.status ? 1 : -1
+      )
+    );
+    searchedCampaignList &&
+      searchedCampaignList[0]?.id &&
+      Viewed(searchedCampaignList[0].id);
+    dispatch(paginationActions.setActivePage(1));
+  }, [searchedCampaignList]);
+
+  useEffect(() => {
+    if (ownerFilterValue === "Owner") {
+      setcampaignsListData(searchedCampaignList);
+    } else {
+      const ownerFiltered = searchedCampaignList.filter(
+        (campaign) => campaign.owner === ownerFilterValue
+      );
+
+      setcampaignsListData(ownerFiltered);
+    }
+  }, [ownerFilterValue]);
+
+  // const initialSort =
+
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
       return valID.campaignId === id;
@@ -58,14 +84,6 @@ const CampaignDisplay = ({
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  useEffect(() => {
-    setcampaignsListData(searchedCampaignList);
-    searchedCampaignList &&
-      searchedCampaignList[0]?.id &&
-      Viewed(searchedCampaignList[0].id);
-    dispatch(paginationActions.setActivePage(1));
-  }, [searchedCampaignList]);
-
   const handleOnCheckboxChange = (event) => {
     if (event.target.checked) {
       setselectedArray([...selectedArray, event.target.value]);
@@ -89,18 +107,6 @@ const CampaignDisplay = ({
       setselectedArray([]);
     }
   };
-
-  useEffect(() => {
-    if (ownerFilterValue === "Owner") {
-      setcampaignsListData(searchedCampaignList);
-    } else {
-      const ownerFiltered = searchedCampaignList.filter(
-        (campaign) => campaign.owner === ownerFilterValue
-      );
-
-      setcampaignsListData(ownerFiltered);
-    }
-  }, [ownerFilterValue]);
 
   const indexOfLastLead = currentPage * dataPerPage;
   const indexOfFirstLead = indexOfLastLead - dataPerPage;
