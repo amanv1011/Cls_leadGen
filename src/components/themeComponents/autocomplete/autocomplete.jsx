@@ -41,11 +41,11 @@ const IAutocomplete = ({
         fullWidth={true}
         size="small"
         disableCloseOnSelect
+        disableClearable
         onClose={onAutoPopperClose}
         id="checkboxes-tags-demo"
         getOptionLabel={(option) => option.name.toString()}
         options={options}
-        disableClearable
         value={selectedUsers}
         onChange={(e, option) => onChangeOption(e, option)}
         isOptionEqualToValue={(option, value) => option.name === value.name}
@@ -68,17 +68,19 @@ const IAutocomplete = ({
           </li>
         )}
         sx={{
-          width: 190,
+          width: "125px",
           background: "#e9ecf1",
           borderRadius: "10px",
           border: "none",
           outline: "none",
           "& .MuiAutocomplete-input": {
-            fontSize: 13,
+            fontSize: 12,
             fontWeight: 600,
+            height: "20px",
+            width: "100px",
           },
           "& .MuiAutocomplete-inputRoot": {
-            paddingRight: "40px",
+            paddingRight: "30px",
           },
           "& .MuiAutocomplete-popper": {
             borderRadius: "20px",
@@ -107,7 +109,6 @@ const IAutocomplete = ({
             InputLabelProps={{
               style: {
                 fontSize: 13,
-                // paddingTop: "4px",
                 fontWeight: 500,
                 opacity: 0.8,
                 display: "flex",
@@ -118,18 +119,20 @@ const IAutocomplete = ({
           />
         )}
       />
-      {selectedUsers && selectedUsers.length > 0 ? (
-        <div className="okay-icon" onClick={assignUsers}>
+      <div className="okay-icon" onClick={assignUsers}>
+        {selectedUsers && selectedUsers.length > 0 ? (
           <CheckIcon
-            fontSize="medium"
+            fontSize="small"
             sx={{ strokeWidth: 2 }}
             style={{
-              color: "green",
+              background: "#003ad2",
               fontWeight: 600,
+              color: "#ffffff",
+              borderRadius: "5px",
             }}
           />
-        </div>
-      ) : null}
+        ) : null}
+      </div>
     </div>
   );
 };

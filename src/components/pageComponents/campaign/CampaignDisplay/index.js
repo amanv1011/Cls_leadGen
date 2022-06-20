@@ -61,10 +61,11 @@ const CampaignDisplay = ({
 
   useEffect(() => {
     setcampaignsListData(searchedCampaignList);
-    searchedCampaignList &&
-      searchedCampaignList[0]?.id &&
-      Viewed(searchedCampaignList[0].id);
-    dispatch(paginationActions.setActivePage(1));
+    campaignDoc.id
+      ? Viewed(campaignDoc.id)
+      : searchedCampaignList &&
+        searchedCampaignList[0]?.id &&
+        Viewed(searchedCampaignList[0].id);
   }, [searchedCampaignList]);
 
   const handleOnCheckboxChange = (event) => {
