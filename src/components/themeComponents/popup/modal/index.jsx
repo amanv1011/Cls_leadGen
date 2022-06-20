@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Dialog, DialogActions, DialogContent, Divider } from "@mui/material";
+import React from "react";
+import { Dialog, DialogActions, DialogContent } from "@mui/material";
 import "./IModal.scss";
 import IButton from "../../button";
 import IAutocomplete from "../../autocomplete/autocomplete";

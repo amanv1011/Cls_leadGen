@@ -9,7 +9,7 @@ import "./leadsMenu.scss";
 const LeadsMenu = () => {
   const dispatch = useDispatch();
   const style = {
-    fontSize: "13px",
+    fontSize: "14px",
     fontStyle: "normal",
     fontWeight: "500",
     color: "#1f4173",

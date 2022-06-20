@@ -74,7 +74,7 @@ const IAutocomplete = ({
           border: "none",
           outline: "none",
           "& .MuiAutocomplete-input": {
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 600,
             height: "20px",
             width: "100px",
@@ -94,7 +94,7 @@ const IAutocomplete = ({
         }}
         ListboxProps={{
           sx: {
-            fontSize: 13,
+            fontSize: 14,
             color: "#1F4173",
             opacity: 0.7,
             padding: "8px",
@@ -114,7 +114,7 @@ const IAutocomplete = ({
                 display: "flex",
               },
             }}
-            placeholder="Search or Select"
+            placeholder="Select User"
             className="autocomplete-text-input"
           />
         )}
