@@ -24,8 +24,6 @@ const CampaignButtonActions = ({
   const [campaignName, setCampaignName] = useState("");
   const [idForDelete, setIdForDelete] = useState("");
 
-  // console.log(addCampaignDetails);
-
   const newCampaign = {
     ...addCampaignDetails,
     frequency: parseInt(addCampaignDetails.frequency),

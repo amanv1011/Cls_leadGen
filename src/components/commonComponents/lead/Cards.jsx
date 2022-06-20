@@ -21,6 +21,8 @@ import Textarea from "../../themeComponents/textarea/textarea";
 import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
 import AddIcon from "@mui/icons-material/Add";
+import IModal from "../../themeComponents/popup/modal";
+import NotesPopup from "../../themeComponents/popup/notesPopup";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -33,12 +35,18 @@ const Cards = (props) => {
   const [status, setStatus] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedArray, setselectedArray] = useState([]);
+  const [showNotesState, setShowNotesState] = useState(false);
   const leadsData = props.leadData;
-  const allLeadData = useSelector((state) => state.PopupReducer.popupData);
+  let allLeadData = useSelector((state) => state.PopupReducer.popupData);
   const approveRejectResponse = useSelector(
     (state) => state.allLeads.approveRejectResponse
   );
+  const NotesResponse = useSelector(
+    (state) => state.addNotesToUserReducer.addedNotes
+  );
+
   const allUsers = useSelector((state) => state.users.users);
+
   useEffect(() => {
     setdisplayLeadData(allLeadData);
   }, [allLeadData]);
@@ -56,11 +64,47 @@ const Cards = (props) => {
   useEffect(() => {
     dispatch(getAllLeadsAction());
     if (approveRejectResponse && approveRejectResponse.status) {
-      let data = displayLeadData;
-      data.status = approveRejectResponse && approveRejectResponse.status;
+      let data = allLeadData;
+      data.status = approveRejectResponse.status;
       setdisplayLeadData(data);
     }
+    if (
+      approveRejectResponse &&
+      approveRejectResponse.status &&
+      approveRejectResponse.leadsId
+    ) {
+      approveRejectResponse.leadsId.forEach((ele) => {
+        if (displayLeadData.id === ele) {
+          let data = allLeadData;
+          data.status = approveRejectResponse.status;
+          setdisplayLeadData(data);
+        }
+        leadsData &&
+          leadsData.forEach((lead) => {
+            if (lead.id === ele) {
+              lead.status = approveRejectResponse.status;
+            }
+          });
+      });
+    }
   }, [approveRejectResponse]);
+
+  useEffect(() => {
+    if (NotesResponse && NotesResponse.leadsId && NotesResponse.notes) {
+      NotesResponse.leadsId.map((ele) => {
+        leadsData &&
+          leadsData.forEach((lead) => {
+            if (lead.id === ele) {
+              if (lead.notes && lead.notes.length > 0) {
+                lead.notes = [...lead.notes, NotesResponse.notes];
+              } else {
+                lead.notes = [NotesResponse.notes];
+              }
+            }
+          });
+      });
+    }
+  }, [NotesResponse]);
 
   useEffect(() => {
     dispatch(cardsDisplayAction(leadsData));
@@ -127,6 +171,14 @@ const Cards = (props) => {
           onClosePopup={onClosePopup}
           handleApply={handleApply}
           title={"Update Lead Status"}
+        />
+      }
+      {
+        <NotesPopup
+          open={showNotesState}
+          setShowNotesState={setShowNotesState}
+          displayLeadData={displayLeadData}
+          type="showNotes"
         />
       }
       <Box component="div" className="leads-container">
@@ -243,6 +295,13 @@ const Cards = (props) => {
                 selectedUsers={selectedUsers}
               />
             </Box>
+            <IButton
+              type={"blue"}
+              name={"blue"}
+              children={"Show Notes"}
+              customClass={"show-nts-btn"}
+              onclick={() => setShowNotesState(true)}
+            />
             <Box className="add-notes-container">
               {openText ? (
                 <Textarea

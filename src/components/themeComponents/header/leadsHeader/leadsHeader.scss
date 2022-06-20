@@ -42,15 +42,23 @@
       .select-button {
         text-transform: none;
         height: 40px;
+        display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: 10px;
         font-weight: 600;
         border-radius: 10px;
         width: 160px;
-        // margin-left: 10px;
-        // background-color: #e7e7e7;
         background-color: rgb(233, 236, 241);
         color: rgba(92, 117, 154);
+        .select-btn-title {
+          width: 110px;
+          height: 20px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-align: left;
+        }
       }
       .menu {
         .menu-item {
@@ -82,7 +90,7 @@
       text-transform: none;
       height: 30px;
       font-weight: 600;
-      width: 130px;
+      width: 140px;
       padding: 10px;
       border-radius: 10px;
       margin-left: 10px;
@@ -91,6 +99,7 @@
       color: rgb(255, 255, 255);
       border: none;
       box-shadow: none;
+      font-weight: 600;
       &:hover {
         cursor: pointer;
         opacity: 0.8;

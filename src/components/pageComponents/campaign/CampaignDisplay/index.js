@@ -10,6 +10,7 @@ import * as paginationActions from "../../../../redux/actions/paginationActions"
 import Download from "../../../themeComponents/campTable/Download";
 import Delete from "../../../themeComponents/campTable/Delete";
 import * as commonFunctions from "../commonFunctions";
+import CampaignPopup from "../../../themeComponents/popup/CampaignPopup";
 import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
@@ -30,6 +31,8 @@ const CampaignDisplay = ({
   const [selectedArray, setselectedArray] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [openCampaignPopup, setOpenCampaignPopup] = useState(false);
+  const [disableApplyBtn, setDisableApplyBtn] = useState(false);
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
@@ -37,7 +40,6 @@ const CampaignDisplay = ({
     });
     return val.length;
   };
-
   const Viewed = async (campaignListItemId) => {
     try {
       await dispatch(campaignActions.getACampaignAction(campaignListItemId));
@@ -45,7 +47,6 @@ const CampaignDisplay = ({
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };
-  // console.log("campaignDoc.id", campaignDoc.id);
 
   const handlePopClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -112,10 +113,10 @@ const CampaignDisplay = ({
 
   // To download selected campaigns
   const downloadSelectedCampaigns = () => {
+    // handleClickOpenCampaignPopup();
     const filteredcampaignsForDownload = campaignsListData.filter((campaign) =>
       selectedArray.find((item) => campaign.id === item)
     );
-    // console.log("filteredcampaignsForDownload", filteredcampaignsForDownload);
     let updatedcampaignListDataToDownload = [];
 
     filteredcampaignsForDownload.forEach((campaign) => {
@@ -173,6 +174,27 @@ const CampaignDisplay = ({
       updatedcampaignListDataToDownload,
       "List of Campigns"
     );
+  };
+
+  const handleClickOpenCampaignPopup = () => {
+    setOpenCampaignPopup(true);
+  };
+  const handleCloseCampaignPopup = () => {
+    setOpenCampaignPopup(false);
+  };
+
+  const onDeleteMulitpleCampaign = () => {
+    handleClickOpenCampaignPopup();
+
+    selectedArray.map((selectedCampaign) => {
+      if (getNumOfLeads(selectedCampaign)) {
+        setDisableApplyBtn(true);
+        return;
+      } else {
+        setDisableApplyBtn(false);
+        return;
+      }
+    });
   };
 
   if (campaignLoader === false && searchedCampaignList.length === 0) {
@@ -292,7 +314,10 @@ const CampaignDisplay = ({
                   </span>
                 </button>
 
-                <button className="campaign-btn delete-btn">
+                <button
+                  className="campaign-btn delete-btn"
+                  onClick={onDeleteMulitpleCampaign}
+                >
                   <Delete />
                   <span className="campaign-btn-text">
                     Delete selected campaigns
@@ -382,6 +407,13 @@ const CampaignDisplay = ({
         <PaginationComponent
           dataPerPage={dataPerPage}
           dataLength={campaignsListData.length}
+        />
+        <CampaignPopup
+          openCampaignPopup={openCampaignPopup}
+          handleClickOpen={handleClickOpenCampaignPopup}
+          handleClose={handleCloseCampaignPopup}
+          disableApplyBtn={disableApplyBtn}
+          selectedArray={selectedArray}
         />
       </React.Fragment>
     );

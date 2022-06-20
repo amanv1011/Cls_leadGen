@@ -57,6 +57,7 @@ export default function DateModal() {
           backgroundColor: "rgb(233,236,241)",
           borderRadius: "10px",
           fontSize: matches ? "13px" : "14px",
+          fontWeight: 600,
         }}
         onClick={handleOpen}
       >
