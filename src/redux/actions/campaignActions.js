@@ -183,7 +183,6 @@ export const getSearchedCampaignList = (searchedCampaignList) => {
 };
 
 export const assignCampaignToUsersAction = (campaignId, userId) => {
-  // console.log("campaignId", campaignId);
   return async (dispatch) => {
     dispatch({ type: types.ASSIGN_CAMPAIGN_PENDING, loading: true });
     dispatch(openLoader({ isLoading: true }));
