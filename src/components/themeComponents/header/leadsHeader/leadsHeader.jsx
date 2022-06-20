@@ -2,7 +2,7 @@ import React from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
-import { Button, useMediaQuery } from "@mui/material";
+import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import DateModal from "../../../pageComponents/leads/DateModal";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";

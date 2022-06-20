@@ -1,4 +1,4 @@
-import { getDocs, orderBy, query } from "firebase/firestore";
+import { getDocs, query } from "firebase/firestore";
 import { usersCollection } from "../firebase/collections";
 
 export const getUsers = async () => {
