@@ -43,7 +43,6 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
                 <Box component={"div"} className="title">
                   {displayLeadData === undefined ? null : displayLeadData.title}
                 </Box>
-                {/* <Box component={"div"} className="subtitle"></Box> */}
               </Box>
               <Box component={"div"} className="right-section">
                 <Box component={"div"} className="links">
@@ -58,9 +57,9 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
                     className="link"
                   >
                     <Box component={"div"}>
-                      <IconButton sx={{ padding: "4px" }}>
+                      <IconButton sx={{ padding: "2px" }}>
                         <Avatar
-                          sx={{ width: "20px", height: "20px" }}
+                          sx={{ width: "15px", height: "15px" }}
                           alt="indeedLogo"
                           src={LinkedInIcon}
                           className="indeed-logo"
@@ -76,9 +75,9 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
                     className="link"
                   >
                     <Box component={"div"}>
-                      <IconButton sx={{ padding: "4px" }}>
+                      <IconButton sx={{ padding: "2px" }}>
                         <Avatar
-                          sx={{ width: "20px", height: "20px" }}
+                          sx={{ width: "15px", height: "15px" }}
                           alt="indeedLogo"
                           src={LinkedInIcon}
                           className="indeed-logo"
@@ -98,9 +97,9 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
                     className="link"
                   >
                     <Box component={"div"}>
-                      <IconButton sx={{ padding: "4px" }}>
+                      <IconButton sx={{ padding: "2px", marginRight: "2px" }}>
                         <Avatar
-                          sx={{ width: "20px", height: "20px" }}
+                          sx={{ width: "15px", height: "15px" }}
                           alt="indeedLogo"
                           src={Details}
                           className="indeed-logo"
@@ -135,7 +134,9 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
                   <div className="header-item">
                     <span className="header-key">Company Name:</span>
                     <span className="header-value">
-                      {displayLeadData && displayLeadData.companyName}
+                      {displayLeadData && displayLeadData.companyName
+                        ? displayLeadData.companyName
+                        : "NA"}
                     </span>
                   </div>
                   <div className="header-item">

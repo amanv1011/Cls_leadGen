@@ -2,26 +2,15 @@ import React, { useState } from "react";
 import { Dialog, DialogActions, DialogContent, Divider } from "@mui/material";
 import "./IModal.scss";
 import IButton from "../../button";
-import IAutocomplete from "../../autocomplete/autocomplete";
 
-export default function IModal(
-  {
-    setOpenAssignModel,
-    open,
-    options,
-    onChangeOption,
-    assignUsers,
-    selectedUsers,
-  },
-  props
-) {
+export default function NotesPopup(props) {
   const closeModal = () => {
-    setOpenAssignModel(false);
+    props.setShowNotesState(false);
   };
   return (
     <Dialog
       onClose={closeModal}
-      open={open}
+      open={props.open}
       sx={{ backdropFilter: "blur(3px)" }}
       PaperProps={{
         style: {
@@ -54,17 +43,31 @@ export default function IModal(
               color: "#1f4173",
               opacity: 0.8,
               textAlign: "justify",
-              overflow: "auto",
+              overflowY: "auto",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              padding: "15px",
             }}
           >
-            {
-              <IAutocomplete
-                options={options}
-                onChangeOption={onChangeOption}
-                assignUsers={assignUsers}
-                selectedUsers={selectedUsers}
-              />
-            }
+            {props.displayLeadData &&
+              props.displayLeadData.notes &&
+              props.displayLeadData.notes.length > 0 &&
+              props.displayLeadData.notes.map((ele) => {
+                return (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      background: "#f5f7fb",
+                      marginBottom: "2px",
+                      whiteSpace: "wrap",
+                    }}
+                  >
+                    {ele}
+                  </div>
+                );
+              })}
           </div>
         </div>
       </DialogContent>

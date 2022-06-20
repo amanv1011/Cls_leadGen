@@ -20,8 +20,6 @@ import * as commonFunctions from "../../../pageComponents/campaign/commonFunctio
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
-  const matches = useMediaQuery("(max-width:1460px)");
-
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
@@ -157,8 +155,8 @@ const LeadsHeader = () => {
               onClick={handleClickAllCampgainsMenu}
               className="select-button"
             >
-              {allCampaignsFilter}
-              <span style={{ paddingLeft: "15px", paddingBottom: "3px" }}>
+              <span className="select-btn-title">{allCampaignsFilter}</span>
+              <span>
                 <DownArrow />
               </span>
             </Button>
@@ -188,7 +186,7 @@ const LeadsHeader = () => {
                 className="menu-item"
                 onClick={handleCloseAllCampgainsMenu}
                 sx={{
-                  fontSize: matches ? "13px" : "14px",
+                  fontSize: "13px",
                 }}
               >
                 All Campaigns
@@ -201,7 +199,7 @@ const LeadsHeader = () => {
                     className="menu-item"
                     onClick={handleCloseAllCampgainsMenu}
                     sx={{
-                      fontSize: matches ? "13px" : "14px",
+                      fontSize: "13px",
                     }}
                   >
                     {ele.name}
@@ -217,8 +215,8 @@ const LeadsHeader = () => {
               className="select-button"
               onClick={handleClickOwnerMenu}
             >
-              {allOwnersFilter}
-              <span style={{ paddingLeft: "15px", paddingBottom: "3px" }}>
+              <span className="select-btn-title">{allOwnersFilter}</span>
+              <span>
                 <DownArrow />
               </span>
             </Button>
@@ -251,7 +249,7 @@ const LeadsHeader = () => {
                 key={"xyz"}
                 className="menu-item"
                 sx={{
-                  fontSize: matches ? "13px" : "14px",
+                  fontSize: "13px",
                 }}
                 onClick={handleCloseOwnerMenu}
               >
@@ -265,7 +263,7 @@ const LeadsHeader = () => {
                     className="menu-item"
                     onClick={handleCloseOwnerMenu}
                     sx={{
-                      fontSize: matches ? "13px" : "14px",
+                      fontSize: "13px",
                     }}
                   >
                     {ele}
