@@ -18,6 +18,7 @@ import {
   getAllLeadsAction,
   getLeadsFullDescriptionAction,
 } from "../../../redux/actions/leadActions";
+import { getCountryAction } from "../../../redux/actions/countryActions";
 
 const Dashboard = ({ children }) => {
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ const Dashboard = ({ children }) => {
     dispatch(getAllLeadsAction());
     dispatch(getLeadsFullDescriptionAction());
     dispatch(getAllUsersAction());
+    dispatch(getCountryAction());
   }, []);
 
   useEffect(() => {

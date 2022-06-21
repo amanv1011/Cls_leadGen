@@ -20,9 +20,10 @@ const style = {
   borderRadius: "15px",
   border: "none",
   outline: "none",
+  paddingTop: "0px",
 };
 
-const AddCampaginModal = () => {
+const AddCampaginModal = ({ countryList }) => {
   const dispatch = useDispatch();
 
   const isModalOpen = useSelector((state) => state.allCampaigns.isModalVisible);
@@ -41,8 +42,9 @@ const AddCampaginModal = () => {
     last_crawled_date: "",
     end_date: "",
     end_time: "",
-    pages: "",
+    onGoing: false,
     status: 1,
+    country: "",
   });
 
   const {
@@ -54,20 +56,11 @@ const AddCampaginModal = () => {
     start_time,
     end_date,
     end_time,
-    pages,
+    country,
   } = addCampaignDetails;
 
   const [tags, setTags] = useState([]);
-
-  const onInputChangeHandler = (event) => {
-    const { name, value } = event.target;
-    setAddCampaignDetails({ ...addCampaignDetails, [name]: value });
-  };
-
-  const tagInputChange = (event) => {
-    const newarrayValue = event.target.value;
-    setTags(newarrayValue.split(","));
-  };
+  const [onGoing, setOnGoing] = useState(false);
 
   useEffect(() => {
     if (
@@ -81,14 +74,28 @@ const AddCampaginModal = () => {
     }
   }, [errorFromStore]);
 
+  const onInputChangeHandler = (event) => {
+    const { name, value } = event.target;
+    setAddCampaignDetails({ ...addCampaignDetails, [name]: value });
+  };
+
+  const tagInputChange = (event) => {
+    const newarrayValue = event.target.value;
+    setTags(newarrayValue.split(","));
+  };
+
+  const onOngoing = (event) => {
+    setOnGoing(event.target.checked);
+  };
+
   const onSubmitEventhandler = (event) => {
     event.preventDefault();
 
     try {
       if (source === "seek_aus") {
-        if (tags.length > 1 || pages > 2) {
+        if (tags.length > 1) {
           alert(
-            "For SEEK only 1 tag and 2 pages are permitted.Tags are seperated by commas"
+            "For SEEK only 1 tag is permitted. Tags are seperated by comma's"
           );
           return;
         }
@@ -103,16 +110,16 @@ const AddCampaginModal = () => {
         source === "indeed_sg" ||
         source === "indeed_ae"
       ) {
-        if (tags.length > 10 || pages > 10) {
+        if (tags.length > 10) {
           alert(
-            "For Indeed only 10 tags and 10 pages are permitted.Tags are seperated by commas"
+            "For Indeed only 10 tags is permitted. Tags are seperated by comma's"
           );
           return;
         }
       } else if (source === "linkedin_aus") {
-        if (tags.length > 1 || pages > 1) {
+        if (tags.length > 1) {
           alert(
-            "For LinkedIn only 1 tag and 1 page is permitted.Tags are seperated by commas"
+            "For LinkedIn only 1 tag is permitted. Tags are seperated by comma's"
           );
           return;
         }
@@ -121,7 +128,7 @@ const AddCampaginModal = () => {
         ...addCampaignDetails,
         frequency: parseInt(frequency),
         tags,
-        pages: parseInt(pages),
+        onGoing,
         end_date: Timestamp.fromDate(new Date(end_date)),
         start_date: Timestamp.fromDate(new Date(start_date)),
         last_crawled_date: Timestamp.fromDate(new Date(start_date)),
@@ -156,7 +163,7 @@ const AddCampaginModal = () => {
         last_crawled_date: "",
         end_date: "",
         end_time: "",
-        pages: "",
+        onGoing: false,
         status: 1,
       });
       setTags([]);
@@ -189,6 +196,7 @@ const AddCampaginModal = () => {
     minStartTime = "00:00";
     maxStartTime = "24:00";
   }
+
   return (
     <React.Fragment>
       <Button
@@ -365,7 +373,9 @@ const AddCampaginModal = () => {
               </Grid>
 
               <Grid item xs={4}>
-                <label className="addCampaignModal-labels">Start Time</label>
+                <label className="addCampaignModal-labels">
+                  Parsing Start Time
+                </label>
                 <br />
                 <input
                   type="time"
@@ -402,10 +412,27 @@ const AddCampaginModal = () => {
                   required
                   min={start_date}
                 />
+
+                <div className="addCampaignModal-checkbox">
+                  <input
+                    type="checkbox"
+                    name="onGoing"
+                    // checked={
+                    //   selectedArray.length !== campaignsListData.length
+                    //     ? false
+                    //     : true
+                    // }
+                    onChange={onOngoing}
+                    // className="campaign-checkbox"
+                  />
+                  <label className="addCampaignModal-labels">On going</label>
+                </div>
               </Grid>
 
               <Grid item xs={4}>
-                <label className="addCampaignModal-labels">End Time</label>
+                <label className="addCampaignModal-labels">
+                  Parsing End Time
+                </label>
                 <br />
                 <input
                   type="time"
@@ -434,25 +461,24 @@ const AddCampaginModal = () => {
                 />
               </Grid>
               <Grid item xs={4}>
-                <label className="addCampaignModal-labels">
-                  Extract No. Of Pages(s)
-                </label>
-                <br />
-                <input
-                  className="addCampaignModal-inputs"
-                  type="number"
-                  placeholder="Extract No. Of Pages(s)"
-                  name="pages"
-                  value={pages}
+                <label className="addCampaignModal-labels">Country</label>
+                <select
+                  className="addCampaignModal-selects"
+                  name="country"
+                  value={country}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
-                  min={1}
-                  max={100}
-                  style={{
-                    marginBottom: "10px",
-                  }}
-                />
+                >
+                  <option value="" disabled defaultValue>
+                    Select the Country
+                  </option>
+                  {countryList.map((country) => (
+                    <option key={country.id} value={country.country_name}>
+                      {country.country_name}
+                    </option>
+                  ))}
+                </select>
               </Grid>
 
               <Grid item xs={12}>
@@ -492,7 +518,7 @@ const AddCampaginModal = () => {
                         last_crawled_date: "",
                         end_date: "",
                         end_time: "",
-                        pages: "",
+                        // pages: "",
                         status: 1,
                       });
                       setTags([]);
