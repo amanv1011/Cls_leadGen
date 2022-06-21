@@ -35,22 +35,31 @@ export const getLeadsFullDescription = async () => {
   }
 };
 
-export const approvRejectLeads = async (leadsId, leadStatus) => {
+export const approvRejectLeads = async (leadsId, leadStatus, reason) => {
   try {
     if (typeof leadsId === "string") {
       const updateApproveReject = doc(leadsCollection, leadsId);
-      await updateDoc(updateApproveReject, { status: leadStatus });
+      await updateDoc(updateApproveReject, { status: leadStatus, reason: reason });
       return { leadsId: leadsId, status: leadStatus };
     } else {
-      leadsId.forEach(async (lead) => {
-        const updateApproveReject = doc(leadsCollection, lead);
-        await updateDoc(updateApproveReject, { status: leadStatus });
-      });
+      if(leadStatus === -1){
+        leadsId.forEach(async (lead) => {
+          const updateApproveReject = doc(leadsCollection, lead);
+          await updateDoc(updateApproveReject, { status: leadStatus, reason:reason });
+        });
+      }else{
+        leadsId.forEach(async (lead) => {
+          const updateApproveReject = doc(leadsCollection, lead);
+          await updateDoc(updateApproveReject, { status: leadStatus,  });
+        });
+      }
+      
       return { leadsId: leadsId, status: leadStatus };
     }
   } catch (err) {
     return err;
   }
+  
 };
 
 export const assignLead = async (leadId, userId) => {

@@ -14,6 +14,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      .reject-label{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 15px;
+        color: rgba(31, 65, 115, 0.5);
+        display: block;
+        width: 100%;
+      }
+      .reject-reason-inpt{}
     }
   }
   .dialog-action {

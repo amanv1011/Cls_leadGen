@@ -4,6 +4,7 @@ import "./Ipopup.scss";
 import IButton from "../../button";
 
 export default function IPopup(props) {
+  // console.log(props.status, props.reason)
   return (
     <Dialog
       onClose={props.closePopupFunction}
@@ -71,7 +72,41 @@ export default function IPopup(props) {
           >
             {props.body
               ? props.body
-              : "Are you sure you want to perform this action ?"}
+              : props.status === -1 ?
+                <>
+              <label style={{
+                 fontStyle: "normal",
+                 fontWeight: 600,
+                 fontSize: "14px",
+                 lineHeight: "26px",
+                 color: "#1f4173",
+                 opacity: 0.8,
+                 textAlign: "justify",
+                 overflow: "auto",
+                 display:"block"
+              }} className="reject-label">Reason for rejecting lead:</label>
+               <input
+               style={{
+                fontStyle: "normal",
+                fontWeight: 600,
+                fontSize: "14px",
+                lineHeight: "26px",
+                color: "#1f4173",
+                opacity: 0.8,
+                textAlign: "justify",
+                overflow: "auto",
+                display:"block",
+                width:"400px",
+                height:"50px",
+                background: "rgba(31, 65, 115, 0.1)",
+                 borderRadius: "10px",
+                border: "none",
+                outline: "none",
+                 padding: "3px 6px",
+               }}
+               className="reject-reason-inpt" value={props.reason} required onChange={(e)=>props.setReason(e.target.value)} />
+                </>
+                : "Are you sure you want to perform this action ?"}
           </div>
         </div>
       </DialogContent>
@@ -99,7 +134,10 @@ export default function IPopup(props) {
           name="apply"
           children={"Apply"}
           onclick={props.handleApply}
-        />
+          disabled={
+       props.status === -1 && props.reason.length  === 0 ? true : false
+          }
+          />
       </DialogActions>
     </Dialog>
   );

@@ -29,6 +29,9 @@ const LeadsDisplay = ({
   setSelectedUsers,
   selectedArray,
   setselectedArray,
+  reason,
+  setReason,
+  disabled
 }) => {
   const dispatch = useDispatch();
 
@@ -104,7 +107,11 @@ const LeadsDisplay = ({
 
   const handleBatchApply = () => {
     handleClose();
-    dispatch(updateLeadStatus(selectedArray, status));
+    if(reason.length>0){
+      dispatch(updateLeadStatus(selectedArray, status, reason));
+    }else{
+      dispatch(updateLeadStatus(selectedArray, status));
+    }
     setselectedArray([]);
     onClosePopup();
   };
@@ -128,7 +135,11 @@ const LeadsDisplay = ({
           onClosePopup={onClosePopup}
           handleApply={handleBatchApply}
           title={"Update Lead Status"}
-          // subtitle={"Multiple Leads"}
+          status={status}
+          reason={reason}
+          setReason={setReason}
+          disabled={disabled}
+  
         />
       }
       {

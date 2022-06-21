@@ -4,7 +4,7 @@ import { Avatar, Divider, IconButton, Box } from "@mui/material";
 import Details from "../../../assets/icons/Details.png";
 import LinkedInIcon from "../../../assets/icons/LinkedInIcon.png";
 import "./leadDescription.scss";
-import IPopup from "../../themeComponents/popup/leadPopup";
+
 
 const LeadDescription = ({ selectedLeadIdFun }) => {
   const displayLeadData = useSelector((state) => state.PopupReducer.popupData);

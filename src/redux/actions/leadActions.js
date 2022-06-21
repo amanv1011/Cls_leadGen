@@ -77,11 +77,11 @@ export const getLeadsFullDescriptionAction = () => {
   };
 };
 
-export const updateLeadStatus = (leadsId, Status) => {
+export const updateLeadStatus = (leadsId, Status, reason) => {
   return async (dispatch) => {
     dispatch({ type: GET_LEADS_UPDATESTATUS_PENDING });
     try {
-      const res = await approvRejectLeads(leadsId, Status);
+      const res = await approvRejectLeads(leadsId, Status, reason);
       dispatch({
         type: GET_LEADS_UPDATESTATUS_SUCCESS,
         payload: res,

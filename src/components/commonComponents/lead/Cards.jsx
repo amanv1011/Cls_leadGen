@@ -29,13 +29,14 @@ const Cards = (props) => {
   const [openText, setopenText] = useState(false);
   const [displayLeadData, setdisplayLeadData] = useState([]);
   const [value, setValue] = useState("");
-  const [selectedLeadId, setSlectedLeadId] = useState("");
+  const [selectedLeadId, setSlectedLeadId] = useState("Reason");
   const [open, setOpen] = useState(false);
   const [openMultipleLeadPopup, setOpenMultipleLeadPopup] = useState(false);
   const [status, setStatus] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedArray, setselectedArray] = useState([]);
   const [showNotesState, setShowNotesState] = useState(false);
+  const [reason, setReason] = useState("")
   const leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
   const approveRejectResponse = useSelector(
@@ -158,11 +159,15 @@ const Cards = (props) => {
   };
   const handleApply = () => {
     if (selectedLeadId && status !== null) {
-      dispatch(updateLeadStatus([selectedLeadId], status));
+      if(reason.length>0){
+        dispatch(updateLeadStatus([selectedLeadId], status, reason));
+      }else{
+        dispatch(updateLeadStatus([selectedLeadId], status));
+      }
       onClosePopup();
+      setReason("")
     }
   };
-
   return (
     <>
       {
@@ -171,6 +176,12 @@ const Cards = (props) => {
           onClosePopup={onClosePopup}
           handleApply={handleApply}
           title={"Update Lead Status"}
+          status={status}
+          reason={reason}
+          setReason={setReason}
+          disabled={
+            status && status === -1 && reason && reason.length ===0  ? true : false
+          }
         />
       }
       {
@@ -213,6 +224,12 @@ const Cards = (props) => {
               setSelectedUsers={setSelectedUsers}
               selectedArray={selectedArray}
               setselectedArray={setselectedArray}
+              //popup
+              reason={reason}
+              setReason={setReason}
+              disabled={
+                status && status === -1 && reason && reason.length ===0  ? true : false
+              }
             />
           </Box>
           <Box component={"div"} className="section leads-details">
