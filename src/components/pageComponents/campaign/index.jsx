@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Box } from "@mui/system";
 import { Divider } from "@mui/material";
@@ -19,10 +19,7 @@ const Campaign = () => {
     (state) => state.allCampaigns.searchedCampaignList
   );
   const campaignLoader = useSelector((state) => state.allCampaigns.loading);
-  const currentPage = useSelector((state) => state.paginationStates.activePage);
-  const dataPerPage = useSelector(
-    (state) => state.paginationStates.dataPerPage
-  );
+
   const campgaignId = useSelector(
     (state) => state.allCampaigns.a__campgaign__Id
   );
@@ -32,6 +29,7 @@ const Campaign = () => {
     (state) => state.campaignFilters.country
   );
   const ownerFilterValue = useSelector((state) => state.campaignFilters.owner);
+  const countryList = useSelector((state) => state.country.countryList);
 
   return (
     <Box component="div" className="campaign-container">
@@ -40,6 +38,7 @@ const Campaign = () => {
           campaignsList={campaignsList}
           searchedCampaignList={searchedCampaignList}
           leadsList={leadsList}
+          countryList={countryList}
         />
       </Box>
       <Divider
@@ -66,15 +65,11 @@ const Campaign = () => {
             />
           </div>
           <CampaignDisplay
-            campaignsList={campaignsList}
             campaignDoc={campaignDoc}
             searchValue={searchValue}
             searchedCampaignList={searchedCampaignList}
             campaignLoader={campaignLoader}
-            currentPage={currentPage}
-            dataPerPage={dataPerPage}
             leadsList={leadsList}
-            campgaignId={campgaignId}
             countryFilterValue={countryFilterValue}
             ownerFilterValue={ownerFilterValue}
           />
@@ -85,6 +80,7 @@ const Campaign = () => {
             campgaignId={campgaignId}
             leadsList={leadsList}
             allUsers={allUsers}
+            countryList={countryList}
           />
         </Box>
       </Box>

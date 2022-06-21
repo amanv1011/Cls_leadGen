@@ -89,6 +89,15 @@ select.addCampaignModal-selects {
   }
 }
 
+.addCampaignModal-checkbox {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  .addCampaignModal-labels {
+    margin-left: 7px;
+  }
+}
+
 input[type="date"].addCampaignModal-datePicker {
   margin-top: 12px;
   margin-bottom: 20px;

@@ -4,9 +4,7 @@ import moment from "moment";
 import { Popover } from "@mui/material";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import { openAlertAction } from "../../../../redux/actions/alertActions";
-import PaginationComponent from "../../../commonComponents/PaginationComponent";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
-import * as paginationActions from "../../../../redux/actions/paginationActions";
 import Download from "../../../themeComponents/campTable/Download";
 import Delete from "../../../themeComponents/campTable/Delete";
 import * as commonFunctions from "../commonFunctions";
@@ -14,14 +12,10 @@ import CampaignPopup from "../../../themeComponents/popup/CampaignPopup";
 import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
-  campaignsList,
   searchedCampaignList,
   campaignLoader,
   searchValue,
   campaignDoc,
-  campgaignId,
-  currentPage,
-  dataPerPage,
   leadsList,
   countryFilterValue,
   ownerFilterValue,
@@ -33,6 +27,49 @@ const CampaignDisplay = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [openCampaignPopup, setOpenCampaignPopup] = useState(false);
   const [disableApplyBtn, setDisableApplyBtn] = useState(false);
+
+  useEffect(() => {
+    setcampaignsListData(searchedCampaignList);
+    campaignDoc.id
+      ? Viewed(campaignDoc.id)
+      : searchedCampaignList &&
+        searchedCampaignList[0]?.id &&
+        Viewed(searchedCampaignList[0].id);
+  }, [searchedCampaignList]);
+
+  useEffect(() => {
+    if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {
+      setcampaignsListData(searchedCampaignList);
+    } else if (
+      countryFilterValue !== "Country" &&
+      ownerFilterValue !== "Owner"
+    ) {
+      const filteredCampaigns = searchedCampaignList.filter(
+        (campaign) =>
+          campaign &&
+          campaign?.country === countryFilterValue &&
+          campaign.owner === ownerFilterValue
+      );
+      console.log("filteredCampaigns", filteredCampaigns);
+      setcampaignsListData(filteredCampaigns);
+    } else if (
+      countryFilterValue !== "Country" &&
+      ownerFilterValue === "Owner"
+    ) {
+      const filteredCampaigns = searchedCampaignList.filter(
+        (campaign) => campaign?.country === countryFilterValue
+      );
+      setcampaignsListData(filteredCampaigns);
+    } else if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue !== "Owner"
+    ) {
+      const filteredCampaigns = searchedCampaignList.filter(
+        (campaign) => campaign.owner === ownerFilterValue
+      );
+      setcampaignsListData(filteredCampaigns);
+    }
+  }, [countryFilterValue, ownerFilterValue]);
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
@@ -59,15 +96,6 @@ const CampaignDisplay = ({
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  useEffect(() => {
-    setcampaignsListData(searchedCampaignList);
-    campaignDoc.id
-      ? Viewed(campaignDoc.id)
-      : searchedCampaignList &&
-        searchedCampaignList[0]?.id &&
-        Viewed(searchedCampaignList[0].id);
-  }, [searchedCampaignList]);
-
   const handleOnCheckboxChange = (event) => {
     if (event.target.checked) {
       setselectedArray([...selectedArray, event.target.value]);
@@ -91,25 +119,6 @@ const CampaignDisplay = ({
       setselectedArray([]);
     }
   };
-
-  useEffect(() => {
-    if (ownerFilterValue === "Owner") {
-      setcampaignsListData(searchedCampaignList);
-    } else {
-      const ownerFiltered = searchedCampaignList.filter(
-        (campaign) => campaign.owner === ownerFilterValue
-      );
-
-      setcampaignsListData(ownerFiltered);
-    }
-  }, [ownerFilterValue]);
-
-  const indexOfLastLead = currentPage * dataPerPage;
-  const indexOfFirstLead = indexOfLastLead - dataPerPage;
-  const currentCampaigns = campaignsListData.slice(
-    indexOfFirstLead,
-    indexOfLastLead
-  );
 
   // To download selected campaigns
   const downloadSelectedCampaigns = () => {
@@ -203,7 +212,7 @@ const CampaignDisplay = ({
         <React.Fragment>
           <div className="campaign-checkbox-menu-container">
             <div className="campaign-checkbox-container">
-              <input type="checkbox" checked={false} disabled="true" />
+              <input type="checkbox" checked={false} disabled={true} />
               <label className="all-label">All</label>
             </div>
           </div>
@@ -211,7 +220,7 @@ const CampaignDisplay = ({
             <div className="campaign-display-subcontainers">
               <div className="campaign-display-subcontainer1">
                 <div
-                  className="display-cont"
+                  className="display-count"
                   style={{
                     width: "100%",
                     display: "flex",
@@ -232,7 +241,7 @@ const CampaignDisplay = ({
         <React.Fragment>
           <div className="campaign-checkbox-menu-container">
             <div className="campaign-checkbox-container">
-              <input type="checkbox" checked={false} disabled="true" />
+              <input type="checkbox" checked={false} disabled={true} />
               <label className="all-label">All</label>
             </div>
           </div>
@@ -240,7 +249,7 @@ const CampaignDisplay = ({
             <div className="campaign-display-subcontainers">
               <div className="campaign-display-subcontainer1">
                 <div
-                  className="display-cont"
+                  className="display-count"
                   style={{
                     width: "100%",
                     display: "flex",
@@ -328,14 +337,14 @@ const CampaignDisplay = ({
           </div>
         </div>
         <div className="campaign-display-container">
-          {currentCampaigns.length !== 0 &&
-            currentCampaigns.map((campaign) => (
+          {campaignsListData.length !== 0 &&
+            campaignsListData.map((campaign) => (
               <div
+                key={campaign.id}
                 onClick={() => Viewed(campaign.id)}
                 className={`campaign-display-subcontainers ${
                   campaignDoc.id === campaign.id ? "selected" : ""
                 }`}
-                key={campaign.id}
               >
                 <div className="campaign-display-check">
                   <input
@@ -359,7 +368,7 @@ const CampaignDisplay = ({
                   }`}
                 >
                   <div
-                    className="display-cont"
+                    className="display-count"
                     style={{
                       width: "100%",
                       display: "flex",
@@ -404,10 +413,7 @@ const CampaignDisplay = ({
               </div>
             ))}
         </div>
-        <PaginationComponent
-          dataPerPage={dataPerPage}
-          dataLength={campaignsListData.length}
-        />
+
         <CampaignPopup
           openCampaignPopup={openCampaignPopup}
           handleClickOpen={handleClickOpenCampaignPopup}

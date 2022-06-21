@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import Download from "../../../themeComponents/campTable/Download";
 import Delete from "../../../themeComponents/campTable/Delete";
 import Edit from "../../../themeComponents/campTable/Edit";
@@ -18,6 +18,7 @@ const CampaignButtonActions = ({
   tags,
   campgaignId,
   leadsList,
+  campaignUpdateForm,
 }) => {
   const dispatch = useDispatch();
   const [openAlert, setOpenAlert] = useState(false);
@@ -98,7 +99,8 @@ const CampaignButtonActions = ({
       <div className="campaignButton-actions">
         <button
           className="campaign-btn save-btn"
-          onClick={() => {
+          onClick={(event) => {
+            // campaignUpdateForm(event);
             try {
               if (campaignDoc.id === campgaignId) {
                 dispatch(
