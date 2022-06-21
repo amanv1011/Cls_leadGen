@@ -434,7 +434,7 @@ const CampaignDescription = ({
                   <div className="header-item">
                     <span className="header-key">Country</span>
                     <span className="header-value">
-                      {campgaignId && campaignDocValue.country !== "NA" ? (
+                      {campgaignId && campaignDocValue.country ? (
                         <select
                           className="addCampaign-selects"
                           name="country"
