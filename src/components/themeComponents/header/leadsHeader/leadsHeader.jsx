@@ -17,6 +17,7 @@ import {
 } from "../../../../redux/actions/leadsFilter";
 import moment from "moment";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
+import AdvanceDatePicker from "../../AdvanceDatePicker/advanceDatePicker";
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
@@ -210,7 +211,8 @@ const LeadsHeader = () => {
               })}
             </Menu>
           </div>
-          <DateModal />
+          {/* <DateModal /> */}
+          <AdvanceDatePicker/>
           <div className="select-container">
             <Button
               id="basic-button"
@@ -274,6 +276,10 @@ const LeadsHeader = () => {
               })}
             </Menu>
           </div>
+      {/* <AdvanceDatePicker/> */}
+
+
+
         </div>
         <div className="right-section">
           <div className="filter-icon">

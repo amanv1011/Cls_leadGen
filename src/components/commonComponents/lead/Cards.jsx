@@ -17,17 +17,30 @@ import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
 // import "./lead.scss";
 import "../../pageComponents/leads2/leads.scss";
 import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 import Textarea from "../../themeComponents/textarea/textarea";
-import { Input } from "@mui/material";
-import { TextFields } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+// import { Input } from "@mui/material";
+// import { TextFields } from "@mui/icons-material";
+// import { Button } from "@mui/material";
+import ApprovePopUp from "../../themeComponents/DialogBox/ApprovePopUp";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
   const [openText, setopenText] = useState(false);
   const [displayLeadData, setdisplayLeadData] = useState([]);
   const [value, setValue] = useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const leadsData = props.leadData;
   const allLeadData = useSelector((state) => state.popupStatus.popupData[0]);
@@ -51,18 +64,29 @@ const Cards = (props) => {
   useEffect(() => {
     dispatch(cardsDisplayAction(leadsData));
   }, [leadsData.length]);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   let approveButton = () => {
     dispatch(updateLeadStatus(selectedLeadId, 1));
+    handleClose();
   };
   let rejectButton = () => {
     dispatch(updateLeadStatus(selectedLeadId, -1));
+    handleClose();
   };
   let archieveButton = () => {
+    handleClickOpen();
     dispatch(updateLeadStatus(selectedLeadId, 2));
+    handleClose();
   };
   let underReviewButton = () => {
     dispatch(updateLeadStatus(selectedLeadId, 0));
+    handleClose();
   };
 
   const [selectedLeadId, setSlectedLeadId] = useState("");
@@ -85,6 +109,14 @@ const Cards = (props) => {
     }
     setopenText(!openText);
   };
+
+  // const approveDisableButton =
+  //   displayLeadData && displayLeadData.status && displayLeadData.status === 1
+  //     ? true
+  //     : false;
+
+
+
 
   return (
     <Box component="div" className="leads-container">
@@ -119,11 +151,61 @@ const Cards = (props) => {
               Move To:
             </Box>
             <Box component={"div"} className="action-buttons">
+              <Dialog
+                fullScreen={fullScreen}
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="responsive-dialog-title"
+              >
+                <DialogTitle id="responsive-dialog-title">
+                  <h5 style={{ color: "#1f4173" }}>
+                    {" "}
+                    {displayLeadData === undefined
+                      ? null
+                      : displayLeadData.title}
+                  </h5>
+                  {"Are you sure you want to Approve leads ?."}
+                </DialogTitle>
+                <DialogContent></DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button onClick={approveButton}>Confirm</Button>
+                </DialogActions>
+              </Dialog>
+              {/* <ApprovePopUp 
+                buttonName={"Approve"}
+                open={open}
+                handleClickOpen={handleClickOpen}
+                handleClose={handleClose}
+                approveButton={approveButton}
+                // disabledButton={approveDisableButton}
+            /> */}
+              {/* <ApprovePopUp 
+                buttonName={"Archive"}
+                open={open}
+                handleClickOpen={handleClickOpen}
+                handleClose={handleClose}
+                approveButton={archieveButton}
+            />
+              <ApprovePopUp 
+                buttonName={"Under Review"}
+                open={open}
+                handleClickOpen={handleClickOpen}
+                handleClose={handleClose}
+                approveButton={underReviewButton}
+            />
+                <ApprovePopUp 
+                buttonName={"Reject"}
+                open={open}
+                handleClickOpen={handleClickOpen}
+                handleClose={handleClose}
+                approveButton={rejectButton}
+            /> */}
               <IButton
                 type={"green"}
                 name={"Approve"}
                 children="Approve"
-                onclick={approveButton}
+                onclick={handleClickOpen}
                 disabled={
                   displayLeadData &&
                   displayLeadData.status &&
@@ -131,13 +213,14 @@ const Cards = (props) => {
                     ? true
                     : false
                 }
+              //  disabled={approveDisableButton}
               />
 
               <IButton
                 type={"yellow"}
                 name={"Archive"}
                 children="Archive"
-                onclick={archieveButton}
+                onclick={handleClickOpen}
                 disabled={
                   displayLeadData &&
                   displayLeadData.status &&
@@ -159,7 +242,7 @@ const Cards = (props) => {
                     ? true
                     : false
                 }
-                onclick={underReviewButton}
+                onclick={handleClickOpen}
               />
               <IButton
                 type={"pink"}
@@ -172,7 +255,7 @@ const Cards = (props) => {
                     ? true
                     : false
                 }
-                onclick={rejectButton}
+                onclick={handleClickOpen}
               />
             </Box>
           </Box>
