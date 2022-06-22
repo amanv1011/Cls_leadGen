@@ -49,7 +49,13 @@ const LeadsMenu = () => {
       className="select-container"
       variant="standard"
       disableUnderline
-      IconComponent={() => <KeyboardArrowDownIcon fontSize="small" />}
+      IconComponent={(props) => (
+        <KeyboardArrowDownIcon
+          {...props}
+          fontSize="small"
+          style={{ color: "#003ad2" }}
+        />
+      )}
       MenuProps={{
         PaperProps: {
           sx: {
