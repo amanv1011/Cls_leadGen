@@ -31,7 +31,7 @@ const LeadsDisplay = ({
   setselectedArray,
   reason,
   setReason,
-  disabled
+  disabled,
 }) => {
   const dispatch = useDispatch();
 
@@ -75,6 +75,7 @@ const LeadsDisplay = ({
     let leadsIdData = leadsList.filter((ele) => ele.id === leadId);
     selectedLeadIdFun(leadsIdData[0].id);
     dispatch(getSingleLeadDetail(leadsIdData[0]));
+    //set already assigned user here
     //update seen status here
     if ((leadsIdData[0] && leadsIdData[0].seen !== true) || undefined) {
       dispatch(updateLeadViewStatusAction(leadId));
@@ -107,9 +108,9 @@ const LeadsDisplay = ({
 
   const handleBatchApply = () => {
     handleClose();
-    if(reason.length>0){
+    if (reason.length > 0) {
       dispatch(updateLeadStatus(selectedArray, status, reason));
-    }else{
+    } else {
       dispatch(updateLeadStatus(selectedArray, status));
     }
     setselectedArray([]);
@@ -139,7 +140,6 @@ const LeadsDisplay = ({
           reason={reason}
           setReason={setReason}
           disabled={disabled}
-  
         />
       }
       {

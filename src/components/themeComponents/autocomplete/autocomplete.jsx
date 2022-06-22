@@ -1,4 +1,4 @@
-import { Autocomplete, Checkbox, Chip, TextField, Typography } from "@mui/material";
+import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
 import React from "react";
 import "./autocomplete.scss";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
@@ -19,7 +19,6 @@ const IAutocomplete = ({
   assignUsers,
   width,
 }) => {
-  const [first, setfirst] = useState([]);
   return (
     <div
       style={{
@@ -58,13 +57,15 @@ const IAutocomplete = ({
             <>
               {value.slice(0, limitTags).map((option, index) => (
                 <Chip
-                size={"small"}
+                  size={"small"}
                   {...getTagProps({ index })}
                   key={index}
                   label={option.name}
                 />
               ))}
-  <span style={{fontSize:"11px", fontWeight:"600"}}>{numTags > limitTags && ` +${numTags - limitTags} more`}</span>
+              <span style={{ fontSize: "11px", fontWeight: "600" }}>
+                {numTags > limitTags && ` +${numTags - limitTags} more`}
+              </span>
             </>
           );
         }}
@@ -111,6 +112,13 @@ const IAutocomplete = ({
             visibility: "hidden",
           },
         }}
+        componentsProps={{
+          paper: {
+            sx: {
+              width: width + 25,
+            },
+          },
+        }}
         ListboxProps={{
           sx: {
             fontSize: 14,
@@ -118,7 +126,7 @@ const IAutocomplete = ({
             opacity: 0.7,
             padding: "8px",
             borderRadius: "10px",
-            maxHeight: "200px",
+            maxHeight: "150px",
           },
         }}
         className="autocomplete"
