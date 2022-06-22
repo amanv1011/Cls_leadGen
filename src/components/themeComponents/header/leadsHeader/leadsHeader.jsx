@@ -14,6 +14,7 @@ import {
   leadsFilterOwnerName,
   clearFilters,
   datePickerState,
+  leadsFilterCountiresName,
 } from "../../../../redux/actions/leadsFilter";
 import moment from "moment";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
@@ -31,16 +32,38 @@ const LeadsHeader = () => {
   const [allCampgainsMenu, setAllCampgainsMenu] = React.useState(null);
   const [allCampaignsFilter, setAllCampgainsFilter] = useState("All Campgains");
   const [allOwnersFilter, setAllOwnersFilter] = useState("All Owners");
+  const [allCountriesFilter, setAllCountriesFilter] = useState("All Countries");
+  const [allCountriesMenu, setAllCountriesMenu] = React.useState(null);
+
   const openAllCampgainsMenu = Boolean(allCampgainsMenu);
   const handleClickAllCampgainsMenu = (event) => {
     setAllCampgainsMenu(event.currentTarget);
   };
+  const openAllCountriesMenu = Boolean(allCountriesMenu);
+  const handleClickAllCountriesMenu = (event) => {
+    setAllCountriesMenu(event.currentTarget);
+  };
+
+  const handleCloseAllCountriesMenu = (event) => {
+    if (event.target.innerText === "") {
+      dispatch(leadsFilterCountiresName("All Countries"));
+      setAllCountriesFilter("All Countries");
+    } else {
+      dispatch(leadsFilterCountiresName(event.target.innerText));
+      setAllCountriesFilter(event.target.innerText);
+    }
+    setAllCountriesMenu(null);
+  };
 
   const uniqueOwner = [];
+  const uniqueCountries = [];
 
   leadData.forEach((c) => {
     if (!uniqueOwner.includes(c.owner)) {
       uniqueOwner.push(c.owner);
+    }
+    if (!uniqueCountries.includes(c.country)) {
+      uniqueCountries.push(c.country);
     }
   });
 
@@ -276,6 +299,70 @@ const LeadsHeader = () => {
               })}
             </Menu>
           </div>
+          {/* countries name */}
+          <div className="select-container">
+            <Button
+              id="basic-button"
+              className="select-button"
+              onClick={handleClickAllCountriesMenu}
+            >
+              <span className="select-btn-title">{allCountriesFilter}</span>
+              <span>
+                <DownArrow />
+              </span>
+            </Button>
+          </div>
+          <Menu
+            className="menu"
+            id="basic-menu"
+            anchorEl={allCountriesMenu}
+            PaperProps={{
+              style: {
+                width: "auto",
+                borderRadius: "10px",
+                marginTop: "3px",
+                boxshadow: "none",
+                // backgroundColor: "#E7E7E7",
+                backgroundColor: "rgb(233,236,241)",
+                color: "rgba(92, 117,154)",
+                zIndex: "1000",
+                overflow: "auto",
+                height: "210px",
+              },
+            }}
+            open={openAllCountriesMenu}
+            onClose={handleCloseAllCountriesMenu}
+          >
+            <MenuItem
+              key={"abc"}
+              className="menu-item"
+              onClick={handleCloseAllCountriesMenu}
+              sx={{
+                fontSize: "13px",
+                fontWeight: 600,
+              }}
+            >
+              All Countries
+            </MenuItem>
+            {uniqueCountries.map((ele, idx) => {
+              return (
+                <MenuItem
+                  key={idx}
+                  data-id={idx}
+                  className="menu-item"
+                  onClick={handleCloseAllCountriesMenu}
+                  sx={{
+                    fontSize: "13px",
+                    fontWeight: 600,
+                  }}
+                >
+                  {ele}
+                </MenuItem>
+              );
+            })}
+          </Menu>
+
+          {/* countries name */}
         </div>
         <div className="right-section">
           <div className="filter-icon">
