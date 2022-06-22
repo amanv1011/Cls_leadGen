@@ -18,6 +18,7 @@ import {
 import moment from "moment";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
 import AdvanceDatePicker from "../../AdvanceDatePicker/advanceDatePicker";
+import NewDateRangePicker from "../../AdvanceDatePicker/newDatePickerCompo";
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
@@ -173,7 +174,6 @@ const LeadsHeader = () => {
                   borderRadius: "10px",
                   marginTop: "3px",
                   boxShadow: "none",
-                  // backgroundColor: "#E7E7E7",
                   backgroundColor: "rgb(233,236,241)",
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
@@ -211,8 +211,8 @@ const LeadsHeader = () => {
               })}
             </Menu>
           </div>
-          {/* <DateModal /> */}
-          <AdvanceDatePicker/>
+          {/* <AdvanceDatePicker/> */}
+          <NewDateRangePicker />
           <div className="select-container">
             <Button
               id="basic-button"
@@ -276,10 +276,6 @@ const LeadsHeader = () => {
               })}
             </Menu>
           </div>
-      {/* <AdvanceDatePicker/> */}
-
-
-
         </div>
         <div className="right-section">
           <div className="filter-icon">
