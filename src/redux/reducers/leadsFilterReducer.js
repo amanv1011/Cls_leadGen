@@ -36,7 +36,7 @@ export const leadsFilterReducer = (state = initialState, { type, payload }) => {
         ...state,
         campaignName: "All Campaigns",
         ownerName: "All Owners",
-        countriesName: "All Counties",
+        countriesName: "All Countries",
         searchQuery: "",
         filterDate: "",
       };

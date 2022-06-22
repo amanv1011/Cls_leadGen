@@ -26,6 +26,9 @@ const LeadsHeader = () => {
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
+  const countriesNameFilter = useSelector(
+    (state) => state.leadsFilter.countriesName
+  );
   const cardsToDisplay = useSelector((state) => state.allLeads.cardsToDisplay);
   // const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
 
@@ -70,8 +73,9 @@ const LeadsHeader = () => {
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);
     setAllOwnersFilter(ownerNameFilter);
+    setAllCountriesFilter(countriesNameFilter);
     setAllCampgainsMenu(null);
-  }, [campaignNameFilter, ownerNameFilter]);
+  }, [campaignNameFilter, ownerNameFilter, countriesNameFilter]);
 
   const handleCloseAllCampgainsMenu = (event) => {
     if (event.target.innerText === "") {

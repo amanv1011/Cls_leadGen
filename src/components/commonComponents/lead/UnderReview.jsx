@@ -20,6 +20,9 @@ const UnderReview = () => {
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
+  const countriesNameFilter = useSelector(
+    (state) => state.leadsFilter.countriesName
+  );
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
 
@@ -87,6 +90,14 @@ const UnderReview = () => {
       searchDate,
       searchQuery
     );
+  }
+
+  if (countriesNameFilter !== "All Countries") {
+    let arr = filterUnderreview.filter(
+      (ele) => ele.country === countriesNameFilter
+    );
+    filterUnderreview = arr;
+    leadListForCount = filterUnderreview;
   }
 
   const rejectList = leadListForCount.filter((ele) => ele.status === -1);
