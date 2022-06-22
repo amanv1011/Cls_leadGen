@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, Menu, MenuItem, useMediaQuery } from "@mui/material";
+import { Button, Menu, MenuItem, useMediaQuery, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
 import * as campaignFilterActions from "../../../../redux/actions/campaignFilterActions";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import AddCampaginModal from "../../../themeComponents/popup/index";
-import * as paginationActions from "../../../../redux/actions/paginationActions";
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import moment from "moment";
 import "./campaignHeader.scss";
 
@@ -56,7 +56,6 @@ const CampaignHeader = ({
           event.target.innerText
         )
       );
-      dispatch(paginationActions.setActivePage(1));
       setCountryFilter(event.target.innerText);
     }
     setCountryMenu(null);
@@ -72,7 +71,6 @@ const CampaignHeader = ({
           event.target.innerText
         )
       );
-      dispatch(paginationActions.setActivePage(1));
       setOwnerFilter(event.target.innerText);
     }
     setOwnerMenu(null);
@@ -80,11 +78,12 @@ const CampaignHeader = ({
 
   const uniqueOwner = [];
 
-  campaignsList.forEach((campaign) => {
-    if (!uniqueOwner.includes(campaign.owner)) {
-      uniqueOwner.push(campaign.owner);
-    }
-  });
+  campaignsList &&
+    campaignsList.forEach((campaign) => {
+      if (!uniqueOwner.includes(campaign.owner)) {
+        uniqueOwner.push(campaign.owner);
+      }
+    });
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
@@ -96,57 +95,58 @@ const CampaignHeader = ({
   const exportCampaignToExcel = () => {
     let updatedcampaignListDataToDownload = [];
 
-    searchedCampaignList.forEach((campaign) => {
-      let sourceType = "";
+    searchedCampaignList &&
+      searchedCampaignList.forEach((campaign) => {
+        let sourceType = "";
 
-      if (campaign.source === "seek_aus") {
-        sourceType = "Seek Australia";
-      } else if (campaign.source === "indeed_aus") {
-        sourceType = "Indeed Australia";
-      } else if (campaign.source === "indeed_ca") {
-        sourceType = "Indeed Canada";
-      } else if (campaign.source === "indeed_uk") {
-        sourceType = "Indeed United";
-      } else if (campaign.source === "indeed_il") {
-        sourceType = "Indeed Italy";
-      } else if (campaign.source === "indeed_ae") {
-        sourceType = "Indeed UAE";
-      } else if (campaign.source === "indeed_fi") {
-        sourceType = "Indeed Finland";
-      } else if (campaign.source === "indeed_ch") {
-        sourceType = "Indeed China";
-      } else if (campaign.source === "indeed_pt") {
-        sourceType = "Indeed Portugal";
-      } else if (campaign.source === "indeed_sg") {
-        sourceType = "Indeed Singapore";
-      } else {
-        sourceType = "LinkedIn";
-      }
+        if (campaign.source === "seek_aus") {
+          sourceType = "Seek Australia";
+        } else if (campaign.source === "indeed_aus") {
+          sourceType = "Indeed Australia";
+        } else if (campaign.source === "indeed_ca") {
+          sourceType = "Indeed Canada";
+        } else if (campaign.source === "indeed_uk") {
+          sourceType = "Indeed United";
+        } else if (campaign.source === "indeed_il") {
+          sourceType = "Indeed Italy";
+        } else if (campaign.source === "indeed_ae") {
+          sourceType = "Indeed UAE";
+        } else if (campaign.source === "indeed_fi") {
+          sourceType = "Indeed Finland";
+        } else if (campaign.source === "indeed_ch") {
+          sourceType = "Indeed China";
+        } else if (campaign.source === "indeed_pt") {
+          sourceType = "Indeed Portugal";
+        } else if (campaign.source === "indeed_sg") {
+          sourceType = "Indeed Singapore";
+        } else {
+          sourceType = "LinkedIn";
+        }
 
-      let campaignListDataToDownload = {
-        "Campaign Name": campaign.name,
-        Location: campaign.location,
-        "Start Date": moment
-          .unix(campaign.start_date.seconds, campaign.start_date.nanoseconds)
-          .format("MM/DD/YYYY"),
-        "Start Time": campaign.start_time,
-        "End Date": moment
-          .unix(campaign.end_date.seconds, campaign.end_date.nanoseconds)
-          .format("MM/DD/YYYY"),
-        "End Time": campaign.end_time,
-        "Number of times the campign runs per day": campaign.frequency,
-        "Number of leads generated": getNumOfLeads(campaign.id),
-        "Campaign created by": campaign.owner,
-        "Source of the campaign": sourceType,
-        "Status of the campaign":
-          campaign.status && campaign.status === 1 ? "Active" : "In-Active",
-        Tags: campaign.tags.toString(),
-      };
-      updatedcampaignListDataToDownload = [
-        ...updatedcampaignListDataToDownload,
-        campaignListDataToDownload,
-      ];
-    });
+        let campaignListDataToDownload = {
+          "Campaign Name": campaign.name,
+          Location: campaign.location,
+          "Start Date": moment
+            .unix(campaign.start_date.seconds, campaign.start_date.nanoseconds)
+            .format("MM/DD/YYYY"),
+          "Start Time": campaign.start_time,
+          "End Date": moment
+            .unix(campaign.end_date.seconds, campaign.end_date.nanoseconds)
+            .format("MM/DD/YYYY"),
+          "End Time": campaign.end_time,
+          "Number of times the campign runs per day": campaign.frequency,
+          "Number of leads generated": getNumOfLeads(campaign.id),
+          "Campaign created by": campaign.owner,
+          "Source of the campaign": sourceType,
+          "Status of the campaign":
+            campaign.status && campaign.status === 1 ? "Active" : "In-Active",
+          Tags: campaign.tags.toString(),
+        };
+        updatedcampaignListDataToDownload = [
+          ...updatedcampaignListDataToDownload,
+          campaignListDataToDownload,
+        ];
+      });
     commonFunctions.downloadInExcel(
       updatedcampaignListDataToDownload,
       "List of Campigns"
@@ -198,21 +198,22 @@ const CampaignHeader = ({
               >
                 Country
               </MenuItem>
-              {countryList.map((country) => {
-                return (
-                  <MenuItem
-                    key={country.id}
-                    data-id={country.id}
-                    className="menu-item"
-                    onClick={handleClosecountryMenu}
-                    sx={{
-                      fontSize: matches ? "13px" : "14px",
-                    }}
-                  >
-                    {country.country_name}
-                  </MenuItem>
-                );
-              })}
+              {countryList &&
+                countryList.map((country) => {
+                  return (
+                    <MenuItem
+                      key={country.id}
+                      data-id={country.id}
+                      className="menu-item"
+                      onClick={handleClosecountryMenu}
+                      sx={{
+                        fontSize: matches ? "13px" : "14px",
+                      }}
+                    >
+                      {country.country_name}
+                    </MenuItem>
+                  );
+                })}
             </Menu>
           </div>
           <div className="select-container">
@@ -260,22 +261,37 @@ const CampaignHeader = ({
               >
                 Owner
               </MenuItem>
-              {uniqueOwner.map((owner) => {
-                return (
-                  <MenuItem
-                    key={owner.id}
-                    data-id={owner.id}
-                    className="menu-item"
-                    onClick={handleCloseOwnerMenu}
-                    sx={{
-                      fontSize: matches ? "13px" : "14px",
-                    }}
-                  >
-                    {owner}
-                  </MenuItem>
-                );
-              })}
+              {uniqueOwner &&
+                uniqueOwner.map((owner) => {
+                  return (
+                    <MenuItem
+                      key={owner.id}
+                      data-id={owner && owner.id}
+                      className="menu-item"
+                      onClick={handleCloseOwnerMenu}
+                      sx={{
+                        fontSize: matches ? "13px" : "14px",
+                      }}
+                    >
+                      {owner}
+                    </MenuItem>
+                  );
+                })}
             </Menu>
+          </div>
+          <div>
+            <div className="filter-icon">
+              <Tooltip title="Clear Filter" placement="top-start">
+                <Button
+                  onClick={() => {
+                    dispatch(campaignFilterActions.campaignFilterClearAction());
+                  }}
+                  className="filter-btn"
+                >
+                  <FilterAltOffIcon />
+                </Button>
+              </Tooltip>
+            </div>
           </div>
         </div>
         <div className="right-section">

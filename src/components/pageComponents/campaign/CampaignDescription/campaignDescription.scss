@@ -14,16 +14,18 @@
       box-sizing: border-box;
       padding: 8px 20px;
       display: flex;
-      align-content: center;
+      align-content: space-between;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
+
       .left-section {
-        width: 70%;
+        width: 100%;
+        height: 60%;
         .title {
           display: flex;
           align-items: center;
           overflow: hidden;
-          white-space: wrap;
           text-overflow: ellipsis;
           height: 44px;
           font-style: normal;
@@ -32,7 +34,17 @@
           line-height: 22px;
           letter-spacing: -0.02em;
           color: #1f4173;
+          text-transform: capitalize;
         }
+      }
+      .right-section {
+        height: 40%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        align-content: center;
+
         .subtitle {
           display: flex;
           align-items: center;
@@ -42,14 +54,8 @@
           line-height: 15px;
           color: rgba(31, 65, 115, 0.5);
           margin: 4px 0px;
+          text-transform: capitalize;
         }
-      }
-      .right-section {
-        width: 30%;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        align-content: center;
         .status-text {
           width: 80px;
           height: 19px;
@@ -63,54 +69,55 @@
       }
     }
     .campaign-description-container1_2 {
-      height: 85%;
       width: 100%;
-      .campaign-description-body {
-        width: 100%;
-        height: 57vh;
+      height: 57vh;
+      display: flex;
+      padding: 8px 20px;
+      align-content: center;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      .header-item {
         display: flex;
-        padding: 8px 20px;
-        .header-item {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-        .header-key {
-          width: 50%;
-          font-style: normal;
-          font-weight: 600;
-          font-size: 14px;
-          line-height: 17px;
-          color: #1f4173;
-          opacity: 0.6;
-        }
-        .header-value {
-          width: 50%;
-          font-style: normal;
-          font-weight: 600;
-          font-size: 14px;
-          line-height: 24px;
-          color: #1f4173;
-        }
-        .campaign-description-left-sec {
-          width: 60%;
-          height: 100%;
-          display: flex;
-          justify-content: space-around;
-          flex-direction: column;
-          align-content: space-between;
-        }
-        .campaign-description-rigth-sec {
-          width: 40%;
-          display: flex;
-          justify-content: flex-start;
-          flex-direction: column;
-          align-content: space-between;
-          margin-top: 55px;
-        }
+        align-items: center;
+        justify-content: space-between;
+      }
+      .header-key {
+        width: 50%;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px;
+        color: #1f4173;
+        opacity: 0.6;
+      }
+      .header-value {
+        width: 50%;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 24px;
+        color: #1f4173;
+      }
+      .campaign-description-left-sec {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        align-content: space-between;
+      }
+      .campaign-description-rigth-sec {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        align-content: space-between;
       }
     }
   }
+
   .campaign-description-container2 {
     width: 25%;
   }
@@ -173,6 +180,249 @@
     text-align: left;
     color: #1f4173;
     padding-left: 15px;
+  }
+  .addCampaign-checkbox {
+    width: 105px;
+    height: 17px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #1f4173;
+    opacity: 0.8;
+  }
+  .onGoing-text1 {
+    width: 61px;
+    height: 16px;
+    font-size: 13px;
+    color: rgb(31, 65, 115);
+    opacity: 0.3;
+    margin-left: 7px;
+  }
+  .onGoing-text2 {
+    width: 54px;
+    height: 16px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    color: #1f4173;
+    opacity: 0.6;
+  }
+}
+
+// CSS for edit option for campaign update form
+.campaign-description-container-edit {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  // background-color: red;
+  align-content: center;
+  justify-content: center;
+  .campaign-description-container1 {
+    width: 75%;
+    // background-color: blue;
+    .campaign-description-header {
+      height: 15%;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px 20px;
+      display: flex;
+      align-content: space-between;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      .left-section {
+        width: 100%;
+        height: 60%;
+        .title {
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          height: 44px;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 20px;
+          line-height: 22px;
+          letter-spacing: -0.02em;
+          color: #1f4173;
+          text-transform: capitalize;
+        }
+      }
+      .right-section {
+        height: 40%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        align-content: center;
+
+        .subtitle {
+          display: flex;
+          align-items: center;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 12px;
+          line-height: 15px;
+          color: rgba(31, 65, 115, 0.5);
+          margin: 4px 0px;
+          text-transform: capitalize;
+        }
+        .status-text {
+          width: 80px;
+          height: 19px;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 17px;
+          text-align: center;
+          color: #1f4173;
+        }
+      }
+    }
+    // description body
+    .campaign-description-container1_2-edit {
+      // background: red;
+      width: 100%;
+      height: 57vh;
+      display: flex;
+      padding: 8px 20px;
+      /* justify-content: space-evenly; */
+      align-items: baseline;
+
+      .campaign-description-left-sec-edit {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        align-content: space-between;
+        .header-item {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .header-key {
+            width: 30%;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 17px;
+            color: #1f4173;
+            opacity: 0.6;
+          }
+          .header-value {
+            width: 70%;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 24px;
+            color: #1f4173;
+          }
+        }
+      }
+      .campaign-description-rigth-sec-edit {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        align-content: space-between;
+        .header-item {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .header-key {
+            width: 60%;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 17px;
+            color: #1f4173;
+            opacity: 0.6;
+          }
+          .header-value {
+            width: 40%;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 24px;
+            color: #1f4173;
+          }
+        }
+      }
+    }
+  }
+  .campaign-description-container2 {
+    width: 25%;
+  }
+  .addCampaign-inputs {
+    width: 160px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: #f4f5f8;
+    outline: none;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #1f4173;
+    padding-left: 15px;
+    margin-left: 5px;
+  }
+  .addCampaign-selects {
+    width: 160px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: #f4f5f8;
+    outline: none;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #1f4173;
+    padding-left: 15px;
+    margin-left: 5px;
+  }
+  .addCampaign-timePicker {
+    width: 120px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: #f4f5f8;
+    outline: none;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #1f4173;
+    padding-left: 15px;
+    margin-left: 5px;
+  }
+  .addCampaign-datePicker {
+    width: 160px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: #f4f5f8;
+    outline: none;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #1f4173;
+    padding-left: 15px;
+    margin-left: 5px;
   }
   .addCampaign-checkbox {
     width: 105px;

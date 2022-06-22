@@ -8,8 +8,11 @@ import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import Download from "../../../themeComponents/campTable/Download";
 import Delete from "../../../themeComponents/campTable/Delete";
 import * as commonFunctions from "../commonFunctions";
+import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import CampaignPopup from "../../../themeComponents/popup/CampaignPopup";
 import "./campaignDisplay.scss";
+import LeadsMenu from "../../leads2/LeadsMenu";
+import CampaignMenu from "../CampaignMenu";
 
 const CampaignDisplay = ({
   searchedCampaignList,
@@ -27,6 +30,8 @@ const CampaignDisplay = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [openCampaignPopup, setOpenCampaignPopup] = useState(false);
   const [disableApplyBtn, setDisableApplyBtn] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [multipleFilterValue, setMultipleFilterValue] = useState("All");
 
   useEffect(() => {
     setcampaignsListData(searchedCampaignList);
@@ -36,21 +41,27 @@ const CampaignDisplay = ({
         searchedCampaignList[0]?.id &&
         Viewed(searchedCampaignList[0].id);
   }, [searchedCampaignList]);
+  console.log("campaignsListData", campaignsListData);
 
   useEffect(() => {
-    if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {
+    if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue === "Owner" &&
+      multipleFilterValue === "All"
+    ) {
       setcampaignsListData(searchedCampaignList);
     } else if (
       countryFilterValue !== "Country" &&
-      ownerFilterValue !== "Owner"
+      ownerFilterValue !== "Owner" &&
+      multipleFilterValue === "Active"
     ) {
       const filteredCampaigns = searchedCampaignList.filter(
         (campaign) =>
           campaign &&
           campaign?.country === countryFilterValue &&
-          campaign.owner === ownerFilterValue
+          campaign?.owner === ownerFilterValue &&
+          campaign?.status === 1
       );
-      console.log("filteredCampaigns", filteredCampaigns);
       setcampaignsListData(filteredCampaigns);
     } else if (
       countryFilterValue !== "Country" &&
@@ -69,7 +80,25 @@ const CampaignDisplay = ({
       );
       setcampaignsListData(filteredCampaigns);
     }
-  }, [countryFilterValue, ownerFilterValue]);
+  }, [countryFilterValue, ownerFilterValue, multipleFilterValue]);
+
+  // useEffect(() => {
+  //   if (multipleFilterValue === "All") {
+  //     setcampaignsListData(searchedCampaignList);
+  //   }
+  //   if (multipleFilterValue === "Active") {
+  //     const filteredCampaigns = searchedCampaignList.filter(
+  //       (campaign) => campaign?.status === 1
+  //     );
+  //     setcampaignsListData(filteredCampaigns);
+  //   }
+  //   if (multipleFilterValue === "In-Active") {
+  //     const filteredCampaigns = searchedCampaignList.filter(
+  //       (campaign) => campaign?.status === 0
+  //     );
+  //     setcampaignsListData(filteredCampaigns);
+  //   }
+  // }, [multipleFilterValue]);
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
@@ -206,66 +235,73 @@ const CampaignDisplay = ({
     });
   };
 
-  if (campaignLoader === false && searchedCampaignList.length === 0) {
-    if (searchValue) {
-      return (
-        <React.Fragment>
-          <div className="campaign-checkbox-menu-container">
-            <div className="campaign-checkbox-container">
-              <input type="checkbox" checked={false} disabled={true} />
-              <label className="all-label">All</label>
-            </div>
-          </div>
-          <div className="campaign-display-container">
-            <div className="campaign-display-subcontainers">
-              <div className="campaign-display-subcontainer1">
-                <div
-                  className="display-count"
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div className="campaign-display-btn-text searched-campaign-empty">
-                    Campaign(s) not found
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </React.Fragment>
+  const onAssignMulitpleCampaign = () => {
+    if (campaignDoc.id.length > 0 && selectedUsers.length > 0) {
+      let arr = [];
+      selectedUsers &&
+        selectedUsers.forEach((e) => {
+          arr.push(e.userId);
+        });
+      dispatch(
+        campaignActions.assignCampaignToUsersAction([campaignDoc.id], arr)
       );
-    } else {
-      return (
-        <React.Fragment>
-          <div className="campaign-checkbox-menu-container">
-            <div className="campaign-checkbox-container">
-              <input type="checkbox" checked={false} disabled={true} />
-              <label className="all-label">All</label>
-            </div>
-          </div>
-          <div className="campaign-display-container">
-            <div className="campaign-display-subcontainers">
-              <div className="campaign-display-subcontainer1">
-                <div
-                  className="display-count"
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div className="campaign-display-btn-text searched-campaign-empty">
-                    No Campaign(s) found
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </React.Fragment>
-      );
+      setSelectedUsers([]);
     }
+  };
+
+  const onActivateMulitpleCampaign = () => {
+    selectedArray.map((seletedCampaigns) => {
+      try {
+        get_a_feild_in_a_document(seletedCampaigns, { status: 1 });
+      } catch (error) {
+        dispatch(openAlertAction(`${error.message}`, true, "error"));
+      }
+    });
+  };
+
+  const onDeActivateMulitpleCampaign = () => {
+    selectedArray.map((seletedCampaigns) => {
+      try {
+        get_a_feild_in_a_document(seletedCampaigns, { status: 0 });
+      } catch (error) {
+        dispatch(openAlertAction(`${error.message}`, true, "error"));
+      }
+    });
+  };
+
+  if (
+    campaignLoader === false &&
+    campaignsListData &&
+    campaignsListData.length === 0
+  ) {
+    return (
+      <React.Fragment>
+        <div className="campaign-checkbox-menu-container">
+          <div className="campaign-checkbox-container">
+            <input type="checkbox" disabled={true} />
+            <label className="all-label">All</label>
+          </div>
+        </div>
+        <div className="campaign-display-container">
+          <div className="campaign-display-subcontainers">
+            <div className="campaign-display-subcontainer1">
+              <div
+                className="display-count"
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div className="campaign-display-btn-text searched-campaign-empty">
+                  Campaign(s) not found
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
+    );
   } else {
     return (
       <React.Fragment>
@@ -285,16 +321,38 @@ const CampaignDisplay = ({
                   className="campaign-checkbox"
                 />
               </div>
-              <label className="all-label">All</label>
+              {selectedArray.length === 0 ? (
+                <label className="all-label">All</label>
+              ) : (
+                <div
+                  className="campaign-display-actions"
+                  onClick={handlePopClick}
+                >
+                  Actions
+                  <DownArrow />
+                </div>
+              )}
             </div>
-            <button
-              className="campaign-display-actions"
-              onClick={handlePopClick}
-              disabled={selectedArray.length === 0 ? true : false}
+            {/* <div className="campaign-display-actions"> */}
+
+            <select
+              className="addCampaign-selects"
+              name="multipleFilterValue"
+              value={multipleFilterValue}
+              onChange={(event) => {
+                setMultipleFilterValue(event.target.value);
+              }}
+              autoComplete="off"
             >
-              Action
-              <DownArrow />
-            </button>
+              <option value="All" default>
+                {`All(${searchedCampaignList.length})`}
+              </option>
+              <option value="Active">
+                {`Active(${campaignsListData.length})`}
+              </option>
+              <option value="In-Active">{`In-Active(${campaignsListData.length})`}</option>
+            </select>
+            {/* </div> */}
           </div>
 
           <div>
@@ -330,6 +388,33 @@ const CampaignDisplay = ({
                   <Delete />
                   <span className="campaign-btn-text">
                     Delete selected campaigns
+                  </span>
+                </button>
+                <button
+                  className="campaign-btn delete-btn"
+                  onClick={onAssignMulitpleCampaign}
+                >
+                  <Delete />
+                  <span className="campaign-btn-text">
+                    Assign selected campaigns
+                  </span>
+                </button>
+                <button
+                  className="campaign-btn delete-btn"
+                  onClick={onActivateMulitpleCampaign}
+                >
+                  <Delete />
+                  <span className="campaign-btn-text">
+                    Activate selected campaigns
+                  </span>
+                </button>
+                <button
+                  className="campaign-btn delete-btn"
+                  onClick={onDeActivateMulitpleCampaign}
+                >
+                  <Delete />
+                  <span className="campaign-btn-text">
+                    De-Activate selected campaigns
                   </span>
                 </button>
               </div>

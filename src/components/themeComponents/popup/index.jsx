@@ -518,7 +518,6 @@ const AddCampaginModal = ({ countryList }) => {
                         last_crawled_date: "",
                         end_date: "",
                         end_time: "",
-                        // pages: "",
                         status: 1,
                       });
                       setTags([]);
