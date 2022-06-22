@@ -159,9 +159,9 @@ const Cards = (props) => {
   };
   const handleApply = () => {
     if (selectedLeadId && status !== null) {
-      if(reason.length>0){
+      if (reason.length > 0) {
         dispatch(updateLeadStatus([selectedLeadId], status, reason));
-      }else{
+      } else {
         dispatch(updateLeadStatus([selectedLeadId], status));
       }
       onClosePopup();
@@ -180,7 +180,7 @@ const Cards = (props) => {
           reason={reason}
           setReason={setReason}
           disabled={
-            status && status === -1 && reason && reason.length ===0  ? true : false
+            status && status === -1 && reason && reason.length === 0 ? true : false
           }
         />
       }
@@ -228,7 +228,7 @@ const Cards = (props) => {
               reason={reason}
               setReason={setReason}
               disabled={
-                status && status === -1 && reason && reason.length ===0  ? true : false
+                status && status === -1 && reason && reason.length === 0 ? true : false
               }
             />
           </Box>
@@ -242,9 +242,8 @@ const Cards = (props) => {
               </Box>
               <Box
                 component={"div"}
-                className={`action-buttons ${
-                  selectedArray.length > 0 ? "disabled" : ""
-                }`}
+                className={`action-buttons ${selectedArray.length > 0 ? "disabled" : ""
+                  }`}
               >
                 <IButton
                   type={"green"}
@@ -253,8 +252,8 @@ const Cards = (props) => {
                   onclick={() => handleUpdateStatus(1)}
                   disabled={
                     displayLeadData &&
-                    displayLeadData.status &&
-                    displayLeadData.status === 1
+                      displayLeadData.status &&
+                      displayLeadData.status === 1
                       ? true
                       : false
                   }
@@ -267,8 +266,8 @@ const Cards = (props) => {
                   onclick={() => handleUpdateStatus(2)}
                   disabled={
                     displayLeadData &&
-                    displayLeadData.status &&
-                    displayLeadData.status === 2
+                      displayLeadData.status &&
+                      displayLeadData.status === 2
                       ? true
                       : false
                   }
@@ -280,8 +279,8 @@ const Cards = (props) => {
                   disabled={
                     Number(
                       displayLeadData &&
-                        displayLeadData.status &&
-                        displayLeadData.status
+                      displayLeadData.status &&
+                      displayLeadData.status
                     ) === Number(0)
                       ? true
                       : false
@@ -294,8 +293,8 @@ const Cards = (props) => {
                   children="Reject"
                   disabled={
                     displayLeadData &&
-                    displayLeadData.status &&
-                    displayLeadData.status === -1
+                      displayLeadData.status &&
+                      displayLeadData.status === -1
                       ? true
                       : false
                   }
@@ -310,6 +309,7 @@ const Cards = (props) => {
                 onChangeOption={onChangeOption}
                 assignUsers={assignUsers}
                 selectedUsers={selectedUsers}
+                width={125}
               />
             </Box>
             <IButton

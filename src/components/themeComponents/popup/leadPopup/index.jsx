@@ -21,7 +21,7 @@ export default function IPopup(props) {
               <div
                 style={{
                   fontWeight: 600,
-                  fontSize: "22px",
+                  fontSize: "21px",
                   color: "#1f4173",
                 }}
                 className={"model_title"}
@@ -64,8 +64,8 @@ export default function IPopup(props) {
               fontWeight: 600,
               fontSize: "14px",
               lineHeight: "26px",
-              color: "#1f4173",
-              opacity: 0.8,
+              color: "#000000",
+              opacity: 0.9,
               textAlign: "justify",
               overflow: "auto",
             }}
@@ -76,14 +76,14 @@ export default function IPopup(props) {
                 <>
               <label style={{
                  fontStyle: "normal",
-                 fontWeight: 600,
+                 fontWeight: 700,
                  fontSize: "14px",
                  lineHeight: "26px",
-                 color: "#1f4173",
-                 opacity: 0.8,
+                 color: "#000000",
                  textAlign: "justify",
                  overflow: "auto",
-                 display:"block"
+                 display:"block",
+                 padding:"4px 0px",
               }} className="reject-label">Reason for rejecting lead:</label>
                <input
                style={{
@@ -91,19 +91,20 @@ export default function IPopup(props) {
                 fontWeight: 600,
                 fontSize: "14px",
                 lineHeight: "26px",
-                color: "#1f4173",
-                opacity: 0.8,
+                color: "#000000",
+                opacity: 1,
                 textAlign: "justify",
                 overflow: "auto",
                 display:"block",
                 width:"400px",
                 height:"50px",
-                background: "rgba(31, 65, 115, 0.1)",
+                background: "rgb(0 0 0 / 23%)",
                  borderRadius: "10px",
                 border: "none",
                 outline: "none",
                  padding: "3px 6px",
                }}
+               placeholder='Reason'
                className="reject-reason-inpt" value={props.reason} required onChange={(e)=>props.setReason(e.target.value)} />
                 </>
                 : "Are you sure you want to perform this action ?"}

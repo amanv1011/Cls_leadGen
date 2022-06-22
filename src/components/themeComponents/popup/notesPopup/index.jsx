@@ -15,7 +15,7 @@ export default function NotesPopup(props) {
       PaperProps={{
         style: {
           borderRadius: 10,
-          padding: "10px",
+          padding: "5px",
           width: "50%",
           height: "fit-content",
           minHeight: "55%",
@@ -23,7 +23,7 @@ export default function NotesPopup(props) {
       }}
       className="dialoge"
     >
-      <DialogContent className={"dialoge-content"} style={{ padding: "10px" }}>
+      <DialogContent className={"dialoge-content"} style={{ padding: "5px" }}>
         <div
           className={"model_body"}
           style={{
@@ -40,14 +40,15 @@ export default function NotesPopup(props) {
               fontWeight: 600,
               fontSize: "15px",
               lineHeight: "26px",
-              color: "#1f4173",
-              opacity: 0.8,
+              color: "black",
+              // opacity: 0.8,
               textAlign: "justify",
               overflowY: "auto",
               width: "100%",
               display: "flex",
               flexDirection: "column",
-              padding: "15px",
+              padding: "5px",
+              maxHeight:"50vh",
             }}
           >
             {props.displayLeadData &&
@@ -59,9 +60,11 @@ export default function NotesPopup(props) {
                     style={{
                       width: "100%",
                       height: "auto",
-                      background: "#f5f7fb",
-                      marginBottom: "2px",
+                      background: "rgb(0 0 0 / 23%)",
+                      marginBottom: "6px",
+                      padding:"4px 9px",
                       whiteSpace: "wrap",
+                      borderRadius:"10px"
                     }}
                   >
                     {ele}

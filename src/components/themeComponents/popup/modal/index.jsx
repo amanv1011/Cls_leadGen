@@ -27,9 +27,10 @@ export default function IModal(
         style: {
           borderRadius: 10,
           padding: "10px",
-          width: "50%",
+          width: "auto",
           height: "fit-content",
-          minHeight: "55%",
+          minHeight: "40%",
+          minWidth: "40%",
         },
       }}
       className="dialoge"
@@ -63,6 +64,7 @@ export default function IModal(
                 onChangeOption={onChangeOption}
                 assignUsers={assignUsers}
                 selectedUsers={selectedUsers}
+                width={180}
               />
             }
           </div>
