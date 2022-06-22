@@ -202,7 +202,8 @@ const LeadsHeader = () => {
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
                   overflow: "auto",
-                  height: "210px",
+                  height: "auto",
+                  minWidth: "160px",
                 },
               }}
               open={openAllCampgainsMenu}
@@ -238,6 +239,71 @@ const LeadsHeader = () => {
             </Menu>
           </div>
           <DateModal />
+          {/* countries name */}
+          <div className="select-container">
+            <Button
+              id="basic-button"
+              className="select-button"
+              onClick={handleClickAllCountriesMenu}
+            >
+              <span className="select-btn-title">{allCountriesFilter}</span>
+              <span>
+                <DownArrow />
+              </span>
+            </Button>
+          </div>
+          <Menu
+            className="menu"
+            id="basic-menu"
+            anchorEl={allCountriesMenu}
+            PaperProps={{
+              style: {
+                width: "auto",
+                borderRadius: "10px",
+                marginTop: "3px",
+                boxshadow: "none",
+                // backgroundColor: "#E7E7E7",
+                backgroundColor: "rgb(233,236,241)",
+                color: "rgba(92, 117,154)",
+                zIndex: "1000",
+                overflow: "auto",
+                height: "auto",
+                minWidth: "160px",
+              },
+            }}
+            open={openAllCountriesMenu}
+            onClose={handleCloseAllCountriesMenu}
+          >
+            <MenuItem
+              key={"abc"}
+              className="menu-item"
+              onClick={handleCloseAllCountriesMenu}
+              sx={{
+                fontSize: "13px",
+                fontWeight: 600,
+              }}
+            >
+              All Countries
+            </MenuItem>
+            {uniqueCountries.map((ele, idx) => {
+              return (
+                <MenuItem
+                  key={idx}
+                  data-id={idx}
+                  className="menu-item"
+                  onClick={handleCloseAllCountriesMenu}
+                  sx={{
+                    fontSize: "13px",
+                    fontWeight: 600,
+                  }}
+                >
+                  {ele}
+                </MenuItem>
+              );
+            })}
+          </Menu>
+
+          {/* countries name */}
           <div className="select-container">
             <Button
               id="basic-button"
@@ -261,11 +327,11 @@ const LeadsHeader = () => {
                   boxshadow: "none",
                   // backgroundColor: "#E7E7E7",
                   backgroundColor: "rgb(233,236,241)",
-
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
                   overflow: "auto",
                   maxHeight: "150px",
+                  minWidth: "160px",
                 },
               }}
               open={openOwnerMenu}
@@ -303,70 +369,6 @@ const LeadsHeader = () => {
               })}
             </Menu>
           </div>
-          {/* countries name */}
-          <div className="select-container">
-            <Button
-              id="basic-button"
-              className="select-button"
-              onClick={handleClickAllCountriesMenu}
-            >
-              <span className="select-btn-title">{allCountriesFilter}</span>
-              <span>
-                <DownArrow />
-              </span>
-            </Button>
-          </div>
-          <Menu
-            className="menu"
-            id="basic-menu"
-            anchorEl={allCountriesMenu}
-            PaperProps={{
-              style: {
-                width: "auto",
-                borderRadius: "10px",
-                marginTop: "3px",
-                boxshadow: "none",
-                // backgroundColor: "#E7E7E7",
-                backgroundColor: "rgb(233,236,241)",
-                color: "rgba(92, 117,154)",
-                zIndex: "1000",
-                overflow: "auto",
-                height: "210px",
-              },
-            }}
-            open={openAllCountriesMenu}
-            onClose={handleCloseAllCountriesMenu}
-          >
-            <MenuItem
-              key={"abc"}
-              className="menu-item"
-              onClick={handleCloseAllCountriesMenu}
-              sx={{
-                fontSize: "13px",
-                fontWeight: 600,
-              }}
-            >
-              All Countries
-            </MenuItem>
-            {uniqueCountries.map((ele, idx) => {
-              return (
-                <MenuItem
-                  key={idx}
-                  data-id={idx}
-                  className="menu-item"
-                  onClick={handleCloseAllCountriesMenu}
-                  sx={{
-                    fontSize: "13px",
-                    fontWeight: 600,
-                  }}
-                >
-                  {ele}
-                </MenuItem>
-              );
-            })}
-          </Menu>
-
-          {/* countries name */}
         </div>
         <div className="right-section">
           <div className="filter-icon">

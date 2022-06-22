@@ -88,17 +88,20 @@
         height: auto;
         .header-item {
           width: 100%;
-          display: flex;
           height: 27px;
+          // display: flex;
           align-items: center;
+          display: grid;
+          grid-template-columns: 200px auto;
           .header-key {
-            width: 50%;
+            // width: auto;
             font-style: normal;
             font-weight: 600;
             font-size: 14px;
             line-height: 17px;
             color: #1f4173;
             opacity: 0.6;
+            min-width: 50px;
           }
           .header-value {
             width: 50%;
@@ -136,7 +139,7 @@
         white-space: pre-wrap;
         text-align: justify;
         overflow: auto;
-        padding: 8px 4px 4px 4px;
+        padding: 8px 10px 4px 4px;
       }
     }
   }
