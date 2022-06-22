@@ -1,0 +1,84 @@
+.approveButtonStyle{
+
+    width: 150px;
+    height: 36px;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    background-color:#e0f9f2 !important ;
+    text-transform: none !important;
+    line-height: 17px !important;
+    text-align: center !important;
+    color:#1f4173 !important;
+    border: none !important;
+    cursor: pointer !important;
+    border-radius: 10px !important;
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+  .approveButtonStyle:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .archiveButtonStyle{
+    width: 150px;
+    height: 36px;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    background-color:#fdf6db !important ;
+    text-transform: none !important;
+    line-height: 17px !important;
+    text-align: center !important;
+    color:#1f4173 !important;
+    border: none !important;
+    cursor: pointer !important;
+    border-radius: 10px !important;
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .underReviewButtonStyle{
+    width: 150px;
+    height: 36px;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    background-color:#ebedef !important ;
+    text-transform: none !important;
+    line-height: 17px !important;
+    text-align: center !important;
+    color:#1f4173 !important;
+    border: none !important;
+    cursor: pointer !important;
+    border-radius: 10px !important;
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .rejectButtonStyle{
+    width: 150px;
+    height: 36px;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    background-color:#f9e3e4 !important ;
+    text-transform: none !important;
+    line-height: 17px !important;
+    text-align: center !important;
+    color:#1f4173 !important;
+    border: none !important;
+    cursor: pointer !important;
+    border-radius: 10px !important;
+    &:hover {
+      opacity: 0.9;
+    }
+  }
