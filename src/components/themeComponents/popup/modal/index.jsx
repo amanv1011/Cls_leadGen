@@ -30,7 +30,7 @@ export default function IModal(
           width: "auto",
           height: "fit-content",
           minHeight: "40%",
-          minWidth: "35%",
+          minWidth: "30%",
         },
       }}
       className="dialoge"

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
-import { Divider } from "@mui/material";
+import { Divider, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNotestoLeadAction,
@@ -292,19 +292,29 @@ const Cards = (props) => {
                   }
                   onclick={() => handleUpdateStatus(0)}
                 />
-                <IButton
-                  type={"pink"}
-                  name={"Reject"}
-                  children="Reject"
-                  disabled={
-                    displayLeadData &&
-                    displayLeadData.status &&
-                    displayLeadData.status === -1
-                      ? true
-                      : false
+                <Tooltip
+                  title={
+                    displayLeadData && displayLeadData.reason
+                      ? displayLeadData.reason
+                      : "Reject"
                   }
-                  onclick={() => handleUpdateStatus(-1)}
-                />
+                >
+                  <div>
+                    <IButton
+                      type={"pink"}
+                      name={"Reject"}
+                      children="Reject"
+                      disabled={
+                        displayLeadData &&
+                        displayLeadData.status &&
+                        displayLeadData.status === -1
+                          ? true
+                          : false
+                      }
+                      onclick={() => handleUpdateStatus(-1)}
+                    />
+                  </div>
+                </Tooltip>
               </Box>
             </Box>
             <Box className="autocomplete-container">

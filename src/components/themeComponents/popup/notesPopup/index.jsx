@@ -48,12 +48,12 @@ export default function NotesPopup(props) {
               display: "flex",
               flexDirection: "column",
               padding: "5px",
-              maxHeight:"50vh",
+              maxHeight: "50vh",
             }}
           >
             {props.displayLeadData &&
-              props.displayLeadData.notes &&
-              props.displayLeadData.notes.length > 0 &&
+            props.displayLeadData.notes &&
+            props.displayLeadData.notes.length > 0 ? (
               props.displayLeadData.notes.map((ele) => {
                 return (
                   <div
@@ -62,15 +62,27 @@ export default function NotesPopup(props) {
                       height: "auto",
                       background: "rgb(0 0 0 / 23%)",
                       marginBottom: "6px",
-                      padding:"4px 9px",
+                      padding: "4px 9px",
                       whiteSpace: "wrap",
-                      borderRadius:"10px"
+                      borderRadius: "10px",
                     }}
                   >
                     {ele}
                   </div>
                 );
-              })}
+              })
+            ) : (
+              <h3
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  marginBottom: "2px",
+                  whiteSpace: "wrap",
+                }}
+              >
+                Notes not available!
+              </h3>
+            )}
           </div>
         </div>
       </DialogContent>
