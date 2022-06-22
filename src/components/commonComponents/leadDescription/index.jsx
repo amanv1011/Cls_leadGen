@@ -49,7 +49,7 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
                   <a
                     href={
                       linkedInCompany
-                        ? `https://www.linkedin.com/company/${linkedInCompany}`
+                        ? `https://www.linkedin.com/search/results/companies/?keywords=${linkedInCompany}`
                         : "https://www.linkedin.com"
                     }
                     target="_blank"
@@ -69,7 +69,11 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
                     </Box>
                   </a>
                   <a
-                    href={"https://www.linkedin.com"}
+                    href={
+                      linkedInCompany
+                        ? `https://www.linkedin.com/search/results/people/?keywords=${linkedInCompany}`
+                        : "https://www.linkedin.com"
+                    }
                     target="_blank"
                     rel="noreferrer"
                     className="link"

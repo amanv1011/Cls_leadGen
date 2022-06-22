@@ -44,22 +44,6 @@ function PaginationComponent({
   } else {
     return (
       <div className="pagination">
-        {/* <div>
-          <select
-            className="card-selects"
-            onChange={(event) => {
-              dispatch(paginationActions.setDataPerPage(event.target.value));
-              dispatch(paginationActions.setActivePage(1));
-            }}
-            autoComplete="off"
-            value={dataPerPage}
-          >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </select>
-        </div> */}
         <div style={{ display: "flex" }}>
           <button
             onClick={goToPreviousPage}

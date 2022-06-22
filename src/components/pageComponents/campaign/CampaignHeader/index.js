@@ -9,7 +9,12 @@ import * as paginationActions from "../../../../redux/actions/paginationActions"
 import moment from "moment";
 import "./campaignHeader.scss";
 
-const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
+const CampaignHeader = ({
+  campaignsList,
+  searchedCampaignList,
+  leadsList,
+  countryList,
+}) => {
   const dispatch = useDispatch();
   const matches = useMediaQuery("(max-width:1460px)");
 
@@ -24,6 +29,12 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
   const [countryMenu, setCountryMenu] = useState(null);
   const openCountryMenu = Boolean(countryMenu);
   const openOwnerMenu = Boolean(ownerMenu);
+
+  useEffect(() => {
+    setCountryFilter(countryFilterValue);
+    setOwnerFilter(ownerFilterValue);
+    setCountryMenu(null);
+  }, [countryFilterValue, ownerFilterValue]);
 
   const handleClickCountryMenu = (event) => {
     setCountryMenu(event.currentTarget);
@@ -75,18 +86,13 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
     }
   });
 
-  useEffect(() => {
-    setCountryFilter(countryFilterValue);
-    setOwnerFilter(ownerFilterValue);
-    setCountryMenu(null);
-  }, [countryFilterValue, ownerFilterValue]);
-
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
       return valID.campaignId === id;
     });
     return val.length;
   };
+
   const exportCampaignToExcel = () => {
     let updatedcampaignListDataToDownload = [];
 
@@ -172,7 +178,6 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
                   borderRadius: "10px",
                   marginTop: "3px",
                   boxshadow: "none",
-                  // backgroundColor: "#E7E7E7",
                   backgroundColor: "rgb(233,236,241)",
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
@@ -184,6 +189,7 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
               onClose={handleClosecountryMenu}
             >
               <MenuItem
+                key="Country"
                 className="menu-item"
                 onClick={handleClosecountryMenu}
                 sx={{
@@ -192,18 +198,18 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
               >
                 Country
               </MenuItem>
-              {campaignsList.map((campaign) => {
+              {countryList.map((country) => {
                 return (
                   <MenuItem
-                    key={campaign.id}
-                    data-id={campaign.id}
+                    key={country.id}
+                    data-id={country.id}
                     className="menu-item"
                     onClick={handleClosecountryMenu}
                     sx={{
                       fontSize: matches ? "13px" : "14px",
                     }}
                   >
-                    {campaign.location}
+                    {country.country_name}
                   </MenuItem>
                 );
               })}
@@ -245,6 +251,7 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
               }}
             >
               <MenuItem
+                key="Owner"
                 className="menu-item"
                 sx={{
                   fontSize: matches ? "13px" : "14px",
@@ -273,7 +280,7 @@ const CampaignHeader = ({ campaignsList, searchedCampaignList, leadsList }) => {
         </div>
         <div className="right-section">
           <span>
-            <AddCampaginModal />
+            <AddCampaginModal countryList={countryList} />
             <Button
               variant="outlined"
               onClick={exportCampaignToExcel}

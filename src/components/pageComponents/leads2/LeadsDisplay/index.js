@@ -255,7 +255,7 @@ const LeadsDisplay = ({
                 }`}
               >
                 <div
-                  className="display-cont"
+                  className="display-count"
                   style={{
                     width: "100%",
                     display: "flex",

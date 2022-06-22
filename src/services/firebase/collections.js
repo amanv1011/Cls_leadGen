@@ -14,3 +14,4 @@ export const assignedCampaignCollection = collection(
   firestore,
   "assignedCampaign"
 );
+export const countryCollection = collection(firestore, "country");
