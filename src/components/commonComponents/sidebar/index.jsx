@@ -10,7 +10,7 @@ import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import { ListItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./sidebar.scss";
-const drawerWidth = 175;
+const drawerWidth = 150;
 const sideBarList = [
   {
     icon: <WidgetsIcon />,
@@ -37,9 +37,9 @@ const openedMixin = (theme) => ({
   }),
   overflowX: "hidden",
 
-  height: "100vh",
+  height: "100%",
   postion: "fixed",
-  marginTop: "60px",
+  marginTop: "64px",
 });
 
 const closedMixin = (theme) => ({
@@ -49,14 +49,13 @@ const closedMixin = (theme) => ({
   }),
   overflowX: "hidden",
   border: "none",
-
-  height: "100vh",
+  height: "100%",
   postion: "fixed",
-  marginTop: "60px",
+  marginTop: "64px",
   boxshadow: "0 1px 3px 0 rgb(0 0 0 / 15%)",
-  width: `calc(${theme.spacing(8)} + 1px)`,
+  width: `calc(${theme.spacing(6.8)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(6.8)} + 1px)`,
   },
 });
 
@@ -83,9 +82,13 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
   const navigate = useNavigate();
   return (
     <Box
-      sx={{ position: "fixed", marginTop: "60px" }}
+      sx={{
+        display: "flex",
+        // position: "fixed",
+        marginTop: "60px",
+        border: "none ",
+      }}
       className="box-main"
-      sx={{ display: "flex", border: "none " }}
     >
       <Drawer className="drawer-main" variant="permanent" open={open}>
         {sideBarList.map((item, index) => (
