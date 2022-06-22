@@ -18,27 +18,23 @@ const Leads = () => {
         <>
           <Lead />
         </>
-      ) : null}
-
-      {leadsDropDownFilter === "ApprovedLeads" ? (
+      ) : leadsDropDownFilter === "ApprovedLeads" ? (
         <>
           <Approve />
         </>
-      ) : null}
-
-      {leadsDropDownFilter === "RejectedLeads" ? (
+      ) : leadsDropDownFilter === "RejectedLeads" ? (
         <>
           <Reject />
         </>
-      ) : null}
-
-      {leadsDropDownFilter === "UnderReveiwLeads" ? (
+      ) : leadsDropDownFilter === "RejectedLeads" ? (
+        <>
+          <Reject />
+        </>
+      ) : leadsDropDownFilter === "UnderReveiwLeads" ? (
         <>
           <UnderReview />
         </>
-      ) : null}
-
-      {leadsDropDownFilter === "ArcheievdLeads" ? (
+      ) : leadsDropDownFilter === "ArcheievdLeads" ? (
         <>
           <Archive />
         </>

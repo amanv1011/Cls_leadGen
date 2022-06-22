@@ -4,7 +4,7 @@ const Textarea = ({ openText, setValue, value }) => {
   return (
     <textarea
       style={{
-        width: "180px",
+        width: "150px",
         height: "120px",
         background: "rgba(31, 65, 115, 0.1)",
         borderRadius: "10px",

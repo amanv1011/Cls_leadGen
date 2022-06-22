@@ -4,19 +4,18 @@
   justify-content: space-between;
   align-content: center;
   flex-direction: row;
-  padding: 10px;
+  padding: 12px 12px;
   .paginationItem {
     background: #fff;
     border: none;
-    padding: 10px 15px;
     border-radius: 50%;
-    height: 35px;
-    width: 35px;
+    height: 30px;
+    width: 30px;
     position: relative;
     margin: 0 5px;
     cursor: pointer;
     color: rgb(92, 117, 154);
-    font-size: 14px;
+    font-size: 10px;
     font-weight: 600;
     &.paginationItem span {
       position: absolute;
@@ -37,29 +36,29 @@
     border-radius: 5px;
     color: blue;
     box-shadow: 0 0 3px rgb(0 0 0 / 40%);
-    margin: 0 10px;
+    margin: 0px 0px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 10px;
     font-weight: 600;
     padding: 2px;
-    width: 50px;
+    width: 35px;
+    height: 30px;
     &.prev[disabled],
     &.next[disabled] {
       box-shadow: none;
       color: #999;
-      font-size: 16px;
+      font-size: 10px;
       font-weight: 600;
     }
   }
   .card-selects {
     border: none;
     outline: none;
-    padding: 4px;
-    width: 58px;
-    height: 40px;
+    width: 44px;
+    height: 25px;
     background-color: rgb(231, 231, 231);
     color: rgb(92, 117, 154);
-    font-size: 16px;
+    font-size: 10px;
     font-weight: 600;
     border-radius: 10px;
     cursor: pointer;
@@ -71,6 +70,6 @@
   .next,
   .prev.disabled,
   .next.disabled {
-    font-size: 13px;
+    font-size: 11px;
   }
 }

@@ -2,12 +2,15 @@
   width: 150px;
   height: 36px;
   font-style: normal;
-  font-weight: 500;
-  font-size: 13px;
+  font-weight: 600;
+  font-size: 14px;
   line-height: 17px;
   text-align: center;
   color: #1f4173;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   border-radius: 10px;
   &:hover {
@@ -41,4 +44,21 @@ button:disabled {
 .blue-btn {
   background: #003AD2;
   color: #e0f9f2;
+}
+
+.apply-btn {
+  height: 40px;
+  width: 90px;
+  padding: 10px;
+  margin-left: 10px;
+  background: #003ad2;
+  color: rgb(255, 255, 255);
+}
+.cancel-btn {
+  height: 40px;
+  width: 90px;
+  padding: 10px;
+  margin-left: 10px;
+  background: #384550;
+  color: rgb(255, 255, 255);
 }

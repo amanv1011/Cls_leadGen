@@ -1,0 +1,50 @@
+.campaignButton-actions {
+  display: flex;
+  flex-direction: column-reverse;
+  align-content: center;
+  height: 156px;
+  width: 100%;
+  align-items: flex-end;
+  justify-content: space-around;
+  .campaign-btn {
+    cursor: pointer;
+    width: 180px;
+    height: 44px;
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    .campaign-btn-text {
+      width: 64px;
+      height: 17px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 17px;
+      text-align: start;
+      color: #ffffff;
+      margin-left: 13px;
+    }
+    &.save-btn {
+      background: #003ad2;
+    }
+    &.edit-btn {
+      background: #1f4173;
+      opacity: 0.5;
+    }
+    &.cancel-btn {
+      background: #1f4173;
+      opacity: 0.5;
+    }
+    &.delete-btn {
+      color: #ff6c5f;
+      background: #ff6c5f;
+      opacity: 1;
+    }
+    &.download-btn {
+      background: #003ad2;
+    }
+  }
+}

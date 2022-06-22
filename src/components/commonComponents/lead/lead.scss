@@ -1,146 +1,103 @@
-.lead-container {
-  width: 98%;
+.leads-container {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
   background: #ffffff;
-  height: auto;
   box-shadow: 0px 4px 8px #d9ebf2;
   border-radius: 15px;
-  margin-top: 12px;
-
-  .lead-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .leads-header {
+    height: 85px;
     width: 100%;
-    height: 45px;
-    background: #fff;
-    border-radius: 10px 10px 0px 0px;
-    padding: 12px;
-    box-sizing: border-box;
-
-    .lead-header-title {
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 17px;
-      letter-spacing: 0em;
-      text-align: left;
-      background: #fff;
-    }
   }
-
-  .lead-body {
-    display: flex;
-    padding-top: 27px;
-    padding-bottom: 6px;
-    background-color: #fff;
-    height: max-content;
+  .leads-body {
+    height: 100%;
     width: 100%;
-    font-size: 20px;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    color: rgb(0, 58, 210);
-    .lead-body-row1 {
-      display: flex;
-      width: 100%;
-      .lead-body-column {
-        float: left;
-        padding: 5px;
-        margin-top: -19px;
-        .lead-body-column-card1 {
-          margin-right: 50px;
-          width: 10vw;
-        }
+    display: grid;
+    grid-template-columns: 330px auto 170px;
+    .section {
+    }
+    .leads-list {
+      box-sizing: border-box;
+      background: linear-gradient(
+        270deg,
+        #f1f1f1 0%,
+        rgba(248, 248, 249, 0.8) 134.62%
+      );
+      border-radius: 0px 0px 0px 15px;
+      padding: 8px 4px 16px 4px;
+      .checkbox-menu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-content: center;
+      }
+    }
+    .leads-detail {
+      box-shadow: 0px 4px 8px #d9ebf2;
+    }
+    .leads-actions {
+      box-sizing: border-box;
+      height: calc(100vh - 180px);
+      margin-top: 15px;
 
-        .lead-body-column-card2 {
-          margin-right: 50px;
-          width: 10vw;
+      padding: 0px 5px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      .action-title {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px;
+        color: rgba(31, 65, 115, 0.7);
+      }
+      .action-buttons {
+        box-sizing: border-box;
+        padding: 6px 0px;
+        display: grid;
+        grid-gap: 6px;
+      }
+      .disabled {
+        pointer-events: none;
+        opacity: 0.5;
+      }
+      .autocomplete-container {
+        margin: 10px 0px;
+        display: grid;
+        grid-template-rows: auto;
+        row-gap: 6px;
+        .autocomplete-title {
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 17px;
+          color: rgba(31, 65, 115, 0.7);
         }
+      }
+      .add-notes-container {
+        display: grid;
+        grid-template-columns: auto;
+        grid-gap: 6px;
+      }
+      .add-nts-btn,
+      .show-nts-btn {
+        background: rgba(0, 58, 210, 0.15);
+        border-radius: 10px;
+        width: 150px;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px;
+        text-align: center;
+        color: #003ad2;
+        margin: 6px 0px;
+      }
 
-        .lead-body-column-card4 {
-          margin-right: 50px;
-        }
+      .hide {
+        display: none;
+      }
+      .show {
+        display: grid;
       }
     }
   }
 }
-
-.lead-header-title-component {
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-  top: 10px;
-  color: rgb(0, 58, 210);
-}
-
-.Response-time {
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  text-align: right;
-  color: rgba(31, 65, 115, 0.5);
-}
-
-.line {
-  position: relative;
-  height: 1px;
-  background: #1f4173;
-  opacity: 0.1;
-  margin-top: 1px;
-}
-
-.body-detail {
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-
-  color: #1f4173;
-}
-
-.head-body {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-
-  color: rgba(31, 65, 115, 0.7);
-  margin-left: 7px;
-}
-
-.head-body {
-  margin-bottom: 0;
-}
-
-.body-detail {
-  margin-top: 5px;
-  margin-left: 7px;
-}
-
-.lead-body-row {
-  padding-top: 3px;
-}
-
-.Response-time {
-  margin-right: 12px;
-}
-
-.readmore-popup {
-  color: #0800ff;
-  font-size: 13px;
-  cursor: pointer;
-}
-.indeed-logo {
-  width: 24px;
-  height: 24px;
-}
-
-
-textarea::-webkit-input-placeholder {
-  color:rgba(31, 65, 115, 0.5);
-  
-}
-// .message::-webkit-input-placeholder {
-//   padding-top: 10px;
-// }

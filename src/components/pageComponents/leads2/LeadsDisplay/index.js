@@ -1,25 +1,51 @@
 import React, { useState, useEffect } from "react";
 import "./leadsDisplay.scss";
-import { useDispatch } from "react-redux";
-import { getPopupEnable } from "../../../../redux/actions/PopupAction";
+import { useDispatch, useSelector } from "react-redux";
+import { getSingleLeadDetail } from "../../../../redux/actions/PopupAction";
 import LeadsMenu from "../LeadsMenu";
 import moment from "moment";
 import { Popover } from "@mui/material";
 import IButton from "../../../themeComponents/button";
-import { updateLeadStatus } from "../../../../redux/actions/leadActions";
+import {
+  assignLeadToUsersAction,
+  updateLeadStatus,
+  updateLeadViewStatusAction,
+} from "../../../../redux/actions/leadActions";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
-const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
+import IPopup from "../../../themeComponents/popup/leadPopup";
+import IModal from "../../../themeComponents/popup/modal";
+
+const LeadsDisplay = ({
+  leadsList,
+  selectedLeadIdFun,
+  selectedLeadId,
+  onClosePopup,
+  handleBatchUpdateStatus,
+  openDeletePopup,
+  status,
+  options,
+  onChangeOption,
+  selectedUsers,
+  setSelectedUsers,
+  selectedArray,
+  setselectedArray,
+}) => {
   const dispatch = useDispatch();
 
-  const [, setLeadsListData] = useState([]);
-  const [selectedArray, setselectedArray] = useState([]);
+  const [leadsListData, setLeadsListData] = useState([]);
+
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openAssignModel, setOpenAssignModel] = useState(false);
 
   //functions for popover
   const handlePopClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const leadViewUpdate = useSelector(
+    (state) => state.updateLeadViewStatusReducer.leadViewStatus
+  );
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -32,10 +58,24 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
     setLeadsListData(leadsList);
   }, [leadsList]);
 
+  useEffect(() => {
+    leadViewUpdate &&
+      leadsListData &&
+      leadsListData.forEach((e) => {
+        if (e.id === leadViewUpdate.leadsId) {
+          e.seen = leadViewUpdate.seen;
+        }
+      });
+  }, [leadViewUpdate]);
+
   const handleClick = (leadId) => {
     let leadsIdData = leadsList.filter((ele) => ele.id === leadId);
     selectedLeadIdFun(leadsIdData[0].id);
-    dispatch(getPopupEnable(leadsIdData));
+    dispatch(getSingleLeadDetail(leadsIdData[0]));
+    //update seen status here
+    if ((leadsIdData[0] && leadsIdData[0].seen !== true) || undefined) {
+      dispatch(updateLeadViewStatusAction(leadId));
+    }
   };
 
   const handleOnCheckboxChange = (event) => {
@@ -62,19 +102,51 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
     }
   };
 
-  const updateLeadBatchStatus = (status) => {
+  const handleBatchApply = () => {
     handleClose();
     dispatch(updateLeadStatus(selectedArray, status));
     setselectedArray([]);
+    onClosePopup();
+  };
+
+  const assignBatchUsers = () => {
+    if (selectedArray.length > 0 && selectedUsers.length > 0) {
+      let arr = [];
+      selectedUsers &&
+        selectedUsers.forEach((e) => {
+          arr.push(e.userId);
+        });
+      dispatch(assignLeadToUsersAction(selectedArray, arr));
+      setSelectedUsers([]);
+    }
   };
   return (
     <React.Fragment>
+      {
+        <IPopup
+          open={openDeletePopup}
+          onClosePopup={onClosePopup}
+          handleApply={handleBatchApply}
+          title={"Update Lead Status"}
+          // subtitle={"Multiple Leads"}
+        />
+      }
+      {
+        <IModal
+          open={openAssignModel}
+          setOpenAssignModel={setOpenAssignModel}
+          options={options}
+          onChangeOption={onChangeOption}
+          assignUsers={assignBatchUsers}
+          selectedUsers={selectedUsers}
+        />
+      }
       <div className="checkbox-menu-container">
         <div className="checkbox-container">
           <input
             type="checkbox"
             name="allCheck"
-            checked={isChecked}
+            checked={selectedArray.length !== leadsList.length ? false : true}
             onChange={handleAllCheck}
             className="checkbox"
           />
@@ -106,35 +178,33 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                   type={"green"}
                   name={"green"}
                   children="Approve"
-                  onclick={() => updateLeadBatchStatus(1)}
+                  onclick={() => handleBatchUpdateStatus(1)}
                 />
-                {/* <IButton
+                <IButton
                   type={"blue"}
                   name={"blue"}
                   children={"Assign"}
-                  onclick={() => {
-                    console.log("Assigned");
-                  }}
-                /> */}
+                  onclick={() => setOpenAssignModel(true)}
+                />
                 <IButton
                   type={"yellow"}
                   name={"yellow"}
                   children={"Archive"}
                   onclick={() => {
-                    updateLeadBatchStatus(2);
+                    handleBatchUpdateStatus(2);
                   }}
                 />
                 <IButton
                   type={"grey"}
                   name={"grey"}
                   children="Under Review"
-                  onclick={() => updateLeadBatchStatus(0)}
+                  onclick={() => handleBatchUpdateStatus(0)}
                 />
                 <IButton
                   type={"pink"}
                   name={"pink"}
                   children=" Reject"
-                  onclick={() => updateLeadBatchStatus(-1)}
+                  onclick={() => handleBatchUpdateStatus(-1)}
                 />
               </div>
             </Popover>
@@ -148,7 +218,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
             <div
               className={`lead-display-subcontainers ${
                 selectedLeadId === lead.id ? "selected" : ""
-              } `}
+              }  ${lead && lead.seen && lead.seen === true ? "seen" : ""} `}
               onClick={() => handleClick(lead.id)}
               key={lead.id}
             >
@@ -174,7 +244,7 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                 }`}
               >
                 <div
-                  className="display-cont"
+                  className="display-count"
                   style={{
                     width: "100%",
                     display: "flex",
@@ -184,9 +254,20 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                   <div
                     className={`lead-display-btn-text ${
                       selectedLeadId === lead.id ? "selected" : ""
+                    }  ${
+                      lead && lead.seen && lead.seen === true ? "seen" : ""
                     }`}
                   >
                     {lead.title}
+                  </div>
+                </div>
+                <div
+                  className={`lead-display-subcontainer2 ${
+                    selectedLeadId === lead.id ? "selected-sub" : ""
+                  }`}
+                >
+                  <div>
+                    {lead.companyName === null ? "NA" : lead.companyName}
                   </div>
                   <span
                     className={`lead-display-timestamp ${
@@ -195,14 +276,6 @@ const LeadsDisplay = ({ leadsList, selectedLeadIdFun, selectedLeadId }) => {
                   >
                     {moment.unix(lead.leadGeneratedDate.seconds).fromNow()}
                   </span>
-                </div>
-
-                <div
-                  className={`lead-display-subcontainer2 ${
-                    selectedLeadId === lead.id ? "selected-sub" : ""
-                  }`}
-                >
-                  <p>{lead.companyName === null ? "NA" : lead.companyName}</p>
                 </div>
               </div>
             </div>

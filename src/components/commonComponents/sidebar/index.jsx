@@ -53,7 +53,7 @@ const closedMixin = (theme) => ({
   height: "100vh",
   postion: "fixed",
   marginTop: "60px",
-  boxShadow: "0 1px 3px 0 rgb(0 0 0 / 15%)",
+  boxshadow: "0 1px 3px 0 rgb(0 0 0 / 15%)",
   width: `calc(${theme.spacing(8)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
