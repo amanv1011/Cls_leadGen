@@ -17,10 +17,11 @@ import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
 // import "./lead.scss";
 import "../../pageComponents/leads2/leads.scss";
 import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
+import AddIcon from "@mui/icons-material/Add";
 import Textarea from "../../themeComponents/textarea/textarea";
 import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
-import AddIcon from "@mui/icons-material/Add";
+//import {AddIcon} from "@mui/icons-material/Add";
 import IModal from "../../themeComponents/popup/modal";
 import NotesPopup from "../../themeComponents/popup/notesPopup";
 
@@ -110,6 +111,12 @@ const Cards = (props) => {
   useEffect(() => {
     dispatch(cardsDisplayAction(leadsData));
   }, [leadsData.length]);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleUpdateStatus = (status) => {
     setOpen(true);

@@ -1,0 +1,22 @@
+.datepickerInputStyle{
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-top: -10px;
+    padding: 4px;
+    width: 275px;
+    color: rgb(92, 117, 154);
+    height: 40px;
+    background-color: rgb(233, 236, 241);
+}
+
+#DateRangePickerChildren{
+    height: 50px;
+}
+
+// styleing for new implemented calender
+
+.rs-picker-toggle{
+    width: 275px;
+}

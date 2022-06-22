@@ -18,6 +18,8 @@ import {
 } from "../../../../redux/actions/leadsFilter";
 import moment from "moment";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
+import AdvanceDatePicker from "../../AdvanceDatePicker/advanceDatePicker";
+import NewDateRangePicker from "../../AdvanceDatePicker/newDatePickerCompo";
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
@@ -238,7 +240,7 @@ const LeadsHeader = () => {
               })}
             </Menu>
           </div>
-          <DateModal />
+          <NewDateRangePicker />
           {/* countries name */}
           <div className="select-container">
             <Button
@@ -304,6 +306,8 @@ const LeadsHeader = () => {
           </Menu>
 
           {/* countries name */}
+          {/* <AdvanceDatePicker/> */}
+
           <div className="select-container">
             <Button
               id="basic-button"
