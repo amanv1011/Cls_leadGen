@@ -1,4 +1,4 @@
-import { Autocomplete, Checkbox, TextField } from "@mui/material";
+import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
 import React from "react";
 import "./autocomplete.scss";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
@@ -17,8 +17,8 @@ const IAutocomplete = ({
   onAutoPopperClose,
   selectedUsers,
   assignUsers,
+  width,
 }) => {
-  const [first, setfirst] = useState([]);
   return (
     <div
       style={{
@@ -37,6 +37,7 @@ const IAutocomplete = ({
         freeSolo
         disablePortal
         multiple
+        limitTags={1}
         disabled={disabled}
         fullWidth={true}
         size="small"
@@ -49,6 +50,25 @@ const IAutocomplete = ({
         value={selectedUsers}
         onChange={(e, option) => onChangeOption(e, option)}
         isOptionEqualToValue={(option, value) => option.name === value.name}
+        renderTags={(value, getTagProps) => {
+          const numTags = value.length;
+          const limitTags = 1;
+          return (
+            <>
+              {value.slice(0, limitTags).map((option, index) => (
+                <Chip
+                  size={"small"}
+                  {...getTagProps({ index })}
+                  key={index}
+                  label={option.name}
+                />
+              ))}
+              <span style={{ fontSize: "11px", fontWeight: "600" }}>
+                {numTags > limitTags && ` +${numTags - limitTags} more`}
+              </span>
+            </>
+          );
+        }}
         renderOption={(props, option, { selected }) => (
           <li
             {...props}
@@ -68,7 +88,7 @@ const IAutocomplete = ({
           </li>
         )}
         sx={{
-          width: "125px",
+          width: width,
           background: "#e9ecf1",
           borderRadius: "10px",
           border: "none",
@@ -92,6 +112,13 @@ const IAutocomplete = ({
             visibility: "hidden",
           },
         }}
+        componentsProps={{
+          paper: {
+            sx: {
+              width: width + 25,
+            },
+          },
+        }}
         ListboxProps={{
           sx: {
             fontSize: 14,
@@ -99,7 +126,7 @@ const IAutocomplete = ({
             opacity: 0.7,
             padding: "8px",
             borderRadius: "10px",
-            maxHeight: "200px",
+            maxHeight: "150px",
           },
         }}
         className="autocomplete"

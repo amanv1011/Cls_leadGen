@@ -23,6 +23,9 @@ const Archive = () => {
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
+  const countriesNameFilter = useSelector(
+    (state) => state.leadsFilter.countriesName
+  );
   const archieveList = genratedLeadData.filter((ele) => ele.status === 2);
 
   var filterArchieve;
@@ -87,6 +90,13 @@ const Archive = () => {
       searchDate,
       searchQuery
     );
+  }
+  if (countriesNameFilter !== "All Countries") {
+    let arr = filterArchieve.filter(
+      (ele) => ele.country === countriesNameFilter
+    );
+    filterArchieve = arr;
+    leadListForCount = filterArchieve;
   }
 
   const rejectList = leadListForCount.filter((ele) => ele.status === -1);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
-import { Divider } from "@mui/material";
+import { Divider, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNotestoLeadAction,
@@ -30,13 +30,14 @@ const Cards = (props) => {
   const [openText, setopenText] = useState(false);
   const [displayLeadData, setdisplayLeadData] = useState([]);
   const [value, setValue] = useState("");
-  const [selectedLeadId, setSlectedLeadId] = useState("");
+  const [selectedLeadId, setSlectedLeadId] = useState("Reason");
   const [open, setOpen] = useState(false);
   const [openMultipleLeadPopup, setOpenMultipleLeadPopup] = useState(false);
   const [status, setStatus] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedArray, setselectedArray] = useState([]);
   const [showNotesState, setShowNotesState] = useState(false);
+  const [reason, setReason] = useState("");
   const leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
   const approveRejectResponse = useSelector(
@@ -165,11 +166,15 @@ const Cards = (props) => {
   };
   const handleApply = () => {
     if (selectedLeadId && status !== null) {
-      dispatch(updateLeadStatus([selectedLeadId], status));
+      if (reason.length > 0) {
+        dispatch(updateLeadStatus([selectedLeadId], status, reason));
+      } else {
+        dispatch(updateLeadStatus([selectedLeadId], status));
+      }
       onClosePopup();
+      setReason("");
     }
   };
-
   return (
     <>
       {
@@ -178,6 +183,14 @@ const Cards = (props) => {
           onClosePopup={onClosePopup}
           handleApply={handleApply}
           title={"Update Lead Status"}
+          status={status}
+          reason={reason}
+          setReason={setReason}
+          disabled={
+            status && status === -1 && reason && reason.length === 0
+              ? true
+              : false
+          }
         />
       }
       {
@@ -220,6 +233,14 @@ const Cards = (props) => {
               setSelectedUsers={setSelectedUsers}
               selectedArray={selectedArray}
               setselectedArray={setselectedArray}
+              //popup
+              reason={reason}
+              setReason={setReason}
+              disabled={
+                status && status === -1 && reason && reason.length === 0
+                  ? true
+                  : false
+              }
             />
           </Box>
           <Box component={"div"} className="section leads-details">
@@ -278,19 +299,29 @@ const Cards = (props) => {
                   }
                   onclick={() => handleUpdateStatus(0)}
                 />
-                <IButton
-                  type={"pink"}
-                  name={"Reject"}
-                  children="Reject"
-                  disabled={
-                    displayLeadData &&
-                    displayLeadData.status &&
-                    displayLeadData.status === -1
-                      ? true
-                      : false
+                <Tooltip
+                  title={
+                    displayLeadData && displayLeadData.reason
+                      ? displayLeadData.reason
+                      : "Reject"
                   }
-                  onclick={() => handleUpdateStatus(-1)}
-                />
+                >
+                  <div>
+                    <IButton
+                      type={"pink"}
+                      name={"Reject"}
+                      children="Reject"
+                      disabled={
+                        displayLeadData &&
+                        displayLeadData.status &&
+                        displayLeadData.status === -1
+                          ? true
+                          : false
+                      }
+                      onclick={() => handleUpdateStatus(-1)}
+                    />
+                  </div>
+                </Tooltip>
               </Box>
             </Box>
             <Box className="autocomplete-container">
@@ -300,6 +331,7 @@ const Cards = (props) => {
                 onChangeOption={onChangeOption}
                 assignUsers={assignUsers}
                 selectedUsers={selectedUsers}
+                width={125}
               />
             </Box>
             <IButton

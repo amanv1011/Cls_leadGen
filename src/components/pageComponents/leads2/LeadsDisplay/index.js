@@ -29,6 +29,9 @@ const LeadsDisplay = ({
   setSelectedUsers,
   selectedArray,
   setselectedArray,
+  reason,
+  setReason,
+  disabled,
 }) => {
   const dispatch = useDispatch();
 
@@ -72,6 +75,7 @@ const LeadsDisplay = ({
     let leadsIdData = leadsList.filter((ele) => ele.id === leadId);
     selectedLeadIdFun(leadsIdData[0].id);
     dispatch(getSingleLeadDetail(leadsIdData[0]));
+    //set already assigned user here
     //update seen status here
     if ((leadsIdData[0] && leadsIdData[0].seen !== true) || undefined) {
       dispatch(updateLeadViewStatusAction(leadId));
@@ -104,7 +108,11 @@ const LeadsDisplay = ({
 
   const handleBatchApply = () => {
     handleClose();
-    dispatch(updateLeadStatus(selectedArray, status));
+    if (reason.length > 0) {
+      dispatch(updateLeadStatus(selectedArray, status, reason));
+    } else {
+      dispatch(updateLeadStatus(selectedArray, status));
+    }
     setselectedArray([]);
     onClosePopup();
   };
@@ -128,7 +136,10 @@ const LeadsDisplay = ({
           onClosePopup={onClosePopup}
           handleApply={handleBatchApply}
           title={"Update Lead Status"}
-          // subtitle={"Multiple Leads"}
+          status={status}
+          reason={reason}
+          setReason={setReason}
+          disabled={disabled}
         />
       }
       {
