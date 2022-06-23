@@ -7,36 +7,14 @@ import Cancel from "../../../themeComponents/campTable/Cancel";
 import * as commonFunctions from "../commonFunctions";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import AlertBeforeAction from "../../../themeComponents/campTable/AlertBeforeAction";
-import { Timestamp } from "firebase/firestore";
 import moment from "moment";
-import { openAlertAction } from "../../../../redux/actions/alertActions";
 import "./campaignButtonActions.scss";
 
-const CampaignButtonActions = ({
-  campaignDoc,
-  addCampaignDetails,
-  tags,
-  campgaignId,
-  leadsList,
-  campaignUpdateForm,
-}) => {
+const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
   const dispatch = useDispatch();
   const [openAlert, setOpenAlert] = useState(false);
   const [campaignName, setCampaignName] = useState("");
   const [idForDelete, setIdForDelete] = useState("");
-
-  const newCampaign = {
-    ...addCampaignDetails,
-    frequency: parseInt(addCampaignDetails.frequency),
-    tags,
-    pages: parseInt(addCampaignDetails.pages),
-    end_date: Timestamp.fromDate(new Date(addCampaignDetails.end_date)),
-    start_date: Timestamp.fromDate(new Date(addCampaignDetails.start_date)),
-    last_crawled_date: Timestamp.fromDate(
-      new Date(addCampaignDetails.start_date)
-    ),
-    owner: "Mithun Dominic",
-  };
 
   const getNumOfLeads = (id) => {
     const val =
@@ -96,43 +74,25 @@ const CampaignButtonActions = ({
 
   if (campgaignId) {
     return (
-      <div className="campaignButton-actions">
-        <button
-          className="campaign-btn save-btn"
-          onClick={(event) => {
-            // campaignUpdateForm(event);
-            try {
-              if (campaignDoc.id === campgaignId) {
-                dispatch(
-                  campaignActions.updateCampaignsAction(
-                    campgaignId,
-                    newCampaign
-                  )
-                );
-                dispatch(campaignActions.campaignIDAction(""));
-              }
-            } catch (error) {
-              dispatch(
-                openAlertAction(
-                  `${error.message}. Please provide a valid date`,
-                  true,
-                  "error"
-                )
-              );
-            }
-          }}
-        >
-          <Cancel /> <span className="campaign-btn-text">Save</span>
-        </button>
-        <button
-          className="campaign-btn cancel-btn"
-          onClick={() => {
-            dispatch(campaignActions.campaignIDAction(""));
-          }}
-        >
-          <Cancel /> <span className="campaign-btn-text">Cancel</span>
-        </button>
-      </div>
+      <form id="campaignUpdate-form">
+        <div className="campaignButton-actions-edit">
+          <button
+            className="campaign-btn save-btn"
+            form="campaignUpdate-form"
+            type="submit"
+          >
+            <Cancel /> <span className="campaign-btn-text">Save</span>
+          </button>
+          <button
+            className="campaign-btn cancel-btn"
+            onClick={() => {
+              dispatch(campaignActions.campaignIDAction(""));
+            }}
+          >
+            <Cancel /> <span className="campaign-btn-text">Cancel</span>
+          </button>
+        </div>
+      </form>
     );
   } else {
     return (
@@ -140,14 +100,14 @@ const CampaignButtonActions = ({
         <div className="campaignButton-actions">
           <button
             className="campaign-btn edit-btn"
-            disabled={
-              campaignDoc.id ? false : true
-              // moment(campaignDoc.end_Date).isSameOrBefore(
-              //   campaignDoc.current_Date
-              // )
-              //   ? true
-              //   : false
-            }
+            // disabled={
+            //   campaignDoc.id ? false : true
+            //   // moment(campaignDoc.end_Date).isSameOrBefore(
+            //   //   campaignDoc.current_Date
+            //   // )
+            //   //   ? true
+            //   //   : false
+            // }
             // style={
             //   moment(campaignDoc.end_Date).isSameOrBefore(
             //     campaignDoc.current_Date

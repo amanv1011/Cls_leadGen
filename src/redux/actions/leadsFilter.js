@@ -38,6 +38,7 @@ export const leadsFilterDate = (filterDate) => {
     dispatch({ type: FILTER_LEADS_DATE, payload: filterDate });
   };
 };
+
 export const clearFilters = () => {
   return async (dispatch) => {
     dispatch({ type: FILTER_LEADS_CLEAR, payload: "" });

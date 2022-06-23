@@ -183,15 +183,6 @@ export default function CampaignDetailsView({
 
                   <div className="label-container">
                     <div className="label-campaign-view">
-                      Extract No. Of Pages(s)
-                    </div>
-                    <div className="grid-campaign-view">
-                      <div className="campaign-text">{viewDetail.pages}</div>
-                    </div>
-                  </div>
-
-                  <div className="label-container">
-                    <div className="label-campaign-view">
                       Status of the campaign
                     </div>
                     <div className="grid-campaign-view">
