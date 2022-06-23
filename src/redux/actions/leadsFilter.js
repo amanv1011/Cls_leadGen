@@ -6,6 +6,7 @@ import {
   FILTER_LEADS_CLEAR,
   SET_DATEPICKER_STATE,
   LEADS_DROPDOWN_FILTER,
+  FILTER_LEADS_COUNTRIES,
 } from "../type";
 
 export const leadsFilterCampaignName = (campaignNameFilter) => {
@@ -17,6 +18,12 @@ export const leadsFilterCampaignName = (campaignNameFilter) => {
 export const leadsFilterOwnerName = (ownerNameFilter) => {
   return async (dispatch) => {
     dispatch({ type: FILTER_LEADS_OWNERNAME, payload: ownerNameFilter });
+  };
+};
+
+export const leadsFilterCountiresName = (countiresNameFilter) => {
+  return async (dispatch) => {
+    dispatch({ type: FILTER_LEADS_COUNTRIES, payload: countiresNameFilter });
   };
 };
 

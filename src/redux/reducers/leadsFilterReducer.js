@@ -6,6 +6,7 @@ import {
   FILTER_LEADS_CLEAR,
   SET_DATEPICKER_STATE,
   LEADS_DROPDOWN_FILTER,
+  FILTER_LEADS_COUNTRIES,
 } from "../type";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   filterDate: "",
   datePickerState: 0,
   leadsDropDownFilter: "AllLeads",
+  countriesName: "All Countries",
 };
 
 export const leadsFilterReducer = (state = initialState, { type, payload }) => {
@@ -23,6 +25,8 @@ export const leadsFilterReducer = (state = initialState, { type, payload }) => {
       return { ...state, campaignName: payload };
     case FILTER_LEADS_OWNERNAME:
       return { ...state, ownerName: payload };
+    case FILTER_LEADS_COUNTRIES:
+      return { ...state, countriesName: payload };
     case FILTER_LEADS_SEARCH:
       return { ...state, searchQuery: payload };
     case FILTER_LEADS_DATE:
@@ -32,6 +36,7 @@ export const leadsFilterReducer = (state = initialState, { type, payload }) => {
         ...state,
         campaignName: "All Campaigns",
         ownerName: "All Owners",
+        countriesName: "All Countries",
         searchQuery: "",
         filterDate: "",
       };
