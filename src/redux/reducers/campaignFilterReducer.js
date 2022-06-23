@@ -18,8 +18,8 @@ export const campaignFilterReducer = (
     case types.CAMPAIGN_FILTER_CLEAR:
       return {
         ...state,
-        campaignName: "Country",
-        ownerName: "Owner",
+        country: "Country",
+        owner: "Owner",
       };
 
     default:

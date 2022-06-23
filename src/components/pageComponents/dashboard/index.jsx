@@ -169,7 +169,6 @@ const Dashboard = ({ children }) => {
   return (
     <>
       <div>
-        {" "}
         <Navbar open={open} handleDrawer={handleDrawer} />
       </div>
       <div className="dashboard-container">
