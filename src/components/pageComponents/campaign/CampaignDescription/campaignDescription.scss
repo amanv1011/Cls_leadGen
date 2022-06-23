@@ -50,7 +50,7 @@
           align-items: center;
           font-style: normal;
           font-weight: 600;
-          font-size: 12px;
+          font-size: 14px;
           line-height: 15px;
           color: rgba(31, 65, 115, 0.5);
           margin: 4px 0px;
@@ -73,140 +73,115 @@
       height: 57vh;
       display: flex;
       padding: 8px 20px;
-      align-content: center;
+      align-content: stretch;
       flex-direction: row;
       justify-content: center;
-      align-items: center;
-      .header-item {
+      flex-wrap: wrap;
+
+      .campaign-description-body1 {
+        width: 100%;
+        height: 90%;
         display: flex;
-        align-items: center;
+        flex-direction: row;
+        align-content: space-between;
+        align-items: flex-start;
         justify-content: space-between;
+        .campaign-description-left-sec {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          height: 100%;
+          width: 50%;
+          .header-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .header-key {
+              width: 35%;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 17px;
+              color: #1f4173;
+              opacity: 0.6;
+            }
+            .header-value {
+              width: 65%;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 24px;
+              color: #1f4173;
+              margin-left: 25px;
+            }
+          }
+        }
+        .campaign-description-rigth-sec {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          height: 100%;
+          width: 50%;
+          .header-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .header-key {
+              width: 50%;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 17px;
+              color: #1f4173;
+              opacity: 0.6;
+            }
+            .header-value {
+              width: 50%;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 24px;
+              color: #1f4173;
+              margin-left: 40px;
+            }
+          }
+        }
       }
-      .header-key {
-        width: 50%;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 17px;
-        color: #1f4173;
-        opacity: 0.6;
-      }
-      .header-value {
-        width: 50%;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 24px;
-        color: #1f4173;
-      }
-      .campaign-description-left-sec {
-        width: 50%;
-        height: 100%;
+      .campaign-description-body2 {
+        width: 100%;
+        height: 10%;
         display: flex;
-        justify-content: space-around;
         flex-direction: column;
-        align-content: space-between;
-      }
-      .campaign-description-rigth-sec {
-        width: 50%;
-        height: 100%;
-        display: flex;
         justify-content: space-around;
-        flex-direction: column;
-        align-content: space-between;
+        .header-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .header-key {
+            width: 20%;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 17px;
+            color: #1f4173;
+            opacity: 0.6;
+          }
+          .header-value {
+            width: 80%;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 24px;
+            color: #1f4173;
+            overflow-y: scroll;
+          }
+        }
       }
     }
   }
 
   .campaign-description-container2 {
     width: 25%;
-  }
-  .addCampaign-inputs {
-    width: 160px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    background: #f4f5f8;
-    outline: none;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #1f4173;
-    padding-left: 15px;
-  }
-  .addCampaign-selects {
-    width: 160px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    background: #f4f5f8;
-    outline: none;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #1f4173;
-    padding-left: 15px;
-  }
-  .addCampaign-timePicker {
-    width: 120px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    background: #f4f5f8;
-    outline: none;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #1f4173;
-    padding-left: 15px;
-  }
-  .addCampaign-datePicker {
-    width: 160px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    background: #f4f5f8;
-    outline: none;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #1f4173;
-    padding-left: 15px;
-  }
-  .addCampaign-checkbox {
-    width: 105px;
-    height: 17px;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 17px;
-    color: #1f4173;
-    opacity: 0.8;
-  }
-  .onGoing-text1 {
-    width: 61px;
-    height: 16px;
-    font-size: 13px;
-    color: rgb(31, 65, 115);
-    opacity: 0.3;
-    margin-left: 7px;
-  }
-  .onGoing-text2 {
-    width: 54px;
-    height: 16px;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 13px;
-    line-height: 16px;
-    color: #1f4173;
-    opacity: 0.6;
   }
 }
 
@@ -243,7 +218,7 @@
           height: 44px;
           font-style: normal;
           font-weight: 600;
-          font-size: 20px;
+          font-size: 14px;
           line-height: 22px;
           letter-spacing: -0.02em;
           color: #1f4173;
@@ -263,7 +238,7 @@
           align-items: center;
           font-style: normal;
           font-weight: 600;
-          font-size: 12px;
+          font-size: 14px;
           line-height: 15px;
           color: rgba(31, 65, 115, 0.5);
           margin: 4px 0px;
@@ -283,61 +258,95 @@
     }
     // description body
     .campaign-description-container1_2-edit {
-      // background: red;
       width: 100%;
       height: 57vh;
       display: flex;
       padding: 8px 20px;
-      /* justify-content: space-evenly; */
-      align-items: baseline;
+      align-content: stretch;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
 
-      .campaign-description-left-sec-edit {
-        width: 50%;
-        height: 100%;
+      .campaign-description-body1-edit {
+        width: 100%;
+        height: 80%;
         display: flex;
-        justify-content: space-around;
-        flex-direction: column;
+        flex-direction: row;
         align-content: space-between;
-        .header-item {
-          width: 100%;
-          height: 100%;
+        align-items: flex-start;
+        justify-content: space-between;
+        .campaign-description-left-sec-edit {
           display: flex;
-          align-items: center;
-          justify-content: space-between;
-          .header-key {
-            width: 30%;
-            font-style: normal;
-            font-weight: 600;
-            font-size: 14px;
-            line-height: 17px;
-            color: #1f4173;
-            opacity: 0.6;
+          flex-direction: column;
+          justify-content: space-around;
+          height: 100%;
+          width: 50%;
+          .header-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .header-key {
+              width: 35%;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 17px;
+              color: #1f4173;
+              opacity: 0.6;
+            }
+            .header-value {
+              width: 65%;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 24px;
+              color: #1f4173;
+            }
           }
-          .header-value {
-            width: 70%;
-            font-style: normal;
-            font-weight: 600;
-            font-size: 14px;
-            line-height: 24px;
-            color: #1f4173;
+        }
+        .campaign-description-rigth-sec-edit {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          height: 100%;
+          width: 50%;
+          .header-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .header-key {
+              width: 50%;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 17px;
+              color: #1f4173;
+              opacity: 0.6;
+            }
+            .header-value {
+              width: 50%;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 24px;
+              color: #1f4173;
+              margin-left: 25px;
+            }
           }
         }
       }
-      .campaign-description-rigth-sec-edit {
-        width: 50%;
-        height: 100%;
+      .campaign-description-body2-edit {
+        width: 100%;
+        height: 10%;
         display: flex;
-        justify-content: space-around;
         flex-direction: column;
-        align-content: space-between;
+        justify-content: space-around;
         .header-item {
-          width: 100%;
-          height: 100%;
           display: flex;
           align-items: center;
           justify-content: space-between;
           .header-key {
-            width: 60%;
+            width: 20%;
             font-style: normal;
             font-weight: 600;
             font-size: 14px;
@@ -346,12 +355,13 @@
             opacity: 0.6;
           }
           .header-value {
-            width: 40%;
+            width: 80%;
             font-style: normal;
             font-weight: 600;
             font-size: 14px;
             line-height: 24px;
             color: #1f4173;
+            overflow-y: scroll;
           }
         }
       }
@@ -360,95 +370,92 @@
   .campaign-description-container2 {
     width: 25%;
   }
-  .addCampaign-inputs {
-    width: 160px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    background: #f4f5f8;
-    outline: none;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #1f4173;
-    padding-left: 15px;
-    margin-left: 5px;
-  }
-  .addCampaign-selects {
-    width: 160px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    background: #f4f5f8;
-    outline: none;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #1f4173;
-    padding-left: 15px;
-    margin-left: 5px;
-  }
-  .addCampaign-timePicker {
-    width: 120px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    background: #f4f5f8;
-    outline: none;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #1f4173;
-    padding-left: 15px;
-    margin-left: 5px;
-  }
-  .addCampaign-datePicker {
-    width: 160px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    background: #f4f5f8;
-    outline: none;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #1f4173;
-    padding-left: 15px;
-    margin-left: 5px;
-  }
-  .addCampaign-checkbox {
-    width: 105px;
-    height: 17px;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 17px;
-    color: #1f4173;
-    opacity: 0.8;
-  }
-  .onGoing-text1 {
-    width: 61px;
-    height: 16px;
-    font-size: 13px;
-    color: rgb(31, 65, 115);
-    opacity: 0.3;
-    margin-left: 7px;
-  }
-  .onGoing-text2 {
-    width: 54px;
-    height: 16px;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 13px;
-    line-height: 16px;
-    color: #1f4173;
-    opacity: 0.6;
-  }
+}
+
+.addCampaign-inputs {
+  width: 160px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: #f4f5f8;
+  outline: none;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1f4173;
+  padding-left: 15px;
+}
+.addCampaign-selects {
+  width: 160px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: #f4f5f8;
+  outline: none;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1f4173;
+  padding-left: 15px;
+}
+.addCampaign-timePicker {
+  width: 120px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: #f4f5f8;
+  outline: none;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1f4173;
+  padding-left: 15px;
+}
+.addCampaign-datePicker {
+  width: 160px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: #f4f5f8;
+  outline: none;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1f4173;
+  padding-left: 15px;
+}
+.addCampaign-checkbox {
+  width: 105px;
+  height: 17px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #1f4173;
+  opacity: 0.8;
+}
+.onGoing-text1 {
+  width: 61px;
+  height: 16px;
+  font-size: 13px;
+  color: rgb(31, 65, 115);
+  opacity: 0.3;
+  margin-left: 7px;
+}
+.onGoing-text2 {
+  width: 54px;
+  height: 16px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  color: #1f4173;
+  opacity: 0.6;
 }

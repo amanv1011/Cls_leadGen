@@ -395,9 +395,7 @@ const CampaignDisplay = ({
                   onClick={downloadSelectedCampaigns}
                 >
                   <Download />
-                  <span className="campaign-btn-text">
-                    Download selected campaigns
-                  </span>
+                  <span className="campaign-btn-text">Download</span>
                 </button>
 
                 <button
@@ -405,36 +403,28 @@ const CampaignDisplay = ({
                   onClick={onDeleteMulitpleCampaign}
                 >
                   <Delete />
-                  <span className="campaign-btn-text">
-                    Delete selected campaigns
-                  </span>
+                  <span className="campaign-btn-text">Delete</span>
                 </button>
                 <button
                   className="campaign-btn delete-btn"
                   onClick={onAssignMulitpleCampaign}
                 >
                   <Delete />
-                  <span className="campaign-btn-text">
-                    Assign selected campaigns
-                  </span>
+                  <span className="campaign-btn-text">Assign</span>
                 </button>
                 <button
                   className="campaign-btn delete-btn"
                   onClick={onActivateMulitpleCampaign}
                 >
                   <Delete />
-                  <span className="campaign-btn-text">
-                    Activate selected campaigns
-                  </span>
+                  <span className="campaign-btn-text">Activate</span>
                 </button>
                 <button
                   className="campaign-btn delete-btn"
                   onClick={onDeActivateMulitpleCampaign}
                 >
                   <Delete />
-                  <span className="campaign-btn-text">
-                    De-Activate selected campaigns
-                  </span>
+                  <span className="campaign-btn-text">De-Activate</span>
                 </button>
               </div>
             </Popover>

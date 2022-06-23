@@ -7,9 +7,7 @@ import Cancel from "../../../themeComponents/campTable/Cancel";
 import * as commonFunctions from "../commonFunctions";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import AlertBeforeAction from "../../../themeComponents/campTable/AlertBeforeAction";
-import { Timestamp } from "firebase/firestore";
 import moment from "moment";
-import { openAlertAction } from "../../../../redux/actions/alertActions";
 import "./campaignButtonActions.scss";
 
 const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
@@ -77,7 +75,7 @@ const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
   if (campgaignId) {
     return (
       <form id="campaignUpdate-form">
-        <div className="campaignButton-actions">
+        <div className="campaignButton-actions-edit">
           <button
             className="campaign-btn save-btn"
             form="campaignUpdate-form"
