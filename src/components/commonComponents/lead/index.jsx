@@ -129,7 +129,7 @@ const Lead = () => {
       getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
     );
   });
-
+  console.log(filterAllLeads);
   return (
     <>
       <Cards leadData={filterAllLeads} />

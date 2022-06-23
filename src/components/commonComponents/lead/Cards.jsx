@@ -6,6 +6,7 @@ import {
   addNotestoLeadAction,
   assignLeadToUsersAction,
   getAllLeadsAction,
+  getAssignedLeadsAction,
   updateLeadStatus,
 } from "../../../redux/actions/leadActions";
 import { cardsDisplayAction } from "../../../redux/actions/leadActions";
@@ -24,6 +25,7 @@ import IPopup from "../../themeComponents/popup/leadPopup";
 //import {AddIcon} from "@mui/icons-material/Add";
 import IModal from "../../themeComponents/popup/modal";
 import NotesPopup from "../../themeComponents/popup/notesPopup";
+import moment from "moment";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -40,18 +42,45 @@ const Cards = (props) => {
   const [reason, setReason] = useState("");
   const leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
+  let assignLeadResponse = useSelector(
+    (state) => state.assignLeadToReducer.assignLead
+  );
   const approveRejectResponse = useSelector(
     (state) => state.allLeads.approveRejectResponse
   );
   const NotesResponse = useSelector(
     (state) => state.addNotesToUserReducer.addedNotes
   );
-
   const allUsers = useSelector((state) => state.users.users);
+  const assignedLeads = useSelector(
+    (state) => state.getAssignedLeadsReducer.assignedLeads
+  );
 
   useEffect(() => {
+    dispatch(getAssignedLeadsAction());
+  }, []);
+
+  useEffect(() => {
+    setSelectedUsers([]);
     setdisplayLeadData(allLeadData);
-  }, [allLeadData]);
+    console.log(allLeadData, assignedLeads);
+    if (assignedLeads && allLeadData && allLeadData.id) {
+      assignedLeads.forEach((lead) => {
+        if (lead.leadId === allLeadData.id) {
+          let selectedId = lead.userId;
+          const filteredArray = allUsers.filter((value) =>
+            selectedId.includes(value.userId)
+          );
+          setSelectedUsers(filteredArray);
+          console.log({ filteredArray });
+        }
+      });
+    }
+  }, [allLeadData, assignLeadResponse, assignedLeads]);
+
+  useEffect(() => {
+    dispatch(getAssignedLeadsAction());
+  }, [assignLeadResponse]);
 
   useEffect(() => {
     if (
@@ -61,6 +90,11 @@ const Cards = (props) => {
       dispatch(getSingleLeadDetail(leadsData[0]));
       setSlectedLeadId(leadsData[0] && leadsData[0].id);
     }
+    leadsData.sort(
+      (a, b) =>
+        new Date(b.leadGeneratedDate.seconds).getTime() -
+        new Date(a.leadGeneratedDate.seconds).getTime()
+    );
   }, [leadsData, allLeadData]);
 
   useEffect(() => {
@@ -175,6 +209,9 @@ const Cards = (props) => {
       setReason("");
     }
   };
+
+  console.log(moment.unix(1655962277).fromNow());
+  console.log(moment.unix(1655882510).fromNow());
   return (
     <>
       {
