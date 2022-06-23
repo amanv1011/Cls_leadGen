@@ -31,7 +31,7 @@ const CampaignDisplay = ({
   const [openCampaignPopup, setOpenCampaignPopup] = useState(false);
   const [disableApplyBtn, setDisableApplyBtn] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [multipleFilterValue, setMultipleFilterValue] = useState("All");
+  // const [multipleFilterValue, setMultipleFilterValue] = useState("All");
 
   useEffect(() => {
     setcampaignsListData(searchedCampaignList);
@@ -44,23 +44,28 @@ const CampaignDisplay = ({
   console.log("campaignsListData", campaignsListData);
 
   useEffect(() => {
-    if (
-      countryFilterValue === "Country" &&
-      ownerFilterValue === "Owner" &&
-      multipleFilterValue === "All"
-    ) {
+    if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {
       setcampaignsListData(searchedCampaignList);
     } else if (
       countryFilterValue !== "Country" &&
-      ownerFilterValue !== "Owner" &&
-      multipleFilterValue === "Active"
+      ownerFilterValue !== "Owner"
     ) {
       const filteredCampaigns = searchedCampaignList.filter(
         (campaign) =>
           campaign &&
           campaign?.country === countryFilterValue &&
-          campaign?.owner === ownerFilterValue &&
-          campaign?.status === 1
+          campaign?.owner === ownerFilterValue
+      );
+      setcampaignsListData(filteredCampaigns);
+    } else if (
+      countryFilterValue !== "Country" &&
+      ownerFilterValue !== "Owner"
+    ) {
+      const filteredCampaigns = searchedCampaignList.filter(
+        (campaign) =>
+          campaign &&
+          campaign?.country === countryFilterValue &&
+          campaign?.owner === ownerFilterValue
       );
       setcampaignsListData(filteredCampaigns);
     } else if (
@@ -80,7 +85,7 @@ const CampaignDisplay = ({
       );
       setcampaignsListData(filteredCampaigns);
     }
-  }, [countryFilterValue, ownerFilterValue, multipleFilterValue]);
+  }, [countryFilterValue, ownerFilterValue]);
 
   // useEffect(() => {
   //   if (multipleFilterValue === "All") {
@@ -106,6 +111,7 @@ const CampaignDisplay = ({
     });
     return val.length;
   };
+
   const Viewed = async (campaignListItemId) => {
     try {
       await dispatch(campaignActions.getACampaignAction(campaignListItemId));
@@ -253,6 +259,7 @@ const CampaignDisplay = ({
     selectedArray.map((seletedCampaigns) => {
       try {
         get_a_feild_in_a_document(seletedCampaigns, { status: 1 });
+        dispatch(campaignActions.getAllCampaignsAction());
       } catch (error) {
         dispatch(openAlertAction(`${error.message}`, true, "error"));
       }
@@ -263,6 +270,7 @@ const CampaignDisplay = ({
     selectedArray.map((seletedCampaigns) => {
       try {
         get_a_feild_in_a_document(seletedCampaigns, { status: 0 });
+        dispatch(campaignActions.getAllCampaignsAction());
       } catch (error) {
         dispatch(openAlertAction(`${error.message}`, true, "error"));
       }
@@ -333,10 +341,22 @@ const CampaignDisplay = ({
                 </div>
               )}
             </div>
-            {/* <div className="campaign-display-actions"> */}
 
-            <select
+            {/* <select
               className="addCampaign-selects"
+              style={{
+                border: "none",
+                outline: "none",
+                background:
+                  "linear-gradient(270deg, #f1f1f1 0%, rgba(248, 248, 249, 0.8) 134.62%)",
+                width: "113px",
+                height: "18px",
+                fontStyle: "normal",
+                fontWeight: "600",
+                fontSize: "14px",
+                lineHeight: "16px",
+                color: "#003ad2",
+              }}
               name="multipleFilterValue"
               value={multipleFilterValue}
               onChange={(event) => {
@@ -351,8 +371,7 @@ const CampaignDisplay = ({
                 {`Active(${campaignsListData.length})`}
               </option>
               <option value="In-Active">{`In-Active(${campaignsListData.length})`}</option>
-            </select>
-            {/* </div> */}
+            </select> */}
           </div>
 
           <div>

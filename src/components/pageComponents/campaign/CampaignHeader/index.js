@@ -14,10 +14,11 @@ const CampaignHeader = ({
   searchedCampaignList,
   leadsList,
   countryList,
+  allUsers,
 }) => {
   const dispatch = useDispatch();
   const matches = useMediaQuery("(max-width:1460px)");
-
+  console.log("allUsers", allUsers);
   const countryFilterValue = useSelector(
     (state) => state.campaignFilters.country
   );
@@ -261,19 +262,19 @@ const CampaignHeader = ({
               >
                 Owner
               </MenuItem>
-              {uniqueOwner &&
-                uniqueOwner.map((owner) => {
+              {allUsers &&
+                allUsers.map((user) => {
                   return (
                     <MenuItem
-                      key={owner.id}
-                      data-id={owner && owner.id}
+                      key={user.id}
+                      data-id={user && user.id}
                       className="menu-item"
                       onClick={handleCloseOwnerMenu}
                       sx={{
                         fontSize: matches ? "13px" : "14px",
                       }}
                     >
-                      {owner}
+                      {user.name}
                     </MenuItem>
                   );
                 })}

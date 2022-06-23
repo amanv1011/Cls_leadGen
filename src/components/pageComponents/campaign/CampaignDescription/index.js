@@ -94,6 +94,7 @@ const CampaignDescription = ({
       } else {
         await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
       }
+      await dispatch(campaignActions.getACampaignAction(a__campgaignId));
     } catch (error) {
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
@@ -190,7 +191,7 @@ const CampaignDescription = ({
     maxStartTime = "24:00";
   }
 
-  const campaignUpdateForm = (event) => {
+  const campaignUpdateForm = async (event) => {
     event.preventDefault();
     console.log("Hello");
     // try {
@@ -237,7 +238,9 @@ const CampaignDescription = ({
       owner: "Mithun Dominic",
     };
 
-    dispatch(campaignActions.updateCampaignsAction(campgaignId, updateDetails));
+    await dispatch(
+      campaignActions.updateCampaignsAction(campgaignId, updateDetails)
+    );
     dispatch(campaignActions.campaignIDAction(""));
   };
 

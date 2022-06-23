@@ -45,6 +45,7 @@ const AddCampaginModal = ({ countryList }) => {
     onGoing: false,
     status: 1,
     country: "",
+    queryURL: "",
   });
 
   const {
@@ -57,6 +58,7 @@ const AddCampaginModal = ({ countryList }) => {
     end_date,
     end_time,
     country,
+    queryURL,
   } = addCampaignDetails;
 
   const [tags, setTags] = useState([]);
@@ -400,7 +402,23 @@ const AddCampaginModal = ({ countryList }) => {
               </Grid>
 
               <Grid item xs={4}>
-                <label className="addCampaignModal-labels">End Date</label>
+                <label
+                  className="addCampaignModal-labels"
+                  style={{
+                    marginRight: "5px",
+                  }}
+                >
+                  End Date
+                </label>
+                <span>( </span>
+                <input
+                  type="checkbox"
+                  name="onGoing"
+                  style={{ marginRight: "5px" }}
+                  onChange={onOngoing}
+                />
+                <label className="addCampaignModal-labels">On going</label>
+                <span> )</span>
                 <br />
                 <input
                   type="date"
@@ -412,21 +430,6 @@ const AddCampaginModal = ({ countryList }) => {
                   required
                   min={start_date}
                 />
-
-                <div className="addCampaignModal-checkbox">
-                  <input
-                    type="checkbox"
-                    name="onGoing"
-                    // checked={
-                    //   selectedArray.length !== campaignsListData.length
-                    //     ? false
-                    //     : true
-                    // }
-                    onChange={onOngoing}
-                    // className="campaign-checkbox"
-                  />
-                  <label className="addCampaignModal-labels">On going</label>
-                </div>
               </Grid>
 
               <Grid item xs={4}>
@@ -479,6 +482,26 @@ const AddCampaginModal = ({ countryList }) => {
                     </option>
                   ))}
                 </select>
+              </Grid>
+              <Grid item xs={8}>
+                <label
+                  style={{ fontSize: "14px" }}
+                  className="addCampaignModal-labels"
+                >
+                  Query URL
+                </label>
+                <br />
+                <input
+                  type="text"
+                  className="addCampaignModal-inputs"
+                  placeholder="Paste your URL here"
+                  name="queryURL"
+                  value={queryURL}
+                  onChange={onInputChangeHandler}
+                  autoComplete="off"
+                  required
+                  style={{ width: "100%" }}
+                />
               </Grid>
 
               <Grid item xs={12}>
@@ -537,7 +560,7 @@ const AddCampaginModal = ({ countryList }) => {
                       fontWeight: "600",
                     }}
                   >
-                    {a__campgaignId ? "Update Campaign" : "Add Campaign"}
+                    Add Campaign
                   </Button>
                 </div>
               </div>
