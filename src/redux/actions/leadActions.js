@@ -31,22 +31,23 @@ import {
   GET_ASSIGNED_LEADS_PENDING,
   GET_ASSIGNED_LEADS_ERROR,
 } from "../type";
+import { openAlertAction } from "./alertActions";
 import { closeLoader, openLoader } from "./globalLoaderAction";
 
 export const getAllLeadsAction = () => {
   return async (dispatch) => {
     dispatch({ type: GET_LEADS_LIST_PENDING, loading: true });
-    dispatch(openLoader({ isLoading: true }));
+    // dispatch(openLoader({ isLoading: true }));
     try {
       const res = await getLeadsList();
-      dispatch(closeLoader());
+      // dispatch(closeLoader());
       return dispatch({
         type: GET_LEADS_LIST_SUCCESS,
         payload: res,
       });
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {
-        dispatch(closeLoader());
+        // dispatch(closeLoader());
         dispatch({
           type: GET_LEADS_LIST_ERROR,
           payload: err,
@@ -84,21 +85,38 @@ export const getLeadsFullDescriptionAction = () => {
 export const updateLeadStatus = (leadsId, Status, reason) => {
   return async (dispatch) => {
     dispatch({ type: GET_LEADS_UPDATESTATUS_PENDING });
+    dispatch(openLoader({ isLoading: true }));
     try {
       const res = await approvRejectLeads(leadsId, Status, reason);
       dispatch({
         type: GET_LEADS_UPDATESTATUS_SUCCESS,
         payload: res,
       });
-      // dispatch(getAllLeadsAction());
+      await dispatch(
+        openAlertAction(
+          res && res.status === 1
+            ? "Approved Successfully"
+            : res.status === -1
+            ? "Rejected Successfully"
+            : res.status === 2
+            ? "Archieved Successfully"
+            : "Under Reviewed Successfully",
+          true,
+          "success"
+        )
+      );
+      dispatch(closeLoader());
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {
         dispatch({
           type: GET_LEADS_UPDATESTATUS_ERROR,
           payload: err,
         });
+        await dispatch(openAlertAction("Operation Failed!", true, "error"));
+        dispatch(closeLoader());
       } else {
         dispatch({ type: GET_LEADS_UPDATESTATUS_ERROR, payload: err });
+        dispatch(closeLoader());
       }
     }
   };
@@ -116,11 +134,11 @@ export const assignLeadToUsersAction = (leadId, userId) => {
     dispatch(openLoader({ isLoading: true }));
     try {
       const res = await assignLead(leadId, userId);
-      dispatch(closeLoader());
-      return dispatch({
+      dispatch({
         type: ASSIGN_LEAD_SUCCESS,
         payload: res,
       });
+      return dispatch(closeLoader());
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {
         dispatch(closeLoader());

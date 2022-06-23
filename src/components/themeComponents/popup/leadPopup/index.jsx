@@ -4,7 +4,6 @@ import "./Ipopup.scss";
 import IButton from "../../button";
 
 export default function IPopup(props) {
-  // console.log(props.status, props.reason)
   return (
     <Dialog
       onClose={props.closePopupFunction}
@@ -70,44 +69,55 @@ export default function IPopup(props) {
               overflow: "auto",
             }}
           >
-            {props.body
-              ? props.body
-              : props.status === -1 ?
-                <>
-              <label style={{
-                 fontStyle: "normal",
-                 fontWeight: 700,
-                 fontSize: "14px",
-                 lineHeight: "26px",
-                 color: "#000000",
-                 textAlign: "justify",
-                 overflow: "auto",
-                 display:"block",
-                 padding:"4px 0px",
-              }} className="reject-label">Reason for rejecting lead:</label>
-               <input
-               style={{
-                fontStyle: "normal",
-                fontWeight: 600,
-                fontSize: "14px",
-                lineHeight: "26px",
-                color: "#000000",
-                opacity: 1,
-                textAlign: "justify",
-                overflow: "auto",
-                display:"block",
-                width:"400px",
-                height:"50px",
-                background: "rgb(0 0 0 / 23%)",
-                 borderRadius: "10px",
-                border: "none",
-                outline: "none",
-                 padding: "3px 6px",
-               }}
-               placeholder='Reason'
-               className="reject-reason-inpt" value={props.reason} required onChange={(e)=>props.setReason(e.target.value)} />
-                </>
-                : "Are you sure you want to perform this action ?"}
+            {props.body ? (
+              props.body
+            ) : props.status === -1 ? (
+              <>
+                <label
+                  style={{
+                    fontStyle: "normal",
+                    fontWeight: 700,
+                    fontSize: "14px",
+                    lineHeight: "26px",
+                    color: "#000000",
+                    textAlign: "justify",
+                    overflow: "auto",
+                    display: "block",
+                    padding: "4px 0px",
+                  }}
+                  className="reject-label"
+                >
+                  Reason for rejecting lead:
+                </label>
+                <input
+                  style={{
+                    fontStyle: "normal",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    lineHeight: "26px",
+                    color: "#000000",
+                    opacity: 1,
+                    textAlign: "justify",
+                    overflow: "auto",
+                    display: "block",
+                    width: "400px",
+                    height: "50px",
+                    background: "rgb(0 0 0 / 23%)",
+                    borderRadius: "10px",
+                    border: "none",
+                    outline: "none",
+                    padding: "3px 6px",
+                  }}
+                  placeholder="Reason"
+                  className="reject-reason-inpt"
+                  value={props.reason}
+                  required
+                  onChange={(e) => props.setReason(e.target.value)}
+                />
+              </>
+            ) : (
+              "Are you sure you want to perform this action ?"
+            )}
           </div>
         </div>
       </DialogContent>
@@ -136,9 +146,9 @@ export default function IPopup(props) {
           children={"Apply"}
           onclick={props.handleApply}
           disabled={
-       props.status === -1 && props.reason.length  === 0 ? true : false
+            props.status === -1 && props.reason.length === 0 ? true : false
           }
-          />
+        />
       </DialogActions>
     </Dialog>
   );

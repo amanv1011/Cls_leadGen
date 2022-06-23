@@ -117,15 +117,16 @@ const LeadsDisplay = ({
     onClosePopup();
   };
 
-  const assignBatchUsers = () => {
+  const assignBatchUsers = (e, option) => {
+    setSelectedUsers(option);
     if (selectedArray.length > 0 && selectedUsers.length > 0) {
       let arr = [];
-      selectedUsers &&
-        selectedUsers.forEach((e) => {
+      option &&
+        option.forEach((e) => {
           arr.push(e.userId);
         });
+      console.log(selectedArray, arr);
       dispatch(assignLeadToUsersAction(selectedArray, arr));
-      setSelectedUsers([]);
     }
   };
   return (
@@ -147,8 +148,8 @@ const LeadsDisplay = ({
           open={openAssignModel}
           setOpenAssignModel={setOpenAssignModel}
           options={options}
-          onChangeOption={onChangeOption}
-          assignUsers={assignBatchUsers}
+          onChangeOption={assignBatchUsers}
+          // assignUsers={assignBatchUsers}
           selectedUsers={selectedUsers}
         />
       }

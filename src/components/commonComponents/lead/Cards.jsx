@@ -58,10 +58,18 @@ const Cards = (props) => {
     dispatch(getAssignedLeadsAction());
   }, []);
 
+  // useEffect(() => {
+  //   leadsData.sort(
+  //     (a, b) =>
+  //       new Date(b.leadGeneratedDate.seconds).getTime() -
+  //       new Date(a.leadGeneratedDate.seconds).getTime()
+  //   );
+  // }, [leadsData]);
+
   useEffect(() => {
     setSelectedUsers([]);
     setdisplayLeadData(allLeadData);
-    console.log(allLeadData, assignedLeads);
+
     if (assignedLeads && allLeadData && allLeadData.id) {
       assignedLeads.forEach((lead) => {
         if (lead.leadId === allLeadData.id) {
@@ -70,7 +78,6 @@ const Cards = (props) => {
             selectedId.includes(value.userId)
           );
           setSelectedUsers(filteredArray);
-          console.log({ filteredArray });
         }
       });
     }
@@ -88,11 +95,6 @@ const Cards = (props) => {
       dispatch(getSingleLeadDetail(leadsData[0]));
       setSlectedLeadId(leadsData[0] && leadsData[0].id);
     }
-    leadsData.sort(
-      (a, b) =>
-        new Date(b.leadGeneratedDate.seconds).getTime() -
-        new Date(a.leadGeneratedDate.seconds).getTime()
-    );
   }, [leadsData, allLeadData]);
 
   useEffect(() => {
@@ -267,7 +269,7 @@ const Cards = (props) => {
               status={status}
               //autocomplete props
               options={allUsers}
-              onChangeOption={onChangeOption}
+              // onChangeOption={onChangeOption}
               selectedUsers={selectedUsers}
               setSelectedUsers={setSelectedUsers}
               selectedArray={selectedArray}
