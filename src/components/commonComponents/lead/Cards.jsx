@@ -23,9 +23,7 @@ import Textarea from "../../themeComponents/textarea/textarea";
 import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
 //import {AddIcon} from "@mui/icons-material/Add";
-import IModal from "../../themeComponents/popup/modal";
 import NotesPopup from "../../themeComponents/popup/notesPopup";
-import moment from "moment";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -76,7 +74,7 @@ const Cards = (props) => {
         }
       });
     }
-  }, [allLeadData, assignLeadResponse, assignedLeads]);
+  }, [allLeadData]);
 
   useEffect(() => {
     dispatch(getAssignedLeadsAction());
@@ -163,19 +161,25 @@ const Cards = (props) => {
   //assigning lead to a user
   const onChangeOption = (e, option) => {
     setSelectedUsers(option);
+    let arr = [];
+    option &&
+      option.forEach((e) => {
+        arr.push(e.userId);
+      });
+    dispatch(assignLeadToUsersAction([selectedLeadId], arr));
   };
 
-  const assignUsers = () => {
-    if (selectedLeadId.length > 0 && selectedUsers.length > 0) {
-      let arr = [];
-      selectedUsers &&
-        selectedUsers.forEach((e) => {
-          arr.push(e.userId);
-        });
-      dispatch(assignLeadToUsersAction([selectedLeadId], arr));
-      setSelectedUsers([]);
-    }
-  };
+  // const assignUsers = () => {
+  //   if (selectedLeadId.length > 0 && selectedUsers.length > 0) {
+  //     let arr = [];
+  //     selectedUsers &&
+  //       selectedUsers.forEach((e) => {
+  //         arr.push(e.userId);
+  //       });
+  //     dispatch(assignLeadToUsersAction([selectedLeadId], arr));
+  //     // setSelectedUsers([]);
+  //   }
+  // };
 
   const addNotesFunction = () => {
     if (openText && value.length > 0) {
@@ -210,8 +214,6 @@ const Cards = (props) => {
     }
   };
 
-  console.log(moment.unix(1655962277).fromNow());
-  console.log(moment.unix(1655882510).fromNow());
   return (
     <>
       {
@@ -366,9 +368,9 @@ const Cards = (props) => {
               <IAutocomplete
                 options={allUsers}
                 onChangeOption={onChangeOption}
-                assignUsers={assignUsers}
+                // assignUsers={assignUsers}
                 selectedUsers={selectedUsers}
-                width={125}
+                width={145}
               />
             </Box>
             <IButton

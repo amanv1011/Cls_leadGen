@@ -3,10 +3,6 @@ import React from "react";
 import "./autocomplete.scss";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import CheckIcon from "@mui/icons-material/Check";
-import { display } from "@mui/system";
-import IButton from "../button";
-import { useState } from "react";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -35,7 +31,7 @@ const IAutocomplete = ({
       <Autocomplete
         closeText={"close"}
         freeSolo
-        disablePortal
+        disablePortal={true}
         multiple
         limitTags={1}
         disabled={disabled}
@@ -57,6 +53,7 @@ const IAutocomplete = ({
             <>
               {value.slice(0, limitTags).map((option, index) => (
                 <Chip
+                  sx={{ borderRadius: "10px" }}
                   size={"small"}
                   {...getTagProps({ index })}
                   key={index}
@@ -115,7 +112,7 @@ const IAutocomplete = ({
         componentsProps={{
           paper: {
             sx: {
-              width: width + 25,
+              width: width,
             },
           },
         }}
@@ -126,7 +123,7 @@ const IAutocomplete = ({
             opacity: 0.7,
             padding: "8px",
             borderRadius: "10px",
-            maxHeight: "150px",
+            maxHeight: "200px",
           },
         }}
         className="autocomplete"
@@ -146,7 +143,7 @@ const IAutocomplete = ({
           />
         )}
       />
-      <div className="okay-icon" onClick={assignUsers}>
+      {/* <div className="okay-icon" onClick={assignUsers}>
         {selectedUsers && selectedUsers.length > 0 ? (
           <CheckIcon
             fontSize="small"
@@ -159,7 +156,7 @@ const IAutocomplete = ({
             }}
           />
         ) : null}
-      </div>
+      </div> */}
     </div>
   );
 };
