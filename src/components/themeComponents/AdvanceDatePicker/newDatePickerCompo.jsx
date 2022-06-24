@@ -16,12 +16,12 @@ const NewDateRangePicker = (props) => {
         : moment.range(value1[0], value1[1]);
     props.leadsFilterDate(calender1);
     props.datePickerState(1);
-    console.log("Selected Date By User", calender1);
+    console.log("Selected Date By User", value1[0],value1[1]);
   };
 
   return (
     <DateRangePicker
-      format="MMM dd , yyyy"
+      format="MMM dd , yyyy HH:mm"
       placeholder="Select Date Range"
       showOneCalendar
       style={{
