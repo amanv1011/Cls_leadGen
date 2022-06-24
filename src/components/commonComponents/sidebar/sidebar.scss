@@ -9,6 +9,7 @@
   .list-item,
   .list-item-closed-selected,
   .list-item-selected {
+    padding: 10px 0px;
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
@@ -16,6 +17,7 @@
   }
 
   .list-item-closed {
+    padding: 10px 0px;
     .list-item-icon {
       color: #1f4173;
       width: 18px;
@@ -29,6 +31,7 @@
     }
   }
   .list-item-closed-selected {
+    padding: 10px 0px;
     background: #f5f7fb;
     border-radius: 40% 0 0 40%;
     .list-item-icon {
@@ -44,6 +47,7 @@
     }
   }
   .list-item {
+    padding: 10px 0px;
     .list-item-icon {
       color: #1f4173;
       width: 18px;
@@ -62,6 +66,7 @@
     }
   }
   .list-item-selected {
+    padding: 10px 0px;
     background: #f5f7fb;
     border-radius: 10% 0 0 10%;
     .list-item-icon {

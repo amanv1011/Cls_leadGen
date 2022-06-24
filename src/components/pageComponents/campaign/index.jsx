@@ -39,6 +39,7 @@ const Campaign = () => {
           searchedCampaignList={searchedCampaignList}
           leadsList={leadsList}
           countryList={countryList}
+          allUsers={allUsers}
         />
       </Box>
       <Divider

@@ -15,8 +15,14 @@ export const campaignOwnerFilterValueAction = (FilterValue) => {
   };
 };
 
-export const campaignFilterClearAction = (FilterValue) => {
+export const campaignFilterClearAction = () => {
   return async (dispatch) => {
-    dispatch({ type: types.CAMPAIGN_FILTER_CLEAR, payload: FilterValue });
+    dispatch({
+      type: types.CAMPAIGN_FILTER_CLEAR,
+      payload: {
+        country: "Country",
+        owner: "Owner",
+      },
+    });
   };
 };

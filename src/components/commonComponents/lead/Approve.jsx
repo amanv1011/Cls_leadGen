@@ -25,6 +25,9 @@ const Approve = () => {
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
+  const countriesNameFilter = useSelector(
+    (state) => state.leadsFilter.countriesName
+  );
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
 
   var filterApprov;
@@ -89,6 +92,12 @@ const Approve = () => {
       searchDate,
       searchQuery
     );
+  }
+
+  if (countriesNameFilter !== "All Countries") {
+    let arr = filterApprov.filter((ele) => ele.country === countriesNameFilter);
+    filterApprov = arr;
+    leadListForCount = filterApprov;
   }
 
   const rejectList = leadListForCount.filter((ele) => ele.status === -1);

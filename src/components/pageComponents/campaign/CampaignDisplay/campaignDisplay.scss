@@ -1,10 +1,9 @@
 .campaign-display-container {
-  height: 50vh;
+  height: 57vh;
   overflow-y: auto;
   overflow-x: hidden;
   .selected {
     background: #003ad2;
-    // border-radius: 10% 0 0 10%;
     color: #ffff !important;
   }
 
@@ -22,6 +21,9 @@
     align-items: center;
     padding: 2px 15px;
     border-bottom: solid rgb(236, 238, 242) 2px;
+    &:last-child {
+      border-bottom: none;
+    }
     .campaign-display-check {
       box-sizing: border-box;
       margin-top: -10px;
@@ -42,6 +44,7 @@
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+          text-transform: capitalize;
           &.searched-campaign-empty {
             font-size: 16px;
             height: 18px;
@@ -105,6 +108,7 @@
     line-height: 16px;
     color: #003ad2;
     cursor: pointer;
+    margin-left: 10px;
   }
 }
 

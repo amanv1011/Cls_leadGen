@@ -2,11 +2,10 @@ import { MenuItem, Select } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { leadsDropDownFilterAction } from "../../../../redux/actions/leadsFilter";
-// import DownArrow from "../../leads/DownArrow";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import "./leadsMenu.scss";
+import "./campaignMenu.scss";
 
-const LeadsMenu = () => {
+const CampaignMenu = () => {
   const dispatch = useDispatch();
   const style = {
     fontSize: "14px",
@@ -49,13 +48,7 @@ const LeadsMenu = () => {
       className="select-container"
       variant="standard"
       disableUnderline
-      IconComponent={(props) => (
-        <KeyboardArrowDownIcon
-          {...props}
-          fontSize="small"
-          style={{ color: "#003ad2" }}
-        />
-      )}
+      IconComponent={() => <KeyboardArrowDownIcon fontSize="small" />}
       MenuProps={{
         PaperProps: {
           sx: {
@@ -94,24 +87,14 @@ const LeadsMenu = () => {
         {`All (${leadsAllCount})`}
       </MenuItem>
       <MenuItem className="select-option" sx={style} value="UnderReveiwLeads">
-        {`Under Reveiw (${leadsUnderReviewCount})`}
+        {`Active (${leadsUnderReviewCount})`}
       </MenuItem>
       <MenuItem
         className="select-option"
         sx={style}
         value="ApprovedLeads"
-      >{`Approved (${leadsAprrovedCount})`}</MenuItem>
-      <MenuItem
-        className="select-option"
-        sx={style}
-        value="RejectedLeads"
-      >{`Rejected (${leadsRejectedCount})`}</MenuItem>
-      <MenuItem
-        className="select-option"
-        sx={style}
-        value="ArcheievdLeads"
-      >{`Archieved (${leadsArchievedCount})`}</MenuItem>
+      >{`In-Active (${leadsAprrovedCount})`}</MenuItem>
     </Select>
   );
 };
-export default LeadsMenu;
+export default CampaignMenu;

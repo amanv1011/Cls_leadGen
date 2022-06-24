@@ -14,7 +14,9 @@ import {
 } from "../firebase/collections";
 
 export const getLeadsList = async () => {
-  const leadsSnapshot = await getDocs(query(leadsCollection, orderBy("title")));
+  const leadsSnapshot = await getDocs(
+    query(leadsCollection, orderBy("leadGeneratedDate", "desc"))
+  );
   const LeadsList = leadsSnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
@@ -35,17 +37,31 @@ export const getLeadsFullDescription = async () => {
   }
 };
 
-export const approvRejectLeads = async (leadsId, leadStatus) => {
+export const approvRejectLeads = async (leadsId, leadStatus, reason) => {
   try {
     if (typeof leadsId === "string") {
       const updateApproveReject = doc(leadsCollection, leadsId);
-      await updateDoc(updateApproveReject, { status: leadStatus });
+      await updateDoc(updateApproveReject, {
+        status: leadStatus,
+        reason: reason,
+      });
       return { leadsId: leadsId, status: leadStatus };
     } else {
-      leadsId.forEach(async (lead) => {
-        const updateApproveReject = doc(leadsCollection, lead);
-        await updateDoc(updateApproveReject, { status: leadStatus });
-      });
+      if (leadStatus === -1) {
+        leadsId.forEach(async (lead) => {
+          const updateApproveReject = doc(leadsCollection, lead);
+          await updateDoc(updateApproveReject, {
+            status: leadStatus,
+            reason: reason,
+          });
+        });
+      } else {
+        leadsId.forEach(async (lead) => {
+          const updateApproveReject = doc(leadsCollection, lead);
+          await updateDoc(updateApproveReject, { status: leadStatus });
+        });
+      }
+
       return { leadsId: leadsId, status: leadStatus };
     }
   } catch (err) {
@@ -69,7 +85,6 @@ export const assignLead = async (leadId, userId) => {
           leadId: ele,
           userId: userId,
         });
-        return "Assigned Successfully";
       } else {
         //find for existing user
         const documnet = doc(assignedLeadCollection, ele);
@@ -77,9 +92,9 @@ export const assignLead = async (leadId, userId) => {
           leadId: ele,
           userId: arrayUnion(...userId),
         });
-        return "Assigned Successfully";
       }
     });
+  return { leadId: leadId, userId: userId };
 };
 
 export const addNotes = async (leadsId, notes) => {
@@ -95,4 +110,17 @@ export const updateLeadViewStatus = async (leadsId) => {
   const leadObject = doc(leadsCollection, leadsId);
   await updateDoc(leadObject, { seen: true });
   return { leadsId: leadsId, seen: true };
+};
+
+export const getAssignedLeads = async () => {
+  try {
+    const assignedLeadsSnapshot = await getDocs(assignedLeadCollection);
+    const assignedLeadsList = assignedLeadsSnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    return assignedLeadsList;
+  } catch (error) {
+    return error.message;
+  }
 };

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
-import { Divider } from "@mui/material";
+import { Divider, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNotestoLeadAction,
   assignLeadToUsersAction,
   getAllLeadsAction,
+  getAssignedLeadsAction,
   updateLeadStatus,
 } from "../../../redux/actions/leadActions";
 import { cardsDisplayAction } from "../../../redux/actions/leadActions";
@@ -22,7 +23,6 @@ import Textarea from "../../themeComponents/textarea/textarea";
 import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
 //import {AddIcon} from "@mui/icons-material/Add";
-import IModal from "../../themeComponents/popup/modal";
 import NotesPopup from "../../themeComponents/popup/notesPopup";
 
 const Cards = (props) => {
@@ -30,27 +30,58 @@ const Cards = (props) => {
   const [openText, setopenText] = useState(false);
   const [displayLeadData, setdisplayLeadData] = useState([]);
   const [value, setValue] = useState("");
-  const [selectedLeadId, setSlectedLeadId] = useState("");
+  const [selectedLeadId, setSlectedLeadId] = useState("Reason");
   const [open, setOpen] = useState(false);
   const [openMultipleLeadPopup, setOpenMultipleLeadPopup] = useState(false);
   const [status, setStatus] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedArray, setselectedArray] = useState([]);
   const [showNotesState, setShowNotesState] = useState(false);
+  const [reason, setReason] = useState("");
   const leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
+  let assignLeadResponse = useSelector(
+    (state) => state.assignLeadToReducer.assignLead
+  );
   const approveRejectResponse = useSelector(
     (state) => state.allLeads.approveRejectResponse
   );
   const NotesResponse = useSelector(
     (state) => state.addNotesToUserReducer.addedNotes
   );
-
   const allUsers = useSelector((state) => state.users.users);
+  const assignedLeads = useSelector(
+    (state) => state.getAssignedLeadsReducer.assignedLeads
+  );
+
+  // useEffect(() => {
+  leadsData.sort(
+    (a, b) =>
+      new Date(b.leadGeneratedDate.seconds).getTime() -
+      new Date(a.leadGeneratedDate.seconds).getTime()
+  );
+  // }, [leadsData]);
 
   useEffect(() => {
+    setSelectedUsers([]);
     setdisplayLeadData(allLeadData);
+
+    if (assignedLeads && allLeadData && allLeadData.id) {
+      assignedLeads.forEach((lead) => {
+        if (lead.leadId === allLeadData.id) {
+          let selectedId = lead.userId;
+          const filteredArray = allUsers.filter((value) =>
+            selectedId.includes(value.userId)
+          );
+          setSelectedUsers(filteredArray);
+        }
+      });
+    }
   }, [allLeadData]);
+
+  useEffect(() => {
+    dispatch(getAssignedLeadsAction());
+  }, [assignLeadResponse]);
 
   useEffect(() => {
     if (
@@ -128,19 +159,25 @@ const Cards = (props) => {
   //assigning lead to a user
   const onChangeOption = (e, option) => {
     setSelectedUsers(option);
+    let arr = [];
+    option &&
+      option.forEach((e) => {
+        arr.push(e.userId);
+      });
+    dispatch(assignLeadToUsersAction([selectedLeadId], arr));
   };
 
-  const assignUsers = () => {
-    if (selectedLeadId.length > 0 && selectedUsers.length > 0) {
-      let arr = [];
-      selectedUsers &&
-        selectedUsers.forEach((e) => {
-          arr.push(e.userId);
-        });
-      dispatch(assignLeadToUsersAction([selectedLeadId], arr));
-      setSelectedUsers([]);
-    }
-  };
+  // const assignUsers = () => {
+  //   if (selectedLeadId.length > 0 && selectedUsers.length > 0) {
+  //     let arr = [];
+  //     selectedUsers &&
+  //       selectedUsers.forEach((e) => {
+  //         arr.push(e.userId);
+  //       });
+  //     dispatch(assignLeadToUsersAction([selectedLeadId], arr));
+  //     // setSelectedUsers([]);
+  //   }
+  // };
 
   const addNotesFunction = () => {
     if (openText && value.length > 0) {
@@ -165,8 +202,13 @@ const Cards = (props) => {
   };
   const handleApply = () => {
     if (selectedLeadId && status !== null) {
-      dispatch(updateLeadStatus([selectedLeadId], status));
+      if (reason.length > 0) {
+        dispatch(updateLeadStatus([selectedLeadId], status, reason));
+      } else {
+        dispatch(updateLeadStatus([selectedLeadId], status));
+      }
       onClosePopup();
+      setReason("");
     }
   };
 
@@ -178,6 +220,14 @@ const Cards = (props) => {
           onClosePopup={onClosePopup}
           handleApply={handleApply}
           title={"Update Lead Status"}
+          status={status}
+          reason={reason}
+          setReason={setReason}
+          disabled={
+            status && status === -1 && reason && reason.length === 0
+              ? true
+              : false
+          }
         />
       }
       {
@@ -215,11 +265,19 @@ const Cards = (props) => {
               status={status}
               //autocomplete props
               options={allUsers}
-              onChangeOption={onChangeOption}
+              // onChangeOption={onChangeOption}
               selectedUsers={selectedUsers}
               setSelectedUsers={setSelectedUsers}
               selectedArray={selectedArray}
               setselectedArray={setselectedArray}
+              //popup
+              reason={reason}
+              setReason={setReason}
+              disabled={
+                status && status === -1 && reason && reason.length === 0
+                  ? true
+                  : false
+              }
             />
           </Box>
           <Box component={"div"} className="section leads-details">
@@ -278,19 +336,29 @@ const Cards = (props) => {
                   }
                   onclick={() => handleUpdateStatus(0)}
                 />
-                <IButton
-                  type={"pink"}
-                  name={"Reject"}
-                  children="Reject"
-                  disabled={
-                    displayLeadData &&
-                    displayLeadData.status &&
-                    displayLeadData.status === -1
-                      ? true
-                      : false
+                <Tooltip
+                  title={
+                    displayLeadData && displayLeadData.reason
+                      ? displayLeadData.reason
+                      : "Reject"
                   }
-                  onclick={() => handleUpdateStatus(-1)}
-                />
+                >
+                  <div>
+                    <IButton
+                      type={"pink"}
+                      name={"Reject"}
+                      children="Reject"
+                      disabled={
+                        displayLeadData &&
+                        displayLeadData.status &&
+                        displayLeadData.status === -1
+                          ? true
+                          : false
+                      }
+                      onclick={() => handleUpdateStatus(-1)}
+                    />
+                  </div>
+                </Tooltip>
               </Box>
             </Box>
             <Box className="autocomplete-container">
@@ -298,8 +366,9 @@ const Cards = (props) => {
               <IAutocomplete
                 options={allUsers}
                 onChangeOption={onChangeOption}
-                assignUsers={assignUsers}
+                // assignUsers={assignUsers}
                 selectedUsers={selectedUsers}
+                width={145}
               />
             </Box>
             <IButton

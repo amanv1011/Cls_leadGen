@@ -6,6 +6,7 @@ import {
   FILTER_LEADS_CLEAR,
   SET_DATEPICKER_STATE,
   LEADS_DROPDOWN_FILTER,
+  FILTER_LEADS_COUNTRIES,
 } from "../type";
 
 export const leadsFilterCampaignName = (campaignNameFilter) => {
@@ -20,6 +21,12 @@ export const leadsFilterOwnerName = (ownerNameFilter) => {
   };
 };
 
+export const leadsFilterCountiresName = (countiresNameFilter) => {
+  return async (dispatch) => {
+    dispatch({ type: FILTER_LEADS_COUNTRIES, payload: countiresNameFilter });
+  };
+};
+
 export const leadsFilterSearch = (searchQuery) => {
   return async (dispatch) => {
     dispatch({ type: FILTER_LEADS_SEARCH, payload: searchQuery });
@@ -31,6 +38,7 @@ export const leadsFilterDate = (filterDate) => {
     dispatch({ type: FILTER_LEADS_DATE, payload: filterDate });
   };
 };
+
 export const clearFilters = () => {
   return async (dispatch) => {
     dispatch({ type: FILTER_LEADS_CLEAR, payload: "" });

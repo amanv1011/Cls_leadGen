@@ -29,6 +29,9 @@ const LeadsDisplay = ({
   setSelectedUsers,
   selectedArray,
   setselectedArray,
+  reason,
+  setReason,
+  disabled,
 }) => {
   const dispatch = useDispatch();
 
@@ -72,6 +75,7 @@ const LeadsDisplay = ({
     let leadsIdData = leadsList.filter((ele) => ele.id === leadId);
     selectedLeadIdFun(leadsIdData[0].id);
     dispatch(getSingleLeadDetail(leadsIdData[0]));
+    //set already assigned user here
     //update seen status here
     if ((leadsIdData[0] && leadsIdData[0].seen !== true) || undefined) {
       dispatch(updateLeadViewStatusAction(leadId));
@@ -104,22 +108,28 @@ const LeadsDisplay = ({
 
   const handleBatchApply = () => {
     handleClose();
-    dispatch(updateLeadStatus(selectedArray, status));
+    if (reason.length > 0) {
+      dispatch(updateLeadStatus(selectedArray, status, reason));
+    } else {
+      dispatch(updateLeadStatus(selectedArray, status));
+    }
     setselectedArray([]);
     onClosePopup();
   };
 
-  const assignBatchUsers = () => {
+  const assignBatchUsers = (e, option) => {
+    setSelectedUsers(option);
     if (selectedArray.length > 0 && selectedUsers.length > 0) {
       let arr = [];
-      selectedUsers &&
-        selectedUsers.forEach((e) => {
+      option &&
+        option.forEach((e) => {
           arr.push(e.userId);
         });
+      console.log(selectedArray, arr);
       dispatch(assignLeadToUsersAction(selectedArray, arr));
-      setSelectedUsers([]);
     }
   };
+
   return (
     <React.Fragment>
       {
@@ -128,7 +138,10 @@ const LeadsDisplay = ({
           onClosePopup={onClosePopup}
           handleApply={handleBatchApply}
           title={"Update Lead Status"}
-          // subtitle={"Multiple Leads"}
+          status={status}
+          reason={reason}
+          setReason={setReason}
+          disabled={disabled}
         />
       }
       {
@@ -136,8 +149,8 @@ const LeadsDisplay = ({
           open={openAssignModel}
           setOpenAssignModel={setOpenAssignModel}
           options={options}
-          onChangeOption={onChangeOption}
-          assignUsers={assignBatchUsers}
+          onChangeOption={assignBatchUsers}
+          // assignUsers={assignBatchUsers}
           selectedUsers={selectedUsers}
         />
       }
@@ -213,73 +226,90 @@ const LeadsDisplay = ({
         <LeadsMenu />
       </div>
       <div className="lead-display-container">
-        {leadsList &&
-          leadsList.map((lead) => (
-            <div
-              className={`lead-display-subcontainers ${
-                selectedLeadId === lead.id ? "selected" : ""
-              }  ${lead && lead.seen && lead.seen === true ? "seen" : ""} `}
-              onClick={() => handleClick(lead.id)}
-              key={lead.id}
-            >
-              <div className="lead-display-check">
-                {/* <LeadsCheckbox /> */}
-                <input
-                  type="checkbox"
-                  name={lead.id}
-                  value={lead.id}
-                  className="checkbox"
-                  checked={
-                    selectedArray &&
-                    selectedArray.filter((it) => it === lead.id).length > 0
-                      ? true
-                      : false
-                  }
-                  onChange={handleOnCheckboxChange}
-                />
-              </div>
-              <div
-                className={`lead-display-subcontainer1 ${
-                  selectedLeadId === lead.id ? "selected" : ""
-                }`}
-              >
+        {leadsList && leadsList.length > 0 ? (
+          <>
+            {leadsList &&
+              leadsList.map((lead) => (
                 <div
-                  className="display-count"
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
+                  className={`lead-display-subcontainers ${
+                    selectedLeadId === lead.id ? "selected" : ""
+                  }  ${lead && lead.seen && lead.seen === true ? "seen" : ""} `}
+                  onClick={() => handleClick(lead.id)}
+                  key={lead.id}
                 >
+                  <div className="lead-display-check">
+                    {/* <LeadsCheckbox /> */}
+                    <input
+                      type="checkbox"
+                      name={lead.id}
+                      value={lead.id}
+                      className="checkbox"
+                      checked={
+                        selectedArray &&
+                        selectedArray.filter((it) => it === lead.id).length > 0
+                          ? true
+                          : false
+                      }
+                      onChange={handleOnCheckboxChange}
+                    />
+                  </div>
                   <div
-                    className={`lead-display-btn-text ${
+                    className={`lead-display-subcontainer1 ${
                       selectedLeadId === lead.id ? "selected" : ""
-                    }  ${
-                      lead && lead.seen && lead.seen === true ? "seen" : ""
                     }`}
                   >
-                    {lead.title}
+                    <div
+                      className="display-count"
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div
+                        className={`lead-display-btn-text ${
+                          selectedLeadId === lead.id ? "selected" : ""
+                        }  ${
+                          lead && lead.seen && lead.seen === true ? "seen" : ""
+                        }`}
+                      >
+                        {lead.title}
+                      </div>
+                    </div>
+                    <div
+                      className={`lead-display-subcontainer2 ${
+                        selectedLeadId === lead.id ? "selected-sub" : ""
+                      }`}
+                    >
+                      <div>
+                        {lead.companyName === null ? "NA" : lead.companyName}
+                      </div>
+                      <span
+                        className={`lead-display-timestamp ${
+                          selectedLeadId === lead.id ? "selected-sub" : ""
+                        } `}
+                      >
+                        {moment.unix(lead.leadGeneratedDate.seconds).fromNow()}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div
-                  className={`lead-display-subcontainer2 ${
-                    selectedLeadId === lead.id ? "selected-sub" : ""
-                  }`}
-                >
-                  <div>
-                    {lead.companyName === null ? "NA" : lead.companyName}
-                  </div>
-                  <span
-                    className={`lead-display-timestamp ${
-                      selectedLeadId === lead.id ? "selected-sub" : ""
-                    } `}
-                  >
-                    {moment.unix(lead.leadGeneratedDate.seconds).fromNow()}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+              ))}
+          </>
+        ) : (
+          <>
+            <p
+              style={{
+                padding: "5px",
+                color: "#003ad2",
+                fontSize: "14px",
+                fontWeight: 600,
+              }}
+            >
+              No lead(s) to display!
+            </p>
+          </>
+        )}
       </div>
     </React.Fragment>
   );

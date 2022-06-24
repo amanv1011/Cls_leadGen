@@ -1,5 +1,5 @@
 import Cards from "./Cards";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { filterLeads } from "../lead/filterLeads";
 import { filterCount } from "../lead/filterCount";
@@ -24,6 +24,10 @@ const Lead = () => {
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
+  const countriesNameFilter = useSelector(
+    (state) => state.leadsFilter.countriesName
+  );
+
   var filterAllLeads;
   var leadListForCount;
 
@@ -88,6 +92,14 @@ const Lead = () => {
     );
   }
 
+  if (countriesNameFilter !== "All Countries") {
+    let arr = filterAllLeads.filter(
+      (ele) => ele.country === countriesNameFilter
+    );
+    filterAllLeads = arr;
+    leadListForCount = filterAllLeads;
+  }
+
   const rejectList =
     searchDate === "" && searchQuery === ""
       ? leadListForCount.filter((ele) => ele.status === -1)
@@ -118,9 +130,6 @@ const Lead = () => {
       getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
     );
   });
-  useEffect(() => {
-    dispatch(setActivePage(1));
-  }, [searchQuery, ownerNameFilter, searchDate, campaignNameFilter]);
 
   return (
     <>

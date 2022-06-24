@@ -8,6 +8,7 @@ import * as campaignActions from "../../../../redux/actions/campaignActions";
 import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import { openAlertAction } from "../../../../redux/actions/alertActions";
 import CampaignButtonActions from "../CampaignButtonActions";
+import { Timestamp } from "firebase/firestore";
 import AssignCampaign from "../AssignCampaign";
 import "./campaignDescription.scss";
 
@@ -57,7 +58,7 @@ const CampaignDescription = ({
     last_crawled_date: "",
     end_date: "",
     end_time: "",
-
+    queryURL: "",
     status: 1,
   });
 
@@ -71,6 +72,7 @@ const CampaignDescription = ({
     end_date,
     end_time,
     country,
+    queryURL,
   } = addCampaignDetails;
 
   const [tags, setTags] = useState([]);
@@ -93,12 +95,13 @@ const CampaignDescription = ({
       } else {
         await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
       }
+      await dispatch(campaignActions.getACampaignAction(a__campgaignId));
     } catch (error) {
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };
 
-  //assigning lead to a user
+  //assigning campaign to a user
   const onChangeOption = (e, option) => {
     setSelectedUsers(option);
   };
@@ -160,6 +163,7 @@ const CampaignDescription = ({
         location: campaignDocValue.location,
         country: campaignDocValue.country,
         status: parseInt(campaignDocValue.status),
+        queryURL: campaignDocValue.queryURL,
       });
       setTags([...campaignDocValue.tags]);
     }
@@ -169,40 +173,128 @@ const CampaignDescription = ({
     setOnGoing(event.target.checked);
   };
 
-  const campaignUpdateForm = (event) => {
+  // Campaign Update form action
+  let minStartTime;
+  let maxStartTime;
+  let todaysDate = moment().format("YYYY-MM-DD");
+  const difference = moment(start_date).diff(todaysDate, "days");
+  const minTimeDiff = moment(start_time, "HH:mm").add(5, "m").format("HH:mm");
+  const currentTime = moment().format("HH:mm");
+  const difference_startDate_endDate = moment(end_date).diff(
+    start_date,
+    "days"
+  );
+
+  if (difference === 0) {
+    minStartTime = currentTime;
+    maxStartTime = "24:00";
+  } else {
+    minStartTime = "00:00";
+    maxStartTime = "24:00";
+  }
+
+  const campaignUpdateForm = async (event) => {
     event.preventDefault();
+    console.log("Hello");
+    // try {
+    if (source === "seek_aus") {
+      if (tags.length > 1) {
+        alert(
+          "For SEEK only 1 tag is permitted. Tags are seperated by comma's"
+        );
+        return;
+      }
+    } else if (
+      source === "indeed_aus" ||
+      source === "indeed_ca" ||
+      source === "indeed_uk" ||
+      source === "indeed_il" ||
+      source === "indeed_fi" ||
+      source === "indeed_ch" ||
+      source === "indeed_pt" ||
+      source === "indeed_sg" ||
+      source === "indeed_ae"
+    ) {
+      if (tags.length > 10) {
+        alert(
+          "For Indeed only 10 tags is permitted. Tags are seperated by comma's"
+        );
+        return;
+      }
+    } else if (source === "linkedin_aus") {
+      if (tags.length > 1) {
+        alert(
+          "For LinkedIn only 1 tag is permitted. Tags are seperated by comma's"
+        );
+        return;
+      }
+    }
+    const updateDetails = {
+      ...addCampaignDetails,
+      frequency: parseInt(frequency),
+      tags,
+      onGoing,
+      end_date: Timestamp.fromDate(new Date(end_date)),
+      start_date: Timestamp.fromDate(new Date(start_date)),
+      last_crawled_date: Timestamp.fromDate(new Date(start_date)),
+      owner: "Mithun Dominic",
+    };
+
+    await dispatch(
+      campaignActions.updateCampaignsAction(campgaignId, updateDetails)
+    );
+    dispatch(campaignActions.campaignIDAction(""));
   };
 
   return (
     <React.Fragment>
-      <Box component={"div"} className="campaign-description-container">
+      <Box
+        component={"div"}
+        className={
+          campgaignId
+            ? "campaign-description-container-edit"
+            : "campaign-description-container"
+        }
+      >
         <Box component={"div"} className="campaign-description-container1">
-          <form onSubmit={campaignUpdateForm}>
-            <Box
-              component={"div"}
-              className="campaign-description-header"
-              style={{ height: "20%" }}
-            >
+          <form id="campaignUpdate-form" onSubmit={campaignUpdateForm}>
+            <Box component={"div"} className="campaign-description-header">
               <Box component={"div"} className="left-section">
                 <Box component={"div"} className="title">
                   {campgaignId ? (
-                    <input
-                      type="text"
-                      id="campaign-name"
-                      className="addCampaign-inputs"
-                      name="name"
-                      value={name}
-                      onChange={onInputChangeHandler}
-                      autoComplete="off"
-                      required
-                      style={{ width: "max-content" }}
-                    />
+                    <React.Fragment>
+                      <span
+                        style={{
+                          fontStyle: "normal",
+                          fontWeight: "600",
+                          fontSize: "14px",
+                          lineHeight: "17px",
+                          color: "#1f4173",
+                          opacity: "0.6",
+                        }}
+                      >
+                        Campaign Name
+                      </span>
+                      <input
+                        type="text"
+                        id="campaign-name"
+                        className="addCampaign-inputs"
+                        name="name"
+                        value={name}
+                        onChange={onInputChangeHandler}
+                        autoComplete="off"
+                        required
+                        style={{ marginLeft: "10px" }}
+                      />
+                    </React.Fragment>
                   ) : (
                     campaignDocValue && campaignDocValue.name
                   )}
                 </Box>
+              </Box>
+              <Box component={"div"} className="right-section">
                 <Box component={"div"} className="subtitle">
-                  Tag:
+                  <span style={{ marginRight: "5px" }}>Tag:</span>
                   {campgaignId ? (
                     <input
                       type="text"
@@ -212,26 +304,86 @@ const CampaignDescription = ({
                       onChange={tagInputChange}
                       autoComplete="off"
                       required
-                      style={{ width: "max-content" }}
+                      style={{ marginLeft: "92px" }}
                     />
                   ) : (
                     campaignDocValue.tags && campaignDocValue.tags.toString()
                   )}
                 </Box>
-              </Box>
-              <Box component={"div"} className="right-section">
-                <span className="status-text">
-                  {campaignDocValue && campaignDocValue.status
-                    ? "Active"
-                    : "In-Active"}
-                </span>
-                <GreenSwitch
-                  className="toggleSwitch"
-                  checked={
-                    campaignDocValue && campaignDocValue.status ? true : false
-                  }
-                  onClick={(event) => statusUpdate(event, campaignDocValue.id)}
-                />
+
+                <Box component={"div"} className="subtitle">
+                  <span className="status-text">
+                    {campaignDocValue && campaignDocValue.status
+                      ? "Active"
+                      : "In-Active"}
+                  </span>
+                  <GreenSwitch
+                    className="toggleSwitch"
+                    checked={
+                      campaignDocValue && campaignDocValue.status ? true : false
+                    }
+                    onClick={(event) =>
+                      statusUpdate(event, campaignDocValue.id)
+                    }
+                  />
+                </Box>
+                <Box component={"div"} className="addCampaign-checkbox">
+                  {campgaignId ? (
+                    <React.Fragment
+                      className="addCampaign-checkbox"
+                      style={{ marginTop: "10px", marginLeft: " 7px" }}
+                    >
+                      <input
+                        type="checkbox"
+                        name="onGoing"
+                        value={onGoing}
+                        // checked={
+                        //   campaignDocValue && campaignDocValue.onGoing
+                        //     ? true
+                        //     : false
+                        // }
+                        onChange={onOngoing}
+                        // className="campaign-checkbox"
+                      />
+                      <label
+                        className="addCampaign-labels"
+                        style={{ marginLeft: "7px" }}
+                      >
+                        On going
+                      </label>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <input
+                        type="checkbox"
+                        name="onGoing"
+                        checked={
+                          campaignDocValue && campaignDocValue.onGoing
+                            ? true
+                            : false
+                        }
+                        readOnly
+                      />
+
+                      <label
+                        className="addCampaign-labels"
+                        style={{
+                          width: "52px",
+                          height: "16px",
+                          fontStyle: "normal",
+                          fontWeight: "600",
+                          fontSize: "13px",
+                          lineHeight: "16px",
+                          color: "#1F4173",
+                          opacity: "0.3",
+                          marginLeft: "7px",
+                        }}
+                      >
+                        On going
+                      </label>
+                    </React.Fragment>
+                  )}
+                </Box>
               </Box>
             </Box>
             <Divider
@@ -245,10 +397,27 @@ const CampaignDescription = ({
             />
             <Box
               component={"div"}
-              className="campaign-description-container1_2"
+              className={
+                campgaignId
+                  ? "campaign-description-container1_2-edit"
+                  : "campaign-description-container1_2"
+              }
             >
-              <Box className="campaign-description-body">
-                <Box className="campaign-description-left-sec">
+              <Box
+                component={"div"}
+                className={
+                  campgaignId
+                    ? "campaign-description-body1-edit"
+                    : "campaign-description-body1"
+                }
+              >
+                <Box
+                  className={
+                    campgaignId
+                      ? "campaign-description-left-sec-edit"
+                      : "campaign-description-left-sec"
+                  }
+                >
                   <div className="header-item">
                     <span className="header-key">Source Type</span>
                     <span className="header-value">
@@ -284,6 +453,58 @@ const CampaignDescription = ({
                       )}
                     </span>
                   </div>
+                  <div className="header-item">
+                    <span className="header-key">Country</span>
+                    <span className="header-value">
+                      {campgaignId && campaignDocValue.country ? (
+                        <select
+                          className="addCampaign-selects"
+                          name="country"
+                          value={country}
+                          onChange={onInputChangeHandler}
+                          autoComplete="off"
+                          required
+                        >
+                          <option value="" disabled defaultValue>
+                            Select the Country
+                          </option>
+                          {countryList.map((country) => (
+                            <option
+                              key={country.id}
+                              value={country.country_name}
+                            >
+                              {country.country_name}
+                            </option>
+                          ))}
+                        </select>
+                      ) : campaignDocValue && campaignDocValue.country ? (
+                        campaignDocValue.country
+                      ) : (
+                        "NA"
+                      )}
+                    </span>
+                  </div>
+
+                  <div className="header-item">
+                    <span className="header-key">Location</span>
+                    <span className="header-value">
+                      {campgaignId ? (
+                        <input
+                          type="text"
+                          className="addCampaign-inputs"
+                          name="location"
+                          value={location}
+                          onChange={onInputChangeHandler}
+                          autoComplete="off"
+                          // style={{ width: "max-content" }}
+                          required
+                        />
+                      ) : (
+                        campaignDocValue && campaignDocValue.location
+                      )}
+                    </span>
+                  </div>
+
                   <div className="header-item">
                     <span className="header-key">Start Date</span>
                     <span className="header-value">
@@ -325,29 +546,6 @@ const CampaignDescription = ({
                             required
                             // min={start_date}
                           />
-                          <div
-                            className="addCampaign-checkbox"
-                            style={{ marginTop: "10px" }}
-                          >
-                            <input
-                              type="checkbox"
-                              name="onGoing"
-                              value={onGoing}
-                              // checked={
-                              //   campaignDocValue && campaignDocValue.onGoing
-                              //     ? true
-                              //     : false
-                              // }
-                              onChange={onOngoing}
-                              // className="campaign-checkbox"
-                            />
-                            <label
-                              className="addCampaign-labels"
-                              style={{ marginLeft: "7px" }}
-                            >
-                              On going
-                            </label>
-                          </div>
                         </React.Fragment>
                       ) : (
                         <React.Fragment>
@@ -358,38 +556,18 @@ const CampaignDescription = ({
                                 campaignDocValue.end_date.nanoseconds
                               )
                               .format("MM/DD/YYYY")}
-                          <div className="addCampaign-checkbox">
-                            <input
-                              type="checkbox"
-                              name="onGoing"
-                              checked={
-                                campaignDocValue && campaignDocValue.onGoing
-                                  ? true
-                                  : false
-                              }
-                              readOnly
-                            />
-                            <label
-                              className="addCampaign-labels"
-                              style={{
-                                width: "52px",
-                                height: "16px",
-                                fontStyle: "normal",
-                                fontWeight: "600",
-                                fontSize: "13px",
-                                lineHeight: "16px",
-                                color: "#1F4173",
-                                opacity: "0.3",
-                                marginLeft: "7px",
-                              }}
-                            >
-                              On going
-                            </label>
-                          </div>
                         </React.Fragment>
                       )}
                     </span>
                   </div>
+                </Box>
+                <Box
+                  className={
+                    campgaignId
+                      ? "campaign-description-rigth-sec-edit"
+                      : "campaign-description-rigth-sec"
+                  }
+                >
                   <div className="header-item">
                     <span className="header-key">Frequency</span>
                     <span className="header-value">
@@ -397,6 +575,7 @@ const CampaignDescription = ({
                         <input
                           type="number"
                           className="addCampaign-inputs"
+                          style={{ width: "120px" }}
                           name="frequency"
                           value={frequency}
                           onChange={onInputChangeHandler}
@@ -410,80 +589,7 @@ const CampaignDescription = ({
                       )}
                     </span>
                   </div>
-
                   <div className="header-item">
-                    <span className="header-key">Locaion</span>
-                    <span className="header-value">
-                      {campgaignId ? (
-                        <input
-                          type="text"
-                          className="addCampaign-inputs"
-                          name="location"
-                          value={location}
-                          onChange={onInputChangeHandler}
-                          autoComplete="off"
-                          // style={{ width: "max-content" }}
-                          required
-                        />
-                      ) : (
-                        campaignDocValue && campaignDocValue.location
-                      )}
-                    </span>
-                  </div>
-
-                  <div className="header-item">
-                    <span className="header-key">Country</span>
-                    <span className="header-value">
-                      {campgaignId && campaignDocValue.country ? (
-                        <select
-                          className="addCampaign-selects"
-                          name="country"
-                          value={country}
-                          onChange={onInputChangeHandler}
-                          autoComplete="off"
-                          required
-                        >
-                          <option value="" disabled defaultValue>
-                            Select the Country
-                          </option>
-                          {countryList.map((country) => (
-                            <option
-                              key={country.id}
-                              value={country.country_name}
-                            >
-                              {country.country_name}
-                            </option>
-                          ))}
-                        </select>
-                      ) : campaignDocValue && campaignDocValue.country ? (
-                        campaignDocValue.country
-                      ) : (
-                        "NA"
-                      )}
-                    </span>
-                  </div>
-                  <div className="header-item">
-                    <span className="header-key">Created By</span>
-                    <span className="header-value">
-                      {campaignDocValue && campaignDocValue.owner}
-                    </span>
-                  </div>
-                  <div className="header-item">
-                    <span className="header-key">Last Crawled Date</span>
-                    <span className="header-value">
-                      {campaignDocValue && campaignDocValue?.last_crawled_date
-                        ? moment
-                            .unix(
-                              campaignDocValue.last_crawled_date.seconds,
-                              campaignDocValue.last_crawled_date.nanoseconds
-                            )
-                            .format("MM/DD/YYYY")
-                        : "NA"}
-                    </span>
-                  </div>
-                </Box>
-                <Box className="campaign-description-rigth-sec">
-                  <div className="header-item" style={{ marginBottom: "20px" }}>
                     <span className="header-key">Parsing Start Time</span>
                     <span className="header-value">
                       {campgaignId ? (
@@ -531,7 +637,63 @@ const CampaignDescription = ({
                       )}
                     </span>
                   </div>
+                  <div className="header-item">
+                    <span className="header-key">Created By</span>
+                    <span
+                      className="header-value"
+                      style={{ marginLeft: "40px" }}
+                    >
+                      {campaignDocValue && campaignDocValue.owner}
+                    </span>
+                  </div>
+                  <div className="header-item">
+                    <span className="header-key">Last Crawled Date</span>
+                    <span
+                      className="header-value"
+                      style={{ marginLeft: "40px" }}
+                    >
+                      {campaignDocValue && campaignDocValue?.last_crawled_date
+                        ? moment
+                            .unix(
+                              campaignDocValue.last_crawled_date.seconds,
+                              campaignDocValue.last_crawled_date.nanoseconds
+                            )
+                            .format("MM/DD/YYYY")
+                        : "NA"}
+                    </span>
+                  </div>
                 </Box>
+              </Box>
+              <Box
+                component={"div"}
+                className={
+                  campgaignId
+                    ? "campaign-description-body2-edit"
+                    : "campaign-description-body2"
+                }
+              >
+                <div className="header-item">
+                  <span className="header-key">Query URL</span>
+                  <span className="header-value">
+                    {campgaignId ? (
+                      <input
+                        type="text"
+                        className="addCampaign-inputs"
+                        placeholder="Paste your URL here"
+                        name="queryURL"
+                        value={queryURL}
+                        onChange={onInputChangeHandler}
+                        autoComplete="off"
+                        required
+                        style={{ width: "100%" }}
+                      />
+                    ) : campaignDocValue && campaignDocValue?.queryURL ? (
+                      campaignDocValue.queryURL
+                    ) : (
+                      "NA"
+                    )}
+                  </span>
+                </div>
               </Box>
             </Box>
           </form>
@@ -566,9 +728,6 @@ const CampaignDescription = ({
                 campaignDoc={campaignDoc}
                 campgaignId={campgaignId}
                 leadsList={leadsList}
-                addCampaignDetails={addCampaignDetails}
-                tags={tags}
-                campaignUpdateForm={campaignUpdateForm}
               />
             </Box>
           </Box>

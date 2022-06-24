@@ -14,6 +14,7 @@ import {
   leadsFilterOwnerName,
   clearFilters,
   datePickerState,
+  leadsFilterCountiresName,
 } from "../../../../redux/actions/leadsFilter";
 import moment from "moment";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
@@ -27,30 +28,56 @@ const LeadsHeader = () => {
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
+  const countriesNameFilter = useSelector(
+    (state) => state.leadsFilter.countriesName
+  );
   const cardsToDisplay = useSelector((state) => state.allLeads.cardsToDisplay);
   // const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
 
   const [allCampgainsMenu, setAllCampgainsMenu] = React.useState(null);
   const [allCampaignsFilter, setAllCampgainsFilter] = useState("All Campgains");
   const [allOwnersFilter, setAllOwnersFilter] = useState("All Owners");
+  const [allCountriesFilter, setAllCountriesFilter] = useState("All Countries");
+  const [allCountriesMenu, setAllCountriesMenu] = React.useState(null);
+
   const openAllCampgainsMenu = Boolean(allCampgainsMenu);
   const handleClickAllCampgainsMenu = (event) => {
     setAllCampgainsMenu(event.currentTarget);
   };
+  const openAllCountriesMenu = Boolean(allCountriesMenu);
+  const handleClickAllCountriesMenu = (event) => {
+    setAllCountriesMenu(event.currentTarget);
+  };
+
+  const handleCloseAllCountriesMenu = (event) => {
+    if (event.target.innerText === "") {
+      dispatch(leadsFilterCountiresName("All Countries"));
+      setAllCountriesFilter("All Countries");
+    } else {
+      dispatch(leadsFilterCountiresName(event.target.innerText));
+      setAllCountriesFilter(event.target.innerText);
+    }
+    setAllCountriesMenu(null);
+  };
 
   const uniqueOwner = [];
+  const uniqueCountries = [];
 
   leadData.forEach((c) => {
     if (!uniqueOwner.includes(c.owner)) {
       uniqueOwner.push(c.owner);
+    }
+    if (!uniqueCountries.includes(c.country)) {
+      uniqueCountries.push(c.country);
     }
   });
 
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);
     setAllOwnersFilter(ownerNameFilter);
+    setAllCountriesFilter(countriesNameFilter);
     setAllCampgainsMenu(null);
-  }, [campaignNameFilter, ownerNameFilter]);
+  }, [campaignNameFilter, ownerNameFilter, countriesNameFilter]);
 
   const handleCloseAllCampgainsMenu = (event) => {
     if (event.target.innerText === "") {
@@ -177,7 +204,9 @@ const LeadsHeader = () => {
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
                   overflow: "auto",
-                  height: "210px",
+                  height: "auto",
+                  minWidth: "160px",
+                  maxHeight: "200px",
                 },
               }}
               open={openAllCampgainsMenu}
@@ -212,7 +241,6 @@ const LeadsHeader = () => {
               })}
             </Menu>
           </div>
-          {/* <AdvanceDatePicker/> */}
           <NewDateRangePicker />
           {/* <DateModal/> */}
           <div className="select-container">
@@ -238,11 +266,11 @@ const LeadsHeader = () => {
                   boxshadow: "none",
                   // backgroundColor: "#E7E7E7",
                   backgroundColor: "rgb(233,236,241)",
-
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
                   overflow: "auto",
-                  maxHeight: "150px",
+                  maxHeight: "200px",
+                  minWidth: "160px",
                 },
               }}
               open={openOwnerMenu}
