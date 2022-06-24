@@ -18,6 +18,12 @@ import {
   UPDATE_LEAD_VIEW_PENDING,
   UPDATE_LEAD_VIEW_SUCCESS,
   UPDATE_LEAD_VIEW_ERROR,
+  GET_ASSIGNED_LEADS_PENDING,
+  GET_ASSIGNED_LEADS_SUCCESS,
+  GET_ASSIGNED_LEADS_ERROR,
+  ASSIGN_LEAD_PENDING,
+  ASSIGN_LEAD_SUCCESS,
+  ASSIGN_LEAD_ERROR,
 } from "../type";
 
 const initialState = {
@@ -32,6 +38,7 @@ const initialState = {
   assignLead: {},
   addedNotes: {},
   leadViewStatus: {},
+  assignedLeads: [],
 };
 
 // fetch all campaign list
@@ -114,20 +121,20 @@ export const assignLeadToReducer = (
   { type, payload }
 ) => {
   switch (type) {
-    case GET_USERS_PENDING:
+    case ASSIGN_LEAD_PENDING:
       return {
         ...state,
         loading: true,
         error: null,
       };
-    case GET_USERS_SUCCESS:
+    case ASSIGN_LEAD_SUCCESS:
       return {
         ...state,
         loading: false,
         assignLead: payload,
         error: null,
       };
-    case GET_USERS_ERROR:
+    case ASSIGN_LEAD_ERROR:
       return {
         ...state,
         loading: false,
@@ -192,6 +199,36 @@ export const updateLeadViewStatusReducer = (
         ...state,
         loading: false,
         leadViewStatus: {},
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const getAssignedLeadsReducer = (
+  state = initialState,
+  { type, payload }
+) => {
+  switch (type) {
+    case GET_ASSIGNED_LEADS_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case GET_ASSIGNED_LEADS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        assignedLeads: payload,
+        error: null,
+      };
+    case GET_ASSIGNED_LEADS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        assignedLeads: {},
         error: payload,
       };
     default:

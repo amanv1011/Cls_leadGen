@@ -5,6 +5,7 @@ import {
   assignLeadToReducer,
   updateLeadViewStatusReducer,
   addNotesToUserReducer,
+  getAssignedLeadsReducer,
 } from "./leadsReducer";
 import { getApproveRejectCountReducer } from "./approveRejectCountReducer";
 import { PopupReducers } from "./PopupReducers";
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   addNotesToUserReducer: addNotesToUserReducer,
   campaignFilters: campaignFilterReducer,
   country: countryReducer,
+  getAssignedLeadsReducer: getAssignedLeadsReducer,
 });
 
 export default rootReducer;

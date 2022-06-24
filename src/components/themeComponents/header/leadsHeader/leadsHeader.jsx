@@ -206,6 +206,7 @@ const LeadsHeader = () => {
                   overflow: "auto",
                   height: "auto",
                   minWidth: "160px",
+                  maxHeight: "200px",
                 },
               }}
               open={openAllCampgainsMenu}
@@ -271,6 +272,7 @@ const LeadsHeader = () => {
                 overflow: "auto",
                 height: "auto",
                 minWidth: "160px",
+                maxHeight: "200px",
               },
             }}
             open={openAllCountriesMenu}
@@ -334,7 +336,7 @@ const LeadsHeader = () => {
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
                   overflow: "auto",
-                  maxHeight: "150px",
+                  maxHeight: "200px",
                   minWidth: "160px",
                 },
               }}
