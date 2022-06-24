@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import DateModal from "../../../pageComponents/leads/DateModal";
+
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import Tooltip from "@mui/material/Tooltip";
@@ -23,7 +23,9 @@ import NewDateRangePicker from "../../AdvanceDatePicker/newDatePickerCompo";
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
+  const [uniqueOwner, setUniqueOwner] = useState([]);
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
+  const allUsers = useSelector((state) => state.users.users);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
   );
@@ -60,17 +62,28 @@ const LeadsHeader = () => {
     setAllCountriesMenu(null);
   };
 
-  const uniqueOwner = [];
+  const arr = [];
   const uniqueCountries = [];
 
   leadData.forEach((c) => {
-    if (!uniqueOwner.includes(c.owner)) {
-      uniqueOwner.push(c.owner);
+    if (!arr.includes(c.owner)) {
+      arr.push(c.owner);
     }
+
     if (!uniqueCountries.includes(c.country)) {
       uniqueCountries.push(c.country);
     }
   });
+
+  useEffect(() => {
+    const array = [...arr];
+    allUsers.map((user) => {
+      if (!array.includes(user.name)) {
+        array.push(user.name);
+      }
+    });
+    setUniqueOwner(array);
+  }, [allUsers, leadData]);
 
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);

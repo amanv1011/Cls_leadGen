@@ -19,12 +19,16 @@ const Lead = () => {
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
+  const allUsers = useSelector((state) => state.users.users);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
   );
   const ownerNameFilter = useSelector((state) => state.leadsFilter.ownerName);
   const countriesNameFilter = useSelector(
     (state) => state.leadsFilter.countriesName
+  );
+  const assignedLeads = useSelector(
+    (state) => state.getAssignedLeadsReducer.assignedLeads
   );
 
   var filterAllLeads;
@@ -98,6 +102,21 @@ const Lead = () => {
     filterAllLeads = arr;
     leadListForCount = filterAllLeads;
   }
+
+  function AppendAssignedLeadtoOwner() {
+    const arr = [];
+    const ownerNameFilterId = allUsers.filter(
+      (user) => user.name === ownerNameFilter
+    );
+    assignedLeads &&
+      assignedLeads.forEach((lead) => {
+        if (lead.userId.includes(ownerNameFilterId[0])) {
+          arr.push(lead.leadId);
+        }
+      });
+    console.log({ arr });
+  }
+  AppendAssignedLeadtoOwner();
 
   const rejectList =
     searchDate === "" && searchQuery === ""
