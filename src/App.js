@@ -19,7 +19,7 @@ const App = (props) => {
   const navigate = useNavigate()
   useEffect(async () => {
     if (searchParams.get('token')) {
-      fetch('http://localhost:3501/api/auth/verifyToken', {
+      fetch('https://stageapp.api.classicinformatics.net/api/auth/verifyToken', {
         method: 'GET',
         mode: 'cors',
         cache: 'no-cache',
