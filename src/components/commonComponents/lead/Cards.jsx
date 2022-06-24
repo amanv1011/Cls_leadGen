@@ -59,11 +59,11 @@ const Cards = (props) => {
   }, []);
 
   // useEffect(() => {
-  //   leadsData.sort(
-  //     (a, b) =>
-  //       new Date(b.leadGeneratedDate.seconds).getTime() -
-  //       new Date(a.leadGeneratedDate.seconds).getTime()
-  //   );
+  leadsData.sort(
+    (a, b) =>
+      new Date(b.leadGeneratedDate.seconds).getTime() -
+      new Date(a.leadGeneratedDate.seconds).getTime()
+  );
   // }, [leadsData]);
 
   useEffect(() => {

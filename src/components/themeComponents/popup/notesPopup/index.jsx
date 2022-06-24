@@ -72,7 +72,7 @@ export default function NotesPopup(props) {
                 );
               })
             ) : (
-              <h3
+              <h5
                 style={{
                   width: "100%",
                   height: "auto",
@@ -81,7 +81,7 @@ export default function NotesPopup(props) {
                 }}
               >
                 Notes not available!
-              </h3>
+              </h5>
             )}
           </div>
         </div>

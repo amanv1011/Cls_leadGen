@@ -129,6 +129,7 @@ const LeadsDisplay = ({
       dispatch(assignLeadToUsersAction(selectedArray, arr));
     }
   };
+
   return (
     <React.Fragment>
       {
