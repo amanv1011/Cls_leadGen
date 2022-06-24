@@ -109,12 +109,22 @@ const Lead = () => {
       (user) => user.name === ownerNameFilter
     );
     assignedLeads &&
+      ownerNameFilterId &&
       assignedLeads.forEach((lead) => {
-        if (lead.userId.includes(ownerNameFilterId[0])) {
+        if (lead.userId.includes(ownerNameFilterId[0]?.userId)) {
           arr.push(lead.leadId);
         }
       });
-    console.log({ arr });
+    const filtered = [];
+    console.log(genratedLeadData[0]);
+    arr.forEach((assignLead) => {
+      genratedLeadData.forEach((genLead) => {
+        if (genLead.id === assignLead) {
+          filtered.push(genLead);
+        }
+      });
+    });
+    filterAllLeads = [...filterAllLeads, ...filtered];
   }
   AppendAssignedLeadtoOwner();
 
