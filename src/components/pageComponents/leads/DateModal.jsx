@@ -35,6 +35,7 @@ export default function DateModal() {
     dispatch(closeDateModal());
   };
   const filterDate = useSelector((state) => state.leadsFilter.filterDate);
+     console.log(filterDate)
   const open = useSelector((state) => state.dateModal.isOpen);
   const tempDate = "Select Date Range";
 
