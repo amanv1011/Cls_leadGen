@@ -56,3 +56,13 @@ body {
 .rs-picker-toggle .rs-picker-toggle-placeholder {
   color: rgb(92, 117, 154) !important;
 }
+
+.rs-picker-has-value .rs-btn .rs-picker-toggle-value, .rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
+  /* color: #1675e0; */
+  color:rgb(92, 117, 154) !important;
+}
+.rs-anim-fade.rs-anim-in {
+  opacity: 1;
+  width: 275px;
+  pointer-events: unset;
+}
