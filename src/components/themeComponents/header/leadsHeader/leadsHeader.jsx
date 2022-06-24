@@ -231,7 +231,7 @@ const LeadsHeader = () => {
                     className="menu-item"
                     onClick={handleCloseAllCampgainsMenu}
                     sx={{
-                      fontSize: "13px",
+                      fontSize: "12px",
                       fontWeight: 600,
                     }}
                   >
