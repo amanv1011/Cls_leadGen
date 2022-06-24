@@ -30,10 +30,7 @@ const NewDateRangePicker = (props) => {
     console.log("Selected Date By User", value1[0], value1[1]);
   };
 
-//   const clearAllSelectedDateRange = () => {
-//     dispatch(props.clearFilters());
-//     dispatch(props.datePickerState(0));
-//   };
+   
 
   return (
     <DateRangePicker
@@ -55,7 +52,7 @@ const NewDateRangePicker = (props) => {
       }}
       onOk={applyOkButton}
       character={" to "}
-    //  onClean={clearAllSelectedDateRange}
+    // onClean={props.clearFunc}
     />
   );
 };
