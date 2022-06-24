@@ -5,6 +5,7 @@ const UnAuthorizedComponent = () => {
         staging: 'https://stagingapp.classicinformatics.net/',
         production: 'https://app.classicinformatics.net/'
     }
+    
     return (
         <div className="redirect-box">
             <h4>Please Login on Portal's Dashboard, And try again</h4>
