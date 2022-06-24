@@ -54,10 +54,6 @@ const Cards = (props) => {
     (state) => state.getAssignedLeadsReducer.assignedLeads
   );
 
-  useEffect(() => {
-    dispatch(getAssignedLeadsAction());
-  }, []);
-
   // useEffect(() => {
   leadsData.sort(
     (a, b) =>

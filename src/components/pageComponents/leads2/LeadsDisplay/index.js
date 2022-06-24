@@ -226,73 +226,90 @@ const LeadsDisplay = ({
         <LeadsMenu />
       </div>
       <div className="lead-display-container">
-        {leadsList &&
-          leadsList.map((lead) => (
-            <div
-              className={`lead-display-subcontainers ${
-                selectedLeadId === lead.id ? "selected" : ""
-              }  ${lead && lead.seen && lead.seen === true ? "seen" : ""} `}
-              onClick={() => handleClick(lead.id)}
-              key={lead.id}
-            >
-              <div className="lead-display-check">
-                {/* <LeadsCheckbox /> */}
-                <input
-                  type="checkbox"
-                  name={lead.id}
-                  value={lead.id}
-                  className="checkbox"
-                  checked={
-                    selectedArray &&
-                    selectedArray.filter((it) => it === lead.id).length > 0
-                      ? true
-                      : false
-                  }
-                  onChange={handleOnCheckboxChange}
-                />
-              </div>
-              <div
-                className={`lead-display-subcontainer1 ${
-                  selectedLeadId === lead.id ? "selected" : ""
-                }`}
-              >
+        {leadsList && leadsList.length > 0 ? (
+          <>
+            {leadsList &&
+              leadsList.map((lead) => (
                 <div
-                  className="display-count"
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
+                  className={`lead-display-subcontainers ${
+                    selectedLeadId === lead.id ? "selected" : ""
+                  }  ${lead && lead.seen && lead.seen === true ? "seen" : ""} `}
+                  onClick={() => handleClick(lead.id)}
+                  key={lead.id}
                 >
+                  <div className="lead-display-check">
+                    {/* <LeadsCheckbox /> */}
+                    <input
+                      type="checkbox"
+                      name={lead.id}
+                      value={lead.id}
+                      className="checkbox"
+                      checked={
+                        selectedArray &&
+                        selectedArray.filter((it) => it === lead.id).length > 0
+                          ? true
+                          : false
+                      }
+                      onChange={handleOnCheckboxChange}
+                    />
+                  </div>
                   <div
-                    className={`lead-display-btn-text ${
+                    className={`lead-display-subcontainer1 ${
                       selectedLeadId === lead.id ? "selected" : ""
-                    }  ${
-                      lead && lead.seen && lead.seen === true ? "seen" : ""
                     }`}
                   >
-                    {lead.title}
+                    <div
+                      className="display-count"
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div
+                        className={`lead-display-btn-text ${
+                          selectedLeadId === lead.id ? "selected" : ""
+                        }  ${
+                          lead && lead.seen && lead.seen === true ? "seen" : ""
+                        }`}
+                      >
+                        {lead.title}
+                      </div>
+                    </div>
+                    <div
+                      className={`lead-display-subcontainer2 ${
+                        selectedLeadId === lead.id ? "selected-sub" : ""
+                      }`}
+                    >
+                      <div>
+                        {lead.companyName === null ? "NA" : lead.companyName}
+                      </div>
+                      <span
+                        className={`lead-display-timestamp ${
+                          selectedLeadId === lead.id ? "selected-sub" : ""
+                        } `}
+                      >
+                        {moment.unix(lead.leadGeneratedDate.seconds).fromNow()}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div
-                  className={`lead-display-subcontainer2 ${
-                    selectedLeadId === lead.id ? "selected-sub" : ""
-                  }`}
-                >
-                  <div>
-                    {lead.companyName === null ? "NA" : lead.companyName}
-                  </div>
-                  <span
-                    className={`lead-display-timestamp ${
-                      selectedLeadId === lead.id ? "selected-sub" : ""
-                    } `}
-                  >
-                    {moment.unix(lead.leadGeneratedDate.seconds).fromNow()}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+              ))}
+          </>
+        ) : (
+          <>
+            <p
+              style={{
+                padding: "5px",
+                color: "#003ad2",
+                fontSize: "14px",
+                fontWeight: 600,
+              }}
+            >
+              No lead(s) to display!
+            </p>
+          </>
+        )}
       </div>
     </React.Fragment>
   );
