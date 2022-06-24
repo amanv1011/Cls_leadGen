@@ -8,16 +8,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { leadsFilterDate } from "../../../redux/actions/leadsFilter";
 import { datePickerState } from "../../../redux/actions/leadsFilter";
 import { clearFilters } from "../../../redux/actions/leadsFilter";
+import { useState } from "react";
 const today = moment();
 
 const NewDateRangePicker = (props) => {
 
   const dispatch = useDispatch();
 
+  const [clearDateFilter,setClearDateFilter]=useState();
   const filterDate = useSelector((state) => state.leadsFilter.filterDate);
   const datePlaceHolder = "Select Date Range";
 
   const applyOkButton = (value1) => {
+         setClearDateFilter(value1);
     const calender1 =
       props.leadsFilter.datePickerState === 0
         ? moment.range(today.clone(), today.clone())
