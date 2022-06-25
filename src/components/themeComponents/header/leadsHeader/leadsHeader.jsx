@@ -106,6 +106,8 @@ const LeadsHeader = () => {
     setOwnerMenu(null);
   };
 
+ 
+
   const clearFilterTab = () => {
     dispatch(clearFilters());
     dispatch(datePickerState(0));
