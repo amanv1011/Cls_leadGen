@@ -1,11 +1,10 @@
-import { Autocomplete, Checkbox, TextField } from "@mui/material";
-import React from "react";
-import "./assignCampaign.scss";
+import React, { useState } from "react";
+import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckIcon from "@mui/icons-material/Check";
+import "./assignCampaign.scss";
 
-import { useState } from "react";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -16,12 +15,11 @@ const AssignCampaign = ({
   onAutoPopperClose,
   selectedUsers,
   assignUsers,
+  width,
 }) => {
-  const [first, setfirst] = useState([]);
   return (
     <div
       style={{
-        // overflowY: "scroll",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -38,6 +36,7 @@ const AssignCampaign = ({
         freeSolo
         disablePortal
         multiple
+        limitTags={1}
         disabled={disabled}
         fullWidth={true}
         size="small"
@@ -50,6 +49,25 @@ const AssignCampaign = ({
         value={selectedUsers}
         onChange={(e, option) => onChangeOption(e, option)}
         isOptionEqualToValue={(option, value) => option.name === value.name}
+        renderTags={(value, getTagProps) => {
+          const numTags = value.length;
+          const limitTags = 1;
+          return (
+            <>
+              {value.slice(0, limitTags).map((option, index) => (
+                <Chip
+                  size={"small"}
+                  {...getTagProps({ index })}
+                  key={index}
+                  label={option.name}
+                />
+              ))}
+              <span style={{ fontSize: "11px", fontWeight: "600" }}>
+                {numTags > limitTags && ` +${numTags - limitTags} more`}
+              </span>
+            </>
+          );
+        }}
         renderOption={(props, option, { selected }) => (
           <li
             {...props}
@@ -69,7 +87,7 @@ const AssignCampaign = ({
           </li>
         )}
         sx={{
-          width: "125px",
+          width: width,
           background: "#e9ecf1",
           borderRadius: "10px",
           border: "none",
@@ -80,19 +98,12 @@ const AssignCampaign = ({
             height: "20px",
             width: "100px",
           },
-          "& .MuiAutocomplete-inputRoot": {
-            paddingRight: "30px",
-          },
-          "& .MuiAutocomplete-popper": {
-            borderRadius: "20px",
-          },
-          "& .MuiInputBase-root": {
-            opacity: 0.8,
-          },
-          "& legend": {
-            visibility: "hidden",
-          },
+          "& .MuiAutocomplete-inputRoot": { paddingRight: "30px" },
+          "& .MuiAutocomplete-popper": { borderRadius: "20px" },
+          "& .MuiInputBase-root": { opacity: 0.8 },
+          "& legend": { visibility: "hidden" },
         }}
+        componentsProps={{ paper: { sx: { width: width + 25 } } }}
         ListboxProps={{
           sx: {
             fontSize: 14,
@@ -100,10 +111,10 @@ const AssignCampaign = ({
             opacity: 0.7,
             padding: "8px",
             borderRadius: "10px",
-            maxHeight: "200px",
+            maxHeight: "150px",
           },
         }}
-        className="autocomplete"
+        className="autocomplete-campaign"
         renderInput={(params) => (
           <TextField
             {...params}
@@ -137,5 +148,4 @@ const AssignCampaign = ({
     </div>
   );
 };
-
 export default AssignCampaign;

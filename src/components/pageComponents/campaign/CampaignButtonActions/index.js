@@ -96,7 +96,7 @@ const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
     );
   } else {
     return (
-      <>
+      <React.Fragment>
         <div className="campaignButton-actions">
           <button
             className="campaign-btn edit-btn"
@@ -168,7 +168,7 @@ const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
           campaignName={campaignName}
           setCampaignName={setCampaignName}
         />
-      </>
+      </React.Fragment>
     );
   }
 };

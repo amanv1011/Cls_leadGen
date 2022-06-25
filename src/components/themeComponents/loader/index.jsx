@@ -20,7 +20,7 @@ export default function Loader({ open, noDrop }) {
         </div>
       ) : (
         <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 2 }}
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 3 }}
           open={open}
         >
           <CircularProgress color="inherit" />

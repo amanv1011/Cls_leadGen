@@ -22,9 +22,8 @@
         height: auto;
         font-style: normal;
         font-weight: 600;
-        font-size: 21px;
-        // line-height: 22px;
-        letter-spacing: -0.02em;
+        font-size: 15px;
+        letter-spacing: 0px;
         color: #1f4173;
       }
       .subtitle {
@@ -97,17 +96,17 @@
             // width: auto;
             font-style: normal;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 17px;
             color: #1f4173;
             opacity: 0.6;
             min-width: 50px;
           }
           .header-value {
-            width: 50%;
+            width: 100%;
             font-style: normal;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 24px;
             color: #1f4173;
           }
@@ -131,8 +130,8 @@
       .leads-description-desc-desc {
         height: 33vh;
         font-style: normal;
-        font-weight: 600;
-        font-size: 14px;
+        font-weight: 500;
+        font-size: 13px;
         line-height: 22px;
         color: #1f4173;
         opacity: 0.6;

@@ -206,6 +206,7 @@ const LeadsHeader = () => {
                   overflow: "auto",
                   height: "auto",
                   minWidth: "160px",
+                  maxHeight: "200px",
                 },
               }}
               open={openAllCampgainsMenu}
@@ -230,7 +231,7 @@ const LeadsHeader = () => {
                     className="menu-item"
                     onClick={handleCloseAllCampgainsMenu}
                     sx={{
-                      fontSize: "13px",
+                      fontSize: "12px",
                       fontWeight: 600,
                     }}
                   >
@@ -241,7 +242,8 @@ const LeadsHeader = () => {
             </Menu>
           </div>
           <NewDateRangePicker />
-          {/* countries name */}
+          {/* <DateModal/> */}
+
           <div className="select-container">
             <Button
               id="basic-button"
@@ -271,6 +273,7 @@ const LeadsHeader = () => {
                 overflow: "auto",
                 height: "auto",
                 minWidth: "160px",
+                maxHeight: "200px",
               },
             }}
             open={openAllCountriesMenu}
@@ -287,26 +290,24 @@ const LeadsHeader = () => {
             >
               All Countries
             </MenuItem>
-            {uniqueCountries.map((ele, idx) => {
-              return (
-                <MenuItem
-                  key={idx}
-                  data-id={idx}
-                  className="menu-item"
-                  onClick={handleCloseAllCountriesMenu}
-                  sx={{
-                    fontSize: "13px",
-                    fontWeight: 600,
-                  }}
-                >
-                  {ele}
-                </MenuItem>
-              );
-            })}
+            {uniqueCountries &&
+              uniqueCountries.map((ele, idx) => {
+                return (
+                  <MenuItem
+                    key={idx}
+                    data-id={idx}
+                    className="menu-item"
+                    onClick={handleCloseAllCountriesMenu}
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {ele}
+                  </MenuItem>
+                );
+              })}
           </Menu>
-
-          {/* countries name */}
-          {/* <AdvanceDatePicker/> */}
 
           <div className="select-container">
             <Button
@@ -334,7 +335,7 @@ const LeadsHeader = () => {
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
                   overflow: "auto",
-                  maxHeight: "150px",
+                  maxHeight: "200px",
                   minWidth: "160px",
                 },
               }}
@@ -355,22 +356,23 @@ const LeadsHeader = () => {
               >
                 All Owners
               </MenuItem>
-              {uniqueOwner.map((ele) => {
-                return (
-                  <MenuItem
-                    key={ele.id}
-                    data-id={ele.id}
-                    className="menu-item"
-                    onClick={handleCloseOwnerMenu}
-                    sx={{
-                      fontSize: "13px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {ele}
-                  </MenuItem>
-                );
-              })}
+              {uniqueOwner &&
+                uniqueOwner.map((ele) => {
+                  return (
+                    <MenuItem
+                      key={ele.id}
+                      data-id={ele.id}
+                      className="menu-item"
+                      onClick={handleCloseOwnerMenu}
+                      sx={{
+                        fontSize: "13px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {ele}
+                    </MenuItem>
+                  );
+                })}
             </Menu>
           </div>
         </div>

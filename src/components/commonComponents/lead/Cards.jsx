@@ -6,6 +6,7 @@ import {
   addNotestoLeadAction,
   assignLeadToUsersAction,
   getAllLeadsAction,
+  getAssignedLeadsAction,
   updateLeadStatus,
 } from "../../../redux/actions/leadActions";
 import { cardsDisplayAction } from "../../../redux/actions/leadActions";
@@ -22,7 +23,6 @@ import Textarea from "../../themeComponents/textarea/textarea";
 import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
 //import {AddIcon} from "@mui/icons-material/Add";
-import IModal from "../../themeComponents/popup/modal";
 import NotesPopup from "../../themeComponents/popup/notesPopup";
 
 const Cards = (props) => {
@@ -40,18 +40,48 @@ const Cards = (props) => {
   const [reason, setReason] = useState("");
   const leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
+  let assignLeadResponse = useSelector(
+    (state) => state.assignLeadToReducer.assignLead
+  );
   const approveRejectResponse = useSelector(
     (state) => state.allLeads.approveRejectResponse
   );
   const NotesResponse = useSelector(
     (state) => state.addNotesToUserReducer.addedNotes
   );
-
   const allUsers = useSelector((state) => state.users.users);
+  const assignedLeads = useSelector(
+    (state) => state.getAssignedLeadsReducer.assignedLeads
+  );
+
+  // useEffect(() => {
+  leadsData.sort(
+    (a, b) =>
+      new Date(b.leadGeneratedDate.seconds).getTime() -
+      new Date(a.leadGeneratedDate.seconds).getTime()
+  );
+  // }, [leadsData]);
 
   useEffect(() => {
+    setSelectedUsers([]);
     setdisplayLeadData(allLeadData);
+
+    if (assignedLeads && allLeadData && allLeadData.id) {
+      assignedLeads.forEach((lead) => {
+        if (lead.leadId === allLeadData.id) {
+          let selectedId = lead.userId;
+          const filteredArray = allUsers.filter((value) =>
+            selectedId.includes(value.userId)
+          );
+          setSelectedUsers(filteredArray);
+        }
+      });
+    }
   }, [allLeadData]);
+
+  useEffect(() => {
+    dispatch(getAssignedLeadsAction());
+  }, [assignLeadResponse]);
 
   useEffect(() => {
     if (
@@ -129,19 +159,25 @@ const Cards = (props) => {
   //assigning lead to a user
   const onChangeOption = (e, option) => {
     setSelectedUsers(option);
+    let arr = [];
+    option &&
+      option.forEach((e) => {
+        arr.push(e.userId);
+      });
+    dispatch(assignLeadToUsersAction([selectedLeadId], arr));
   };
 
-  const assignUsers = () => {
-    if (selectedLeadId.length > 0 && selectedUsers.length > 0) {
-      let arr = [];
-      selectedUsers &&
-        selectedUsers.forEach((e) => {
-          arr.push(e.userId);
-        });
-      dispatch(assignLeadToUsersAction([selectedLeadId], arr));
-      setSelectedUsers([]);
-    }
-  };
+  // const assignUsers = () => {
+  //   if (selectedLeadId.length > 0 && selectedUsers.length > 0) {
+  //     let arr = [];
+  //     selectedUsers &&
+  //       selectedUsers.forEach((e) => {
+  //         arr.push(e.userId);
+  //       });
+  //     dispatch(assignLeadToUsersAction([selectedLeadId], arr));
+  //     // setSelectedUsers([]);
+  //   }
+  // };
 
   const addNotesFunction = () => {
     if (openText && value.length > 0) {
@@ -175,6 +211,7 @@ const Cards = (props) => {
       setReason("");
     }
   };
+
   return (
     <>
       {
@@ -228,7 +265,7 @@ const Cards = (props) => {
               status={status}
               //autocomplete props
               options={allUsers}
-              onChangeOption={onChangeOption}
+              // onChangeOption={onChangeOption}
               selectedUsers={selectedUsers}
               setSelectedUsers={setSelectedUsers}
               selectedArray={selectedArray}
@@ -329,9 +366,9 @@ const Cards = (props) => {
               <IAutocomplete
                 options={allUsers}
                 onChangeOption={onChangeOption}
-                assignUsers={assignUsers}
+                // assignUsers={assignUsers}
                 selectedUsers={selectedUsers}
-                width={125}
+                width={145}
               />
             </Box>
             <IButton
