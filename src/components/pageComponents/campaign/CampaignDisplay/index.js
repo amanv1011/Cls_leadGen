@@ -13,6 +13,9 @@ import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import { Link } from "react-router-dom";
 import CampaignPopup from "../../../themeComponents/popup/CampaignPopup";
 import "./campaignDisplay.scss";
+import ActivePopUp from "../../../themeComponents/popup/CampaignPopup/ActivePopUp";
+import DeactivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
+import DeActivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
 
 const CampaignDisplay = ({
   searchedCampaignList,
@@ -34,6 +37,9 @@ const CampaignDisplay = ({
   const [multipleFilterValue, setMultipleFilterValue] = useState("All");
   const [activeCampaigns, setActiveCampaigns] = useState([]);
   const [inActiveCampaigns, setInActiveCampaigns] = useState([]);
+  const [openCampaignPopupActive, setOpenCampaignPopupActive] = useState(false);
+  const [openCampaignPopupDeActivate, setOpenCampaignPopupDeActivate] =
+    useState(false);
 
   useEffect(() => {
     setcampaignsListData(searchedCampaignList);
@@ -230,6 +236,18 @@ const CampaignDisplay = ({
   const handleCloseCampaignPopup = () => {
     setOpenCampaignPopup(false);
   };
+  const handleClickOpenCampaignPopupActive = () => {
+    setOpenCampaignPopupActive(true);
+  };
+  const handleCloseCampaignPopupActive = () => {
+    setOpenCampaignPopupActive(false);
+  };
+  const handleClickOpenCampaignPopupDeActivate = () => {
+    setOpenCampaignPopupDeActivate(true);
+  };
+  const handleCloseCampaignPopupDeActivate = () => {
+    setOpenCampaignPopupDeActivate(false);
+  };
 
   const onDeleteMulitpleCampaign = () => {
     handleClickOpenCampaignPopup();
@@ -260,25 +278,11 @@ const CampaignDisplay = ({
   };
 
   const onActivateMulitpleCampaign = () => {
-    selectedArray.map((seletedCampaigns) => {
-      try {
-        get_a_feild_in_a_document(seletedCampaigns, { status: 1 });
-        dispatch(campaignActions.getAllCampaignsAction());
-      } catch (error) {
-        dispatch(openAlertAction(`${error.message}`, true, "error"));
-      }
-    });
+    handleClickOpenCampaignPopupActive();
   };
 
   const onDeActivateMulitpleCampaign = () => {
-    selectedArray.map((seletedCampaigns) => {
-      try {
-        get_a_feild_in_a_document(seletedCampaigns, { status: 0 });
-        dispatch(campaignActions.getAllCampaignsAction());
-      } catch (error) {
-        dispatch(openAlertAction(`${error.message}`, true, "error"));
-      }
-    });
+    handleClickOpenCampaignPopupDeActivate();
   };
 
   if (
@@ -594,6 +598,20 @@ const CampaignDisplay = ({
           handleClickOpen={handleClickOpenCampaignPopup}
           handleClose={handleCloseCampaignPopup}
           disableApplyBtn={disableApplyBtn}
+          selectedArray={selectedArray}
+        />
+        <ActivePopUp
+          openCampaignPopupActive={openCampaignPopupActive}
+          handleClickOpen={handleClickOpenCampaignPopupActive}
+          handleClose={handleCloseCampaignPopupActive}
+          // disableApplyBtn={disableApplyBtn}
+          selectedArray={selectedArray}
+        />
+        <DeActivatePopUp
+          openCampaignPopupDeActivate={openCampaignPopupDeActivate}
+          handleClickOpen={handleClickOpenCampaignPopupDeActivate}
+          handleClose={handleCloseCampaignPopupDeActivate}
+          // disableApplyBtn={disableApplyBtn}
           selectedArray={selectedArray}
         />
       </React.Fragment>
