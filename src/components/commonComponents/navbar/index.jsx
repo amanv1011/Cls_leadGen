@@ -90,7 +90,7 @@ const Navbar = ({ handleDrawer }) => {
               height="40px"
             />
             <Typography component="h6" className="user-profile-title">
-              Rahul Saxena
+              {localStorage.getItem('userName') ? localStorage.getItem('userName') : 'Loading'}
             </Typography>
             <img src={Dropdown} alt="dropdown" style={{ color: "#1F4173" }} />
           </Box>
