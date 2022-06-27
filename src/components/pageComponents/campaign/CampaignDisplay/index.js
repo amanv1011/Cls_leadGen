@@ -107,7 +107,7 @@ const CampaignDisplay = ({
       setcampaignsListData(filteredCampaigns);
       setInActiveCampaigns(filteredCampaigns);
     }
-  }, [multipleFilterValue]);
+  }, [searchedCampaignList, multipleFilterValue]);
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
@@ -293,17 +293,49 @@ const CampaignDisplay = ({
             <input type="checkbox" disabled={true} />
             <label className="all-label">All</label>
           </div>
+
+          <select
+            className="addCampaign-selects"
+            style={{
+              border: "none",
+              outline: "none",
+              background:
+                "linear-gradient(270deg, rgb(241, 241, 241) 0%, rgba(248, 248, 249, 0.8) 134.62%)",
+              width: "132px",
+              height: "18px",
+              fontStyle: "normal",
+              fontWeight: "600",
+              fontSize: "14px",
+              lineHeight: "16px",
+              color: "rgb(0, 58, 210)",
+              cursor: "pointer",
+            }}
+            name="multipleFilterValue"
+            value={multipleFilterValue}
+            onChange={(event) => {
+              setMultipleFilterValue(event.target.value);
+            }}
+            autoComplete="off"
+          >
+            <option value="All" default>
+              {`All(${searchedCampaignList.length})`}
+            </option>
+            <option value="Active">
+              {`Active(${activeCampaigns.length})`}
+            </option>
+            <option value="In-Active">{`In-Active(${inActiveCampaigns.length})`}</option>
+          </select>
         </div>
         <div className="campaign-display-container">
           <div className="campaign-display-subcontainers">
             <div className="campaign-display-subcontainer1">
               <div
                 className="display-count"
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
+                // style={{
+                //   width: "100%",
+                //   display: "flex",
+                //   justifyContent: "space-between",
+                // }}
               >
                 <div className="campaign-display-btn-text searched-campaign-empty">
                   Campaign(s) not found
@@ -468,11 +500,11 @@ const CampaignDisplay = ({
                 >
                   <div
                     className="display-count"
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
+                    // style={{
+                    //   width: "100%",
+                    //   display: "flex",
+                    //   justifyContent: "space-between",
+                    // }}
                   >
                     <div
                       className={`campaign-display-btn-text ${
@@ -518,6 +550,10 @@ const CampaignDisplay = ({
                             ? {
                                 pointerEvents: "auto",
                                 cursor: "not-allowed",
+                                // color: "#1675e0",
+                                color: "var(--rs-text-link)",
+                                textDecoration: "none",
+                                fontSize: "12px",
                               }
                             : {}
                         }

@@ -7,7 +7,6 @@ import CampaignSearch from "./CampaignSearch";
 import CampaignDisplay from "./CampaignDisplay";
 import CampaignDescription from "./CampaignDescription";
 import "./campaign.scss";
-import Table from "./../../themeComponents/campTable/Table";
 
 const Campaign = () => {
   const campaignsList = useSelector((state) => state.allCampaigns.campaignList);
@@ -86,7 +85,6 @@ const Campaign = () => {
           />
         </Box>
       </Box>
-      <Table />
     </Box>
   );
 };

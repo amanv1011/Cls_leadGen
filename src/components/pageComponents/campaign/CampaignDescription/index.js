@@ -235,6 +235,7 @@ const CampaignDescription = ({
       frequency: parseInt(frequency),
       tags,
       onGoing,
+      campaignCreatedAt: campaignDocValue.campaignCreatedAt,
       end_date: Timestamp.fromDate(new Date(end_date)),
       start_date: Timestamp.fromDate(new Date(start_date)),
       last_crawled_date: Timestamp.fromDate(new Date(start_date)),
@@ -327,56 +328,6 @@ const CampaignDescription = ({
                       statusUpdate(event, campaignDocValue.id)
                     }
                   />
-                </Box>
-                <Box component={"div"} className="addCampaign-checkbox">
-                  {campgaignId ? (
-                    <React.Fragment>
-                      <input
-                        type="checkbox"
-                        name="onGoing"
-                        value={onGoing}
-                        checked={onGoing}
-                        onChange={onOngoing}
-                      />
-                      <label
-                        className="addCampaign-labels"
-                        style={{ marginLeft: "7px" }}
-                      >
-                        On going
-                      </label>
-                    </React.Fragment>
-                  ) : (
-                    <React.Fragment>
-                      <input
-                        type="checkbox"
-                        name="onGoing"
-                        checked={
-                          campaignDocValue && campaignDocValue.onGoing
-                            ? true
-                            : false
-                        }
-                        disabled={true}
-                        readOnly
-                      />
-
-                      <label
-                        className="addCampaign-labels"
-                        style={{
-                          width: "52px",
-                          height: "16px",
-                          fontStyle: "normal",
-                          fontWeight: "600",
-                          fontSize: "13px",
-                          lineHeight: "16px",
-                          color: "#1F4173",
-                          opacity: "0.3",
-                          marginLeft: "7px",
-                        }}
-                      >
-                        On going
-                      </label>
-                    </React.Fragment>
-                  )}
                 </Box>
               </Box>
             </Box>
@@ -477,16 +428,34 @@ const CampaignDescription = ({
                     <span className="header-key">End Date</span>
                     <span className="header-value">
                       {campgaignId ? (
-                        <input
-                          type="date"
-                          className="addCampaign-datePicker"
-                          name="end_date"
-                          value={end_date}
-                          onChange={onInputChangeHandler}
-                          autoComplete="off"
-                          required
-                          // min={start_date}
-                        />
+                        <>
+                          <input
+                            type="date"
+                            className="addCampaign-datePicker"
+                            name="end_date"
+                            value={end_date}
+                            onChange={onInputChangeHandler}
+                            autoComplete="off"
+                            required
+                            // min={start_date}
+                          />
+
+                          <div style={{ marginLeft: "5px", marginTop: "5px" }}>
+                            <input
+                              type="checkbox"
+                              name="onGoing"
+                              value={onGoing}
+                              checked={onGoing}
+                              onChange={onOngoing}
+                            />
+                            <label
+                              className="addCampaign-labels"
+                              style={{ marginLeft: "7px" }}
+                            >
+                              On going
+                            </label>
+                          </div>
+                        </>
                       ) : (
                         <React.Fragment>
                           {campaignDocValue?.end_date &&
@@ -496,6 +465,36 @@ const CampaignDescription = ({
                                 campaignDocValue.end_date.nanoseconds
                               )
                               .format("MM/DD/YYYY")}
+                          <div>
+                            <input
+                              type="checkbox"
+                              name="onGoing"
+                              checked={
+                                campaignDocValue && campaignDocValue.onGoing
+                                  ? true
+                                  : false
+                              }
+                              disabled={true}
+                              readOnly
+                            />
+
+                            <label
+                              className="addCampaign-labels"
+                              style={{
+                                width: "52px",
+                                height: "16px",
+                                fontStyle: "normal",
+                                fontWeight: "600",
+                                fontSize: "13px",
+                                lineHeight: "16px",
+                                color: "#1F4173",
+                                opacity: "0.3",
+                                marginLeft: "7px",
+                              }}
+                            >
+                              On going
+                            </label>
+                          </div>
                         </React.Fragment>
                       )}
                     </span>
@@ -695,7 +694,7 @@ const CampaignDescription = ({
               <Box
                 className="autocomplete-title"
                 style={{
-                  width: "75px",
+                  width: "120px",
                   height: "17px",
                   fontStyle: "normal",
                   fontWeight: "600",

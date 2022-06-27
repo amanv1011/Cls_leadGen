@@ -1,10 +1,8 @@
-import React, { useState } from "react";
 import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
+import React from "react";
+import "./assignCampaign.scss";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import CheckIcon from "@mui/icons-material/Check";
-import "./assignCampaign.scss";
-
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -24,17 +22,16 @@ const AssignCampaign = ({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "flex-start",
-        background: "rgb(233, 236, 241)",
+        background: "#e9ecf1",
         borderRadius: "10px",
+        // width: "min-content",
         paddingRight: "5px",
-        height: "44px",
-        width: "180px",
       }}
     >
       <Autocomplete
         closeText={"close"}
         freeSolo
-        disablePortal
+        disablePortal={true}
         multiple
         limitTags={1}
         disabled={disabled}
@@ -56,6 +53,7 @@ const AssignCampaign = ({
             <>
               {value.slice(0, limitTags).map((option, index) => (
                 <Chip
+                  sx={{ borderRadius: "10px" }}
                   size={"small"}
                   {...getTagProps({ index })}
                   key={index}
@@ -98,12 +96,26 @@ const AssignCampaign = ({
             height: "20px",
             width: "100px",
           },
-          "& .MuiAutocomplete-inputRoot": { paddingRight: "30px" },
-          "& .MuiAutocomplete-popper": { borderRadius: "20px" },
-          "& .MuiInputBase-root": { opacity: 0.8 },
-          "& legend": { visibility: "hidden" },
+          "& .MuiAutocomplete-inputRoot": {
+            paddingRight: "30px",
+          },
+          "& .MuiAutocomplete-popper": {
+            borderRadius: "20px",
+          },
+          "& .MuiInputBase-root": {
+            opacity: 0.8,
+          },
+          "& legend": {
+            visibility: "hidden",
+          },
         }}
-        componentsProps={{ paper: { sx: { width: width + 25 } } }}
+        componentsProps={{
+          paper: {
+            sx: {
+              width: width,
+            },
+          },
+        }}
         ListboxProps={{
           sx: {
             fontSize: 14,
@@ -111,10 +123,10 @@ const AssignCampaign = ({
             opacity: 0.7,
             padding: "8px",
             borderRadius: "10px",
-            maxHeight: "150px",
+            maxHeight: "200px",
           },
         }}
-        className="autocomplete-campaign"
+        className="campaign-autocomplete"
         renderInput={(params) => (
           <TextField
             {...params}
@@ -131,7 +143,7 @@ const AssignCampaign = ({
           />
         )}
       />
-      <div className="okay-icon" onClick={assignUsers}>
+      {/* <div className="okay-icon" onClick={assignUsers}>
         {selectedUsers && selectedUsers.length > 0 ? (
           <CheckIcon
             fontSize="small"
@@ -144,8 +156,9 @@ const AssignCampaign = ({
             }}
           />
         ) : null}
-      </div>
+      </div> */}
     </div>
   );
 };
+
 export default AssignCampaign;
