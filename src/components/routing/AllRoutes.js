@@ -1,8 +1,6 @@
 import React from "react";
 import { Navigate, useRoutes } from "react-router-dom";
-import Leads2 from "../pageComponents/leads2";
 import Dashboard from "../pageComponents/dashboard";
-import Header from "../themeComponents/header";
 import Campaign from "../pageComponents/campaign/index";
 import Leads from "../pageComponents/leads";
 import UnAuthorizedComponent from "../pageComponents/unAuthorized";
@@ -84,11 +82,9 @@ const AllRoutes = () => {
       element: <Navigate to="/" />,
     },
     {
-      path: 'unAuthorized',
-      element: (
-        <UnAuthorizedComponent></UnAuthorizedComponent>
-      )
-    }
+      path: "unAuthorized",
+      element: <UnAuthorizedComponent></UnAuthorizedComponent>,
+    },
   ]);
   return allRoutes;
 };

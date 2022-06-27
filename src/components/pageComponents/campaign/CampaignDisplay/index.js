@@ -8,11 +8,11 @@ import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import Download from "../../../themeComponents/campTable/Download";
 import Delete from "../../../themeComponents/campTable/Delete";
 import * as commonFunctions from "../commonFunctions";
+import * as leadsFilterActions from "../../../../redux/actions/leadsFilter";
 import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
+import { Link } from "react-router-dom";
 import CampaignPopup from "../../../themeComponents/popup/CampaignPopup";
 import "./campaignDisplay.scss";
-import LeadsMenu from "../../leads2/LeadsMenu";
-import CampaignMenu from "../CampaignMenu";
 
 const CampaignDisplay = ({
   searchedCampaignList,
@@ -31,7 +31,9 @@ const CampaignDisplay = ({
   const [openCampaignPopup, setOpenCampaignPopup] = useState(false);
   const [disableApplyBtn, setDisableApplyBtn] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  // const [multipleFilterValue, setMultipleFilterValue] = useState("All");
+  const [multipleFilterValue, setMultipleFilterValue] = useState("All");
+  const [activeCampaigns, setActiveCampaigns] = useState([]);
+  const [inActiveCampaigns, setInActiveCampaigns] = useState([]);
 
   useEffect(() => {
     setcampaignsListData(searchedCampaignList);
@@ -87,23 +89,25 @@ const CampaignDisplay = ({
     }
   }, [countryFilterValue, ownerFilterValue]);
 
-  // useEffect(() => {
-  //   if (multipleFilterValue === "All") {
-  //     setcampaignsListData(searchedCampaignList);
-  //   }
-  //   if (multipleFilterValue === "Active") {
-  //     const filteredCampaigns = searchedCampaignList.filter(
-  //       (campaign) => campaign?.status === 1
-  //     );
-  //     setcampaignsListData(filteredCampaigns);
-  //   }
-  //   if (multipleFilterValue === "In-Active") {
-  //     const filteredCampaigns = searchedCampaignList.filter(
-  //       (campaign) => campaign?.status === 0
-  //     );
-  //     setcampaignsListData(filteredCampaigns);
-  //   }
-  // }, [multipleFilterValue]);
+  useEffect(() => {
+    if (multipleFilterValue === "All") {
+      setcampaignsListData(searchedCampaignList);
+    }
+    if (multipleFilterValue === "Active") {
+      const filteredCampaigns = searchedCampaignList.filter(
+        (campaign) => campaign?.status === 1
+      );
+      setcampaignsListData(filteredCampaigns);
+      setActiveCampaigns(filteredCampaigns);
+    }
+    if (multipleFilterValue === "In-Active") {
+      const filteredCampaigns = searchedCampaignList.filter(
+        (campaign) => campaign?.status === 0
+      );
+      setcampaignsListData(filteredCampaigns);
+      setInActiveCampaigns(filteredCampaigns);
+    }
+  }, [searchedCampaignList, multipleFilterValue]);
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
@@ -289,17 +293,49 @@ const CampaignDisplay = ({
             <input type="checkbox" disabled={true} />
             <label className="all-label">All</label>
           </div>
+
+          <select
+            className="addCampaign-selects"
+            style={{
+              border: "none",
+              outline: "none",
+              background:
+                "linear-gradient(270deg, rgb(241, 241, 241) 0%, rgba(248, 248, 249, 0.8) 134.62%)",
+              width: "132px",
+              height: "18px",
+              fontStyle: "normal",
+              fontWeight: "600",
+              fontSize: "14px",
+              lineHeight: "16px",
+              color: "rgb(0, 58, 210)",
+              cursor: "pointer",
+            }}
+            name="multipleFilterValue"
+            value={multipleFilterValue}
+            onChange={(event) => {
+              setMultipleFilterValue(event.target.value);
+            }}
+            autoComplete="off"
+          >
+            <option value="All" default>
+              {`All(${searchedCampaignList.length})`}
+            </option>
+            <option value="Active">
+              {`Active(${activeCampaigns.length})`}
+            </option>
+            <option value="In-Active">{`In-Active(${inActiveCampaigns.length})`}</option>
+          </select>
         </div>
         <div className="campaign-display-container">
           <div className="campaign-display-subcontainers">
             <div className="campaign-display-subcontainer1">
               <div
                 className="display-count"
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
+                // style={{
+                //   width: "100%",
+                //   display: "flex",
+                //   justifyContent: "space-between",
+                // }}
               >
                 <div className="campaign-display-btn-text searched-campaign-empty">
                   Campaign(s) not found
@@ -336,26 +372,27 @@ const CampaignDisplay = ({
                   className="campaign-display-actions"
                   onClick={handlePopClick}
                 >
-                  Actions
+                  Action
                   <DownArrow />
                 </div>
               )}
             </div>
 
-            {/* <select
+            <select
               className="addCampaign-selects"
               style={{
                 border: "none",
                 outline: "none",
                 background:
-                  "linear-gradient(270deg, #f1f1f1 0%, rgba(248, 248, 249, 0.8) 134.62%)",
-                width: "113px",
+                  "linear-gradient(270deg, rgb(241, 241, 241) 0%, rgba(248, 248, 249, 0.8) 134.62%)",
+                width: "132px",
                 height: "18px",
                 fontStyle: "normal",
                 fontWeight: "600",
                 fontSize: "14px",
                 lineHeight: "16px",
-                color: "#003ad2",
+                color: "rgb(0, 58, 210)",
+                cursor: "pointer",
               }}
               name="multipleFilterValue"
               value={multipleFilterValue}
@@ -368,10 +405,10 @@ const CampaignDisplay = ({
                 {`All(${searchedCampaignList.length})`}
               </option>
               <option value="Active">
-                {`Active(${campaignsListData.length})`}
+                {`Active(${activeCampaigns.length})`}
               </option>
-              <option value="In-Active">{`In-Active(${campaignsListData.length})`}</option>
-            </select> */}
+              <option value="In-Active">{`In-Active(${inActiveCampaigns.length})`}</option>
+            </select>
           </div>
 
           <div>
@@ -389,12 +426,12 @@ const CampaignDisplay = ({
                 borderRadius: "10px",
               }}
             >
-              <div className="popover-body">
+              <div className="popover-body-campaign">
                 <button
                   className="campaign-btn download-btn"
                   onClick={downloadSelectedCampaigns}
                 >
-                  <Download />
+                  {/* <Download /> */}
                   <span className="campaign-btn-text">Download</span>
                 </button>
 
@@ -402,29 +439,29 @@ const CampaignDisplay = ({
                   className="campaign-btn delete-btn"
                   onClick={onDeleteMulitpleCampaign}
                 >
-                  <Delete />
+                  {/* <Delete /> */}
                   <span className="campaign-btn-text">Delete</span>
                 </button>
                 <button
-                  className="campaign-btn delete-btn"
+                  className="campaign-btn assign-btn"
                   onClick={onAssignMulitpleCampaign}
                 >
-                  <Delete />
+                  {/* <Delete /> */}
                   <span className="campaign-btn-text">Assign</span>
                 </button>
                 <button
-                  className="campaign-btn delete-btn"
+                  className="campaign-btn activate-btn"
                   onClick={onActivateMulitpleCampaign}
                 >
-                  <Delete />
+                  {/* <Delete /> */}
                   <span className="campaign-btn-text">Activate</span>
                 </button>
                 <button
-                  className="campaign-btn delete-btn"
+                  className="campaign-btn deActivate-btn"
                   onClick={onDeActivateMulitpleCampaign}
                 >
-                  <Delete />
-                  <span className="campaign-btn-text">De-Activate</span>
+                  {/* <Delete /> */}
+                  <span className="campaign-btn-text ">De-Activate</span>
                 </button>
               </div>
             </Popover>
@@ -463,11 +500,11 @@ const CampaignDisplay = ({
                 >
                   <div
                     className="display-count"
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
+                    // style={{
+                    //   width: "100%",
+                    //   display: "flex",
+                    //   justifyContent: "space-between",
+                    // }}
                   >
                     <div
                       className={`campaign-display-btn-text ${
@@ -476,6 +513,56 @@ const CampaignDisplay = ({
                     >
                       {campaign.name}
                     </div>
+                    <div
+                      className={`${
+                        campaignDoc.id === campaign.id ? "selected" : ""
+                      }`}
+                      onClick={() => {
+                        if (getNumOfLeads(campaign.id)) {
+                          dispatch(
+                            leadsFilterActions.leadsFilterCampaignName(
+                              campaign.name
+                            )
+                          );
+                          dispatch(
+                            leadsFilterActions.leadsFilterOwnerName(
+                              campaign.owner
+                            )
+                          );
+                        } else {
+                          dispatch(
+                            leadsFilterActions.leadsFilterCampaignName(
+                              "All Campaigns"
+                            )
+                          );
+                          dispatch(
+                            leadsFilterActions.leadsFilterOwnerName(
+                              "All Owners"
+                            )
+                          );
+                        }
+                      }}
+                    >
+                      <Link
+                        to={getNumOfLeads(campaign.id) ? "/leads" : false}
+                        style={
+                          getNumOfLeads(campaign.id) === 0
+                            ? {
+                                pointerEvents: "auto",
+                                cursor: "not-allowed",
+                                // color: "#1675e0",
+                                color: "var(--rs-text-link)",
+                                textDecoration: "none",
+                                fontSize: "12px",
+                              }
+                            : {}
+                        }
+                      >
+                        {getNumOfLeads(campaign.id)
+                          ? `${getNumOfLeads(campaign.id)} leads`
+                          : "No Leads"}
+                      </Link>
+                    </div>
                   </div>
 
                   <div
@@ -483,24 +570,18 @@ const CampaignDisplay = ({
                       campaignDoc.id === campaign.id ? "selected-sub" : ""
                     }`}
                   >
-                    <p>
+                    <p className="location-text">
                       {campaign.location === null ? "NA" : campaign.location}
                     </p>
-                    <span
-                      className={`campaign-display-timestamp ${
-                        campaignDoc.id === campaign.id ? "selected-sub" : ""
-                      } `}
-                    >
-                      {campaignDoc.id === campaign.id
-                        ? campaignDoc?.campaignCreatedAt
-                          ? moment
-                              .unix(
-                                campaignDoc.campaignCreatedAt.seconds,
-                                campaignDoc.campaignCreatedAt.nanoseconds
-                              )
-                              .fromNow()
-                          : "long back"
-                        : `${getNumOfLeads(campaign.id)} leads`}
+                    <span>
+                      {campaignDoc?.campaignCreatedAt
+                        ? moment
+                            .unix(
+                              campaign.campaignCreatedAt.seconds,
+                              campaign.campaignCreatedAt.nanoseconds
+                            )
+                            .fromNow()
+                        : "long back"}
                     </span>
                   </div>
                 </div>
