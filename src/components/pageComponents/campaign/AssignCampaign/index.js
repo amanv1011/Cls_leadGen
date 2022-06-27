@@ -1,11 +1,8 @@
-import { Autocomplete, Checkbox, TextField } from "@mui/material";
+import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
 import React from "react";
 import "./assignCampaign.scss";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import CheckIcon from "@mui/icons-material/Check";
-
-import { useState } from "react";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -16,28 +13,27 @@ const AssignCampaign = ({
   onAutoPopperClose,
   selectedUsers,
   assignUsers,
+  width,
 }) => {
-  const [first, setfirst] = useState([]);
   return (
     <div
       style={{
-        // overflowY: "scroll",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "flex-start",
-        background: "rgb(233, 236, 241)",
+        background: "#e9ecf1",
         borderRadius: "10px",
+        // width: "min-content",
         paddingRight: "5px",
-        height: "44px",
-        width: "180px",
       }}
     >
       <Autocomplete
         closeText={"close"}
         freeSolo
-        disablePortal
+        disablePortal={true}
         multiple
+        limitTags={1}
         disabled={disabled}
         fullWidth={true}
         size="small"
@@ -50,6 +46,26 @@ const AssignCampaign = ({
         value={selectedUsers}
         onChange={(e, option) => onChangeOption(e, option)}
         isOptionEqualToValue={(option, value) => option.name === value.name}
+        renderTags={(value, getTagProps) => {
+          const numTags = value.length;
+          const limitTags = 1;
+          return (
+            <>
+              {value.slice(0, limitTags).map((option, index) => (
+                <Chip
+                  sx={{ borderRadius: "10px" }}
+                  size={"small"}
+                  {...getTagProps({ index })}
+                  key={index}
+                  label={option.name}
+                />
+              ))}
+              <span style={{ fontSize: "11px", fontWeight: "600" }}>
+                {numTags > limitTags && ` +${numTags - limitTags} more`}
+              </span>
+            </>
+          );
+        }}
         renderOption={(props, option, { selected }) => (
           <li
             {...props}
@@ -69,7 +85,7 @@ const AssignCampaign = ({
           </li>
         )}
         sx={{
-          width: "125px",
+          width: width,
           background: "#e9ecf1",
           borderRadius: "10px",
           border: "none",
@@ -93,6 +109,13 @@ const AssignCampaign = ({
             visibility: "hidden",
           },
         }}
+        componentsProps={{
+          paper: {
+            sx: {
+              width: width,
+            },
+          },
+        }}
         ListboxProps={{
           sx: {
             fontSize: 14,
@@ -103,7 +126,7 @@ const AssignCampaign = ({
             maxHeight: "200px",
           },
         }}
-        className="autocomplete"
+        className="campaign-autocomplete"
         renderInput={(params) => (
           <TextField
             {...params}
@@ -120,7 +143,7 @@ const AssignCampaign = ({
           />
         )}
       />
-      <div className="okay-icon" onClick={assignUsers}>
+      {/* <div className="okay-icon" onClick={assignUsers}>
         {selectedUsers && selectedUsers.length > 0 ? (
           <CheckIcon
             fontSize="small"
@@ -133,7 +156,7 @@ const AssignCampaign = ({
             }}
           />
         ) : null}
-      </div>
+      </div> */}
     </div>
   );
 };

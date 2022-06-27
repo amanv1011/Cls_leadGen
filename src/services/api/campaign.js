@@ -36,7 +36,20 @@ export const get_A_Campaign = async (a__campgaignId) => {
 
 export const getCampaignList = async () => {
   try {
-    const campaignSnaphot = await firebaseMethods.getDocs(campgaignCollection);
+    // const campaignSnaphot = await firebaseMethods.getDocs(
+    //   campgaignCollection,
+    //   firebaseMethods.query(
+    //     campgaignCollection,
+    //     firebaseMethods.orderBy("campaignCreatedAt"),
+    //     firebaseMethods.limit(3)
+    //   )
+    // );
+    const campaignSnaphot = await firebaseMethods.getDocs(
+      firebaseMethods.query(
+        campgaignCollection,
+        firebaseMethods.orderBy("campaignCreatedAt", "desc")
+      )
+    );
 
     const CompaignList = campaignSnaphot.docs.map((doc) => ({
       ...doc.data(),

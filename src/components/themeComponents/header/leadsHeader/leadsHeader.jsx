@@ -106,6 +106,8 @@ const LeadsHeader = () => {
     setOwnerMenu(null);
   };
 
+ 
+
   const clearFilterTab = () => {
     dispatch(clearFilters());
     dispatch(datePickerState(0));
@@ -243,6 +245,72 @@ const LeadsHeader = () => {
           </div>
           <NewDateRangePicker />
           {/* <DateModal/> */}
+
+          <div className="select-container">
+            <Button
+              id="basic-button"
+              className="select-button"
+              onClick={handleClickAllCountriesMenu}
+            >
+              <span className="select-btn-title">{allCountriesFilter}</span>
+              <span>
+                <DownArrow />
+              </span>
+            </Button>
+          </div>
+          <Menu
+            className="menu"
+            id="basic-menu"
+            anchorEl={allCountriesMenu}
+            PaperProps={{
+              style: {
+                width: "auto",
+                borderRadius: "10px",
+                marginTop: "3px",
+                boxshadow: "none",
+                // backgroundColor: "#E7E7E7",
+                backgroundColor: "rgb(233,236,241)",
+                color: "rgba(92, 117,154)",
+                zIndex: "1000",
+                overflow: "auto",
+                height: "auto",
+                minWidth: "160px",
+                maxHeight: "200px",
+              },
+            }}
+            open={openAllCountriesMenu}
+            onClose={handleCloseAllCountriesMenu}
+          >
+            <MenuItem
+              key={"abc"}
+              className="menu-item"
+              onClick={handleCloseAllCountriesMenu}
+              sx={{
+                fontSize: "13px",
+                fontWeight: 600,
+              }}
+            >
+              All Countries
+            </MenuItem>
+            {uniqueCountries &&
+              uniqueCountries.map((ele, idx) => {
+                return (
+                  <MenuItem
+                    key={idx}
+                    data-id={idx}
+                    className="menu-item"
+                    onClick={handleCloseAllCountriesMenu}
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {ele}
+                  </MenuItem>
+                );
+              })}
+          </Menu>
+
           <div className="select-container">
             <Button
               id="basic-button"
@@ -290,22 +358,23 @@ const LeadsHeader = () => {
               >
                 All Owners
               </MenuItem>
-              {uniqueOwner.map((ele) => {
-                return (
-                  <MenuItem
-                    key={ele.id}
-                    data-id={ele.id}
-                    className="menu-item"
-                    onClick={handleCloseOwnerMenu}
-                    sx={{
-                      fontSize: "13px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {ele}
-                  </MenuItem>
-                );
-              })}
+              {uniqueOwner &&
+                uniqueOwner.map((ele) => {
+                  return (
+                    <MenuItem
+                      key={ele.id}
+                      data-id={ele.id}
+                      className="menu-item"
+                      onClick={handleCloseOwnerMenu}
+                      sx={{
+                        fontSize: "13px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {ele}
+                    </MenuItem>
+                  );
+                })}
             </Menu>
           </div>
         </div>
