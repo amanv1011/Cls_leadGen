@@ -34,9 +34,11 @@ export const filterLeads = (
       for (let j = 0; j < leadsList.length; j++) {
         const start = moment(searchDate.start).format("YYYY-MM-DD");
         const end = moment(searchDate.end).format("YYYY-MM-DD");
+
         const between = moment
           .unix(leadsList[j].leadGeneratedDate.seconds)
           .format("YYYY-MM-DD");
+
         const unixTimestampStart = Math.floor(new Date(start).getTime() / 1000);
         const unixTimestampBetween = Math.floor(
           new Date(between).getTime() / 1000
@@ -44,8 +46,8 @@ export const filterLeads = (
         const unixTimestampEnd = Math.floor(new Date(end).getTime() / 1000);
         if (
           leadsList[j].campaignId === campaignIds[i].id &&
-          unixTimestampStart < unixTimestampBetween &&
-          unixTimestampBetween < unixTimestampEnd
+          unixTimestampBetween >= unixTimestampStart &&
+          unixTimestampBetween <= unixTimestampEnd
         ) {
           filteredResults.push(leadsList[j]);
         }

@@ -4,7 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./reducers";
 import logger from "redux-logger";
 
-const middlewares = [thunk, logger];
+const middlewares = [thunk];
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(...middlewares))

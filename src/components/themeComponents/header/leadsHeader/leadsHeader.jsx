@@ -119,6 +119,8 @@ const LeadsHeader = () => {
     setOwnerMenu(null);
   };
 
+ 
+
   const clearFilterTab = () => {
     dispatch(clearFilters());
     dispatch(datePickerState(0));
@@ -244,7 +246,7 @@ const LeadsHeader = () => {
                     className="menu-item"
                     onClick={handleCloseAllCampgainsMenu}
                     sx={{
-                      fontSize: "13px",
+                      fontSize: "12px",
                       fontWeight: 600,
                     }}
                   >
@@ -255,7 +257,8 @@ const LeadsHeader = () => {
             </Menu>
           </div>
           <NewDateRangePicker />
-          {/* countries name */}
+          {/* <DateModal/> */}
+
           <div className="select-container">
             <Button
               id="basic-button"
@@ -319,9 +322,6 @@ const LeadsHeader = () => {
               );
             })}
           </Menu>
-
-          {/* countries name */}
-          {/* <AdvanceDatePicker/> */}
 
           <div className="select-container">
             <Button
