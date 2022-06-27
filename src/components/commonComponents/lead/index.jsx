@@ -117,7 +117,6 @@ const Lead = () => {
         }
       });
     const filtered = [];
-    console.log(genratedLeadData[0]);
     arr.forEach((assignLead) => {
       genratedLeadData.forEach((genLead) => {
         if (genLead.id === assignLead) {
@@ -126,6 +125,7 @@ const Lead = () => {
       });
     });
     filterAllLeads = [...filterAllLeads, ...filtered];
+    leadListForCount = filterAllLeads;
   }
   AppendAssignedLeadtoOwner();
 

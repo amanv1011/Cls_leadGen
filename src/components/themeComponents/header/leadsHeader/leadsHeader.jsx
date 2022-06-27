@@ -118,9 +118,6 @@ const LeadsHeader = () => {
     }
     setOwnerMenu(null);
   };
-
- 
-
   const clearFilterTab = () => {
     dispatch(clearFilters());
     dispatch(datePickerState(0));
@@ -238,11 +235,10 @@ const LeadsHeader = () => {
               >
                 All Campaigns
               </MenuItem>
-              {leadData.map((ele) => {
+              {leadData.map((ele, idx) => {
                 return (
                   <MenuItem
-                    key={ele.id}
-                    data-id={ele.id}
+                    key={idx}
                     className="menu-item"
                     onClick={handleCloseAllCampgainsMenu}
                     sx={{
@@ -370,11 +366,10 @@ const LeadsHeader = () => {
               >
                 All Owners
               </MenuItem>
-              {uniqueOwner.map((ele) => {
+              {uniqueOwner.map((ele, idx) => {
                 return (
                   <MenuItem
-                    key={ele.id}
-                    data-id={ele.id}
+                    key={idx}
                     className="menu-item"
                     onClick={handleCloseOwnerMenu}
                     sx={{
