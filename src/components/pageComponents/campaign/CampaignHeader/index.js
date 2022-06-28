@@ -18,7 +18,6 @@ const CampaignHeader = ({
 }) => {
   const dispatch = useDispatch();
   const matches = useMediaQuery("(max-width:1460px)");
-  console.log("allUsers", allUsers);
   const countryFilterValue = useSelector(
     (state) => state.campaignFilters.country
   );

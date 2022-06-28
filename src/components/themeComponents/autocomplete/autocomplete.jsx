@@ -25,7 +25,7 @@ const IAutocomplete = ({
         background: "#e9ecf1",
         borderRadius: "10px",
         width: "min-content",
-        paddingRight: "5px",
+        paddingRight: "0px",
       }}
     >
       <Autocomplete
@@ -53,7 +53,7 @@ const IAutocomplete = ({
             <>
               {value.slice(0, limitTags).map((option, index) => (
                 <Chip
-                  sx={{ borderRadius: "10px" }}
+                  style={{ borderRadius: "10px", fontWeight: 500 }}
                   size={"small"}
                   {...getTagProps({ index })}
                   key={index}
@@ -70,18 +70,27 @@ const IAutocomplete = ({
           <li
             {...props}
             style={{
+              boxSizing: "border-box",
               height: "30px",
               borderRadius: "10px",
-              padding: "0px",
+              paddingTop: "6px",
               margin: "4px 0px",
+              width: width - "15px",
+              fontWeight: 500,
+              display: "block",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              fontSize: "13px",
             }}
           >
             <Checkbox
               icon={icon}
               checkedIcon={checkedIcon}
               checked={selected}
+              style={{ padding: "0px 2px 0px 0px", margin: "0px" }}
             />
-            {option.name}
+            <span>{option.name}</span>
           </li>
         )}
         sx={{
@@ -120,10 +129,11 @@ const IAutocomplete = ({
           sx: {
             fontSize: 14,
             color: "#1F4173",
-            opacity: 0.7,
-            padding: "8px",
+            opacity: 0.9,
+            padding: "2px",
             borderRadius: "10px",
             maxHeight: "200px",
+            fontWeight: 500,
           },
         }}
         className="autocomplete"

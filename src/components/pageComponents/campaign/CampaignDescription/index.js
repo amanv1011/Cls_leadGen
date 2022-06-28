@@ -196,7 +196,7 @@ const CampaignDescription = ({
 
   const campaignUpdateForm = async (event) => {
     event.preventDefault();
-    console.log("Hello");
+
     // try {
     if (source === "seek_aus") {
       if (tags.length > 1) {
