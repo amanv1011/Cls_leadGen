@@ -13,6 +13,11 @@ export default function UserPopover({
   anchorEl,
   handlePopoverClose,
 }) {
+  const logout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('userName')
+    window.location.reload()
+  }
   return (
     <Popover
       id="mouse-over-popover"
@@ -38,20 +43,20 @@ export default function UserPopover({
     >
       {
         <Box className={"logout-container"}>
-          <Typography className="user-option">
+          {/* <Typography className="user-option">
             <PersonIcon fontSize="small" style={{ marginRight: "8px" }} />
             Profile
-          </Typography>
-          <Typography className="user-option">
+          </Typography> */}
+          {/* <Typography className="user-option">
             <SettingsIcon fontSize="small" style={{ marginRight: "8px" }} />
             Settings
-          </Typography>
-          <Typography className="user-option" onClick={handlePopoverClose}>
+          </Typography> */}
+          <Typography className="user-option" onClick={() => { logout(); handlePopoverClose() }}>
             <LogoutIcon fontSize="small" style={{ marginRight: "8px" }} />
             Log Out
           </Typography>
         </Box>
       }
-    </Popover>
+    </Popover >
   );
 }
