@@ -29,6 +29,7 @@ const App = (props) => {
         }
       })
         .then(data => {
+          localStorage.setItem('userName', searchParams.get('uname'))
           localStorage.setItem('token', searchParams.get('token'))
         })
         .catch(error => {

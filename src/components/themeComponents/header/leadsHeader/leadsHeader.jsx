@@ -301,22 +301,23 @@ const LeadsHeader = () => {
             >
               All Countries
             </MenuItem>
-            {uniqueCountries.map((ele, idx) => {
-              return (
-                <MenuItem
-                  key={idx}
-                  data-id={idx}
-                  className="menu-item"
-                  onClick={handleCloseAllCountriesMenu}
-                  sx={{
-                    fontSize: "13px",
-                    fontWeight: 600,
-                  }}
-                >
-                  {ele}
-                </MenuItem>
-              );
-            })}
+            {uniqueCountries &&
+              uniqueCountries.map((ele, idx) => {
+                return (
+                  <MenuItem
+                    key={idx}
+                    data-id={idx}
+                    className="menu-item"
+                    onClick={handleCloseAllCountriesMenu}
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {ele}
+                  </MenuItem>
+                );
+              })}
           </Menu>
 
           <div className="select-container">
