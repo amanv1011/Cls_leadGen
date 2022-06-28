@@ -32,6 +32,9 @@ const Campaign = () => {
     (state) => state.campaignFilters.country
   );
   const ownerFilterValue = useSelector((state) => state.campaignFilters.owner);
+  const campaignStateFilterValue = useSelector(
+    (state) => state.campaignFilters.campaignState
+  );
   const countryList = useSelector((state) => state.country.countryList);
 
   const assignedCampaigns = useSelector(
@@ -110,6 +113,7 @@ const Campaign = () => {
             leadsList={leadsList}
             countryFilterValue={countryFilterValue}
             ownerFilterValue={ownerFilterValue}
+            campaignStateFilterValue={campaignStateFilterValue}
           />
         </Box>
         <Box component={"div"} className="section campaign-details">

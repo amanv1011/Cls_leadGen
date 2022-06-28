@@ -15,6 +15,12 @@ export const campaignOwnerFilterValueAction = (FilterValue) => {
   };
 };
 
+export const campaignStateFilterValueAction = (FilterValue) => {
+  return async (dispatch) => {
+    dispatch({ type: types.CAMPAIGN_STATE_FILTER_VALUE, payload: FilterValue });
+  };
+};
+
 export const campaignFilterClearAction = () => {
   return async (dispatch) => {
     dispatch({
@@ -22,6 +28,7 @@ export const campaignFilterClearAction = () => {
       payload: {
         country: "Country",
         owner: "Owner",
+        campaignState: "AllCampaigns",
       },
     });
   };
