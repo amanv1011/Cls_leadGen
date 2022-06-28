@@ -7,7 +7,7 @@
   align-items: flex-end;
   justify-content: space-around;
   .campaign-btn {
-    width: 120px;
+    width: 145px;
     height: 40px;
     font-style: normal;
     font-weight: 600;
@@ -56,14 +56,14 @@
 
 .campaignButton-actions-edit {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-content: center;
   height: 156px;
   width: 100%;
-  align-items: flex-end;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: space-evenly;
   .campaign-btn {
-    width: 120px;
+    width: 145px;
     height: 40px;
     font-style: normal;
     font-weight: 600;

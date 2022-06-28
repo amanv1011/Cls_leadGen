@@ -37,17 +37,20 @@ const CampaignDescription = ({
   campaignDoc,
   campgaignId,
   leadsList,
-  allUsers,
   countryList,
-  selectedUsersForAssign,
+  allUsers,
+  selectedUsers,
+  onChangeOption,
 }) => {
   const dispatch = useDispatch();
   const [campaignDocValue, setCampaignDocValue] = useState(campaignDoc);
-  const [selectedUsers, setSelectedUsers] = useState([]);
 
   useEffect(() => {
     setCampaignDocValue(campaignDoc);
   }, [campaignDoc]);
+  console.log("allUsers", allUsers);
+  console.log("selectedUsers", selectedUsers);
+  // console.log("onChangeOption", onChangeOption);
 
   const [addCampaignDetails, setAddCampaignDetails] = useState({
     name: "",
@@ -103,18 +106,6 @@ const CampaignDescription = ({
     } catch (error) {
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
-  };
-
-  const onChangeOption = (e, option) => {
-    setSelectedUsers(option);
-    let arr = [];
-    option &&
-      option.forEach((e) => {
-        arr.push(e.userId);
-      });
-    dispatch(
-      campaignActions.assignCampaignToUsersAction([campaignDocValue.id], arr)
-    );
   };
 
   let sourceType = "";
@@ -701,7 +692,8 @@ const CampaignDescription = ({
               <AssignCampaign
                 options={allUsers}
                 onChangeOption={onChangeOption}
-                selectedUsers={selectedUsersForAssign}
+                selectedUsers={selectedUsers}
+                width={145}
               />
             </Box>
             <Box component={"div"} className="action-buttons">

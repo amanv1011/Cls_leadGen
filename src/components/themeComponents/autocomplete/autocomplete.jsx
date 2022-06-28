@@ -12,10 +12,8 @@ const IAutocomplete = ({
   disabled,
   onAutoPopperClose,
   selectedUsers,
-  assignUsers,
   width,
 }) => {
-  console.log("leads seletecd", selectedUsers);
   return (
     <div
       style={{

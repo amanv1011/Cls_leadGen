@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Box } from "@mui/system";
 import { Divider } from "@mui/material";
 import CampaignHeader from "./CampaignHeader";
 import CampaignSearch from "./CampaignSearch";
 import CampaignDisplay from "./CampaignDisplay";
 import CampaignDescription from "./CampaignDescription";
+import * as campaignActions from "../../../redux/actions/campaignActions";
 import "./campaign.scss";
 
 const Campaign = () => {
+  const dispatch = useDispatch();
+
   const campaignsList = useSelector((state) => state.allCampaigns.campaignList);
   const campaignDoc = useSelector((state) => state.allCampaigns.campaignDoc);
   const leadsList = useSelector((state) => state.allLeads.leadsList);
@@ -34,27 +37,35 @@ const Campaign = () => {
   const assignedCampaigns = useSelector(
     (state) => state.allCampaigns.assignedCampaigns
   );
-  const [selectedUsersForAssign, setSelectedUsersForAssign] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   useEffect(() => {
-    setSelectedUsersForAssign([]);
-
+    setSelectedUsers([]);
     if (assignedCampaigns && campaignDoc && campaignDoc.id) {
       assignedCampaigns.forEach((assignedCampaign) => {
-        // console.log("assignedCampaign", assignedCampaign);
-        // console.log("campaignDoc.id", campaignDoc.id);
         if (assignedCampaign.campaignId === campaignDoc.id) {
           let selectedId = assignedCampaign.userId;
           const filteredArray = allUsers.filter((value) =>
             selectedId.includes(value.userId)
           );
           console.log("Yolla", filteredArray);
-          setSelectedUsersForAssign(filteredArray);
+          setSelectedUsers(filteredArray);
         }
       });
     }
   }, [campaignDoc]);
 
+  const onChangeOption = (e, option) => {
+    setSelectedUsers(option);
+    let arr = [];
+    option &&
+      option.forEach((e) => {
+        arr.push(e.userId);
+      });
+    dispatch(
+      campaignActions.assignCampaignToUsersAction([campaignDoc.id], arr)
+    );
+  };
   // console.log("assignedCampaigns", assignedCampaigns);
 
   return (
@@ -106,9 +117,10 @@ const Campaign = () => {
             campaignDoc={campaignDoc}
             campgaignId={campgaignId}
             leadsList={leadsList}
-            allUsers={allUsers}
             countryList={countryList}
-            selectedUsersForAssign={selectedUsersForAssign}
+            allUsers={allUsers}
+            onChangeOption={onChangeOption}
+            selectedUsers={selectedUsers}
           />
         </Box>
       </Box>

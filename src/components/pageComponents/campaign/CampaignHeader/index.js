@@ -287,6 +287,17 @@ const CampaignHeader = ({
                     dispatch(campaignFilterActions.campaignFilterClearAction());
                   }}
                   className="filter-btn"
+                  style={{
+                    textTransform: "none",
+                    height: "40px",
+                    width: "25px",
+                    fontWeight: "600",
+                    padding: "0px",
+                    borderRadius: "10px",
+                    marginLeft: "0px",
+                    backgroundColor: "rgb(231, 231, 231)",
+                    color: "rgb(92, 117, 154)",
+                  }}
                 >
                   <FilterAltOffIcon />
                 </Button>

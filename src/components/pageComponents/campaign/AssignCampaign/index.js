@@ -14,7 +14,7 @@ const AssignCampaign = ({
   selectedUsers,
   width,
 }) => {
-  // console.log("selectedUsers", selectedUsers);
+  console.log("AssignCampaign", selectedUsers);
   return (
     <div
       style={{

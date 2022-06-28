@@ -12,11 +12,11 @@ import * as leadsFilterActions from "../../../../redux/actions/leadsFilter";
 import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import { Link } from "react-router-dom";
 import CampaignPopup from "../../../themeComponents/popup/CampaignPopup";
-import "./campaignDisplay.scss";
 import ActivePopUp from "../../../themeComponents/popup/CampaignPopup/ActivePopUp";
 import DeactivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
 import DeActivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
 import CampaignMenu from "../CampaignMenu";
+import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
   searchedCampaignList,

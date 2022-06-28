@@ -86,10 +86,9 @@
   height: 42px;
   width: 100%;
   display: flex;
-  width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 2px 8px;
+  padding: 2px 6px;
 
   .campaign-checkbox-container {
     display: flex;
@@ -103,7 +102,7 @@
       height: 18px;
       font-style: normal;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 14px;
       line-height: 16px;
       margin-top: 1px;
       color: #003ad2;
@@ -113,7 +112,7 @@
     border: none;
     font-style: normal;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 16px;
     color: #003ad2;
     cursor: pointer;
