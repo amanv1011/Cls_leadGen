@@ -12,7 +12,6 @@ const IAutocomplete = ({
   disabled,
   onAutoPopperClose,
   selectedUsers,
-  assignUsers,
   width,
 }) => {
   return (

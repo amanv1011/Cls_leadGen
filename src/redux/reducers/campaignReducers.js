@@ -9,6 +9,8 @@ const initialState = {
   initialSearchValue: "",
   campaignDoc: {},
   searchedCampaignList: [],
+  assignCampaign: {},
+  assignedCampaigns: [],
 };
 
 // fetch all campaign list
@@ -142,6 +144,47 @@ export const getAllCampaignsReducer = (
         searchedCampaignList: payload,
       };
 
+    case types.ASSIGN_CAMPAIGN_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case types.ASSIGN_CAMPAIGN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        assignCampaign: payload,
+        error: null,
+      };
+    case types.ASSIGN_CAMPAIGN_ERROR:
+      return {
+        ...state,
+        loading: false,
+        assignCampaign: payload,
+        error: payload,
+      };
+
+    case types.GET_ASSIGNED_CAMPAIGN_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case types.GET_ASSIGNED_CAMPAIGN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        assignedCampaigns: payload,
+        error: null,
+      };
+    case types.GET_ASSIGNED_CAMPAIGN_ERROR:
+      return {
+        ...state,
+        loading: false,
+        assignedCampaigns: payload,
+        error: payload,
+      };
     default:
       return state;
   }

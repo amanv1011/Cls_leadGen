@@ -12,9 +12,9 @@ const AssignCampaign = ({
   disabled,
   onAutoPopperClose,
   selectedUsers,
-  assignUsers,
   width,
 }) => {
+  console.log("AssignCampaign", selectedUsers);
   return (
     <div
       style={{
@@ -143,20 +143,6 @@ const AssignCampaign = ({
           />
         )}
       />
-      {/* <div className="okay-icon" onClick={assignUsers}>
-        {selectedUsers && selectedUsers.length > 0 ? (
-          <CheckIcon
-            fontSize="small"
-            sx={{ strokeWidth: 2 }}
-            style={{
-              background: "#003ad2",
-              fontWeight: 600,
-              color: "#ffffff",
-              borderRadius: "5px",
-            }}
-          />
-        ) : null}
-      </div> */}
     </div>
   );
 };

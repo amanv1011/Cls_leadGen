@@ -2,6 +2,7 @@ import { MenuItem, Select } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { leadsDropDownFilterAction } from "../../../../redux/actions/leadsFilter";
+// import DownArrow from "../../leads/DownArrow";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./campaignMenu.scss";
 
@@ -48,7 +49,13 @@ const CampaignMenu = () => {
       className="select-container"
       variant="standard"
       disableUnderline
-      IconComponent={() => <KeyboardArrowDownIcon fontSize="small" />}
+      IconComponent={(props) => (
+        <KeyboardArrowDownIcon
+          {...props}
+          fontSize="small"
+          style={{ color: "#003ad2" }}
+        />
+      )}
       MenuProps={{
         PaperProps: {
           sx: {
@@ -84,16 +91,16 @@ const CampaignMenu = () => {
       }}
     >
       <MenuItem value="AllLeads" className="select-option" sx={style}>
-        {`All (${leadsAllCount})`}
+        {`All Campaigns (${leadsAllCount})`}
       </MenuItem>
       <MenuItem className="select-option" sx={style} value="UnderReveiwLeads">
-        {`Active (${leadsUnderReviewCount})`}
+        {`Active Campaigns (${leadsUnderReviewCount})`}
       </MenuItem>
       <MenuItem
         className="select-option"
         sx={style}
         value="ApprovedLeads"
-      >{`In-Active (${leadsAprrovedCount})`}</MenuItem>
+      >{`In-Active Campaigns (${leadsAprrovedCount})`}</MenuItem>
     </Select>
   );
 };

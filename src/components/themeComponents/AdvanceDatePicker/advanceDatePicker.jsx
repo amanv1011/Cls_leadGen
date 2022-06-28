@@ -38,7 +38,7 @@ class AdvanceDatePicker extends React.Component {
   }
 
   rangeCallback(index, value) {
-    console.log(index, value);
+    // console.log(index, value);
   }
 
   onClick() {

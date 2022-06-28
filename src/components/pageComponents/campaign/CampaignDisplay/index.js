@@ -12,6 +12,10 @@ import * as leadsFilterActions from "../../../../redux/actions/leadsFilter";
 import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import { Link } from "react-router-dom";
 import CampaignPopup from "../../../themeComponents/popup/CampaignPopup";
+import ActivePopUp from "../../../themeComponents/popup/CampaignPopup/ActivePopUp";
+import DeactivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
+import DeActivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
+import CampaignMenu from "../CampaignMenu";
 import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
@@ -34,6 +38,9 @@ const CampaignDisplay = ({
   const [multipleFilterValue, setMultipleFilterValue] = useState("All");
   const [activeCampaigns, setActiveCampaigns] = useState([]);
   const [inActiveCampaigns, setInActiveCampaigns] = useState([]);
+  const [openCampaignPopupActive, setOpenCampaignPopupActive] = useState(false);
+  const [openCampaignPopupDeActivate, setOpenCampaignPopupDeActivate] =
+    useState(false);
 
   useEffect(() => {
     setcampaignsListData(searchedCampaignList);
@@ -43,7 +50,6 @@ const CampaignDisplay = ({
         searchedCampaignList[0]?.id &&
         Viewed(searchedCampaignList[0].id);
   }, [searchedCampaignList]);
-  console.log("campaignsListData", campaignsListData);
 
   useEffect(() => {
     if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {
@@ -230,6 +236,18 @@ const CampaignDisplay = ({
   const handleCloseCampaignPopup = () => {
     setOpenCampaignPopup(false);
   };
+  const handleClickOpenCampaignPopupActive = () => {
+    setOpenCampaignPopupActive(true);
+  };
+  const handleCloseCampaignPopupActive = () => {
+    setOpenCampaignPopupActive(false);
+  };
+  const handleClickOpenCampaignPopupDeActivate = () => {
+    setOpenCampaignPopupDeActivate(true);
+  };
+  const handleCloseCampaignPopupDeActivate = () => {
+    setOpenCampaignPopupDeActivate(false);
+  };
 
   const onDeleteMulitpleCampaign = () => {
     handleClickOpenCampaignPopup();
@@ -260,25 +278,11 @@ const CampaignDisplay = ({
   };
 
   const onActivateMulitpleCampaign = () => {
-    selectedArray.map((seletedCampaigns) => {
-      try {
-        get_a_feild_in_a_document(seletedCampaigns, { status: 1 });
-        dispatch(campaignActions.getAllCampaignsAction());
-      } catch (error) {
-        dispatch(openAlertAction(`${error.message}`, true, "error"));
-      }
-    });
+    handleClickOpenCampaignPopupActive();
   };
 
   const onDeActivateMulitpleCampaign = () => {
-    selectedArray.map((seletedCampaigns) => {
-      try {
-        get_a_feild_in_a_document(seletedCampaigns, { status: 0 });
-        dispatch(campaignActions.getAllCampaignsAction());
-      } catch (error) {
-        dispatch(openAlertAction(`${error.message}`, true, "error"));
-      }
-    });
+    handleClickOpenCampaignPopupDeActivate();
   };
 
   if (
@@ -293,8 +297,8 @@ const CampaignDisplay = ({
             <input type="checkbox" disabled={true} />
             <label className="all-label">All</label>
           </div>
-
-          <select
+          <CampaignMenu />
+          {/* <select
             className="addCampaign-selects"
             style={{
               border: "none",
@@ -324,19 +328,12 @@ const CampaignDisplay = ({
               {`Active(${activeCampaigns.length})`}
             </option>
             <option value="In-Active">{`In-Active(${inActiveCampaigns.length})`}</option>
-          </select>
+          </select> */}
         </div>
         <div className="campaign-display-container">
           <div className="campaign-display-subcontainers">
             <div className="campaign-display-subcontainer1">
-              <div
-                className="display-count"
-                // style={{
-                //   width: "100%",
-                //   display: "flex",
-                //   justifyContent: "space-between",
-                // }}
-              >
+              <div className="display-count">
                 <div className="campaign-display-btn-text searched-campaign-empty">
                   Campaign(s) not found
                 </div>
@@ -377,8 +374,8 @@ const CampaignDisplay = ({
                 </div>
               )}
             </div>
-
-            <select
+            <CampaignMenu />
+            {/* <select
               className="addCampaign-selects"
               style={{
                 border: "none",
@@ -408,7 +405,7 @@ const CampaignDisplay = ({
                 {`Active(${activeCampaigns.length})`}
               </option>
               <option value="In-Active">{`In-Active(${inActiveCampaigns.length})`}</option>
-            </select>
+            </select> */}
           </div>
 
           <div>
@@ -482,7 +479,6 @@ const CampaignDisplay = ({
                     type="checkbox"
                     name={campaign.id}
                     value={campaign.id}
-                    className="check box"
                     checked={
                       selectedArray &&
                       selectedArray.filter((it) => it === campaign.id).length >
@@ -498,14 +494,7 @@ const CampaignDisplay = ({
                     campaignDoc.id === campaign.id ? "selected" : ""
                   }`}
                 >
-                  <div
-                    className="display-count"
-                    // style={{
-                    //   width: "100%",
-                    //   display: "flex",
-                    //   justifyContent: "space-between",
-                    // }}
-                  >
+                  <div className="display-count">
                     <div
                       className={`campaign-display-btn-text ${
                         campaignDoc.id === campaign.id ? "selected" : ""
@@ -514,9 +503,6 @@ const CampaignDisplay = ({
                       {campaign.name}
                     </div>
                     <div
-                      className={`${
-                        campaignDoc.id === campaign.id ? "selected" : ""
-                      }`}
                       onClick={() => {
                         if (getNumOfLeads(campaign.id)) {
                           dispatch(
@@ -550,7 +536,6 @@ const CampaignDisplay = ({
                             ? {
                                 pointerEvents: "auto",
                                 cursor: "not-allowed",
-                                // color: "#1675e0",
                                 color: "var(--rs-text-link)",
                                 textDecoration: "none",
                                 fontSize: "12px",
@@ -594,6 +579,18 @@ const CampaignDisplay = ({
           handleClickOpen={handleClickOpenCampaignPopup}
           handleClose={handleCloseCampaignPopup}
           disableApplyBtn={disableApplyBtn}
+          selectedArray={selectedArray}
+        />
+        <ActivePopUp
+          openCampaignPopupActive={openCampaignPopupActive}
+          handleClickOpen={handleClickOpenCampaignPopupActive}
+          handleClose={handleCloseCampaignPopupActive}
+          selectedArray={selectedArray}
+        />
+        <DeActivatePopUp
+          openCampaignPopupDeActivate={openCampaignPopupDeActivate}
+          handleClickOpen={handleClickOpenCampaignPopupDeActivate}
+          handleClose={handleCloseCampaignPopupDeActivate}
           selectedArray={selectedArray}
         />
       </React.Fragment>

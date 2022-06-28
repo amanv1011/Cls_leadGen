@@ -2,35 +2,38 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Dialog, DialogActions, DialogTitle } from "@mui/material";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
+import { openAlertAction } from "../../../../redux/actions/alertActions";
+import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import IButton from "../../button";
 
-const CampaignPopup = ({
-  openCampaignPopup,
+const DeActivatePopUp = ({
+  openCampaignPopupDeActivate,
   handleClose,
-  disableApplyBtn,
   selectedArray,
 }) => {
   const dispatch = useDispatch();
 
-  const deleteMultipleCampaings = () => {
-    selectedArray.map((seletedCampaignsId) =>
-      dispatch(campaignActions.deleteCampaignsAction(seletedCampaignsId))
-    );
-    handleClose();
+  const ActivateMultipleCampaings = () => {
+    selectedArray.map((seletedCampaigns) => {
+      try {
+        get_a_feild_in_a_document(seletedCampaigns, { status: 0 });
+        dispatch(campaignActions.getAllCampaignsAction());
+      } catch (error) {
+        dispatch(openAlertAction(`${error.message}`, true, "error"));
+      }
+    });
   };
 
   return (
     <div>
       <Dialog
-        open={openCampaignPopup}
+        open={openCampaignPopupDeActivate}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {disableApplyBtn
-            ? "You have selected campaings which has already generated leads. Please deselect the campaings with leads and try again"
-            : "Delete seleted campaigns"}
+          De-Activate selected campaigns ?
         </DialogTitle>
         <DialogActions>
           <IButton
@@ -43,12 +46,11 @@ const CampaignPopup = ({
             type="apply"
             name="apply"
             children={"Apply"}
-            disabled={disableApplyBtn}
-            onclick={deleteMultipleCampaings}
+            onclick={ActivateMultipleCampaings}
           />
         </DialogActions>
       </Dialog>
     </div>
   );
 };
-export default CampaignPopup;
+export default DeActivatePopUp;

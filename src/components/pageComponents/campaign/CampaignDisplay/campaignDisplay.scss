@@ -1,7 +1,8 @@
 .campaign-display-container {
-  height: 57vh;
+  height: 60vh;
   overflow-y: auto;
   overflow-x: hidden;
+  width: 100%;
   .selected {
     background: #003ad2;
     color: #ffff !important;
@@ -15,11 +16,11 @@
     display: flex;
     font-style: normal;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 17px;
     color: #003ad2;
     align-items: center;
-    padding: 2px 15px;
+    padding: 2px 12px;
     border-bottom: solid rgb(236, 238, 242) 2px;
     &:last-child {
       border-bottom: none;
@@ -27,16 +28,15 @@
     .campaign-display-check {
       box-sizing: border-box;
       margin-top: -10px;
-      width: 20px;
-      height: 20px;
     }
     .campaign-display-subcontainer1 {
       color: #003ad2;
       width: 100%;
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       flex-direction: column;
       margin-left: 10px;
+      height: 100%;
       .display-count {
         width: 100%;
         display: flex;
@@ -49,7 +49,7 @@
           text-overflow: ellipsis;
           text-transform: capitalize;
           &.searched-campaign-empty {
-            font-size: 16px;
+            font-size: 12px;
             height: 18px;
             text-align: center;
             height: 100%;
@@ -86,10 +86,9 @@
   height: 42px;
   width: 100%;
   display: flex;
-  width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 2px 8px;
+  padding: 2px 6px;
 
   .campaign-checkbox-container {
     display: flex;
@@ -113,7 +112,7 @@
     border: none;
     font-style: normal;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 16px;
     color: #003ad2;
     cursor: pointer;
