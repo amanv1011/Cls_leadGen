@@ -5,27 +5,24 @@ import { Popover } from "@mui/material";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import { openAlertAction } from "../../../../redux/actions/alertActions";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
-import Download from "../../../themeComponents/campTable/Download";
-import Delete from "../../../themeComponents/campTable/Delete";
 import * as commonFunctions from "../commonFunctions";
 import * as leadsFilterActions from "../../../../redux/actions/leadsFilter";
-import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import { Link } from "react-router-dom";
 import CampaignPopup from "../../../themeComponents/popup/CampaignPopup";
 import ActivePopUp from "../../../themeComponents/popup/CampaignPopup/ActivePopUp";
-import DeactivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
 import DeActivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
 import CampaignMenu from "../CampaignMenu";
+import * as campaignCountActions from "../../../../redux/actions/campaignCountActions";
 import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
   searchedCampaignList,
   campaignLoader,
-  searchValue,
   campaignDoc,
   leadsList,
   countryFilterValue,
   ownerFilterValue,
+  campaignStateFilterValue,
 }) => {
   const dispatch = useDispatch();
   const [campaignsListData, setcampaignsListData] = useState([]);
@@ -52,28 +49,40 @@ const CampaignDisplay = ({
   }, [searchedCampaignList]);
 
   useEffect(() => {
-    if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {
+    if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue === "Owner"
+      // &&
+      // campaignStateFilterValue === "AllCampaigns"
+    ) {
       setcampaignsListData(searchedCampaignList);
     } else if (
       countryFilterValue !== "Country" &&
       ownerFilterValue !== "Owner"
+      // &&
+      // campaignStateFilterValue === "activeCampaigns"
     ) {
       const filteredCampaigns = searchedCampaignList.filter(
         (campaign) =>
           campaign &&
           campaign?.country === countryFilterValue &&
           campaign?.owner === ownerFilterValue
+        // &&
+        // campaign?.status === 1
       );
       setcampaignsListData(filteredCampaigns);
     } else if (
       countryFilterValue !== "Country" &&
       ownerFilterValue !== "Owner"
+      // &&
+      // campaignStateFilterValue === "inActiveCampaigns"
     ) {
       const filteredCampaigns = searchedCampaignList.filter(
         (campaign) =>
           campaign &&
           campaign?.country === countryFilterValue &&
-          campaign?.owner === ownerFilterValue
+          campaign?.owner === ownerFilterValue &&
+          campaign?.status === 0
       );
       setcampaignsListData(filteredCampaigns);
     } else if (
@@ -93,27 +102,35 @@ const CampaignDisplay = ({
       );
       setcampaignsListData(filteredCampaigns);
     }
+    // dispatch();s
   }, [countryFilterValue, ownerFilterValue]);
 
   useEffect(() => {
-    if (multipleFilterValue === "All") {
+    if (campaignStateFilterValue === "AllCampaigns") {
       setcampaignsListData(searchedCampaignList);
+      dispatch(
+        campaignCountActions.getAllCampaignsCountAction(searchedCampaignList)
+      );
     }
-    if (multipleFilterValue === "Active") {
+    if (campaignStateFilterValue === "activeCampaigns") {
       const filteredCampaigns = searchedCampaignList.filter(
         (campaign) => campaign?.status === 1
       );
       setcampaignsListData(filteredCampaigns);
-      setActiveCampaigns(filteredCampaigns);
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(filteredCampaigns)
+      );
     }
-    if (multipleFilterValue === "In-Active") {
+    if (campaignStateFilterValue === "inActiveCampaigns") {
       const filteredCampaigns = searchedCampaignList.filter(
         (campaign) => campaign?.status === 0
       );
       setcampaignsListData(filteredCampaigns);
-      setInActiveCampaigns(filteredCampaigns);
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(filteredCampaigns)
+      );
     }
-  }, [searchedCampaignList, multipleFilterValue]);
+  }, [searchedCampaignList, campaignStateFilterValue]);
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {

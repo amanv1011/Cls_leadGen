@@ -3,6 +3,7 @@ import * as types from "../type";
 const initialState = {
   country: "Country",
   owner: "Owner",
+  campaignState: "AllCampaigns",
 };
 
 export const campaignFilterReducer = (
@@ -14,6 +15,8 @@ export const campaignFilterReducer = (
       return { ...state, country: payload };
     case types.CAMPAIGN_OWNER_FILTER_VALUE:
       return { ...state, owner: payload };
+    case types.CAMPAIGN_STATE_FILTER_VALUE:
+      return { ...state, campaignState: payload };
 
     case types.CAMPAIGN_FILTER_CLEAR:
       return {
