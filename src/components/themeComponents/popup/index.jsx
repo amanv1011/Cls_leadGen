@@ -134,8 +134,11 @@ const AddCampaginModal = ({ countryList }) => {
         end_date: Timestamp.fromDate(new Date(end_date)),
         start_date: Timestamp.fromDate(new Date(start_date)),
         last_crawled_date: Timestamp.fromDate(new Date(start_date)),
-        owner: "Mithun Dominic",
+        owner: localStorage.getItem("userName")
+          ? localStorage.getItem("userName")
+          : "NA",
         campaignCreatedAt: Timestamp.fromDate(new Date()),
+        campaignSeen: false,
       };
 
       if (a__campgaignId) {
