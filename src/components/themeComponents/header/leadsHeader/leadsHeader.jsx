@@ -235,21 +235,22 @@ const LeadsHeader = () => {
               >
                 All Campaigns
               </MenuItem>
-              {leadData.map((ele, idx) => {
-                return (
-                  <MenuItem
-                    key={idx}
-                    className="menu-item"
-                    onClick={handleCloseAllCampgainsMenu}
-                    sx={{
-                      fontSize: "12px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {ele.name}
-                  </MenuItem>
-                );
-              })}
+              {leadData &&
+                leadData.map((ele, idx) => {
+                  return (
+                    <MenuItem
+                      key={idx}
+                      className="menu-item"
+                      onClick={handleCloseAllCampgainsMenu}
+                      sx={{
+                        fontSize: "12px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {ele.name}
+                    </MenuItem>
+                  );
+                })}
             </Menu>
           </div>
           <NewDateRangePicker />
@@ -302,6 +303,7 @@ const LeadsHeader = () => {
               All Countries
             </MenuItem>
             {uniqueCountries &&
+              uniqueCountries &&
               uniqueCountries.map((ele, idx) => {
                 return (
                   <MenuItem
@@ -367,21 +369,22 @@ const LeadsHeader = () => {
               >
                 All Owners
               </MenuItem>
-              {uniqueOwner.map((ele, idx) => {
-                return (
-                  <MenuItem
-                    key={idx}
-                    className="menu-item"
-                    onClick={handleCloseOwnerMenu}
-                    sx={{
-                      fontSize: "13px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {ele}
-                  </MenuItem>
-                );
-              })}
+              {uniqueOwner &&
+                uniqueOwner.sort().map((ele, idx) => {
+                  return (
+                    <MenuItem
+                      key={idx}
+                      className="menu-item"
+                      onClick={handleCloseOwnerMenu}
+                      sx={{
+                        fontSize: "13px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {ele}
+                    </MenuItem>
+                  );
+                })}
             </Menu>
           </div>
         </div>
