@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import DateModal from "../../../pageComponents/leads/DateModal";
+
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import Tooltip from "@mui/material/Tooltip";
@@ -23,7 +23,9 @@ import NewDateRangePicker from "../../AdvanceDatePicker/newDatePickerCompo";
 
 const LeadsHeader = () => {
   const dispatch = useDispatch();
+  const [uniqueOwner, setUniqueOwner] = useState([]);
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
+  const allUsers = useSelector((state) => state.users.users);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
   );
@@ -60,17 +62,28 @@ const LeadsHeader = () => {
     setAllCountriesMenu(null);
   };
 
-  const uniqueOwner = [];
+  const arr = [];
   const uniqueCountries = [];
 
   leadData.forEach((c) => {
-    if (!uniqueOwner.includes(c.owner)) {
-      uniqueOwner.push(c.owner);
+    if (!arr.includes(c.owner)) {
+      arr.push(c.owner);
     }
+
     if (!uniqueCountries.includes(c.country)) {
       uniqueCountries.push(c.country);
     }
   });
+
+  useEffect(() => {
+    const array = [...arr];
+    allUsers.map((user) => {
+      if (!array.includes(user.name)) {
+        array.push(user.name);
+      }
+    });
+    setUniqueOwner(array);
+  }, [allUsers, leadData]);
 
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);
@@ -105,9 +118,6 @@ const LeadsHeader = () => {
     }
     setOwnerMenu(null);
   };
-
- 
-
   const clearFilterTab = () => {
     dispatch(clearFilters());
     dispatch(datePickerState(0));
@@ -225,22 +235,22 @@ const LeadsHeader = () => {
               >
                 All Campaigns
               </MenuItem>
-              {leadData.map((ele) => {
-                return (
-                  <MenuItem
-                    key={ele.id}
-                    data-id={ele.id}
-                    className="menu-item"
-                    onClick={handleCloseAllCampgainsMenu}
-                    sx={{
-                      fontSize: "12px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {ele.name}
-                  </MenuItem>
-                );
-              })}
+              {leadData &&
+                leadData.map((ele, idx) => {
+                  return (
+                    <MenuItem
+                      key={idx}
+                      className="menu-item"
+                      onClick={handleCloseAllCampgainsMenu}
+                      sx={{
+                        fontSize: "12px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {ele.name}
+                    </MenuItem>
+                  );
+                })}
             </Menu>
           </div>
           <NewDateRangePicker />
@@ -293,6 +303,7 @@ const LeadsHeader = () => {
               All Countries
             </MenuItem>
             {uniqueCountries &&
+              uniqueCountries &&
               uniqueCountries.map((ele, idx) => {
                 return (
                   <MenuItem
@@ -359,11 +370,10 @@ const LeadsHeader = () => {
                 All Owners
               </MenuItem>
               {uniqueOwner &&
-                uniqueOwner.map((ele) => {
+                uniqueOwner.sort().map((ele, idx) => {
                   return (
                     <MenuItem
-                      key={ele.id}
-                      data-id={ele.id}
+                      key={idx}
                       className="menu-item"
                       onClick={handleCloseOwnerMenu}
                       sx={{
@@ -382,7 +392,7 @@ const LeadsHeader = () => {
           <div className="filter-icon">
             <Tooltip title="Clear Filter" placement="top-start">
               <Button onClick={clearFilterTab} className="filter-btn">
-                <FilterAltOffIcon />
+                <FilterAltOffIcon fontSize="small" />
               </Button>
             </Tooltip>
           </div>

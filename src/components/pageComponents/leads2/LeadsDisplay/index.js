@@ -125,6 +125,7 @@ const LeadsDisplay = ({
         option.forEach((e) => {
           arr.push(e.userId);
         });
+
       dispatch(assignLeadToUsersAction(selectedArray, arr));
     }
   };

@@ -29,7 +29,7 @@ export default function IModal(
           padding: "10px",
           width: "auto",
           height: "fit-content",
-          minHeight: "40%",
+          minHeight: "50%",
           minWidth: "30%",
         },
       }}

@@ -93,6 +93,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => {
   return { leadsFilter: state.leadsFilter };
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
