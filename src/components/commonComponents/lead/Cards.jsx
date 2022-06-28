@@ -50,17 +50,19 @@ const Cards = (props) => {
     (state) => state.addNotesToUserReducer.addedNotes
   );
   const allUsers = useSelector((state) => state.users.users);
+  const filterChangeState = useSelector(
+    (state) => state.leadsFilter.campaignName
+  );
+
   const assignedLeads = useSelector(
     (state) => state.getAssignedLeadsReducer.assignedLeads
   );
 
-  // useEffect(() => {
   leadsData.sort(
     (a, b) =>
       new Date(b.leadGeneratedDate.seconds).getTime() -
       new Date(a.leadGeneratedDate.seconds).getTime()
   );
-  // }, [leadsData]);
 
   useEffect(() => {
     setSelectedUsers([]);
@@ -92,6 +94,11 @@ const Cards = (props) => {
       setSlectedLeadId(leadsData[0] && leadsData[0].id);
     }
   }, [leadsData, allLeadData]);
+
+  useEffect(() => {
+    dispatch(getSingleLeadDetail(leadsData[0]));
+    setSlectedLeadId(leadsData[0] && leadsData[0].id);
+  }, [filterChangeState]);
 
   useEffect(() => {
     dispatch(getAllLeadsAction());

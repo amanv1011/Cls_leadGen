@@ -5,7 +5,6 @@ import Details from "../../../assets/icons/Details.png";
 import LinkedInIcon from "../../../assets/icons/LinkedInIcon.png";
 import "./leadDescription.scss";
 
-
 const LeadDescription = ({ selectedLeadIdFun }) => {
   const displayLeadData = useSelector((state) => state.PopupReducer.popupData);
 

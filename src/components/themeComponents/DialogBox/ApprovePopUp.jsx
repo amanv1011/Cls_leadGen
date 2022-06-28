@@ -26,7 +26,7 @@ export default function ApprovePopUp({
   handleClickOpen,
   handleClose,
   selectedLeadId,
-  disabledButton
+  disabledButton,
 }) {
   const dispatch = useDispatch();
   // const [open, setOpen] = React.useState(false);
@@ -40,7 +40,6 @@ export default function ApprovePopUp({
   }, [displayLeadData]);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  console.log(approveDisable.status);
   // const handleClickOpen = () => {
   //   setOpen(true);
   // };
@@ -66,13 +65,10 @@ export default function ApprovePopUp({
             : null
         }
         onClick={handleClickOpen}
-        disabled={ 
-           approveDisable &&
-              approveDisable.status &&
-              approveDisable.status === 1
-              ? true
-              : false
-            
+        disabled={
+          approveDisable && approveDisable.status && approveDisable.status === 1
+            ? true
+            : false
         }
       >
         {buttonName}

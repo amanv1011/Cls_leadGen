@@ -388,7 +388,7 @@ const LeadsHeader = () => {
           <div className="filter-icon">
             <Tooltip title="Clear Filter" placement="top-start">
               <Button onClick={clearFilterTab} className="filter-btn">
-                <FilterAltOffIcon />
+                <FilterAltOffIcon fontSize="small" />
               </Button>
             </Tooltip>
           </div>
