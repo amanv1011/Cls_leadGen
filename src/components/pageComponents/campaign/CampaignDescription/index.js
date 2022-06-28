@@ -39,6 +39,7 @@ const CampaignDescription = ({
   leadsList,
   allUsers,
   countryList,
+  selectedUsersForAssign,
 }) => {
   const dispatch = useDispatch();
   const [campaignDocValue, setCampaignDocValue] = useState(campaignDoc);
@@ -104,23 +105,16 @@ const CampaignDescription = ({
     }
   };
 
-  //assigning campaign to a user
   const onChangeOption = (e, option) => {
     setSelectedUsers(option);
-  };
-
-  const assignUsers = () => {
-    if (campaignDocValue.id.length > 0 && selectedUsers.length > 0) {
-      let arr = [];
-      selectedUsers &&
-        selectedUsers.forEach((e) => {
-          arr.push(e.userId);
-        });
-      dispatch(
-        campaignActions.assignCampaignToUsersAction([campaignDocValue.id], arr)
-      );
-      setSelectedUsers([]);
-    }
+    let arr = [];
+    option &&
+      option.forEach((e) => {
+        arr.push(e.userId);
+      });
+    dispatch(
+      campaignActions.assignCampaignToUsersAction([campaignDocValue.id], arr)
+    );
   };
 
   let sourceType = "";
@@ -196,8 +190,6 @@ const CampaignDescription = ({
 
   const campaignUpdateForm = async (event) => {
     event.preventDefault();
-    console.log("Hello");
-    // try {
     if (source === "seek_aus") {
       if (tags.length > 1) {
         alert(
@@ -709,8 +701,7 @@ const CampaignDescription = ({
               <AssignCampaign
                 options={allUsers}
                 onChangeOption={onChangeOption}
-                assignUsers={assignUsers}
-                selectedUsers={selectedUsers}
+                selectedUsers={selectedUsersForAssign}
               />
             </Box>
             <Box component={"div"} className="action-buttons">

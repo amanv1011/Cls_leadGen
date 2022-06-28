@@ -12,7 +12,10 @@ import Button from "@mui/material/Button";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import { getAllCampaignsAction } from "../../../redux/actions/campaignActions";
+import {
+  getAllCampaignsAction,
+  getAssignedCampaignsAction,
+} from "../../../redux/actions/campaignActions";
 import { getAllUsersAction } from "../../../redux/actions/usersAction";
 import {
   getAllLeadsAction,
@@ -63,6 +66,7 @@ const Dashboard = ({ children }) => {
     dispatch(getLeadsFullDescriptionAction());
     dispatch(getAllUsersAction());
     dispatch(getCountryAction());
+    dispatch(getAssignedCampaignsAction());
   }, []);
 
   useEffect(() => {

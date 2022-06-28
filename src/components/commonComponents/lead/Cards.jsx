@@ -50,6 +50,7 @@ const Cards = (props) => {
     (state) => state.addNotesToUserReducer.addedNotes
   );
   const allUsers = useSelector((state) => state.users.users);
+
   const assignedLeads = useSelector(
     (state) => state.getAssignedLeadsReducer.assignedLeads
   );

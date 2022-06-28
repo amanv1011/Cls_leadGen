@@ -15,6 +15,7 @@ const IAutocomplete = ({
   assignUsers,
   width,
 }) => {
+  console.log("leads seletecd", selectedUsers);
   return (
     <div
       style={{

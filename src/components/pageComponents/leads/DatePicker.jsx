@@ -41,7 +41,7 @@ class BasicDateRangePicker extends React.Component {
     this.props.leadsFilterDate(this.state.value);
     this.props.closeDateModal();
     this.props.datePickerState(1);
-    console.log(this.props.value)
+    console.log(this.props.value);
   };
   closeModal = () => {
     this.props.closeDateModal();
@@ -56,7 +56,6 @@ class BasicDateRangePicker extends React.Component {
       </div>
     );
   };
-  
 
   render() {
     console.log(leadsFilterDate);
@@ -94,7 +93,6 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => {
   return { leadsFilter: state.leadsFilter };
 };
-console.log(mapStateToProps);
 export default connect(
   mapStateToProps,
   mapDispatchToProps

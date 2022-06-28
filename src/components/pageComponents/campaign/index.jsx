@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Box } from "@mui/system";
 import { Divider } from "@mui/material";
@@ -30,6 +30,32 @@ const Campaign = () => {
   );
   const ownerFilterValue = useSelector((state) => state.campaignFilters.owner);
   const countryList = useSelector((state) => state.country.countryList);
+
+  const assignedCampaigns = useSelector(
+    (state) => state.allCampaigns.assignedCampaigns
+  );
+  const [selectedUsersForAssign, setSelectedUsersForAssign] = useState([]);
+
+  useEffect(() => {
+    setSelectedUsersForAssign([]);
+
+    if (assignedCampaigns && campaignDoc && campaignDoc.id) {
+      assignedCampaigns.forEach((assignedCampaign) => {
+        // console.log("assignedCampaign", assignedCampaign);
+        // console.log("campaignDoc.id", campaignDoc.id);
+        if (assignedCampaign.campaignId === campaignDoc.id) {
+          let selectedId = assignedCampaign.userId;
+          const filteredArray = allUsers.filter((value) =>
+            selectedId.includes(value.userId)
+          );
+          console.log("Yolla", filteredArray);
+          setSelectedUsersForAssign(filteredArray);
+        }
+      });
+    }
+  }, [campaignDoc]);
+
+  // console.log("assignedCampaigns", assignedCampaigns);
 
   return (
     <Box component="div" className="campaign-container">
@@ -82,6 +108,7 @@ const Campaign = () => {
             leadsList={leadsList}
             allUsers={allUsers}
             countryList={countryList}
+            selectedUsersForAssign={selectedUsersForAssign}
           />
         </Box>
       </Box>

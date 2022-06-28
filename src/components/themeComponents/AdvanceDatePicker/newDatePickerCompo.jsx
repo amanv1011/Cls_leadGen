@@ -12,33 +12,30 @@ import { useState } from "react";
 const today = moment();
 
 const NewDateRangePicker = (props) => {
-
   const dispatch = useDispatch();
 
-  const [clearDateFilter,setClearDateFilter]=useState();
+  const [clearDateFilter, setClearDateFilter] = useState();
   const filterDate = useSelector((state) => state.leadsFilter.filterDate);
   const datePlaceHolder = "Select Date Range";
 
   const applyOkButton = (value1) => {
-         setClearDateFilter(value1);
+    setClearDateFilter(value1);
     const calender1 =
       props.leadsFilter.datePickerState === 0
         ? moment.range(today.clone(), today.clone())
         : moment.range(value1[0], value1[1]);
     props.leadsFilterDate(calender1);
     props.datePickerState(1);
-    console.log("Selected Date By User", value1[0], value1[1]);
+    // console.log("Selected Date By User", value1[0], value1[1]);
   };
-
-   
 
   return (
     <DateRangePicker
       format="MMM dd , yyyy HH:mm"
-    //   placeholder={
-    //     filterDate === "" ? datePlaceHolder : applyOkButton()
-    //   }
-    placeholder="Select Date Range"
+      //   placeholder={
+      //     filterDate === "" ? datePlaceHolder : applyOkButton()
+      //   }
+      placeholder="Select Date Range"
       showOneCalendar
       style={{
         width: "275px",
@@ -52,7 +49,7 @@ const NewDateRangePicker = (props) => {
       }}
       onOk={applyOkButton}
       character={" to "}
-    // onClean={props.clearFunc}
+      // onClean={props.clearFunc}
     />
   );
 };
@@ -60,7 +57,7 @@ const NewDateRangePicker = (props) => {
 const mapDispatchToProps = {
   leadsFilterDate,
   datePickerState,
-  clearFilters
+  clearFilters,
 };
 const mapStateToProps = (state) => {
   return { leadsFilter: state.leadsFilter };

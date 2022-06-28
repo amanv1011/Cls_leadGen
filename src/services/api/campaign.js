@@ -36,14 +36,6 @@ export const get_A_Campaign = async (a__campgaignId) => {
 
 export const getCampaignList = async () => {
   try {
-    // const campaignSnaphot = await firebaseMethods.getDocs(
-    //   campgaignCollection,
-    //   firebaseMethods.query(
-    //     campgaignCollection,
-    //     firebaseMethods.orderBy("campaignCreatedAt"),
-    //     firebaseMethods.limit(3)
-    //   )
-    // );
     const campaignSnaphot = await firebaseMethods.getDocs(
       firebaseMethods.query(
         campgaignCollection,
@@ -107,68 +99,48 @@ export const getLastCrawledDate = async (campaignId) => {
   }
 };
 
-// export const assignCampaign = async (campaignId, userId) => {
-//   const leadsSnapshot = await firebaseMethods.getDocs(
-//     assignedCampaignCollection
-//   );
-//   const list = leadsSnapshot.docs.map((doc) => ({
-//     ...doc.data(),
-//     id: doc.id,
-//   }));
-//   const filt = list.filter((element) => element.campaignId === campaignId);
-
-//   if (filt.length === 0) {
-//     // await addDoc(assignedCampaignCollection, { campaignId: campaignId, userId: [userId] });
-//     const newCityRef = firebaseMethods.doc(
-//       assignedCampaignCollection,
-//       campaignId
-//     );
-//     await firebaseMethods.setDoc(newCityRef, {
-//       campaignId: campaignId,
-//       userId: [userId],
-//     });
-//     return "Assigned Successfully";
-//   } else {
-//     //find for existing user
-//     const documnet = firebaseMethods.doc(
-//       assignedCampaignCollection,
-//       campaignId
-//     );
-//     await firebaseMethods.updateDoc(documnet, {
-//       campaignId: campaignId,
-//       userId: firebaseMethods.arrayUnion(userId),
-//     });
-//     return "Assigned Successfully";
-//   }
-// };
-
-export const assignCampaign = async (leadId, userId) => {
-  const leadsSnapshot = await firebaseMethods.getDocs(
+export const assignCampaign = async (campaignId, userId) => {
+  const campaignsSnapshot = await firebaseMethods.getDocs(
     assignedCampaignCollection
   );
-  const list = leadsSnapshot.docs.map((doc) => ({
+  const list = campaignsSnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
   }));
-  leadId &&
-    leadId.forEach(async (ele) => {
-      const filt = list.filter((element) => element.leadId === leadId);
+  campaignId &&
+    campaignId.forEach(async (ele) => {
+      const filt = list.filter((element) => element.campaignId === campaignId);
       if (filt.length === 0) {
-        // await addDoc(assignedLeadCollection, { leadId: leadId, userId: [userId] });
         const newCityRef = firebaseMethods.doc(assignedCampaignCollection, ele);
         await firebaseMethods.setDoc(newCityRef, {
-          leadId: ele,
+          campaignId: ele,
           userId: userId,
         });
-        return "Assigned Successfully";
       } else {
         //find for existing user
         const documnet = firebaseMethods.doc(assignedCampaignCollection, ele);
         await firebaseMethods.updateDoc(documnet, {
-          leadId: ele,
+          campaignId: ele,
           userId: firebaseMethods.arrayUnion(...userId),
         });
-        return "Assigned Successfully";
       }
     });
+  return { campaignId: campaignId, userId: userId };
+};
+
+export const getAssignedCampaigns = async () => {
+  try {
+    const assignedCampaignsSnapshot = await firebaseMethods.getDocs(
+      assignedCampaignCollection
+    );
+    const assignedCampaignssList = assignedCampaignsSnapshot.docs.map(
+      (doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      })
+    );
+    return assignedCampaignssList;
+  } catch (error) {
+    return error.message;
+  }
 };

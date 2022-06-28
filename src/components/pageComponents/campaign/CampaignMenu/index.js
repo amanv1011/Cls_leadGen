@@ -1,21 +1,21 @@
-import { MenuItem, Select } from "@mui/material";
 import React from "react";
+import { MenuItem, Select } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { leadsDropDownFilterAction } from "../../../../redux/actions/leadsFilter";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./campaignMenu.scss";
 
+const style = {
+  fontSize: "14px",
+  fontStyle: "normal",
+  fontWeight: "500",
+  color: "#1f4173",
+  opacity: "0.8",
+  paddingLeft: "8px",
+  paddingRight: "8px",
+};
+
 const CampaignMenu = () => {
   const dispatch = useDispatch();
-  const style = {
-    fontSize: "14px",
-    fontStyle: "normal",
-    fontWeight: "500",
-    color: "#1f4173",
-    opacity: "0.8",
-    paddingLeft: "8px",
-    paddingRight: "8px",
-  };
 
   const leadsAllCount = useSelector(
     (state) => state.approveRejectCount.allCount
@@ -26,12 +26,7 @@ const CampaignMenu = () => {
   const leadsUnderReviewCount = useSelector(
     (state) => state.approveRejectCount.underreviewCount
   );
-  const leadsRejectedCount = useSelector(
-    (state) => state.approveRejectCount.rejectCount
-  );
-  const leadsArchievedCount = useSelector(
-    (state) => state.approveRejectCount.archieveCount
-  );
+
   const leadsDropDownFilter = useSelector(
     (state) => state.leadsFilter.leadsDropDownFilter
   );
@@ -39,10 +34,11 @@ const CampaignMenu = () => {
   return (
     <Select
       labelId="select-label"
-      id="simple-select"
-      value={leadsDropDownFilter}
+      id="campaign-simple-select"
+      // value={leadsDropDownFilter}
       onChange={(event) => {
-        dispatch(leadsDropDownFilterAction(event.target.value));
+        // console.log("event", event.target.value);
+        // dispatch(leadsDropDownFilterAction(event.target.value));
       }}
       size="small"
       className="select-container"
@@ -83,17 +79,21 @@ const CampaignMenu = () => {
         fontWeight: 600,
       }}
     >
-      <MenuItem value="AllLeads" className="select-option" sx={style}>
-        {`All (${leadsAllCount})`}
+      <MenuItem value="AllCampaigns" className="select-option" sx={style}>
+        {/* {` */}
+        All
+        {/* (${0})`} */}
       </MenuItem>
       <MenuItem className="select-option" sx={style} value="UnderReveiwLeads">
-        {`Active (${leadsUnderReviewCount})`}
+        {/* {` */}
+        Active
+        {/* (${0})`} */}
       </MenuItem>
-      <MenuItem
-        className="select-option"
-        sx={style}
-        value="ApprovedLeads"
-      >{`In-Active (${leadsAprrovedCount})`}</MenuItem>
+      <MenuItem className="select-option" sx={style} value="ApprovedLeads">
+        {/* {` */}
+        In-Active
+        {/* (${0})`} */}
+      </MenuItem>
     </Select>
   );
 };

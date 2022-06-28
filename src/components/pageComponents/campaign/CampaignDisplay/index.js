@@ -16,6 +16,7 @@ import "./campaignDisplay.scss";
 import ActivePopUp from "../../../themeComponents/popup/CampaignPopup/ActivePopUp";
 import DeactivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
 import DeActivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
+import CampaignMenu from "../CampaignMenu";
 
 const CampaignDisplay = ({
   searchedCampaignList,
@@ -49,7 +50,6 @@ const CampaignDisplay = ({
         searchedCampaignList[0]?.id &&
         Viewed(searchedCampaignList[0].id);
   }, [searchedCampaignList]);
-  console.log("campaignsListData", campaignsListData);
 
   useEffect(() => {
     if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {
@@ -297,7 +297,7 @@ const CampaignDisplay = ({
             <input type="checkbox" disabled={true} />
             <label className="all-label">All</label>
           </div>
-
+          {/* <CampaignMenu /> */}
           <select
             className="addCampaign-selects"
             style={{
@@ -333,14 +333,7 @@ const CampaignDisplay = ({
         <div className="campaign-display-container">
           <div className="campaign-display-subcontainers">
             <div className="campaign-display-subcontainer1">
-              <div
-                className="display-count"
-                // style={{
-                //   width: "100%",
-                //   display: "flex",
-                //   justifyContent: "space-between",
-                // }}
-              >
+              <div className="display-count">
                 <div className="campaign-display-btn-text searched-campaign-empty">
                   Campaign(s) not found
                 </div>
@@ -381,7 +374,7 @@ const CampaignDisplay = ({
                 </div>
               )}
             </div>
-
+            {/* <CampaignMenu /> */}
             <select
               className="addCampaign-selects"
               style={{
@@ -486,7 +479,6 @@ const CampaignDisplay = ({
                     type="checkbox"
                     name={campaign.id}
                     value={campaign.id}
-                    className="check box"
                     checked={
                       selectedArray &&
                       selectedArray.filter((it) => it === campaign.id).length >
@@ -502,14 +494,7 @@ const CampaignDisplay = ({
                     campaignDoc.id === campaign.id ? "selected" : ""
                   }`}
                 >
-                  <div
-                    className="display-count"
-                    // style={{
-                    //   width: "100%",
-                    //   display: "flex",
-                    //   justifyContent: "space-between",
-                    // }}
-                  >
+                  <div className="display-count">
                     <div
                       className={`campaign-display-btn-text ${
                         campaignDoc.id === campaign.id ? "selected" : ""
@@ -518,9 +503,6 @@ const CampaignDisplay = ({
                       {campaign.name}
                     </div>
                     <div
-                      className={`${
-                        campaignDoc.id === campaign.id ? "selected" : ""
-                      }`}
                       onClick={() => {
                         if (getNumOfLeads(campaign.id)) {
                           dispatch(
@@ -554,7 +536,6 @@ const CampaignDisplay = ({
                             ? {
                                 pointerEvents: "auto",
                                 cursor: "not-allowed",
-                                // color: "#1675e0",
                                 color: "var(--rs-text-link)",
                                 textDecoration: "none",
                                 fontSize: "12px",
@@ -604,14 +585,12 @@ const CampaignDisplay = ({
           openCampaignPopupActive={openCampaignPopupActive}
           handleClickOpen={handleClickOpenCampaignPopupActive}
           handleClose={handleCloseCampaignPopupActive}
-          // disableApplyBtn={disableApplyBtn}
           selectedArray={selectedArray}
         />
         <DeActivatePopUp
           openCampaignPopupDeActivate={openCampaignPopupDeActivate}
           handleClickOpen={handleClickOpenCampaignPopupDeActivate}
           handleClose={handleCloseCampaignPopupDeActivate}
-          // disableApplyBtn={disableApplyBtn}
           selectedArray={selectedArray}
         />
       </React.Fragment>

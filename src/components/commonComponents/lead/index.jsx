@@ -17,7 +17,6 @@ const Lead = () => {
   const dispatch = useDispatch();
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
-  console.log(searchDate);
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
