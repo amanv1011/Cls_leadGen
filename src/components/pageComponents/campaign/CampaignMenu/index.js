@@ -31,7 +31,6 @@ const CampaignMenu = () => {
   const campaignStateFilterValue = useSelector(
     (state) => state.campaignFilters.campaignState
   );
-  console.log("campaignStateFilterValue", campaignStateFilterValue);
 
   return (
     <Select

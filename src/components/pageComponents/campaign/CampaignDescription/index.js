@@ -48,9 +48,6 @@ const CampaignDescription = ({
   useEffect(() => {
     setCampaignDocValue(campaignDoc);
   }, [campaignDoc]);
-  console.log("allUsers", allUsers);
-  console.log("selectedUsers", selectedUsers);
-  // console.log("onChangeOption", onChangeOption);
 
   const [addCampaignDetails, setAddCampaignDetails] = useState({
     name: "",
@@ -64,6 +61,7 @@ const CampaignDescription = ({
     end_time: "",
     queryURL: "",
     status: 1,
+    // campaignSeen: false,
   });
 
   const {

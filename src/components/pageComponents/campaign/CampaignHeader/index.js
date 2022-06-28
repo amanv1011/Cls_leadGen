@@ -23,6 +23,7 @@ const CampaignHeader = ({
   );
   const ownerFilterValue = useSelector((state) => state.campaignFilters.owner);
 
+  const [uniqueOwner, setUniqueOwner] = useState([]);
   const [countryFilter, setCountryFilter] = useState("Country");
   const [ownerFilter, setOwnerFilter] = useState("Owner");
   const [ownerMenu, setOwnerMenu] = useState(null);
@@ -76,14 +77,29 @@ const CampaignHeader = ({
     setOwnerMenu(null);
   };
 
-  const uniqueOwner = [];
+  const finalUniqueOwnerArray = [];
+  const uniqueCountries = [];
 
   campaignsList &&
     campaignsList.forEach((campaign) => {
-      if (!uniqueOwner.includes(campaign.owner)) {
-        uniqueOwner.push(campaign.owner);
+      if (!finalUniqueOwnerArray.includes(campaign.owner)) {
+        finalUniqueOwnerArray.push(campaign.owner);
+      }
+
+      if (!uniqueCountries.includes(campaign.country)) {
+        uniqueCountries.push(campaign.country);
       }
     });
+
+  useEffect(() => {
+    const tempArray = [...finalUniqueOwnerArray];
+    allUsers.map((user) => {
+      if (!tempArray.includes(user.name)) {
+        tempArray.push(user.name);
+      }
+    });
+    setUniqueOwner(tempArray);
+  }, [allUsers, searchedCampaignList]);
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
@@ -182,7 +198,7 @@ const CampaignHeader = ({
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
                   overflow: "auto",
-                  height: "210px",
+                  height: "fitContent",
                 },
               }}
               open={openCountryMenu}
@@ -198,8 +214,8 @@ const CampaignHeader = ({
               >
                 Country
               </MenuItem>
-              {countryList &&
-                countryList.map((country) => {
+              {uniqueCountries &&
+                uniqueCountries.map((country) => {
                   return (
                     <MenuItem
                       key={country.id}
@@ -210,7 +226,7 @@ const CampaignHeader = ({
                         fontSize: matches ? "13px" : "14px",
                       }}
                     >
-                      {country.country_name}
+                      {country}
                     </MenuItem>
                   );
                 })}
@@ -261,8 +277,8 @@ const CampaignHeader = ({
               >
                 Owner
               </MenuItem>
-              {allUsers &&
-                allUsers.map((user) => {
+              {uniqueOwner &&
+                uniqueOwner.sort().map((user) => {
                   return (
                     <MenuItem
                       key={user.id}
@@ -273,7 +289,7 @@ const CampaignHeader = ({
                         fontSize: matches ? "13px" : "14px",
                       }}
                     >
-                      {user.name}
+                      {user}
                     </MenuItem>
                   );
                 })}

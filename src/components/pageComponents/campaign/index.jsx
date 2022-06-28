@@ -51,7 +51,6 @@ const Campaign = () => {
           const filteredArray = allUsers.filter((value) =>
             selectedId.includes(value.userId)
           );
-          console.log("Yolla", filteredArray);
           setSelectedUsers(filteredArray);
         }
       });
@@ -69,7 +68,6 @@ const Campaign = () => {
       campaignActions.assignCampaignToUsersAction([campaignDoc.id], arr)
     );
   };
-  // console.log("assignedCampaigns", assignedCampaigns);
 
   return (
     <Box component="div" className="campaign-container">
@@ -114,6 +112,7 @@ const Campaign = () => {
             countryFilterValue={countryFilterValue}
             ownerFilterValue={ownerFilterValue}
             campaignStateFilterValue={campaignStateFilterValue}
+            selectedUsersForFilter={selectedUsers}
           />
         </Box>
         <Box component={"div"} className="section campaign-details">
