@@ -297,8 +297,8 @@ const CampaignDisplay = ({
             <input type="checkbox" disabled={true} />
             <label className="all-label">All</label>
           </div>
-          {/* <CampaignMenu /> */}
-          <select
+          <CampaignMenu />
+          {/* <select
             className="addCampaign-selects"
             style={{
               border: "none",
@@ -328,7 +328,7 @@ const CampaignDisplay = ({
               {`Active(${activeCampaigns.length})`}
             </option>
             <option value="In-Active">{`In-Active(${inActiveCampaigns.length})`}</option>
-          </select>
+          </select> */}
         </div>
         <div className="campaign-display-container">
           <div className="campaign-display-subcontainers">
@@ -374,8 +374,8 @@ const CampaignDisplay = ({
                 </div>
               )}
             </div>
-            {/* <CampaignMenu /> */}
-            <select
+            <CampaignMenu />
+            {/* <select
               className="addCampaign-selects"
               style={{
                 border: "none",
@@ -405,7 +405,7 @@ const CampaignDisplay = ({
                 {`Active(${activeCampaigns.length})`}
               </option>
               <option value="In-Active">{`In-Active(${inActiveCampaigns.length})`}</option>
-            </select>
+            </select> */}
           </div>
 
           <div>
