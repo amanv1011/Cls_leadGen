@@ -100,24 +100,6 @@ const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
         <div className="campaignButton-actions">
           <button
             className="campaign-btn edit-btn"
-            // disabled={
-            //   campaignDoc.id ? false : true
-            //   // moment(campaignDoc.end_Date).isSameOrBefore(
-            //   //   campaignDoc.current_Date
-            //   // )
-            //   //   ? true
-            //   //   : false
-            // }
-            // style={
-            //   moment(campaignDoc.end_Date).isSameOrBefore(
-            //     campaignDoc.current_Date
-            //   )
-            //     ? {
-            //         pointerEvents: "auto",
-            //         cursor: "not-allowed",
-            //       }
-            //     : {}
-            // }
             onClick={() => {
               dispatch(campaignActions.campaignIDAction(campaignDoc.id));
             }}

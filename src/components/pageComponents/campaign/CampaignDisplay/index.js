@@ -64,6 +64,7 @@ const CampaignDisplay = ({
           campaign?.owner === ownerFilterValue
       );
       setcampaignsListData(filteredCampaigns);
+      dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
     } else if (
       countryFilterValue !== "Country" &&
       ownerFilterValue !== "Owner"
@@ -76,6 +77,7 @@ const CampaignDisplay = ({
           campaign?.status === 0
       );
       setcampaignsListData(filteredCampaigns);
+      dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
     } else if (
       countryFilterValue !== "Country" &&
       ownerFilterValue === "Owner"
@@ -84,6 +86,7 @@ const CampaignDisplay = ({
         (campaign) => campaign?.country === countryFilterValue
       );
       setcampaignsListData(filteredCampaigns);
+      dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
     } else if (
       countryFilterValue === "Country" &&
       ownerFilterValue !== "Owner"
@@ -92,6 +95,7 @@ const CampaignDisplay = ({
         (campaign) => campaign.owner === ownerFilterValue
       );
       setcampaignsListData(filteredCampaigns);
+      dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
     }
   }, [countryFilterValue, ownerFilterValue]);
 
@@ -213,11 +217,11 @@ const CampaignDisplay = ({
         "Start Date": moment
           .unix(campaign.start_date.seconds, campaign.start_date.nanoseconds)
           .format("MM/DD/YYYY"),
-        "Start Time": campaign.start_time,
+        "Start Time": moment(campaign.start_time, ["HH:mm"]).format("hh:mm A"),
         "End Date": moment
           .unix(campaign.end_date.seconds, campaign.end_date.nanoseconds)
           .format("MM/DD/YYYY"),
-        "End Time": campaign.end_time,
+        "End Time": moment(campaign.end_time, ["HH:mm"]).format("hh:mm A"),
         "Number of times the campign runs per day": campaign.frequency,
         "Number of leads generated": getNumOfLeads(campaign.id),
         "Campaign created by": campaign.owner,
@@ -271,17 +275,6 @@ const CampaignDisplay = ({
   };
 
   const onAssignMulitpleCampaign = () => {
-    // if (campaignDoc.id.length > 0 && selectedUsers.length > 0) {
-    //   let arr = [];
-    //   selectedUsers &&
-    //     selectedUsers.forEach((e) => {
-    //       arr.push(e.userId);
-    //     });
-    //   dispatch(
-    //     campaignActions.assignCampaignToUsersAction([campaignDoc.id], arr)
-    //   );
-    //   setSelectedUsers([]);
-    // }
     setOpenAssignModel(true);
   };
 
@@ -294,7 +287,6 @@ const CampaignDisplay = ({
           arr.push(e.userId);
         });
 
-      // dispatch(assignLeadToUsersAction(selectedArray, arr));
       await dispatch(
         campaignActions.assignCampaignToUsersAction(selectedArray, arr)
       );
@@ -320,6 +312,7 @@ const CampaignDisplay = ({
   };
 
   if (
+    searchedCampaignList.length === 0 &&
     campaignLoader === false &&
     campaignsListData &&
     campaignsListData.length === 0
