@@ -120,6 +120,7 @@ const Campaign = () => {
         <Box component={"div"} className="section campaign-details">
           <CampaignDescription
             campaignDoc={campaignDoc}
+            searchedCampaignList={searchedCampaignList}
             campgaignId={campgaignId}
             leadsList={leadsList}
             countryList={countryList}

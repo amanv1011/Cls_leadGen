@@ -495,9 +495,9 @@ const AddCampaginModal = ({ countryList }) => {
                 </label>
                 <br />
                 <input
-                  type="url"
+                  type="text"
                   className="addCampaignModal-inputs"
-                  placeholder="Paste your URL here"
+                  placeholder="Paste your query here"
                   name="queryURL"
                   value={queryURL}
                   onChange={onInputChangeHandler}
