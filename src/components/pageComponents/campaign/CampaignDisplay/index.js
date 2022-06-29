@@ -14,6 +14,7 @@ import DeActivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActi
 import CampaignMenu from "../CampaignMenu";
 import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import * as campaignCountActions from "../../../../redux/actions/campaignCountActions";
+import AssignPopUp from "../../../themeComponents/popup/CampaignPopup/AssignPopUp";
 import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
@@ -25,6 +26,7 @@ const CampaignDisplay = ({
   ownerFilterValue,
   campaignStateFilterValue,
   selectedUsersForFilter,
+  options,
 }) => {
   const dispatch = useDispatch();
   const [campaignsListData, setcampaignsListData] = useState([]);
@@ -37,7 +39,8 @@ const CampaignDisplay = ({
   const [openCampaignPopupActive, setOpenCampaignPopupActive] = useState(false);
   const [openCampaignPopupDeActivate, setOpenCampaignPopupDeActivate] =
     useState(false);
-  console.log("selectedUsersForFilter for dropdown", selectedUsersForFilter);
+  const [openAssignModel, setOpenAssignModel] = useState(false);
+
   useEffect(() => {
     setcampaignsListData(searchedCampaignList);
     campaignDoc.id
@@ -268,16 +271,34 @@ const CampaignDisplay = ({
   };
 
   const onAssignMulitpleCampaign = () => {
-    if (campaignDoc.id.length > 0 && selectedUsers.length > 0) {
+    // if (campaignDoc.id.length > 0 && selectedUsers.length > 0) {
+    //   let arr = [];
+    //   selectedUsers &&
+    //     selectedUsers.forEach((e) => {
+    //       arr.push(e.userId);
+    //     });
+    //   dispatch(
+    //     campaignActions.assignCampaignToUsersAction([campaignDoc.id], arr)
+    //   );
+    //   setSelectedUsers([]);
+    // }
+    setOpenAssignModel(true);
+  };
+
+  const assignBatchUsers = async (e, option) => {
+    setSelectedUsers(option);
+    if (selectedArray.length > 0 && selectedUsers.length > 0) {
       let arr = [];
-      selectedUsers &&
-        selectedUsers.forEach((e) => {
+      option &&
+        option.forEach((e) => {
           arr.push(e.userId);
         });
-      dispatch(
-        campaignActions.assignCampaignToUsersAction([campaignDoc.id], arr)
+
+      // dispatch(assignLeadToUsersAction(selectedArray, arr));
+      await dispatch(
+        campaignActions.assignCampaignToUsersAction(selectedArray, arr)
       );
-      setSelectedUsers([]);
+      await dispatch(campaignActions.getAssignedCampaignsAction());
     }
   };
 
@@ -539,6 +560,13 @@ const CampaignDisplay = ({
           handleClose={handleCloseCampaignPopup}
           disableApplyBtn={disableApplyBtn}
           selectedArray={selectedArray}
+        />
+        <AssignPopUp
+          open={openAssignModel}
+          setOpenAssignModel={setOpenAssignModel}
+          options={options}
+          onChangeOption={assignBatchUsers}
+          selectedUsers={selectedUsers}
         />
         <ActivePopUp
           openCampaignPopupActive={openCampaignPopupActive}

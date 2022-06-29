@@ -56,12 +56,15 @@ const CampaignDescription = ({
     location: "",
     start_date: "",
     start_time: "",
-    last_crawled_date: "",
     end_date: "",
     end_time: "",
     queryURL: "",
     status: 1,
-    // campaignSeen: false,
+    campaignSeen: false,
+    campaignCreatedAt: "",
+    country: "",
+    owner: "",
+    last_crawled_date: "",
   });
 
   const {
@@ -151,10 +154,15 @@ const CampaignDescription = ({
         status: parseInt(campaignDocValue.status),
         queryURL:
           campaignDocValue.queryURL !== "" ? campaignDocValue.queryURL : "NA",
+        owner: campaignDocValue.owner,
       });
       setTags([...campaignDocValue.tags]);
       setOnGoing(campaignDocValue.onGoing);
     }
+
+    console.log("addCampaignDetails", addCampaignDetails);
+    console.log("tags", tags);
+    console.log("onGoing", onGoing);
   }, [campgaignId]);
 
   // Campaign Update form action
@@ -220,7 +228,6 @@ const CampaignDescription = ({
       end_date: Timestamp.fromDate(new Date(end_date)),
       start_date: Timestamp.fromDate(new Date(start_date)),
       last_crawled_date: Timestamp.fromDate(new Date(start_date)),
-      owner: "Mithun Dominic",
     };
 
     await dispatch(

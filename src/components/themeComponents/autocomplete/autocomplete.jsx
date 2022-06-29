@@ -74,7 +74,7 @@ const IAutocomplete = ({
               borderRadius: "10px",
               paddingTop: "6px",
               margin: "4px 0px",
-              width: width - "15px",
+              width: `${width - 15}px`,
               fontWeight: 500,
               display: "block",
               overflow: "hidden",
