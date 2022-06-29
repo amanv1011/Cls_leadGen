@@ -3,6 +3,7 @@ import { Button, Menu, MenuItem, useMediaQuery, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
 import * as campaignFilterActions from "../../../../redux/actions/campaignFilterActions";
+import * as campaignActions from "../../../../redux/actions/campaignActions";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import AddCampaginModal from "../../../themeComponents/popup/index";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
@@ -145,11 +146,13 @@ const CampaignHeader = ({
           "Start Date": moment
             .unix(campaign.start_date.seconds, campaign.start_date.nanoseconds)
             .format("MM/DD/YYYY"),
-          "Start Time": campaign.start_time,
+          "Start Time": moment(campaign.start_time, ["HH:mm"]).format(
+            "hh:mm A"
+          ),
           "End Date": moment
             .unix(campaign.end_date.seconds, campaign.end_date.nanoseconds)
             .format("MM/DD/YYYY"),
-          "End Time": campaign.end_time,
+          "End Time": moment(campaign.end_time, ["HH:mm"]).format("hh:mm A"),
           "Number of times the campign runs per day": campaign.frequency,
           "Number of leads generated": getNumOfLeads(campaign.id),
           "Campaign created by": campaign.owner,
@@ -300,6 +303,9 @@ const CampaignHeader = ({
               <Tooltip title="Clear Filter" placement="top-start">
                 <Button
                   onClick={() => {
+                    dispatch(
+                      campaignActions.getSearchedCampaignList(campaignsList)
+                    );
                     dispatch(campaignFilterActions.campaignFilterClearAction());
                   }}
                   className="filter-btn"
