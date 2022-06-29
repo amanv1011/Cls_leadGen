@@ -3,6 +3,7 @@ import { Button, Menu, MenuItem, useMediaQuery, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
 import * as campaignFilterActions from "../../../../redux/actions/campaignFilterActions";
+import * as campaignActions from "../../../../redux/actions/campaignActions";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import AddCampaginModal from "../../../themeComponents/popup/index";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
@@ -23,6 +24,7 @@ const CampaignHeader = ({
   );
   const ownerFilterValue = useSelector((state) => state.campaignFilters.owner);
 
+  const [uniqueOwner, setUniqueOwner] = useState([]);
   const [countryFilter, setCountryFilter] = useState("Country");
   const [ownerFilter, setOwnerFilter] = useState("Owner");
   const [ownerMenu, setOwnerMenu] = useState(null);
@@ -76,14 +78,29 @@ const CampaignHeader = ({
     setOwnerMenu(null);
   };
 
-  const uniqueOwner = [];
+  const finalUniqueOwnerArray = [];
+  const uniqueCountries = [];
 
   campaignsList &&
     campaignsList.forEach((campaign) => {
-      if (!uniqueOwner.includes(campaign.owner)) {
-        uniqueOwner.push(campaign.owner);
+      if (!finalUniqueOwnerArray.includes(campaign.owner)) {
+        finalUniqueOwnerArray.push(campaign.owner);
+      }
+
+      if (!uniqueCountries.includes(campaign.country)) {
+        uniqueCountries.push(campaign.country);
       }
     });
+
+  useEffect(() => {
+    const tempArray = [...finalUniqueOwnerArray];
+    allUsers.map((user) => {
+      if (!tempArray.includes(user.name)) {
+        tempArray.push(user.name);
+      }
+    });
+    setUniqueOwner(tempArray);
+  }, [allUsers, searchedCampaignList]);
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
@@ -129,11 +146,13 @@ const CampaignHeader = ({
           "Start Date": moment
             .unix(campaign.start_date.seconds, campaign.start_date.nanoseconds)
             .format("MM/DD/YYYY"),
-          "Start Time": campaign.start_time,
+          "Start Time": moment(campaign.start_time, ["HH:mm"]).format(
+            "hh:mm A"
+          ),
           "End Date": moment
             .unix(campaign.end_date.seconds, campaign.end_date.nanoseconds)
             .format("MM/DD/YYYY"),
-          "End Time": campaign.end_time,
+          "End Time": moment(campaign.end_time, ["HH:mm"]).format("hh:mm A"),
           "Number of times the campign runs per day": campaign.frequency,
           "Number of leads generated": getNumOfLeads(campaign.id),
           "Campaign created by": campaign.owner,
@@ -182,7 +201,7 @@ const CampaignHeader = ({
                   color: "rgba(92, 117,154)",
                   zIndex: "1000",
                   overflow: "auto",
-                  height: "210px",
+                  height: "fitContent",
                 },
               }}
               open={openCountryMenu}
@@ -198,8 +217,8 @@ const CampaignHeader = ({
               >
                 Country
               </MenuItem>
-              {countryList &&
-                countryList.map((country) => {
+              {uniqueCountries &&
+                uniqueCountries.map((country) => {
                   return (
                     <MenuItem
                       key={country.id}
@@ -210,7 +229,7 @@ const CampaignHeader = ({
                         fontSize: matches ? "13px" : "14px",
                       }}
                     >
-                      {country.country_name}
+                      {country}
                     </MenuItem>
                   );
                 })}
@@ -261,8 +280,8 @@ const CampaignHeader = ({
               >
                 Owner
               </MenuItem>
-              {allUsers &&
-                allUsers.map((user) => {
+              {uniqueOwner &&
+                uniqueOwner.sort().map((user) => {
                   return (
                     <MenuItem
                       key={user.id}
@@ -273,7 +292,7 @@ const CampaignHeader = ({
                         fontSize: matches ? "13px" : "14px",
                       }}
                     >
-                      {user.name}
+                      {user}
                     </MenuItem>
                   );
                 })}
@@ -284,9 +303,23 @@ const CampaignHeader = ({
               <Tooltip title="Clear Filter" placement="top-start">
                 <Button
                   onClick={() => {
+                    dispatch(
+                      campaignActions.getSearchedCampaignList(campaignsList)
+                    );
                     dispatch(campaignFilterActions.campaignFilterClearAction());
                   }}
                   className="filter-btn"
+                  style={{
+                    textTransform: "none",
+                    height: "40px",
+                    width: "25px",
+                    fontWeight: "600",
+                    padding: "0px",
+                    borderRadius: "10px",
+                    marginLeft: "0px",
+                    backgroundColor: "rgb(231, 231, 231)",
+                    color: "rgb(92, 117, 154)",
+                  }}
                 >
                   <FilterAltOffIcon />
                 </Button>

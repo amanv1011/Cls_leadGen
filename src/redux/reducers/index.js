@@ -17,6 +17,7 @@ import loaderReducer from "./globalLoaderReducer";
 import { getUsersReducer } from "./usersReducer";
 import { campaignFilterReducer } from "./campaignFilterReducer";
 import { countryReducer } from "./countryReducer";
+import { campaignCountReducer } from "./campaignCountReducer";
 
 const rootReducer = combineReducers({
   allCampaigns: getAllCampaignsReducer,
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   campaignFilters: campaignFilterReducer,
   country: countryReducer,
   getAssignedLeadsReducer: getAssignedLeadsReducer,
+  campaignsCount: campaignCountReducer,
 });
 
 export default rootReducer;

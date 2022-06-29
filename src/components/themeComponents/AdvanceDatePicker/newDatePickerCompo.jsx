@@ -1,5 +1,5 @@
 import React from "react";
-import { DateRangePicker } from "rsuite";
+import { DateRangePicker} from "rsuite";
 import "rsuite/dist/rsuite.min.css";
 import moment from "moment";
 import "./advanceDatePicker.scss";
@@ -14,27 +14,57 @@ const today = moment();
 const NewDateRangePicker = (props) => {
   const dispatch = useDispatch();
 
-  const [clearDateFilter, setClearDateFilter] = useState();
-  const filterDate = useSelector((state) => state.leadsFilter.filterDate);
-  const datePlaceHolder = "Select Date Range";
+  // const [clearDateFilter,setClearDateFilter]=useState();
+  // const filterDate = useSelector((state) => state.leadsFilter.filterDate);
+  // const datePlaceHolder = "Select Date Range";
+  // console.log(filterDate,clearDateFilter);
 
-  const applyOkButton = (value1) => {
-    setClearDateFilter(value1);
-    const calender1 =
-      props.leadsFilter.datePickerState === 0
-        ? moment.range(today.clone(), today.clone())
-        : moment.range(value1[0], value1[1]);
-    props.leadsFilterDate(calender1);
-    props.datePickerState(1);
-  };
+  // const applyOkButton = (value1) => {
+  //        setClearDateFilter(value1);
+  //   const calender1 =
+  //     props.leadsFilter.datePickerState === 0
+  //       ? moment.range(today.clone(), today.clone())
+  //       : moment.range(value1[0], value1[1]);
+  //   props.leadsFilterDate(calender1);
+  //   props.datePickerState(1);
+  //   console.log("Selected Date By User", value1[0], value1[1]);
+  // };
+   
+//   const rangeFunc=(event)=>{
+       
+//    console.log(event.target,"HIIIIIIIIIII")
+// }
+
+ 
+    
+  // const dateSelectedByUser=value1=>{
+  //   if(value1!==""){
+  //     console.log(value1===null)
+  //   }
+  // }
+
+  // const rangeFunc=value1=>moment.range(value1[0].moment.format("MMM dd , yyyy HH:mm"),value1[1].moment.format("MMM dd , yyyy HH:mm"));
+  //  console.log(rangeFunc());
+  // var elements = document. getElementsByClassName("rs-picker-toggle-textbox").value;
+  // console.log(elements);
+
+  // const renderSelectionValue = () => {
+  //   return (
+  //     <div>
+  //       {filterDate.start.format("MMM DD, YYYY")}
+  //       <span style={{ padding: "5px" }}>{"to"}</span>
+  //       {filterDate.end.format("MMM DD, YYYY")}
+  //     </div>
+  //   );
+  // };
 
   return (
     <DateRangePicker
       format="MMM dd , yyyy HH:mm"
-      //   placeholder={
-      //     filterDate === "" ? datePlaceHolder : applyOkButton()
-      //   }
-      placeholder="Select Date Range"
+      // placeholder={
+      //   filterDate === "" ? "Select Date Range": "Select Date Range"
+      // }
+     placeholder="Select Date Range"
       showOneCalendar
       style={{
         width: "275px",
@@ -46,24 +76,28 @@ const NewDateRangePicker = (props) => {
         height: "40px",
         padding: "3px",
       }}
-      onOk={applyOkButton}
+      value={props.clearDateFilter}
+      onOk={props.applyOkButton}
+    //  onChange={setValue} 
       character={" to "}
-      // onClean={props.clearFunc}
+  //  onClean={props.rangeFunc}
+  //  onSelect={rangeFunc}
+    
     />
   );
 };
 
-const mapDispatchToProps = {
-  leadsFilterDate,
-  datePickerState,
-  clearFilters,
-};
-const mapStateToProps = (state) => {
-  return { leadsFilter: state.leadsFilter };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(NewDateRangePicker);
+// const mapDispatchToProps = {
+//   leadsFilterDate,
+//   datePickerState,
+//   clearFilters
+// };
+// const mapStateToProps = (state) => {
+//   return { leadsFilter: state.leadsFilter };
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(NewDateRangePicker);
 
-//export default NewDateRangePicker;
+export default NewDateRangePicker;
 
 // const DateRangePickerCustomToolbar = props => (
 //     <div className="field">

@@ -1,14 +1,17 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Box } from "@mui/system";
 import { Divider } from "@mui/material";
 import CampaignHeader from "./CampaignHeader";
 import CampaignSearch from "./CampaignSearch";
 import CampaignDisplay from "./CampaignDisplay";
 import CampaignDescription from "./CampaignDescription";
+import * as campaignActions from "../../../redux/actions/campaignActions";
 import "./campaign.scss";
 
 const Campaign = () => {
+  const dispatch = useDispatch();
+
   const campaignsList = useSelector((state) => state.allCampaigns.campaignList);
   const campaignDoc = useSelector((state) => state.allCampaigns.campaignDoc);
   const leadsList = useSelector((state) => state.allLeads.leadsList);
@@ -29,7 +32,43 @@ const Campaign = () => {
     (state) => state.campaignFilters.country
   );
   const ownerFilterValue = useSelector((state) => state.campaignFilters.owner);
+  const campaignStateFilterValue = useSelector(
+    (state) => state.campaignFilters.campaignState
+  );
   const countryList = useSelector((state) => state.country.countryList);
+
+  const assignedCampaigns = useSelector(
+    (state) => state.allCampaigns.assignedCampaigns
+  );
+  const [selectedUsers, setSelectedUsers] = useState([]);
+
+  useEffect(() => {
+    setSelectedUsers([]);
+    if (assignedCampaigns && campaignDoc && campaignDoc.id) {
+      assignedCampaigns.forEach((assignedCampaign) => {
+        if (assignedCampaign.campaignId === campaignDoc.id) {
+          let selectedId = assignedCampaign.userId;
+          const filteredArray = allUsers.filter((value) =>
+            selectedId.includes(value.userId)
+          );
+          setSelectedUsers(filteredArray);
+        }
+      });
+    }
+  }, [campaignDoc]);
+
+  const onChangeOption = async (e, option) => {
+    setSelectedUsers(option);
+    let arr = [];
+    option &&
+      option.forEach((e) => {
+        arr.push(e.userId);
+      });
+    await dispatch(
+      campaignActions.assignCampaignToUsersAction([campaignDoc.id], arr)
+    );
+    await dispatch(campaignActions.getAssignedCampaignsAction());
+  };
 
   return (
     <Box component="div" className="campaign-container">
@@ -73,15 +112,21 @@ const Campaign = () => {
             leadsList={leadsList}
             countryFilterValue={countryFilterValue}
             ownerFilterValue={ownerFilterValue}
+            campaignStateFilterValue={campaignStateFilterValue}
+            selectedUsersForFilter={selectedUsers}
+            options={allUsers}
           />
         </Box>
         <Box component={"div"} className="section campaign-details">
           <CampaignDescription
             campaignDoc={campaignDoc}
+            searchedCampaignList={searchedCampaignList}
             campgaignId={campgaignId}
             leadsList={leadsList}
-            allUsers={allUsers}
             countryList={countryList}
+            allUsers={allUsers}
+            onChangeOption={onChangeOption}
+            selectedUsers={selectedUsers}
           />
         </Box>
       </Box>

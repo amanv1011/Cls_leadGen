@@ -5,23 +5,28 @@ import { Popover } from "@mui/material";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import { openAlertAction } from "../../../../redux/actions/alertActions";
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
-import Download from "../../../themeComponents/campTable/Download";
-import Delete from "../../../themeComponents/campTable/Delete";
 import * as commonFunctions from "../commonFunctions";
 import * as leadsFilterActions from "../../../../redux/actions/leadsFilter";
-import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import { Link } from "react-router-dom";
 import CampaignPopup from "../../../themeComponents/popup/CampaignPopup";
+import ActivePopUp from "../../../themeComponents/popup/CampaignPopup/ActivePopUp";
+import DeActivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
+import CampaignMenu from "../CampaignMenu";
+import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
+import * as campaignCountActions from "../../../../redux/actions/campaignCountActions";
+import AssignPopUp from "../../../themeComponents/popup/CampaignPopup/AssignPopUp";
 import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
   searchedCampaignList,
   campaignLoader,
-  searchValue,
   campaignDoc,
   leadsList,
   countryFilterValue,
   ownerFilterValue,
+  campaignStateFilterValue,
+  selectedUsersForFilter,
+  options,
 }) => {
   const dispatch = useDispatch();
   const [campaignsListData, setcampaignsListData] = useState([]);
@@ -31,9 +36,10 @@ const CampaignDisplay = ({
   const [openCampaignPopup, setOpenCampaignPopup] = useState(false);
   const [disableApplyBtn, setDisableApplyBtn] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [multipleFilterValue, setMultipleFilterValue] = useState("All");
-  const [activeCampaigns, setActiveCampaigns] = useState([]);
-  const [inActiveCampaigns, setInActiveCampaigns] = useState([]);
+  const [openCampaignPopupActive, setOpenCampaignPopupActive] = useState(false);
+  const [openCampaignPopupDeActivate, setOpenCampaignPopupDeActivate] =
+    useState(false);
+  const [openAssignModel, setOpenAssignModel] = useState(false);
 
   useEffect(() => {
     setcampaignsListData(searchedCampaignList);
@@ -43,7 +49,6 @@ const CampaignDisplay = ({
         searchedCampaignList[0]?.id &&
         Viewed(searchedCampaignList[0].id);
   }, [searchedCampaignList]);
-  console.log("campaignsListData", campaignsListData);
 
   useEffect(() => {
     if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {
@@ -59,6 +64,7 @@ const CampaignDisplay = ({
           campaign?.owner === ownerFilterValue
       );
       setcampaignsListData(filteredCampaigns);
+      dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
     } else if (
       countryFilterValue !== "Country" &&
       ownerFilterValue !== "Owner"
@@ -67,9 +73,11 @@ const CampaignDisplay = ({
         (campaign) =>
           campaign &&
           campaign?.country === countryFilterValue &&
-          campaign?.owner === ownerFilterValue
+          campaign?.owner === ownerFilterValue &&
+          campaign?.status === 0
       );
       setcampaignsListData(filteredCampaigns);
+      dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
     } else if (
       countryFilterValue !== "Country" &&
       ownerFilterValue === "Owner"
@@ -78,6 +86,7 @@ const CampaignDisplay = ({
         (campaign) => campaign?.country === countryFilterValue
       );
       setcampaignsListData(filteredCampaigns);
+      dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
     } else if (
       countryFilterValue === "Country" &&
       ownerFilterValue !== "Owner"
@@ -86,28 +95,36 @@ const CampaignDisplay = ({
         (campaign) => campaign.owner === ownerFilterValue
       );
       setcampaignsListData(filteredCampaigns);
+      dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
     }
   }, [countryFilterValue, ownerFilterValue]);
 
   useEffect(() => {
-    if (multipleFilterValue === "All") {
+    if (campaignStateFilterValue === "AllCampaigns") {
       setcampaignsListData(searchedCampaignList);
+      dispatch(
+        campaignCountActions.getAllCampaignsCountAction(searchedCampaignList)
+      );
     }
-    if (multipleFilterValue === "Active") {
+    if (campaignStateFilterValue === "activeCampaigns") {
       const filteredCampaigns = searchedCampaignList.filter(
         (campaign) => campaign?.status === 1
       );
       setcampaignsListData(filteredCampaigns);
-      setActiveCampaigns(filteredCampaigns);
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(filteredCampaigns)
+      );
     }
-    if (multipleFilterValue === "In-Active") {
+    if (campaignStateFilterValue === "inActiveCampaigns") {
       const filteredCampaigns = searchedCampaignList.filter(
         (campaign) => campaign?.status === 0
       );
       setcampaignsListData(filteredCampaigns);
-      setInActiveCampaigns(filteredCampaigns);
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(filteredCampaigns)
+      );
     }
-  }, [searchedCampaignList, multipleFilterValue]);
+  }, [searchedCampaignList, campaignStateFilterValue]);
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
@@ -200,11 +217,11 @@ const CampaignDisplay = ({
         "Start Date": moment
           .unix(campaign.start_date.seconds, campaign.start_date.nanoseconds)
           .format("MM/DD/YYYY"),
-        "Start Time": campaign.start_time,
+        "Start Time": moment(campaign.start_time, ["HH:mm"]).format("hh:mm A"),
         "End Date": moment
           .unix(campaign.end_date.seconds, campaign.end_date.nanoseconds)
           .format("MM/DD/YYYY"),
-        "End Time": campaign.end_time,
+        "End Time": moment(campaign.end_time, ["HH:mm"]).format("hh:mm A"),
         "Number of times the campign runs per day": campaign.frequency,
         "Number of leads generated": getNumOfLeads(campaign.id),
         "Campaign created by": campaign.owner,
@@ -230,6 +247,18 @@ const CampaignDisplay = ({
   const handleCloseCampaignPopup = () => {
     setOpenCampaignPopup(false);
   };
+  const handleClickOpenCampaignPopupActive = () => {
+    setOpenCampaignPopupActive(true);
+  };
+  const handleCloseCampaignPopupActive = () => {
+    setOpenCampaignPopupActive(false);
+  };
+  const handleClickOpenCampaignPopupDeActivate = () => {
+    setOpenCampaignPopupDeActivate(true);
+  };
+  const handleCloseCampaignPopupDeActivate = () => {
+    setOpenCampaignPopupDeActivate(false);
+  };
 
   const onDeleteMulitpleCampaign = () => {
     handleClickOpenCampaignPopup();
@@ -246,42 +275,44 @@ const CampaignDisplay = ({
   };
 
   const onAssignMulitpleCampaign = () => {
-    if (campaignDoc.id.length > 0 && selectedUsers.length > 0) {
+    setOpenAssignModel(true);
+  };
+
+  const assignBatchUsers = async (e, option) => {
+    setSelectedUsers(option);
+    if (selectedArray.length > 0 && selectedUsers.length > 0) {
       let arr = [];
-      selectedUsers &&
-        selectedUsers.forEach((e) => {
+      option &&
+        option.forEach((e) => {
           arr.push(e.userId);
         });
-      dispatch(
-        campaignActions.assignCampaignToUsersAction([campaignDoc.id], arr)
+
+      await dispatch(
+        campaignActions.assignCampaignToUsersAction(selectedArray, arr)
       );
-      setSelectedUsers([]);
+      await dispatch(campaignActions.getAssignedCampaignsAction());
     }
   };
 
   const onActivateMulitpleCampaign = () => {
-    selectedArray.map((seletedCampaigns) => {
-      try {
-        get_a_feild_in_a_document(seletedCampaigns, { status: 1 });
-        dispatch(campaignActions.getAllCampaignsAction());
-      } catch (error) {
-        dispatch(openAlertAction(`${error.message}`, true, "error"));
-      }
-    });
+    handleClickOpenCampaignPopupActive();
   };
 
   const onDeActivateMulitpleCampaign = () => {
-    selectedArray.map((seletedCampaigns) => {
-      try {
-        get_a_feild_in_a_document(seletedCampaigns, { status: 0 });
-        dispatch(campaignActions.getAllCampaignsAction());
-      } catch (error) {
-        dispatch(openAlertAction(`${error.message}`, true, "error"));
-      }
-    });
+    handleClickOpenCampaignPopupDeActivate();
+  };
+
+  const statusUpdate = async (event, a__campgaignId) => {
+    try {
+      await get_a_feild_in_a_document(a__campgaignId, { campaignSeen: true });
+      await dispatch(campaignActions.getAllCampaignsAction());
+    } catch (error) {
+      dispatch(openAlertAction(`${error.message}`, true, "error"));
+    }
   };
 
   if (
+    searchedCampaignList.length === 0 &&
     campaignLoader === false &&
     campaignsListData &&
     campaignsListData.length === 0
@@ -293,50 +324,12 @@ const CampaignDisplay = ({
             <input type="checkbox" disabled={true} />
             <label className="all-label">All</label>
           </div>
-
-          <select
-            className="addCampaign-selects"
-            style={{
-              border: "none",
-              outline: "none",
-              background:
-                "linear-gradient(270deg, rgb(241, 241, 241) 0%, rgba(248, 248, 249, 0.8) 134.62%)",
-              width: "132px",
-              height: "18px",
-              fontStyle: "normal",
-              fontWeight: "600",
-              fontSize: "14px",
-              lineHeight: "16px",
-              color: "rgb(0, 58, 210)",
-              cursor: "pointer",
-            }}
-            name="multipleFilterValue"
-            value={multipleFilterValue}
-            onChange={(event) => {
-              setMultipleFilterValue(event.target.value);
-            }}
-            autoComplete="off"
-          >
-            <option value="All" default>
-              {`All(${searchedCampaignList.length})`}
-            </option>
-            <option value="Active">
-              {`Active(${activeCampaigns.length})`}
-            </option>
-            <option value="In-Active">{`In-Active(${inActiveCampaigns.length})`}</option>
-          </select>
+          <CampaignMenu />
         </div>
         <div className="campaign-display-container">
           <div className="campaign-display-subcontainers">
             <div className="campaign-display-subcontainer1">
-              <div
-                className="display-count"
-                // style={{
-                //   width: "100%",
-                //   display: "flex",
-                //   justifyContent: "space-between",
-                // }}
-              >
+              <div className="display-count">
                 <div className="campaign-display-btn-text searched-campaign-empty">
                   Campaign(s) not found
                 </div>
@@ -377,38 +370,7 @@ const CampaignDisplay = ({
                 </div>
               )}
             </div>
-
-            <select
-              className="addCampaign-selects"
-              style={{
-                border: "none",
-                outline: "none",
-                background:
-                  "linear-gradient(270deg, rgb(241, 241, 241) 0%, rgba(248, 248, 249, 0.8) 134.62%)",
-                width: "132px",
-                height: "18px",
-                fontStyle: "normal",
-                fontWeight: "600",
-                fontSize: "14px",
-                lineHeight: "16px",
-                color: "rgb(0, 58, 210)",
-                cursor: "pointer",
-              }}
-              name="multipleFilterValue"
-              value={multipleFilterValue}
-              onChange={(event) => {
-                setMultipleFilterValue(event.target.value);
-              }}
-              autoComplete="off"
-            >
-              <option value="All" default>
-                {`All(${searchedCampaignList.length})`}
-              </option>
-              <option value="Active">
-                {`Active(${activeCampaigns.length})`}
-              </option>
-              <option value="In-Active">{`In-Active(${inActiveCampaigns.length})`}</option>
-            </select>
+            <CampaignMenu />
           </div>
 
           <div>
@@ -431,7 +393,6 @@ const CampaignDisplay = ({
                   className="campaign-btn download-btn"
                   onClick={downloadSelectedCampaigns}
                 >
-                  {/* <Download /> */}
                   <span className="campaign-btn-text">Download</span>
                 </button>
 
@@ -439,28 +400,24 @@ const CampaignDisplay = ({
                   className="campaign-btn delete-btn"
                   onClick={onDeleteMulitpleCampaign}
                 >
-                  {/* <Delete /> */}
                   <span className="campaign-btn-text">Delete</span>
                 </button>
                 <button
                   className="campaign-btn assign-btn"
                   onClick={onAssignMulitpleCampaign}
                 >
-                  {/* <Delete /> */}
                   <span className="campaign-btn-text">Assign</span>
                 </button>
                 <button
                   className="campaign-btn activate-btn"
                   onClick={onActivateMulitpleCampaign}
                 >
-                  {/* <Delete /> */}
                   <span className="campaign-btn-text">Activate</span>
                 </button>
                 <button
                   className="campaign-btn deActivate-btn"
                   onClick={onDeActivateMulitpleCampaign}
                 >
-                  {/* <Delete /> */}
                   <span className="campaign-btn-text ">De-Activate</span>
                 </button>
               </div>
@@ -472,17 +429,19 @@ const CampaignDisplay = ({
             campaignsListData.map((campaign) => (
               <div
                 key={campaign.id}
-                onClick={() => Viewed(campaign.id)}
+                onClick={(event) => {
+                  Viewed(campaign.id);
+                  statusUpdate(event, campaign.id);
+                }}
                 className={`campaign-display-subcontainers ${
                   campaignDoc.id === campaign.id ? "selected" : ""
-                }`}
+                } ${campaign?.campaignSeen === true ? "campaign-seen" : ""}`}
               >
                 <div className="campaign-display-check">
                   <input
                     type="checkbox"
                     name={campaign.id}
                     value={campaign.id}
-                    className="check box"
                     checked={
                       selectedArray &&
                       selectedArray.filter((it) => it === campaign.id).length >
@@ -498,25 +457,17 @@ const CampaignDisplay = ({
                     campaignDoc.id === campaign.id ? "selected" : ""
                   }`}
                 >
-                  <div
-                    className="display-count"
-                    // style={{
-                    //   width: "100%",
-                    //   display: "flex",
-                    //   justifyContent: "space-between",
-                    // }}
-                  >
+                  <div className="display-count">
                     <div
                       className={`campaign-display-btn-text ${
                         campaignDoc.id === campaign.id ? "selected" : ""
+                      } ${
+                        campaign?.campaignSeen === true ? "campaign-seen" : ""
                       }`}
                     >
                       {campaign.name}
                     </div>
                     <div
-                      className={`${
-                        campaignDoc.id === campaign.id ? "selected" : ""
-                      }`}
                       onClick={() => {
                         if (getNumOfLeads(campaign.id)) {
                           dispatch(
@@ -550,7 +501,6 @@ const CampaignDisplay = ({
                             ? {
                                 pointerEvents: "auto",
                                 cursor: "not-allowed",
-                                // color: "#1675e0",
                                 color: "var(--rs-text-link)",
                                 textDecoration: "none",
                                 fontSize: "12px",
@@ -558,9 +508,17 @@ const CampaignDisplay = ({
                             : {}
                         }
                       >
-                        {getNumOfLeads(campaign.id)
-                          ? `${getNumOfLeads(campaign.id)} leads`
-                          : "No Leads"}
+                        <span
+                          className={`${
+                            campaign?.campaignSeen === true
+                              ? "campaign-seen"
+                              : ""
+                          }`}
+                        >
+                          {getNumOfLeads(campaign.id)
+                            ? `${getNumOfLeads(campaign.id)} leads`
+                            : "No Leads"}
+                        </span>
                       </Link>
                     </div>
                   </div>
@@ -594,6 +552,25 @@ const CampaignDisplay = ({
           handleClickOpen={handleClickOpenCampaignPopup}
           handleClose={handleCloseCampaignPopup}
           disableApplyBtn={disableApplyBtn}
+          selectedArray={selectedArray}
+        />
+        <AssignPopUp
+          open={openAssignModel}
+          setOpenAssignModel={setOpenAssignModel}
+          options={options}
+          onChangeOption={assignBatchUsers}
+          selectedUsers={selectedUsers}
+        />
+        <ActivePopUp
+          openCampaignPopupActive={openCampaignPopupActive}
+          handleClickOpen={handleClickOpenCampaignPopupActive}
+          handleClose={handleCloseCampaignPopupActive}
+          selectedArray={selectedArray}
+        />
+        <DeActivatePopUp
+          openCampaignPopupDeActivate={openCampaignPopupDeActivate}
+          handleClickOpen={handleClickOpenCampaignPopupDeActivate}
+          handleClose={handleCloseCampaignPopupDeActivate}
           selectedArray={selectedArray}
         />
       </React.Fragment>

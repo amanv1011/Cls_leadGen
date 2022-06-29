@@ -40,6 +40,7 @@ export default function ApprovePopUp({
   }, [displayLeadData]);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  // console.log(approveDisable.status);
   // const handleClickOpen = () => {
   //   setOpen(true);
   // };
