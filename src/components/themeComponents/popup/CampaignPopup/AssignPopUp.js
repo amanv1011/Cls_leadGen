@@ -1,10 +1,10 @@
 import React from "react";
 import { Dialog, DialogActions, DialogContent } from "@mui/material";
-import "./IModal.scss";
 import IButton from "../../button";
 import IAutocomplete from "../../autocomplete/autocomplete";
+import "./assignPopUp.scss";
 
-export default function IModal(
+export default function AssignPopUp(
   {
     setOpenAssignModel,
     open,
@@ -87,12 +87,6 @@ export default function IModal(
           children={"Cancel"}
           onclick={closeModal}
         />
-        {/* <IButton
-          type="apply"
-          name="apply"
-          children={"Apply"}
-          onclick={handleApply}
-        /> */}
       </DialogActions>
     </Dialog>
   );

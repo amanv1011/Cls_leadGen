@@ -1,54 +1,56 @@
 import { MenuItem, Select } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { leadsDropDownFilterAction } from "../../../../redux/actions/leadsFilter";
+import { campaignStateFilterValueAction } from "../../../../redux/actions/campaignFilterActions";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./campaignMenu.scss";
 
+const style = {
+  fontSize: "14px",
+  fontStyle: "normal",
+  fontWeight: "500",
+  color: "#1f4173",
+  opacity: "0.8",
+  paddingLeft: "8px",
+  paddingRight: "8px",
+};
+
 const CampaignMenu = () => {
   const dispatch = useDispatch();
-  const style = {
-    fontSize: "14px",
-    fontStyle: "normal",
-    fontWeight: "500",
-    color: "#1f4173",
-    opacity: "0.8",
-    paddingLeft: "8px",
-    paddingRight: "8px",
-  };
 
-  const leadsAllCount = useSelector(
-    (state) => state.approveRejectCount.allCount
+  const campaignsAllCount = useSelector(
+    (state) => state.campaignsCount.allCamapignsCount
   );
-  const leadsAprrovedCount = useSelector(
-    (state) => state.approveRejectCount.approveCount
+  const activeCampaignsCount = useSelector(
+    (state) => state.campaignsCount.ativeCamapignsCount
   );
-  const leadsUnderReviewCount = useSelector(
-    (state) => state.approveRejectCount.underreviewCount
+  const inActiveCampaignsCount = useSelector(
+    (state) => state.campaignsCount.inActiveCamapignsCount
   );
-  const leadsRejectedCount = useSelector(
-    (state) => state.approveRejectCount.rejectCount
-  );
-  const leadsArchievedCount = useSelector(
-    (state) => state.approveRejectCount.archieveCount
-  );
-  const leadsDropDownFilter = useSelector(
-    (state) => state.leadsFilter.leadsDropDownFilter
+
+  const campaignStateFilterValue = useSelector(
+    (state) => state.campaignFilters.campaignState
   );
 
   return (
     <Select
       labelId="select-label"
       id="simple-select"
-      value={leadsDropDownFilter}
+      value={campaignStateFilterValue}
       onChange={(event) => {
-        dispatch(leadsDropDownFilterAction(event.target.value));
+        dispatch(campaignStateFilterValueAction(event.target.value));
       }}
       size="small"
       className="select-container"
       variant="standard"
       disableUnderline
-      IconComponent={() => <KeyboardArrowDownIcon fontSize="small" />}
+      IconComponent={(props) => (
+        <KeyboardArrowDownIcon
+          {...props}
+          fontSize="small"
+          style={{ color: "#003ad2" }}
+        />
+      )}
       MenuProps={{
         PaperProps: {
           sx: {
@@ -83,17 +85,19 @@ const CampaignMenu = () => {
         fontWeight: 600,
       }}
     >
-      <MenuItem value="AllLeads" className="select-option" sx={style}>
-        {`All (${leadsAllCount})`}
+      <MenuItem value="AllCampaigns" className="select-option" sx={style}>
+        {`All (${campaignsAllCount && campaignsAllCount.length})`}
       </MenuItem>
-      <MenuItem className="select-option" sx={style} value="UnderReveiwLeads">
-        {`Active (${leadsUnderReviewCount})`}
+      <MenuItem className="select-option" sx={style} value="activeCampaigns">
+        {`Active (${activeCampaignsCount && activeCampaignsCount.length})`}
       </MenuItem>
       <MenuItem
         className="select-option"
         sx={style}
-        value="ApprovedLeads"
-      >{`In-Active (${leadsAprrovedCount})`}</MenuItem>
+        value="inActiveCampaigns"
+      >{`In-Active (${
+        inActiveCampaignsCount && inActiveCampaignsCount.length
+      })`}</MenuItem>
     </Select>
   );
 };

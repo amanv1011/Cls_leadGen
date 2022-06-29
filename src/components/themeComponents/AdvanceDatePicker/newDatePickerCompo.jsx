@@ -12,7 +12,6 @@ import { useState } from "react";
 const today = moment();
 
 const NewDateRangePicker = (props) => {
-
   const dispatch = useDispatch();
 
   // const [clearDateFilter,setClearDateFilter]=useState();

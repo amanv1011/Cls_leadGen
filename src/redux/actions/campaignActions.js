@@ -201,3 +201,26 @@ export const assignCampaignToUsersAction = (campaignId, userId) => {
     }
   };
 };
+
+export const getAssignedCampaignsAction = () => {
+  return async (dispatch) => {
+    dispatch({ type: types.GET_ASSIGNED_CAMPAIGN_PENDING, loading: true });
+    try {
+      const res = await campaignServices.getAssignedCampaigns();
+      dispatch(closeLoader());
+      return dispatch({
+        type: types.GET_ASSIGNED_CAMPAIGN_SUCCESS,
+        payload: res,
+      });
+    } catch (err) {
+      if (!!err && !!err.response && !!err.response.data) {
+        dispatch({
+          type: types.GET_ASSIGNED_CAMPAIGN_ERROR,
+          payload: err,
+        });
+      } else {
+        dispatch({ type: types.GET_ASSIGNED_CAMPAIGN_ERROR });
+      }
+    }
+  };
+};

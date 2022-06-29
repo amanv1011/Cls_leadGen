@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import DateModal from "../../../pageComponents/leads/DateModal";
+
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import Tooltip from "@mui/material/Tooltip";
@@ -16,17 +16,26 @@ import {
   datePickerState,
   leadsFilterCountiresName,
 } from "../../../../redux/actions/leadsFilter";
-import moment from "moment";
+//import moment from "moment";
+//import moment, * as moments from 'moment';
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
 import AdvanceDatePicker from "../../AdvanceDatePicker/advanceDatePicker";
 import NewDateRangePicker from "../../AdvanceDatePicker/newDatePickerCompo";
 import { leadsFilterDate } from "../../../../redux/actions/leadsFilter";
 import { connect } from "react-redux";
-const today = moment();
+//const today = moment();
+//var moment = require('moment');
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
+const moment = extendMoment(Moment);
+
 
 const LeadsHeader = (props) => {
   const dispatch = useDispatch();
+  const [uniqueOwner, setUniqueOwner] = useState([]);
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
+  const allUsers = useSelector((state) => state.users.users);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
   );
@@ -81,17 +90,28 @@ const LeadsHeader = (props) => {
     setAllCountriesMenu(null);
   };
 
-  const uniqueOwner = [];
+  const arr = [];
   const uniqueCountries = [];
 
   leadData.forEach((c) => {
-    if (!uniqueOwner.includes(c.owner)) {
-      uniqueOwner.push(c.owner);
+    if (!arr.includes(c.owner)) {
+      arr.push(c.owner);
     }
+
     if (!uniqueCountries.includes(c.country)) {
       uniqueCountries.push(c.country);
     }
   });
+
+  useEffect(() => {
+    const array = [...arr];
+    allUsers.map((user) => {
+      if (!array.includes(user.name)) {
+        array.push(user.name);
+      }
+    });
+    setUniqueOwner(array);
+  }, [allUsers, leadData]);
 
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);
@@ -250,22 +270,22 @@ const LeadsHeader = (props) => {
               >
                 All Campaigns
               </MenuItem>
-              {leadData.map((ele) => {
-                return (
-                  <MenuItem
-                    key={ele.id}
-                    data-id={ele.id}
-                    className="menu-item"
-                    onClick={handleCloseAllCampgainsMenu}
-                    sx={{
-                      fontSize: "12px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {ele.name}
-                  </MenuItem>
-                );
-              })}
+              {leadData &&
+                leadData.map((ele, idx) => {
+                  return (
+                    <MenuItem
+                      key={idx}
+                      className="menu-item"
+                      onClick={handleCloseAllCampgainsMenu}
+                      sx={{
+                        fontSize: "12px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {ele.name}
+                    </MenuItem>
+                  );
+                })}
             </Menu>
           </div>
           <NewDateRangePicker
@@ -321,22 +341,24 @@ const LeadsHeader = (props) => {
             >
               All Countries
             </MenuItem>
-            {uniqueCountries.map((ele, idx) => {
-              return (
-                <MenuItem
-                  key={idx}
-                  data-id={idx}
-                  className="menu-item"
-                  onClick={handleCloseAllCountriesMenu}
-                  sx={{
-                    fontSize: "13px",
-                    fontWeight: 600,
-                  }}
-                >
-                  {ele}
-                </MenuItem>
-              );
-            })}
+            {uniqueCountries &&
+              uniqueCountries &&
+              uniqueCountries.map((ele, idx) => {
+                return (
+                  <MenuItem
+                    key={idx}
+                    data-id={idx}
+                    className="menu-item"
+                    onClick={handleCloseAllCountriesMenu}
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {ele}
+                  </MenuItem>
+                );
+              })}
           </Menu>
 
           <div className="select-container">
@@ -386,22 +408,22 @@ const LeadsHeader = (props) => {
               >
                 All Owners
               </MenuItem>
-              {uniqueOwner.map((ele) => {
-                return (
-                  <MenuItem
-                    key={ele.id}
-                    data-id={ele.id}
-                    className="menu-item"
-                    onClick={handleCloseOwnerMenu}
-                    sx={{
-                      fontSize: "13px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {ele}
-                  </MenuItem>
-                );
-              })}
+              {uniqueOwner &&
+                uniqueOwner.sort().map((ele, idx) => {
+                  return (
+                    <MenuItem
+                      key={idx}
+                      className="menu-item"
+                      onClick={handleCloseOwnerMenu}
+                      sx={{
+                        fontSize: "13px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {ele}
+                    </MenuItem>
+                  );
+                })}
             </Menu>
           </div>
         </div>
@@ -409,7 +431,7 @@ const LeadsHeader = (props) => {
           <div className="filter-icon">
             <Tooltip title="Clear Filter" placement="top-start">
               <Button onClick={clearFilterTab} className="filter-btn">
-                <FilterAltOffIcon />
+                <FilterAltOffIcon fontSize="small" />
               </Button>
             </Tooltip>
           </div>

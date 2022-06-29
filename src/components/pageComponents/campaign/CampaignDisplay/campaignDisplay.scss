@@ -1,7 +1,8 @@
 .campaign-display-container {
-  height: 57vh;
+  height: 60vh;
   overflow-y: auto;
   overflow-x: hidden;
+  width: 100%;
   .selected {
     background: #003ad2;
     color: #ffff !important;
@@ -15,11 +16,11 @@
     display: flex;
     font-style: normal;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 17px;
     color: #003ad2;
     align-items: center;
-    padding: 2px 15px;
+    padding: 2px 12px;
     border-bottom: solid rgb(236, 238, 242) 2px;
     &:last-child {
       border-bottom: none;
@@ -27,26 +28,28 @@
     .campaign-display-check {
       box-sizing: border-box;
       margin-top: -10px;
-      width: 20px;
-      height: 20px;
     }
     .campaign-display-subcontainer1 {
       color: #003ad2;
       width: 100%;
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       flex-direction: column;
       margin-left: 10px;
+      height: 100%;
       .display-count {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
         .campaign-display-btn-text {
-          width: 240px;
+          width: 125px;
           height: 18px;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
           text-transform: capitalize;
           &.searched-campaign-empty {
-            font-size: 16px;
+            font-size: 12px;
             height: 18px;
             text-align: center;
             height: 100%;
@@ -67,8 +70,17 @@
       line-height: 15px;
       color: rgba(31, 65, 115, 0.5);
     }
+    .location-text {
+      text-overflow: ellipsis;
+      width: 45%;
+      white-space: nowrap;
+      overflow: hidden;
+    }
     .selected-sub {
       color: rgba(255, 255, 255, 0.5) !important;
+    }
+    .campaign-seen {
+      color: #1f4173;
     }
   }
 }
@@ -77,10 +89,9 @@
   height: 42px;
   width: 100%;
   display: flex;
-  width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 2px 8px;
+  padding: 2px 6px;
 
   .campaign-checkbox-container {
     display: flex;
@@ -104,7 +115,7 @@
     border: none;
     font-style: normal;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 16px;
     color: #003ad2;
     cursor: pointer;
@@ -112,7 +123,7 @@
   }
 }
 
-.popover-body {
+.popover-body-campaign {
   box-shadow: none;
   display: grid;
   grid-template-columns: auto;
@@ -121,15 +132,20 @@
   grid-row-gap: 10px;
   background: #ffffff;
   .campaign-btn {
-    cursor: pointer;
-    width: 281px;
-    height: 44px;
-    border-radius: 10px;
+    width: 150px;
+    height: 36px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: right;
+    color: #1f4173;
     border: none;
     display: flex;
     align-items: center;
-    align-content: center;
     justify-content: center;
+    cursor: pointer;
+    border-radius: 10px;
     .campaign-btn-text {
       width: 240px;
       height: 17px;
@@ -137,7 +153,7 @@
       font-weight: 600;
       font-size: 14px;
       line-height: 17px;
-      text-align: start;
+      text-align: center;
       color: #ffffff;
       margin-left: 13px;
     }
@@ -148,6 +164,16 @@
     }
     &.download-btn {
       background: #003ad2;
+    }
+    &.assign-btn {
+      color: #ff6c5f;
+      background: #1d9f07;
+    }
+    &.activate-btn {
+      background: #d0108a;
+    }
+    &.deActivate-btn {
+      background: #82b82a;
     }
   }
 }

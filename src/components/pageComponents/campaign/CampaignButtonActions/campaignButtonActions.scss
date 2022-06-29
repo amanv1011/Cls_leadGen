@@ -7,15 +7,20 @@
   align-items: flex-end;
   justify-content: space-around;
   .campaign-btn {
-    cursor: pointer;
-    width: 180px;
-    height: 44px;
-    border-radius: 10px;
+    width: 145px;
+    height: 40px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #1f4173;
     border: none;
     display: flex;
     align-items: center;
-    align-content: center;
     justify-content: center;
+    cursor: pointer;
+    border-radius: 10px;
     .campaign-btn-text {
       width: 64px;
       height: 17px;
@@ -51,22 +56,27 @@
 
 .campaignButton-actions-edit {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-content: center;
   height: 156px;
   width: 100%;
-  align-items: flex-end;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: space-evenly;
   .campaign-btn {
-    cursor: pointer;
-    width: 180px;
-    height: 44px;
-    border-radius: 10px;
+    width: 145px;
+    height: 40px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #1f4173;
     border: none;
     display: flex;
     align-items: center;
-    align-content: center;
     justify-content: center;
+    cursor: pointer;
+    border-radius: 10px;
     .campaign-btn-text {
       width: 64px;
       height: 17px;

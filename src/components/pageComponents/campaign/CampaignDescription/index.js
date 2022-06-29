@@ -37,12 +37,13 @@ const CampaignDescription = ({
   campaignDoc,
   campgaignId,
   leadsList,
-  allUsers,
   countryList,
+  allUsers,
+  selectedUsers,
+  onChangeOption,
 }) => {
   const dispatch = useDispatch();
   const [campaignDocValue, setCampaignDocValue] = useState(campaignDoc);
-  const [selectedUsers, setSelectedUsers] = useState([]);
 
   useEffect(() => {
     setCampaignDocValue(campaignDoc);
@@ -55,11 +56,15 @@ const CampaignDescription = ({
     location: "",
     start_date: "",
     start_time: "",
-    last_crawled_date: "",
     end_date: "",
     end_time: "",
     queryURL: "",
     status: 1,
+    campaignSeen: false,
+    campaignCreatedAt: "",
+    country: "",
+    owner: "",
+    last_crawled_date: "",
   });
 
   const {
@@ -88,6 +93,9 @@ const CampaignDescription = ({
     setTags(newarrayValue.split(","));
   };
 
+  const onOngoing = (event) => {
+    setOnGoing(event.target.checked);
+  };
   const statusUpdate = async (event, a__campgaignId) => {
     try {
       if (event.target.checked) {
@@ -98,25 +106,6 @@ const CampaignDescription = ({
       await dispatch(campaignActions.getACampaignAction(a__campgaignId));
     } catch (error) {
       dispatch(openAlertAction(`${error.message}`, true, "error"));
-    }
-  };
-
-  //assigning campaign to a user
-  const onChangeOption = (e, option) => {
-    setSelectedUsers(option);
-  };
-
-  const assignUsers = () => {
-    if (campaignDocValue.id.length > 0 && selectedUsers.length > 0) {
-      let arr = [];
-      selectedUsers &&
-        selectedUsers.forEach((e) => {
-          arr.push(e.userId);
-        });
-      dispatch(
-        campaignActions.assignCampaignToUsersAction([campaignDocValue.id], arr)
-      );
-      setSelectedUsers([]);
     }
   };
 
@@ -163,15 +152,18 @@ const CampaignDescription = ({
         location: campaignDocValue.location,
         country: campaignDocValue.country,
         status: parseInt(campaignDocValue.status),
-        queryURL: campaignDocValue.queryURL,
+        queryURL:
+          campaignDocValue.queryURL !== "" ? campaignDocValue.queryURL : "NA",
+        owner: campaignDocValue.owner,
       });
       setTags([...campaignDocValue.tags]);
+      setOnGoing(campaignDocValue.onGoing);
     }
-  }, [campgaignId]);
 
-  const onOngoing = (event) => {
-    setOnGoing(event.target.checked);
-  };
+    console.log("addCampaignDetails", addCampaignDetails);
+    console.log("tags", tags);
+    console.log("onGoing", onGoing);
+  }, [campgaignId]);
 
   // Campaign Update form action
   let minStartTime;
@@ -195,8 +187,6 @@ const CampaignDescription = ({
 
   const campaignUpdateForm = async (event) => {
     event.preventDefault();
-    console.log("Hello");
-    // try {
     if (source === "seek_aus") {
       if (tags.length > 1) {
         alert(
@@ -234,10 +224,10 @@ const CampaignDescription = ({
       frequency: parseInt(frequency),
       tags,
       onGoing,
+      campaignCreatedAt: campaignDocValue.campaignCreatedAt,
       end_date: Timestamp.fromDate(new Date(end_date)),
       start_date: Timestamp.fromDate(new Date(start_date)),
       last_crawled_date: Timestamp.fromDate(new Date(start_date)),
-      owner: "Mithun Dominic",
     };
 
     await dispatch(
@@ -284,7 +274,7 @@ const CampaignDescription = ({
                         onChange={onInputChangeHandler}
                         autoComplete="off"
                         required
-                        style={{ marginLeft: "10px" }}
+                        style={{ marginLeft: "10px", width: "auto" }}
                       />
                     </React.Fragment>
                   ) : (
@@ -304,7 +294,7 @@ const CampaignDescription = ({
                       onChange={tagInputChange}
                       autoComplete="off"
                       required
-                      style={{ marginLeft: "92px" }}
+                      style={{ marginLeft: "92px", width: "auto" }}
                     />
                   ) : (
                     campaignDocValue.tags && campaignDocValue.tags.toString()
@@ -326,63 +316,6 @@ const CampaignDescription = ({
                       statusUpdate(event, campaignDocValue.id)
                     }
                   />
-                </Box>
-                <Box component={"div"} className="addCampaign-checkbox">
-                  {campgaignId ? (
-                    <React.Fragment
-                      className="addCampaign-checkbox"
-                      style={{ marginTop: "10px", marginLeft: " 7px" }}
-                    >
-                      <input
-                        type="checkbox"
-                        name="onGoing"
-                        value={onGoing}
-                        // checked={
-                        //   campaignDocValue && campaignDocValue.onGoing
-                        //     ? true
-                        //     : false
-                        // }
-                        onChange={onOngoing}
-                        // className="campaign-checkbox"
-                      />
-                      <label
-                        className="addCampaign-labels"
-                        style={{ marginLeft: "7px" }}
-                      >
-                        On going
-                      </label>
-                    </React.Fragment>
-                  ) : (
-                    <React.Fragment>
-                      <input
-                        type="checkbox"
-                        name="onGoing"
-                        checked={
-                          campaignDocValue && campaignDocValue.onGoing
-                            ? true
-                            : false
-                        }
-                        readOnly
-                      />
-
-                      <label
-                        className="addCampaign-labels"
-                        style={{
-                          width: "52px",
-                          height: "16px",
-                          fontStyle: "normal",
-                          fontWeight: "600",
-                          fontSize: "13px",
-                          lineHeight: "16px",
-                          color: "#1F4173",
-                          opacity: "0.3",
-                          marginLeft: "7px",
-                        }}
-                      >
-                        On going
-                      </label>
-                    </React.Fragment>
-                  )}
                 </Box>
               </Box>
             </Box>
@@ -454,6 +387,107 @@ const CampaignDescription = ({
                     </span>
                   </div>
                   <div className="header-item">
+                    <span className="header-key">Start Date</span>
+                    <span className="header-value">
+                      {campgaignId ? (
+                        <input
+                          type="date"
+                          className="addCampaign-datePicker"
+                          name="start_date"
+                          value={start_date}
+                          onChange={onInputChangeHandler}
+                          autoComplete="off"
+                          required
+                          // min={todaysDate}
+                          pattern="(?:((?:0[1-9]|1[0-9]|2[0-9])\/(?:0[1-9]|1[0-2])|(?:30)\/(?!02)(?:0[1-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/(?:19|20)[0-9]{2})"
+                        />
+                      ) : (
+                        campaignDocValue?.start_date &&
+                        moment
+                          .unix(
+                            campaignDocValue.start_date.seconds,
+                            campaignDocValue.start_date.nanoseconds
+                          )
+                          .format("MM/DD/YYYY")
+                      )}
+                    </span>
+                  </div>
+                  <div className="header-item">
+                    <span className="header-key">End Date</span>
+                    <span className="header-value">
+                      {campgaignId ? (
+                        <>
+                          <input
+                            type="date"
+                            className="addCampaign-datePicker"
+                            name="end_date"
+                            value={end_date}
+                            onChange={onInputChangeHandler}
+                            autoComplete="off"
+                            required
+                            // min={start_date}
+                          />
+
+                          <div style={{ marginLeft: "5px", marginTop: "5px" }}>
+                            <input
+                              type="checkbox"
+                              name="onGoing"
+                              value={onGoing}
+                              checked={onGoing}
+                              onChange={onOngoing}
+                            />
+                            <label
+                              className="addCampaign-labels"
+                              style={{ marginLeft: "7px" }}
+                            >
+                              On going
+                            </label>
+                          </div>
+                        </>
+                      ) : (
+                        <React.Fragment>
+                          {campaignDocValue?.end_date &&
+                            moment
+                              .unix(
+                                campaignDocValue.end_date.seconds,
+                                campaignDocValue.end_date.nanoseconds
+                              )
+                              .format("MM/DD/YYYY")}
+                          <div>
+                            <input
+                              type="checkbox"
+                              name="onGoing"
+                              checked={
+                                campaignDocValue && campaignDocValue.onGoing
+                                  ? true
+                                  : false
+                              }
+                              disabled={true}
+                              readOnly
+                            />
+
+                            <label
+                              className="addCampaign-labels"
+                              style={{
+                                width: "52px",
+                                height: "16px",
+                                fontStyle: "normal",
+                                fontWeight: "600",
+                                fontSize: "13px",
+                                lineHeight: "16px",
+                                color: "#1F4173",
+                                opacity: "0.3",
+                                marginLeft: "7px",
+                              }}
+                            >
+                              On going
+                            </label>
+                          </div>
+                        </React.Fragment>
+                      )}
+                    </span>
+                  </div>
+                  <div className="header-item">
                     <span className="header-key">Country</span>
                     <span className="header-value">
                       {campgaignId && campaignDocValue.country ? (
@@ -501,62 +535,6 @@ const CampaignDescription = ({
                         />
                       ) : (
                         campaignDocValue && campaignDocValue.location
-                      )}
-                    </span>
-                  </div>
-
-                  <div className="header-item">
-                    <span className="header-key">Start Date</span>
-                    <span className="header-value">
-                      {campgaignId ? (
-                        <input
-                          type="date"
-                          className="addCampaign-datePicker"
-                          name="start_date"
-                          value={start_date}
-                          onChange={onInputChangeHandler}
-                          autoComplete="off"
-                          required
-                          // min={todaysDate}
-                          pattern="(?:((?:0[1-9]|1[0-9]|2[0-9])\/(?:0[1-9]|1[0-2])|(?:30)\/(?!02)(?:0[1-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/(?:19|20)[0-9]{2})"
-                        />
-                      ) : (
-                        campaignDocValue?.start_date &&
-                        moment
-                          .unix(
-                            campaignDocValue.start_date.seconds,
-                            campaignDocValue.start_date.nanoseconds
-                          )
-                          .format("MM/DD/YYYY")
-                      )}
-                    </span>
-                  </div>
-                  <div className="header-item">
-                    <span className="header-key">End Date</span>
-                    <span className="header-value">
-                      {campgaignId ? (
-                        <React.Fragment>
-                          <input
-                            type="date"
-                            className="addCampaign-datePicker"
-                            name="end_date"
-                            value={end_date}
-                            onChange={onInputChangeHandler}
-                            autoComplete="off"
-                            required
-                            // min={start_date}
-                          />
-                        </React.Fragment>
-                      ) : (
-                        <React.Fragment>
-                          {campaignDocValue?.end_date &&
-                            moment
-                              .unix(
-                                campaignDocValue.end_date.seconds,
-                                campaignDocValue.end_date.nanoseconds
-                              )
-                              .format("MM/DD/YYYY")}
-                        </React.Fragment>
                       )}
                     </span>
                   </div>
@@ -677,7 +655,7 @@ const CampaignDescription = ({
                   <span className="header-value">
                     {campgaignId ? (
                       <input
-                        type="text"
+                        type="url"
                         className="addCampaign-inputs"
                         placeholder="Paste your URL here"
                         name="queryURL"
@@ -704,7 +682,7 @@ const CampaignDescription = ({
               <Box
                 className="autocomplete-title"
                 style={{
-                  width: "75px",
+                  width: "120px",
                   height: "17px",
                   fontStyle: "normal",
                   fontWeight: "600",
@@ -719,8 +697,8 @@ const CampaignDescription = ({
               <AssignCampaign
                 options={allUsers}
                 onChangeOption={onChangeOption}
-                assignUsers={assignUsers}
                 selectedUsers={selectedUsers}
+                width={145}
               />
             </Box>
             <Box component={"div"} className="action-buttons">
