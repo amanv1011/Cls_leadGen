@@ -5,9 +5,7 @@ import Details from "../../../assets/icons/Details.png";
 import LinkedInIcon from "../../../assets/icons/LinkedInIcon.png";
 import "./leadDescription.scss";
 
-const LeadDescription = ({ selectedLeadIdFun }) => {
-  const displayLeadData = useSelector((state) => state.PopupReducer.popupData);
-
+const LeadDescription = ({ displayLeadData }) => {
   const leadsFullDescription = useSelector(
     (state) => state.allLeads.leadsFullDescription
   );
@@ -112,15 +110,21 @@ const LeadDescription = ({ selectedLeadIdFun }) => {
                     </Box>
                   </a>
                 </Box>
-              </Box>{" "}
+              </Box>
+              <Divider
+                variant="middle"
+                light={true}
+                sx={{
+                  height: "1px",
+                  background: "#1F4173",
+                  opacity: "0.15",
+                  margin: "8px 0px 0px 0px",
+                }}
+              />
             </>
           ) : null}
         </Box>
-        <Divider
-          variant="middle"
-          light={true}
-          sx={{ height: "1px", background: "#1F4173", opacity: "0.15" }}
-        />
+
         <Box component={"div"} className="leads-description-body">
           {displayLeadData ? (
             <>
