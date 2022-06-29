@@ -20,8 +20,11 @@ import moment from "moment";
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
 import AdvanceDatePicker from "../../AdvanceDatePicker/advanceDatePicker";
 import NewDateRangePicker from "../../AdvanceDatePicker/newDatePickerCompo";
+import { leadsFilterDate } from "../../../../redux/actions/leadsFilter";
+import { connect } from "react-redux";
+const today = moment();
 
-const LeadsHeader = () => {
+const LeadsHeader = (props) => {
   const dispatch = useDispatch();
   const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const campaignNameFilter = useSelector(
@@ -39,6 +42,24 @@ const LeadsHeader = () => {
   const [allOwnersFilter, setAllOwnersFilter] = useState("All Owners");
   const [allCountriesFilter, setAllCountriesFilter] = useState("All Countries");
   const [allCountriesMenu, setAllCountriesMenu] = React.useState(null);
+
+  // dateRangePicker state
+
+  const [clearDateFilter, setClearDateFilter] = useState();
+  //const filterDate = useSelector((state) => state.leadsFilter.filterDate);
+
+  const applyOkButton = (value1) => {
+    console.log(value1);
+    setClearDateFilter(value1);
+    const calender1=moment.range(value1[0], value1[1]);
+    // const calender1 =
+    //   props.leadsFilter.datePickerState === 0
+    //     ? moment.range(today.clone(), today.clone())
+    //     : moment.range(value1[0], value1[1]);
+    props.leadsFilterDate(calender1);
+    props.datePickerState(1);
+    console.log("Selected Date By User", value1[0], value1[1]);
+  };
 
   const openAllCampgainsMenu = Boolean(allCampgainsMenu);
   const handleClickAllCampgainsMenu = (event) => {
@@ -106,11 +127,15 @@ const LeadsHeader = () => {
     setOwnerMenu(null);
   };
 
- 
+  // const rangeFunc = (event) => {
+  //   console.log("Hello1");
+  //   // props.clearFilterTab();
+  // };
 
   const clearFilterTab = () => {
     dispatch(clearFilters());
     dispatch(datePickerState(0));
+    setClearDateFilter([]);
   };
   // Export to leads functions
   const downloadLeads = (leadsList, excelFileName) => {
@@ -243,7 +268,11 @@ const LeadsHeader = () => {
               })}
             </Menu>
           </div>
-          <NewDateRangePicker />
+          <NewDateRangePicker
+           // rangeFunc={rangeFunc}
+            clearDateFilter={clearDateFilter}
+            applyOkButton={applyOkButton}
+          />
           {/* <DateModal/> */}
 
           <div className="select-container">
@@ -408,4 +437,14 @@ const LeadsHeader = () => {
   );
 };
 
-export default LeadsHeader;
+const mapDispatchToProps = {
+  leadsFilterDate,
+  datePickerState,
+  clearFilters,
+};
+const mapStateToProps = (state) => {
+  return { leadsFilter: state.leadsFilter };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(LeadsHeader);
+
+//export default LeadsHeader;
