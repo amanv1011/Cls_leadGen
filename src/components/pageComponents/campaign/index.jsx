@@ -57,16 +57,17 @@ const Campaign = () => {
     }
   }, [campaignDoc]);
 
-  const onChangeOption = (e, option) => {
+  const onChangeOption = async (e, option) => {
     setSelectedUsers(option);
     let arr = [];
     option &&
       option.forEach((e) => {
         arr.push(e.userId);
       });
-    dispatch(
+    await dispatch(
       campaignActions.assignCampaignToUsersAction([campaignDoc.id], arr)
     );
+    await dispatch(campaignActions.getAssignedCampaignsAction());
   };
 
   return (
@@ -113,6 +114,7 @@ const Campaign = () => {
             ownerFilterValue={ownerFilterValue}
             campaignStateFilterValue={campaignStateFilterValue}
             selectedUsersForFilter={selectedUsers}
+            options={allUsers}
           />
         </Box>
         <Box component={"div"} className="section campaign-details">
