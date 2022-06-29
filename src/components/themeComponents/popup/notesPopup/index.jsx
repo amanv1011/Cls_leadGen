@@ -7,7 +7,7 @@ import {
   Divider,
   IconButton,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import closeIcon from "../../../../assets/icons/closeIcon.png";
 import "./IModal.scss";
 
 export default function NotesPopup(props) {
@@ -21,11 +21,9 @@ export default function NotesPopup(props) {
       sx={{ backdropFilter: "blur(3px)" }}
       PaperProps={{
         style: {
-          borderRadius: 10,
-          padding: "5px",
+          borderRadius: 15,
           width: "50%",
           height: "fit-content",
-          minHeight: "55%",
         },
       }}
       className="dialoge"
@@ -33,10 +31,13 @@ export default function NotesPopup(props) {
       <DialogTitle
         style={{
           display: "flex",
-          padding: "12px 8px 0px 12px",
+          padding: "20px",
           alignItems: "center",
           justifyContent: "space-between",
-          height: "50px",
+          height: "60px",
+          background: "#FAFAFA",
+          boxShadow: "inset 0px -1px 3px rgba(0, 0, 0, 0.05)",
+          borderRadius: "15px 15px 0px 0px",
         }}
       >
         <div
@@ -49,12 +50,12 @@ export default function NotesPopup(props) {
           Notes
         </div>
         <IconButton aria-label="close" onClick={closeModal} sx={{}}>
-          <CloseIcon fontSize="small" />
+          <img src={closeIcon} alt="close" />
         </IconButton>
       </DialogTitle>
       <DialogContent
         className={"dialoge-content"}
-        style={{ padding: "0px 12px 12px 12px" }}
+        style={{ padding: "10px 20px" }}
       >
         <div
           className="body-area"

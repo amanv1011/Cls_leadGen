@@ -112,7 +112,7 @@ const Cards = (props) => {
   ]);
 
   useEffect(() => {
-    dispatch(getAllLeadsAction());
+    // dispatch(getAllLeadsAction());
     if (approveRejectResponse && approveRejectResponse.status) {
       let data = allLeadData;
       data.status = approveRejectResponse.status;
@@ -228,7 +228,7 @@ const Cards = (props) => {
       setReason("");
     }
   };
-  console.log(selectedLeadId);
+
   return (
     <>
       {
