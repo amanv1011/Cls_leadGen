@@ -199,7 +199,7 @@ const CampaignHeader = ({
                   boxshadow: "none",
                   backgroundColor: "rgb(233,236,241)",
                   color: "rgba(92, 117,154)",
-                  zIndex: "1000",
+                  zIndex: "1",
                   overflow: "auto",
                   height: "fitContent",
                 },
@@ -259,7 +259,7 @@ const CampaignHeader = ({
                   backgroundColor: "rgb(233,236,241)",
 
                   color: "rgba(92, 117,154)",
-                  zIndex: "1000",
+                  zIndex: "1",
                   overflow: "auto",
                   maxHeight: "150px",
                 },

@@ -58,7 +58,6 @@ class BasicDateRangePicker extends React.Component {
   };
 
   render() {
-    console.log(leadsFilterDate);
     return (
       <>
         <div>

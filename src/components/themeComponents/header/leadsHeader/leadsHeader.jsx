@@ -25,11 +25,10 @@ import { leadsFilterDate } from "../../../../redux/actions/leadsFilter";
 import { connect } from "react-redux";
 //const today = moment();
 //var moment = require('moment');
-import Moment from 'moment';
-import { extendMoment } from 'moment-range';
+import Moment from "moment";
+import { extendMoment } from "moment-range";
 
 const moment = extendMoment(Moment);
-
 
 const LeadsHeader = (props) => {
   const dispatch = useDispatch();
@@ -60,7 +59,7 @@ const LeadsHeader = (props) => {
   const applyOkButton = (value1) => {
     console.log(value1);
     setClearDateFilter(value1);
-    const calender1=moment.range(value1[0], value1[1]);
+    const calender1 = moment.range(value1[0], value1[1]);
     // const calender1 =
     //   props.leadsFilter.datePickerState === 0
     //     ? moment.range(today.clone(), today.clone())
@@ -249,7 +248,7 @@ const LeadsHeader = (props) => {
                   // backgroundColor: "#E7E7E7",
                   backgroundColor: "rgb(233,236,241)",
                   color: "rgba(92, 117,154)",
-                  zIndex: "1000",
+                  zIndex: "1",
                   overflow: "auto",
                   height: "auto",
                   minWidth: "160px",
@@ -289,7 +288,7 @@ const LeadsHeader = (props) => {
             </Menu>
           </div>
           <NewDateRangePicker
-           // rangeFunc={rangeFunc}
+            // rangeFunc={rangeFunc}
             clearDateFilter={clearDateFilter}
             applyOkButton={applyOkButton}
           />
@@ -320,7 +319,7 @@ const LeadsHeader = (props) => {
                 // backgroundColor: "#E7E7E7",
                 backgroundColor: "rgb(233,236,241)",
                 color: "rgba(92, 117,154)",
-                zIndex: "1000",
+                zIndex: "1",
                 overflow: "auto",
                 height: "auto",
                 minWidth: "160px",
@@ -385,7 +384,7 @@ const LeadsHeader = (props) => {
                   // backgroundColor: "#E7E7E7",
                   backgroundColor: "rgb(233,236,241)",
                   color: "rgba(92, 117,154)",
-                  zIndex: "1000",
+                  zIndex: "1",
                   overflow: "auto",
                   maxHeight: "200px",
                   minWidth: "160px",

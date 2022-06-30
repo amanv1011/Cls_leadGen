@@ -1,7 +1,15 @@
 import React, { useState } from "react";
-import { Dialog, DialogActions, DialogContent, Divider } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  IconButton,
+} from "@mui/material";
 import "./Ipopup.scss";
 import IButton from "../../button";
+import closeIcon from "../../../../assets/icons/closeIcon.png";
 
 export default function IPopup(props) {
   return (
@@ -9,24 +17,50 @@ export default function IPopup(props) {
       onClose={props.closePopupFunction}
       open={props.open}
       PaperProps={{
-        style: { borderRadius: 10, padding: "10px" },
+        style: {
+          background: "#FFFFFF",
+          boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.07)",
+          borderRadius: "15px",
+          height: "240px",
+          width: "460px",
+        },
       }}
       className="dialoge"
     >
+      <DialogTitle
+        style={{
+          display: "flex",
+          padding: "12px 20px",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "60px",
+          background: "#FAFAFA",
+          boxShadow: "inset 0px -1px 3px rgba(0, 0, 0, 0.05)",
+          borderRadius: "15px 15px 0px 0px",
+        }}
+      >
+        <div
+          style={{
+            fontStyle: "normal",
+            fontWeight: 600,
+            fontSize: "18px",
+            lineHeight: "22px",
+            color: "#1F4173",
+            height: "100%",
+            display: "flex",
+            alignItems: "inherit",
+          }}
+        >
+          Update Lead Status
+        </div>
+        <IconButton aria-label="close" onClick={props.onClosePopup}>
+          <img src={closeIcon} alt="close" />
+        </IconButton>
+      </DialogTitle>
       <DialogContent className={"dialoge-content"} style={{ padding: "10px" }}>
         <div className="title_area" style={{ marginBottom: "10px" }}>
           {props.title ? (
             <>
-              <div
-                style={{
-                  fontWeight: 600,
-                  fontSize: "21px",
-                  color: "#1f4173",
-                }}
-                className={"model_title"}
-              >
-                {props.title}
-              </div>
               {props.subtitle ? (
                 <div
                   style={{
@@ -45,26 +79,22 @@ export default function IPopup(props) {
             </>
           ) : null}
         </div>
-        <Divider
-          variant="fullWidth"
-          light={true}
-          sx={{ height: "1px", background: "#1F4173", opacity: "0.15" }}
-        />
         <div
           className={"model_body"}
           style={{
             height: "80px",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
           <div
             className="body-area"
             style={{
               fontStyle: "normal",
-              fontWeight: 600,
-              fontSize: "14px",
+              fontWeight: 400,
+              fontSize: "18px",
               lineHeight: "26px",
-              color: "#000000",
-              opacity: 0.9,
+              color: "#1F4173",
               textAlign: "justify",
               overflow: "auto",
             }}
@@ -76,10 +106,10 @@ export default function IPopup(props) {
                 <label
                   style={{
                     fontStyle: "normal",
-                    fontWeight: 700,
-                    fontSize: "14px",
+                    fontWeight: 400,
+                    fontSize: "18px",
                     lineHeight: "26px",
-                    color: "#000000",
+                    color: "#1F4173",
                     textAlign: "justify",
                     overflow: "auto",
                     display: "block",
@@ -94,19 +124,16 @@ export default function IPopup(props) {
                     fontStyle: "normal",
                     fontWeight: 600,
                     fontSize: "14px",
-                    lineHeight: "26px",
-                    color: "#000000",
-                    opacity: 1,
                     textAlign: "justify",
                     overflow: "auto",
                     display: "block",
-                    width: "400px",
-                    height: "50px",
-                    background: "rgb(0 0 0 / 23%)",
-                    borderRadius: "10px",
-                    border: "none",
+                    width: "420px",
+                    height: "40px",
                     outline: "none",
                     padding: "3px 6px",
+                    background: "rgba(248, 248, 249, 0.8)",
+                    border: "1px solid rgba(31, 65, 115, 0.2)",
+                    borderRadius: "10px",
                   }}
                   placeholder="Reason"
                   className="reject-reason-inpt"
@@ -127,19 +154,12 @@ export default function IPopup(props) {
         }`}
         style={{
           display: "flex",
+          flexDirection: "row-reverse",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "10px",
+          padding: "15px 20px",
         }}
       >
-        {/* <button onClick={props.onClosePopup}>Cancel</button> */}
-        {/* <button onClick={props.onClosePopup}>Apply</button> */}
-        <IButton
-          type="cancel"
-          name="cancel"
-          children={"Cancel"}
-          onclick={props.onClosePopup}
-        />
         <IButton
           type="apply"
           name="apply"

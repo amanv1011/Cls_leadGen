@@ -112,25 +112,17 @@ const Cards = (props) => {
   ]);
 
   useEffect(() => {
-    dispatch(getAllLeadsAction());
-    if (approveRejectResponse && approveRejectResponse.status) {
-      let data = allLeadData;
-      data.status = approveRejectResponse.status;
-      setdisplayLeadData(data);
-    }
-    if (
-      approveRejectResponse &&
-      approveRejectResponse.status &&
-      approveRejectResponse.leadsId
-    ) {
+    console.log({ approveRejectResponse });
+    if (approveRejectResponse && approveRejectResponse.leadsId) {
       approveRejectResponse.leadsId.forEach((ele) => {
         if (displayLeadData.id === ele) {
           let data = allLeadData;
           data.status = approveRejectResponse.status;
           setdisplayLeadData(data);
+          allLeadData.status = approveRejectResponse.status;
         }
         leadsData &&
-          leadsData.forEach((lead) => {
+          leadsData.forEach((lead, idx) => {
             if (lead.id === ele) {
               lead.status = approveRejectResponse.status;
             }
@@ -228,7 +220,7 @@ const Cards = (props) => {
       setReason("");
     }
   };
-  console.log(selectedLeadId);
+
   return (
     <>
       {
@@ -347,11 +339,7 @@ const Cards = (props) => {
                       name={"Under Review"}
                       children="Under Review"
                       disabled={
-                        Number(
-                          displayLeadData &&
-                            displayLeadData.status &&
-                            displayLeadData.status
-                        ) === Number(0)
+                        displayLeadData && displayLeadData.status === 0
                           ? true
                           : false
                       }
@@ -382,8 +370,13 @@ const Cards = (props) => {
                     </Tooltip>
                   </Box>
                 </Box>
-                <Box className="autocomplete-container">
+                <Box
+                  className={`autocomplete-container ${
+                    selectedArray.length > 0 ? "disabled" : ""
+                  }`}
+                >
                   <Box className="autocomplete-title">Assign To</Box>
+
                   <IAutocomplete
                     options={allUsers}
                     onChangeOption={onChangeOption}

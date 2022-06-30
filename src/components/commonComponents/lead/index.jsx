@@ -30,6 +30,26 @@ const Lead = () => {
   const assignedLeads = useSelector(
     (state) => state.getAssignedLeadsReducer.assignedLeads
   );
+  const approveRejectResponse = useSelector(
+    (state) => state.allLeads.approveRejectResponse
+  );
+
+  useEffect(() => {
+    if (
+      approveRejectResponse &&
+      approveRejectResponse.status &&
+      approveRejectResponse.leadsId
+    ) {
+      approveRejectResponse.leadsId.forEach((ele) => {
+        genratedLeadData &&
+          genratedLeadData.forEach((lead) => {
+            if (lead.id === ele) {
+              lead.status = approveRejectResponse.status;
+            }
+          });
+      });
+    }
+  }, [approveRejectResponse]);
 
   var filterAllLeads;
   var leadListForCount;
