@@ -24,7 +24,7 @@ import NotesPopup from "../../themeComponents/popup/notesPopup";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
-  const [openText, setopenText] = useState(false);
+  const [selectedBatchAssignUsers, setSelectedBatchAssignUsers] = useState([]);
   const [displayLeadData, setdisplayLeadData] = useState([]);
   const [value, setValue] = useState("");
   const [selectedLeadId, setSlectedLeadId] = useState("");
@@ -112,7 +112,6 @@ const Cards = (props) => {
   ]);
 
   useEffect(() => {
-    console.log({ approveRejectResponse });
     if (approveRejectResponse && approveRejectResponse.leadsId) {
       approveRejectResponse.leadsId.forEach((ele) => {
         if (displayLeadData.id === ele) {
@@ -179,7 +178,7 @@ const Cards = (props) => {
 
   const addNotesFunction = (e) => {
     console.log(e.target);
-    if (openText && value.length > 0) {
+    if (value.length > 0) {
       const ParamObj = {
         userName: window.localStorage.getItem("userName")
           ? window.localStorage.getItem("userName")
@@ -197,8 +196,8 @@ const Cards = (props) => {
         dispatch(addNotestoLeadAction([selectedLeadId], ParamObj));
       }
       setValue("");
+      // setShowNotesState(false);
     }
-    setopenText(!openText);
   };
 
   const onClosePopup = () => {
@@ -244,7 +243,10 @@ const Cards = (props) => {
           open={showNotesState}
           setShowNotesState={setShowNotesState}
           displayLeadData={displayLeadData}
+          addNotesFunction={addNotesFunction}
           type="showNotes"
+          value={value}
+          setValue={setValue}
         />
       }
       <Box component="div" className="leads-container">
@@ -276,7 +278,9 @@ const Cards = (props) => {
               options={allUsers}
               // onChangeOption={onChangeOption}
               selectedUsers={selectedUsers}
-              setSelectedUsers={setSelectedUsers}
+              // setSelectedUsers={setSelectedUsers}
+              selectedBatchAssignUsers={selectedBatchAssignUsers}
+              setSelectedBatchAssignUsers={setSelectedBatchAssignUsers}
               selectedArray={selectedArray}
               setselectedArray={setselectedArray}
               //popup
@@ -382,31 +386,25 @@ const Cards = (props) => {
                     onChangeOption={onChangeOption}
                     // assignUsers={assignUsers}
                     selectedUsers={selectedUsers}
-                    width={145}
+                    width={150}
                   />
                 </Box>
-                {/* <IButton
-              type={"blue"}
-              name={"blue"}
-              children={"Show Notes"}
-              customClass={"show-nts-btn"}
-              onclick={() => setShowNotesState(true)}
-            /> */}
                 <Box className="add-notes-container">
-                  {openText ? (
+                  {/* {openText ? (
                     <Textarea
                       openText={openText}
                       value={value}
                       setValue={setValue}
                     />
-                  ) : null}
+                  ) : null} */}
                   <IButton
                     type={"blue"}
                     name={"blue"}
+                    onclick={() => setShowNotesState(true)}
                     children={
                       <>
-                        <span onClick={addNotesFunction}>{`Notes`}</span>
-                        <span onClick={() => setShowNotesState(true)}>
+                        <span>{`Notes`}</span>
+                        <span>
                           {`\u00A0(${
                             displayLeadData &&
                             displayLeadData.notes &&

@@ -25,8 +25,8 @@ const LeadsDisplay = ({
   status,
   options,
   onChangeOption,
-  selectedUsers,
-  setSelectedUsers,
+  setSelectedBatchAssignUsers,
+  selectedBatchAssignUsers,
   selectedArray,
   setselectedArray,
   reason,
@@ -118,14 +118,14 @@ const LeadsDisplay = ({
   };
 
   const assignBatchUsers = (e, option) => {
-    setSelectedUsers(option);
-    if (selectedArray.length > 0 && selectedUsers.length > 0) {
+    setSelectedBatchAssignUsers(option);
+    if (selectedArray.length > 0 && selectedBatchAssignUsers.length >= 0) {
+      console.log(option);
       let arr = [];
       option &&
         option.forEach((e) => {
           arr.push(e.userId);
         });
-
       dispatch(assignLeadToUsersAction(selectedArray, arr));
     }
   };
@@ -151,7 +151,8 @@ const LeadsDisplay = ({
           options={options}
           onChangeOption={assignBatchUsers}
           // assignUsers={assignBatchUsers}
-          selectedUsers={selectedUsers}
+          selectedBatchAssignUsers={selectedBatchAssignUsers}
+          setSelectedBatchAssignUsers={setSelectedBatchAssignUsers}
         />
       }
       <div className="checkbox-menu-container">
@@ -300,10 +301,13 @@ const LeadsDisplay = ({
           <>
             <p
               style={{
-                padding: "5px",
-                color: "#003ad2",
+                padding: "10px",
+                color: "rgb(92, 117, 154)",
                 fontSize: "14px",
                 fontWeight: 600,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               No lead(s) to display!

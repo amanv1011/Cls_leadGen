@@ -9,15 +9,24 @@ import {
 } from "@mui/material";
 import closeIcon from "../../../../assets/icons/closeIcon.png";
 import "./IModal.scss";
+import Textarea from "../../textarea/textarea";
+import IButton from "../../button";
 
-export default function NotesPopup(props) {
+export default function NotesPopup({
+  addNotesFunction,
+  open,
+  setShowNotesState,
+  displayLeadData,
+  value,
+  setValue,
+}) {
   const closeModal = () => {
-    props.setShowNotesState(false);
+    setShowNotesState(false);
   };
   return (
     <Dialog
       onClose={closeModal}
-      open={props.open}
+      open={open}
       sx={{ backdropFilter: "blur(3px)" }}
       PaperProps={{
         style: {
@@ -34,7 +43,7 @@ export default function NotesPopup(props) {
           padding: "20px",
           alignItems: "center",
           justifyContent: "space-between",
-          height: "60px",
+          height: "50px",
           background: "#FAFAFA",
           boxShadow: "inset 0px -1px 3px rgba(0, 0, 0, 0.05)",
           borderRadius: "15px 15px 0px 0px",
@@ -70,14 +79,15 @@ export default function NotesPopup(props) {
             width: "100%",
             display: "grid",
             gridTemplateRows: "auto",
-            maxHeight: "40vh",
-            gridGap: "15px",
+            maxHeight: "200px",
+            gridGap: "6px",
+            minHeight: "100px",
           }}
         >
-          {props.displayLeadData &&
-          props.displayLeadData.notes &&
-          props.displayLeadData.notes.length > 0 ? (
-            props.displayLeadData.notes.map((ele, idx) => {
+          {displayLeadData &&
+          displayLeadData.notes &&
+          displayLeadData.notes.length > 0 ? (
+            displayLeadData.notes.map((ele, idx) => {
               return (
                 <React.Fragment key={idx}>
                   <div
@@ -87,16 +97,11 @@ export default function NotesPopup(props) {
                       whiteSpace: "wrap",
                       borderRadius: "10px",
                       paddingRight: "6px",
+                      boxSizing: "border-box",
+                      display: "flex",
+                      flexDirection: "column",
                     }}
                   >
-                    <div
-                      style={{
-                        // opacity: 0.8,
-                        fontWeight: 700,
-                        fontSize: "15px",
-                        color: "#545555",
-                      }}
-                    >{`${ele.createdAt}; By - ${ele.userName}`}</div>
                     <div
                       style={{
                         opacity: 0.7,
@@ -106,7 +111,29 @@ export default function NotesPopup(props) {
                     >
                       {ele.note}
                     </div>
-                    {idx !== props.displayLeadData.notes.length - 1 ? (
+                    <div
+                      style={{
+                        opacity: 0.8,
+                        fontWeight: 600,
+                        fontSize: "11px",
+                        color: "#545555",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>{`By - ${ele.userName}`}</span>
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          opacity: 0.9,
+                          fontWeignt: 500,
+                        }}
+                      >
+                        {ele.createdAt}
+                      </span>
+                    </div>
+
+                    {idx !== displayLeadData.notes.length - 1 ? (
                       <Divider
                         light={true}
                         sx={{
@@ -128,6 +155,9 @@ export default function NotesPopup(props) {
                 height: "auto",
                 marginBottom: "2px",
                 whiteSpace: "wrap",
+                fontWeight: 500,
+                textAlign: "center",
+                color: "rgb(31, 65, 115)",
               }}
             >
               Notes not available!
@@ -135,6 +165,28 @@ export default function NotesPopup(props) {
           )}
         </div>
       </DialogContent>
+      <DialogActions
+        style={{
+          width: "100%",
+          boxSizing: "border-box",
+          height: "60px",
+          padding: "4px 20px 5px 20px",
+          boxShadow: "rgb(0 0 0 / 20%) 0px -4px 6px -6px",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Textarea value={value} setValue={setValue} />
+
+        <IButton
+          type="apply"
+          name="apply"
+          children={"Apply"}
+          onclick={addNotesFunction}
+          disabled={value.length === 0 ? true : false}
+        />
+      </DialogActions>
     </Dialog>
   );
 }
