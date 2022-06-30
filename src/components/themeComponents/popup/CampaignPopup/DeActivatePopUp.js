@@ -13,11 +13,12 @@ const DeActivatePopUp = ({
 }) => {
   const dispatch = useDispatch();
 
-  const ActivateMultipleCampaings = () => {
+  const deActivateMultipleCampaings = () => {
     selectedArray.map((seletedCampaigns) => {
       try {
         get_a_feild_in_a_document(seletedCampaigns, { status: 0 });
         dispatch(campaignActions.getAllCampaignsAction());
+        handleClose();
       } catch (error) {
         dispatch(openAlertAction(`${error.message}`, true, "error"));
       }
@@ -46,7 +47,7 @@ const DeActivatePopUp = ({
             type="apply"
             name="apply"
             children={"Apply"}
-            onclick={ActivateMultipleCampaings}
+            onclick={deActivateMultipleCampaings}
           />
         </DialogActions>
       </Dialog>

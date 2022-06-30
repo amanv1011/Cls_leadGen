@@ -224,3 +224,33 @@ export const getAssignedCampaignsAction = () => {
     }
   };
 };
+
+export const updateCampaignViewStatusAction = (campaignId) => {
+  return async (dispatch) => {
+    dispatch({
+      type: types.UPDATE_CAMPAIGN_VIEW_PENDING,
+
+      loading: true,
+    });
+    dispatch(openLoader({ isLoading: true }));
+    try {
+      const res = await campaignServices.updateCampaignViewStatus(campaignId);
+      dispatch(closeLoader());
+      return dispatch({
+        type: types.UPDATE_CAMPAIGN_VIEW_SUCCESS,
+        payload: res,
+      });
+    } catch (err) {
+      if (!!err && !!err.response && !!err.response.data) {
+        dispatch(closeLoader());
+        dispatch({
+          type: types.UPDATE_CAMPAIGN_VIEW_ERROR,
+          payload: err,
+        });
+      } else {
+        dispatch(closeLoader());
+        dispatch({ type: types.UPDATE_CAMPAIGN_VIEW_ERROR });
+      }
+    }
+  };
+};

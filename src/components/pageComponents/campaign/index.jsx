@@ -40,6 +40,9 @@ const Campaign = () => {
   const assignedCampaigns = useSelector(
     (state) => state.allCampaigns.assignedCampaigns
   );
+  const campaignViewStatus = useSelector(
+    (state) => state.allCampaigns.campaignViewStatus
+  );
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   useEffect(() => {
@@ -106,6 +109,7 @@ const Campaign = () => {
           </div>
           <CampaignDisplay
             campaignDoc={campaignDoc}
+            campaignsList={campaignsList}
             searchValue={searchValue}
             searchedCampaignList={searchedCampaignList}
             campaignLoader={campaignLoader}
@@ -115,6 +119,9 @@ const Campaign = () => {
             campaignStateFilterValue={campaignStateFilterValue}
             selectedUsersForFilter={selectedUsers}
             options={allUsers}
+            assignedCampaigns={assignedCampaigns}
+            campaignViewStatus={campaignViewStatus}
+            campgaignId={campgaignId}
           />
         </Box>
         <Box component={"div"} className="section campaign-details">

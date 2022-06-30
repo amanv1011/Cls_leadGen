@@ -160,10 +160,6 @@ const CampaignDescription = ({
       setTags([...campaignDocValue.tags]);
       setOnGoing(campaignDocValue.onGoing);
     }
-
-    console.log("addCampaignDetails", addCampaignDetails);
-    console.log("tags", tags);
-    console.log("onGoing", onGoing);
   }, [campgaignId]);
 
   // Campaign Update form action

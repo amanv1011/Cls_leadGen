@@ -164,7 +164,6 @@ const AssignCampaign = ({
   selectedUsers,
   width,
 }) => {
-  console.log("Width", `${width - 15}px`);
   return (
     <div
       style={{
