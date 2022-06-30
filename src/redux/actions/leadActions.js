@@ -161,6 +161,9 @@ export const addNotestoLeadAction = (leadId, notes) => {
     try {
       const NotesRes = await addNotes(leadId, notes);
       dispatch(closeLoader());
+      await dispatch(
+        openAlertAction("Note added successfully!", true, "success")
+      );
       return dispatch({
         type: ADD_NOTES_SUCCESS,
         payload: NotesRes,

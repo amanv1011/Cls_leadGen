@@ -13,12 +13,12 @@ const drawerWidth = 400;
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
+  zIndex: 2,
   // marginLeft: `calc(${theme.spacing(7)} + 1px)`,
   width: "100%",
   height: "70px",
   backgroundColor: "#FFFFFF",
-  boxshadow: "0 1px 3px 0 rgba(0,0,0,0.15)",
+  boxShadow: "0 1px 3px 0 rgba(0,0,0,0.15)",
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -90,7 +90,9 @@ const Navbar = ({ handleDrawer }) => {
               height="40px"
             />
             <Typography component="h6" className="user-profile-title">
-              {localStorage.getItem('userName') ? localStorage.getItem('userName') : 'Loading'}
+              {localStorage.getItem("userName")
+                ? localStorage.getItem("userName")
+                : "Loading"}
             </Typography>
             <img src={Dropdown} alt="dropdown" style={{ color: "#1F4173" }} />
           </Box>

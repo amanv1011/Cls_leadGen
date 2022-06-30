@@ -15,14 +15,11 @@ import LeadDescription from "../../commonComponents/leadDescription";
 import LeadsDisplay from "../../pageComponents/leads2/LeadsDisplay";
 import LeadsSearch from "../../pageComponents/leads2/LeadsSearch";
 import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
-// import "./lead.scss";
 import "../../pageComponents/leads2/leads.scss";
 import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
-import AddIcon from "@mui/icons-material/Add";
 import Textarea from "../../themeComponents/textarea/textarea";
 import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
-//import {AddIcon} from "@mui/icons-material/Add";
 import NotesPopup from "../../themeComponents/popup/notesPopup";
 
 const Cards = (props) => {
@@ -30,7 +27,7 @@ const Cards = (props) => {
   const [openText, setopenText] = useState(false);
   const [displayLeadData, setdisplayLeadData] = useState([]);
   const [value, setValue] = useState("");
-  const [selectedLeadId, setSlectedLeadId] = useState("Reason");
+  const [selectedLeadId, setSlectedLeadId] = useState("");
   const [open, setOpen] = useState(false);
   const [openMultipleLeadPopup, setOpenMultipleLeadPopup] = useState(false);
   const [status, setStatus] = useState(null);
@@ -52,6 +49,15 @@ const Cards = (props) => {
   const allUsers = useSelector((state) => state.users.users);
   const filterChangeState = useSelector(
     (state) => state.leadsFilter.campaignName
+  );
+  const filterChangeOwnerState = useSelector(
+    (state) => state.leadsFilter.ownerName
+  );
+  const filterChangeSearchState = useSelector(
+    (state) => state.leadsFilter.searchQuery
+  );
+  const filterChangeCountryState = useSelector(
+    (state) => state.leadsFilter.countriesName
   );
 
   const assignedLeads = useSelector(
@@ -91,35 +97,32 @@ const Cards = (props) => {
       allLeadData === undefined
     ) {
       dispatch(getSingleLeadDetail(leadsData[0]));
-      setSlectedLeadId(leadsData[0] && leadsData[0].id);
+      setSlectedLeadId(leadsData[0] && leadsData[0].id ? leadsData[0].id : "");
     }
   }, [leadsData, allLeadData]);
 
   useEffect(() => {
     dispatch(getSingleLeadDetail(leadsData[0]));
-    setSlectedLeadId(leadsData[0] && leadsData[0].id);
-  }, [filterChangeState]);
+    setSlectedLeadId(leadsData[0] && leadsData[0].id ? leadsData[0].id : "");
+  }, [
+    filterChangeState,
+    filterChangeOwnerState,
+    filterChangeCountryState,
+    filterChangeSearchState,
+  ]);
 
   useEffect(() => {
-    dispatch(getAllLeadsAction());
-    if (approveRejectResponse && approveRejectResponse.status) {
-      let data = allLeadData;
-      data.status = approveRejectResponse.status;
-      setdisplayLeadData(data);
-    }
-    if (
-      approveRejectResponse &&
-      approveRejectResponse.status &&
-      approveRejectResponse.leadsId
-    ) {
+    console.log({ approveRejectResponse });
+    if (approveRejectResponse && approveRejectResponse.leadsId) {
       approveRejectResponse.leadsId.forEach((ele) => {
         if (displayLeadData.id === ele) {
           let data = allLeadData;
           data.status = approveRejectResponse.status;
           setdisplayLeadData(data);
+          allLeadData.status = approveRejectResponse.status;
         }
         leadsData &&
-          leadsData.forEach((lead) => {
+          leadsData.forEach((lead, idx) => {
             if (lead.id === ele) {
               lead.status = approveRejectResponse.status;
             }
@@ -129,7 +132,7 @@ const Cards = (props) => {
   }, [approveRejectResponse]);
 
   useEffect(() => {
-    if (NotesResponse && NotesResponse.leadsId && NotesResponse.notes) {
+    if (NotesResponse && NotesResponse.leadsId) {
       NotesResponse.leadsId.map((ele) => {
         leadsData &&
           leadsData.forEach((lead) => {
@@ -148,12 +151,12 @@ const Cards = (props) => {
   useEffect(() => {
     dispatch(cardsDisplayAction(leadsData));
   }, [leadsData.length]);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const handleUpdateStatus = (status) => {
     setOpen(true);
@@ -174,25 +177,24 @@ const Cards = (props) => {
     dispatch(assignLeadToUsersAction([selectedLeadId], arr));
   };
 
-  // const assignUsers = () => {
-  //   if (selectedLeadId.length > 0 && selectedUsers.length > 0) {
-  //     let arr = [];
-  //     selectedUsers &&
-  //       selectedUsers.forEach((e) => {
-  //         arr.push(e.userId);
-  //       });
-  //     dispatch(assignLeadToUsersAction([selectedLeadId], arr));
-  //     // setSelectedUsers([]);
-  //   }
-  // };
-
-  const addNotesFunction = () => {
+  const addNotesFunction = (e) => {
+    console.log(e.target);
     if (openText && value.length > 0) {
+      const ParamObj = {
+        userName: window.localStorage.getItem("userName")
+          ? window.localStorage.getItem("userName")
+          : "",
+        note: value,
+        createdAt: `${new Date().getDate()} ${new Date().toLocaleString(
+          "default",
+          { month: "long" }
+        )}, ${new Date().getFullYear()}`,
+      };
       if (selectedArray.length > 0) {
-        dispatch(addNotestoLeadAction(selectedArray, value));
+        dispatch(addNotestoLeadAction(selectedArray, ParamObj));
         setselectedArray([]);
       } else {
-        dispatch(addNotestoLeadAction([selectedLeadId], value));
+        dispatch(addNotestoLeadAction([selectedLeadId], ParamObj));
       }
       setValue("");
     }
@@ -288,124 +290,139 @@ const Cards = (props) => {
             />
           </Box>
           <Box component={"div"} className="section leads-details">
-            <LeadDescription leadsList={leadsData} />
+            <LeadDescription displayLeadData={displayLeadData} />
           </Box>
           <Box component={"div"} className="section leads-actions">
-            <Box>
-              <Box component={"div"} className="action-title">
-                Move To:
-              </Box>
-              <Box
-                component={"div"}
-                className={`action-buttons ${
-                  selectedArray.length > 0 ? "disabled" : ""
-                }`}
-              >
-                <IButton
-                  type={"green"}
-                  name={"Approve"}
-                  children="Approve"
-                  onclick={() => handleUpdateStatus(1)}
-                  disabled={
-                    displayLeadData &&
-                    displayLeadData.status &&
-                    displayLeadData.status === 1
-                      ? true
-                      : false
-                  }
-                />
-
-                <IButton
-                  type={"yellow"}
-                  name={"Archive"}
-                  children="Archive"
-                  onclick={() => handleUpdateStatus(2)}
-                  disabled={
-                    displayLeadData &&
-                    displayLeadData.status &&
-                    displayLeadData.status === 2
-                      ? true
-                      : false
-                  }
-                />
-                <IButton
-                  type={"grey"}
-                  name={"Under Review"}
-                  children="Under Review"
-                  disabled={
-                    Number(
-                      displayLeadData &&
-                        displayLeadData.status &&
-                        displayLeadData.status
-                    ) === Number(0)
-                      ? true
-                      : false
-                  }
-                  onclick={() => handleUpdateStatus(0)}
-                />
-                <Tooltip
-                  title={
-                    displayLeadData && displayLeadData.reason
-                      ? displayLeadData.reason
-                      : "Reject"
-                  }
-                >
-                  <div>
+            {displayLeadData ||
+            (selectedLeadId !== undefined && selectedLeadId.length > 0) ? (
+              <>
+                {" "}
+                <Box>
+                  <Box component={"div"} className="action-title">
+                    Move To:
+                  </Box>
+                  <Box
+                    component={"div"}
+                    className={`action-buttons ${
+                      selectedArray.length > 0 ? "disabled" : ""
+                    }`}
+                  >
                     <IButton
-                      type={"pink"}
-                      name={"Reject"}
-                      children="Reject"
+                      type={"green"}
+                      name={"Approve"}
+                      children="Approve"
+                      onclick={() => handleUpdateStatus(1)}
                       disabled={
                         displayLeadData &&
                         displayLeadData.status &&
-                        displayLeadData.status === -1
+                        displayLeadData.status === 1
                           ? true
                           : false
                       }
-                      onclick={() => handleUpdateStatus(-1)}
                     />
-                  </div>
-                </Tooltip>
-              </Box>
-            </Box>
-            <Box className="autocomplete-container">
-              <Box className="autocomplete-title">Assign To</Box>
-              <IAutocomplete
-                options={allUsers}
-                onChangeOption={onChangeOption}
-                // assignUsers={assignUsers}
-                selectedUsers={selectedUsers}
-                width={145}
-              />
-            </Box>
-            <IButton
+
+                    <IButton
+                      type={"yellow"}
+                      name={"Archive"}
+                      children="Archive"
+                      onclick={() => handleUpdateStatus(2)}
+                      disabled={
+                        displayLeadData &&
+                        displayLeadData.status &&
+                        displayLeadData.status === 2
+                          ? true
+                          : false
+                      }
+                    />
+                    <IButton
+                      type={"grey"}
+                      name={"Under Review"}
+                      children="Under Review"
+                      disabled={
+                        displayLeadData && displayLeadData.status === 0
+                          ? true
+                          : false
+                      }
+                      onclick={() => handleUpdateStatus(0)}
+                    />
+                    <Tooltip
+                      title={
+                        displayLeadData && displayLeadData.reason
+                          ? displayLeadData.reason
+                          : "Reject"
+                      }
+                    >
+                      <div>
+                        <IButton
+                          type={"pink"}
+                          name={"Reject"}
+                          children="Reject"
+                          disabled={
+                            displayLeadData &&
+                            displayLeadData.status &&
+                            displayLeadData.status === -1
+                              ? true
+                              : false
+                          }
+                          onclick={() => handleUpdateStatus(-1)}
+                        />
+                      </div>
+                    </Tooltip>
+                  </Box>
+                </Box>
+                <Box
+                  className={`autocomplete-container ${
+                    selectedArray.length > 0 ? "disabled" : ""
+                  }`}
+                >
+                  <Box className="autocomplete-title">Assign To</Box>
+
+                  <IAutocomplete
+                    options={allUsers}
+                    onChangeOption={onChangeOption}
+                    // assignUsers={assignUsers}
+                    selectedUsers={selectedUsers}
+                    width={145}
+                  />
+                </Box>
+                {/* <IButton
               type={"blue"}
               name={"blue"}
               children={"Show Notes"}
               customClass={"show-nts-btn"}
               onclick={() => setShowNotesState(true)}
-            />
-            <Box className="add-notes-container">
-              {openText ? (
-                <Textarea
-                  openText={openText}
-                  value={value}
-                  setValue={setValue}
-                />
-              ) : null}
-              <IButton
-                type={"blue"}
-                name={"blue"}
-                children={
-                  <>
-                    <AddIcon fontSize="small" />
-                    {"Add Notes"}
-                  </>
-                }
-                customClass={"add-nts-btn"}
-                onclick={addNotesFunction}
-              />
-            </Box>
+            /> */}
+                <Box className="add-notes-container">
+                  {openText ? (
+                    <Textarea
+                      openText={openText}
+                      value={value}
+                      setValue={setValue}
+                    />
+                  ) : null}
+                  <IButton
+                    type={"blue"}
+                    name={"blue"}
+                    children={
+                      <>
+                        <span onClick={addNotesFunction}>{`Notes`}</span>
+                        <span onClick={() => setShowNotesState(true)}>
+                          {`\u00A0(${
+                            displayLeadData &&
+                            displayLeadData.notes &&
+                            displayLeadData.notes.length > 0
+                              ? displayLeadData.notes.length
+                              : 0
+                          })`}
+                        </span>
+                      </>
+                    }
+                    customClass={"add-nts-btn"}
+                    // onclick={addNotesFunction}
+                  />
+                </Box>
+              </>
+            ) : null}
           </Box>
         </Box>
       </Box>

@@ -36,10 +36,10 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-
+  boxShadow: "0px 6px 10px #DBEAF3",
   height: "100%",
   postion: "fixed",
-  marginTop: "64px",
+  marginTop: "60px",
 });
 
 const closedMixin = (theme) => ({
@@ -51,8 +51,8 @@ const closedMixin = (theme) => ({
   border: "none",
   height: "100%",
   postion: "fixed",
-  marginTop: "64px",
-  boxshadow: "0 1px 3px 0 rgb(0 0 0 / 15%)",
+  marginTop: "60px",
+  boxShadow: "0px 6px 10px #DBEAF3",
   width: `calc(${theme.spacing(6.8)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(6.8)} + 1px)`,
@@ -66,6 +66,7 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
+  zIndex: 3,
 
   ...(open && {
     ...openedMixin(theme),

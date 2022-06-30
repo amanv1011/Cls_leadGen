@@ -1,8 +1,15 @@
 import React from "react";
-import { Dialog, DialogActions, DialogContent } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 import "./IModal.scss";
 import IButton from "../../button";
 import IAutocomplete from "../../autocomplete/autocomplete";
+import closeIcon from "../../../../assets/icons/closeIcon.png";
 
 export default function IModal(
   {
@@ -25,16 +32,41 @@ export default function IModal(
       sx={{ backdropFilter: "blur(3px)" }}
       PaperProps={{
         style: {
-          borderRadius: 10,
-          padding: "10px",
+          borderRadius: 15,
           width: "auto",
           height: "fit-content",
           minHeight: "50%",
-          minWidth: "30%",
+          minWidth: "35%",
+          overflow: "hidden",
         },
       }}
       className="dialoge"
     >
+      <DialogTitle
+        style={{
+          display: "flex",
+          padding: "12px 20px",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "60px",
+          background: "#FAFAFA",
+          boxShadow: "inset 0px -1px 3px rgba(0, 0, 0, 0.05)",
+          borderRadius: "15px 15px 0px 0px",
+        }}
+      >
+        <div
+          style={{
+            fontWeight: 700,
+            fontSize: "22px",
+            color: "rgba(31, 65, 115, 1)",
+          }}
+        >
+          Assign
+        </div>
+        <IconButton aria-label="close" onClick={closeModal}>
+          <img src={closeIcon} alt="close" />
+        </IconButton>
+      </DialogTitle>
       <DialogContent className={"dialoge-content"} style={{ padding: "10px" }}>
         <div
           className={"model_body"}
@@ -80,20 +112,7 @@ export default function IModal(
           alignItems: "center",
           padding: "10px",
         }}
-      >
-        <IButton
-          type="cancel"
-          name="cancel"
-          children={"Cancel"}
-          onclick={closeModal}
-        />
-        {/* <IButton
-          type="apply"
-          name="apply"
-          children={"Apply"}
-          onclick={handleApply}
-        /> */}
-      </DialogActions>
+      ></DialogActions>
     </Dialog>
   );
 }

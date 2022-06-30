@@ -9,10 +9,12 @@ const LeadsSearch = () => {
 
   const [SearchInput, setSearchInput] = useState("");
 
-  const handleSearch = (event) => {
-    setSearchInput(event.target.value);
-    if (event.target.value.length > 1) {
+  const handleSearch = async (event) => {
+    await setSearchInput(event.target.value);
+    if (event.target.value.length > 2) {
       dispatch(leadsFilterSearch(event.target.value));
+    } else if (event.target.value.length === 0) {
+      dispatch(leadsFilterSearch(""));
     }
   };
 
