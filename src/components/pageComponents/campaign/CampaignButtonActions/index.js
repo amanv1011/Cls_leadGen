@@ -10,12 +10,34 @@ import AlertBeforeAction from "../../../themeComponents/campTable/AlertBeforeAct
 import moment from "moment";
 import "./campaignButtonActions.scss";
 
-const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
+const CampaignButtonActions = ({
+  campaignDoc,
+  campgaignId,
+  leadsList,
+  selectedArray,
+  searchedCampaignList,
+}) => {
   const dispatch = useDispatch();
   const [openAlert, setOpenAlert] = useState(false);
   const [campaignName, setCampaignName] = useState("");
   const [idForDelete, setIdForDelete] = useState("");
 
+  const current_date = moment().format("YYYY-MM-DD");
+  const difference_startDate_endDate = moment(current_date).diff(
+    campaignDoc?.start_date &&
+      moment
+        .unix(
+          campaignDoc.start_date.seconds,
+          campaignDoc.start_date.nanoseconds
+        )
+        .format("MM/DD/YYYY"),
+    "days"
+  );
+
+  console.log(
+    "campaignDoc in CampaignButtonActions",
+    difference_startDate_endDate
+  );
   const getNumOfLeads = (id) => {
     const val =
       leadsList &&
@@ -77,19 +99,21 @@ const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
       <form id="campaignUpdate-form">
         <div className="campaignButton-actions-edit">
           <button
-            className="campaign-btn save-btn"
+            className="campaign-save-cancel-btn save-btn"
             form="campaignUpdate-form"
             type="submit"
           >
-            <Cancel /> <span className="campaign-btn-text">Save</span>
+            {/* <Cancel />  */}
+            <span className="campaign-btn-text">Save</span>
           </button>
           <button
-            className="campaign-btn cancel-btn"
+            className="campaign-save-cancel-btn cancel-btn"
             onClick={() => {
               dispatch(campaignActions.campaignIDAction(""));
             }}
           >
-            <Cancel /> <span className="campaign-btn-text">Cancel</span>
+            {/* <Cancel /> */}
+            <span className="campaign-btn-text">Cancel</span>
           </button>
         </div>
       </form>
@@ -103,20 +127,43 @@ const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
             onClick={() => {
               dispatch(campaignActions.campaignIDAction(campaignDoc.id));
             }}
+            disabled={
+              selectedArray.length !== 0
+                ? // || difference_startDate_endDate > 0
+                  true
+                : false
+            }
+            style={
+              selectedArray.length !== 0
+                ? // || difference_startDate_endDate > 0
+                  {
+                    pointerEvents: "auto",
+                    cursor: "not-allowed",
+                  }
+                : {}
+            }
           >
             <Edit /> <span className="campaign-btn-text">Edit</span>
           </button>
 
           <button
             className="campaign-btn delete-btn"
-            disabled={getNumOfLeads(campaignDoc.id) ? true : false}
+            disabled={
+              selectedArray.length !== 0
+                ? true
+                : getNumOfLeads(campaignDoc.id)
+                ? true
+                : false
+            }
             style={
-              getNumOfLeads(campaignDoc.id) === 0
-                ? {}
-                : {
+              selectedArray.length !== 0
+                ? {
                     pointerEvents: "auto",
                     cursor: "not-allowed",
                   }
+                : getNumOfLeads(campaignDoc.id)
+                ? { pointerEvents: "auto", cursor: "not-allowed" }
+                : {}
             }
             onClick={() => {
               setOpenAlert(true);
@@ -128,20 +175,30 @@ const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
           </button>
           <button
             className="campaign-btn download-btn"
-            disabled={getNumOfLeads(campaignDoc.id) ? false : true}
+            disabled={
+              selectedArray.length !== 0
+                ? true
+                : getNumOfLeads(campaignDoc.id)
+                ? false
+                : true
+            }
             style={
-              getNumOfLeads(campaignDoc.id) === 0
+              selectedArray.length !== 0
                 ? {
                     pointerEvents: "auto",
                     cursor: "not-allowed",
                   }
-                : {}
+                : getNumOfLeads(campaignDoc.id)
+                ? {}
+                : { pointerEvents: "auto", cursor: "not-allowed" }
             }
             onClick={() => forDownloading(campaignDoc.id, campaignDoc.name)}
           >
             <Download /> <span className="campaign-btn-text">Download</span>
           </button>
         </div>
+        {/* <div>Updated by:</div>
+        <div>Updated at</div> */}
         <AlertBeforeAction
           open={openAlert}
           setOpenAlert={setOpenAlert}
@@ -149,6 +206,7 @@ const CampaignButtonActions = ({ campaignDoc, campgaignId, leadsList }) => {
           setIdForDelete={setIdForDelete}
           campaignName={campaignName}
           setCampaignName={setCampaignName}
+          searchedCampaignList={searchedCampaignList}
         />
       </React.Fragment>
     );

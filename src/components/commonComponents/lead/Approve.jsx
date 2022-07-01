@@ -126,10 +126,6 @@ const Approve = () => {
     }
   });
 
-  useEffect(() => {
-    dispatch(setActivePage(1));
-  }, [searchQuery, ownerNameFilter, searchDate, campaignNameFilter]);
-
   return (
     <>
       <Cards leadData={filterApprov} />

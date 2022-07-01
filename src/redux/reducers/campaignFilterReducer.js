@@ -23,6 +23,7 @@ export const campaignFilterReducer = (
         ...state,
         country: "Country",
         owner: "Owner",
+        campaignState: "AllCampaigns",
       };
 
     default:

@@ -5,9 +5,8 @@ import * as paginationActions from "../../../../redux/actions/paginationActions"
 import search from "../../../../assets/icons/search.svg";
 import "./campaignSearch.scss";
 
-const CampaignSearch = ({ campaignsList, searchValue }) => {
+const CampaignSearch = ({ campaignsList, searchValue, campgaignId }) => {
   const dispatch = useDispatch();
-
   useEffect(() => {
     searchingTable(searchValue);
     dispatch(paginationActions.setActivePage(1));
@@ -40,6 +39,7 @@ const CampaignSearch = ({ campaignsList, searchValue }) => {
         <input
           placeholder="Search"
           autoComplete="off"
+          disabled={campgaignId ? true : false}
           onChange={(event) => {
             dispatch(
               campaignActions.searchInputValueAction(event.target.value)

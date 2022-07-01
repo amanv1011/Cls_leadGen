@@ -15,7 +15,7 @@ const style = {
   paddingRight: "8px",
 };
 
-const CampaignMenu = () => {
+const CampaignMenu = ({ campgaignId }) => {
   const dispatch = useDispatch();
 
   const campaignsAllCount = useSelector(
@@ -44,6 +44,7 @@ const CampaignMenu = () => {
       className="select-container"
       variant="standard"
       disableUnderline
+      disabled={campgaignId ? true : false}
       IconComponent={(props) => (
         <KeyboardArrowDownIcon
           {...props}

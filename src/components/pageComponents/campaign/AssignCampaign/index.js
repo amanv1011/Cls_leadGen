@@ -163,6 +163,7 @@ const AssignCampaign = ({
   onAutoPopperClose,
   selectedUsers,
   width,
+  selectedArray,
 }) => {
   return (
     <div
@@ -183,7 +184,7 @@ const AssignCampaign = ({
         disablePortal={true}
         multiple
         limitTags={1}
-        disabled={disabled}
+        disabled={selectedArray.length !== 0 ? true : false}
         fullWidth={true}
         size="small"
         disableCloseOnSelect

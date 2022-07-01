@@ -40,7 +40,15 @@ const Campaign = () => {
   const assignedCampaigns = useSelector(
     (state) => state.allCampaigns.assignedCampaigns
   );
+  const campaignViewStatus = useSelector(
+    (state) => state.allCampaigns.campaignViewStatus
+  );
+  const lastCrawledDateList = useSelector(
+    (state) => state.lastCrawledDateList.lastCrawledDateList
+  );
+
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedArray, setselectedArray] = useState([]);
 
   useEffect(() => {
     setSelectedUsers([]);
@@ -79,6 +87,7 @@ const Campaign = () => {
           leadsList={leadsList}
           countryList={countryList}
           allUsers={allUsers}
+          campgaignId={campgaignId}
         />
       </Box>
       <Divider
@@ -102,10 +111,12 @@ const Campaign = () => {
               countryFilterValue={countryFilterValue}
               searchedCampaignList={searchedCampaignList}
               ownerFilterValue={ownerFilterValue}
+              campgaignId={campgaignId}
             />
           </div>
           <CampaignDisplay
             campaignDoc={campaignDoc}
+            campaignsList={campaignsList}
             searchValue={searchValue}
             searchedCampaignList={searchedCampaignList}
             campaignLoader={campaignLoader}
@@ -115,6 +126,11 @@ const Campaign = () => {
             campaignStateFilterValue={campaignStateFilterValue}
             selectedUsersForFilter={selectedUsers}
             options={allUsers}
+            assignedCampaigns={assignedCampaigns}
+            campaignViewStatus={campaignViewStatus}
+            campgaignId={campgaignId}
+            selectedArray={selectedArray}
+            setselectedArray={setselectedArray}
           />
         </Box>
         <Box component={"div"} className="section campaign-details">
@@ -127,6 +143,8 @@ const Campaign = () => {
             allUsers={allUsers}
             onChangeOption={onChangeOption}
             selectedUsers={selectedUsers}
+            lastCrawledDateList={lastCrawledDateList}
+            selectedArray={selectedArray}
           />
         </Box>
       </Box>
