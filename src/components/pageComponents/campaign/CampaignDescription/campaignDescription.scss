@@ -96,7 +96,7 @@
             align-items: center;
             justify-content: space-between;
             .header-key {
-              width: 35%;
+              width: 46%;
               font-style: normal;
               font-weight: 600;
               font-size: 13px;
@@ -105,7 +105,7 @@
               opacity: 0.6;
             }
             .header-value {
-              width: 65%;
+              width: 54%;
               font-style: normal;
               font-weight: 600;
               font-size: 13px;
@@ -157,7 +157,7 @@
           align-items: center;
           justify-content: space-between;
           .header-key {
-            width: 20%;
+            width: 29%;
             font-style: normal;
             font-weight: 600;
             font-size: 13px;
@@ -166,7 +166,7 @@
             opacity: 0.6;
           }
           .header-value {
-            width: 80%;
+            width: 85%;
             font-style: normal;
             font-weight: 600;
             font-size: 13px;
@@ -216,7 +216,7 @@
           height: 44px;
           font-style: normal;
           font-weight: 600;
-          font-size: 15px;
+          font-size: 13px;
           line-height: 22px;
           letter-spacing: -0.02em;
           color: #1f4173;
@@ -236,7 +236,7 @@
           align-items: center;
           font-style: normal;
           font-weight: 600;
-          font-size: 12px;
+          font-size: 13px;
           line-height: 15px;
           color: rgba(31, 65, 115, 0.5);
           margin: 4px 0px;
@@ -284,7 +284,7 @@
             align-items: center;
             justify-content: space-between;
             .header-key {
-              width: 35%;
+              width: 45%;
               font-style: normal;
               font-weight: 600;
               font-size: 13px;
@@ -293,7 +293,7 @@
               opacity: 0.6;
             }
             .header-value {
-              width: 65%;
+              width: 55%;
               font-style: normal;
               font-weight: 600;
               font-size: 13px;
@@ -303,6 +303,7 @@
           }
         }
         .campaign-description-rigth-sec-edit {
+          margin-left: 25px;
           display: flex;
           flex-direction: column;
           justify-content: space-around;
@@ -313,7 +314,7 @@
             align-items: center;
             justify-content: space-between;
             .header-key {
-              width: 50%;
+              width: 40%;
               font-style: normal;
               font-weight: 600;
               font-size: 13px;
@@ -322,13 +323,13 @@
               opacity: 0.6;
             }
             .header-value {
-              width: 50%;
+              width: 49%;
               font-style: normal;
               font-weight: 600;
               font-size: 13px;
               line-height: 24px;
               color: #1f4173;
-              margin-left: 25px;
+              // margin-left: 25px;
             }
           }
         }
@@ -353,7 +354,7 @@
             opacity: 0.6;
           }
           .header-value {
-            width: 80%;
+            width: 78%;
             font-style: normal;
             font-weight: 600;
             font-size: 13px;
@@ -372,7 +373,7 @@
 
 .addCampaign-inputs {
   width: 160px;
-  height: 40px;
+  height: 30px;
   border: none;
   border-radius: 10px;
   background: #f4f5f8;
@@ -387,7 +388,7 @@
 }
 .addCampaign-selects {
   width: 160px;
-  height: 40px;
+  height: 30px;
   border: none;
   border-radius: 10px;
   background: #f4f5f8;
@@ -402,7 +403,7 @@
 }
 .addCampaign-timePicker {
   width: 120px;
-  height: 40px;
+  height: 30px;
   border: none;
   border-radius: 10px;
   background: #f4f5f8;
@@ -417,7 +418,7 @@
 }
 .addCampaign-datePicker {
   width: 160px;
-  height: 40px;
+  height: 30px;
   border: none;
   border-radius: 10px;
   background: #f4f5f8;

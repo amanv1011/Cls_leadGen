@@ -12,12 +12,12 @@ import CampaignPopup from "../../../themeComponents/popup/CampaignPopup";
 import ActivePopUp from "../../../themeComponents/popup/CampaignPopup/ActivePopUp";
 import DeActivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActivatePopUp";
 import CampaignMenu from "../CampaignMenu";
-import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import * as campaignCountActions from "../../../../redux/actions/campaignCountActions";
 import AssignPopUp from "../../../themeComponents/popup/CampaignPopup/AssignPopUp";
 import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
+  campgaignId,
   searchedCampaignList,
   campaignsList,
   campaignLoader,
@@ -30,10 +30,12 @@ const CampaignDisplay = ({
   options,
   assignedCampaigns,
   campaignViewStatus,
+  selectedArray,
+  setselectedArray,
 }) => {
   const dispatch = useDispatch();
   const [campaignsListData, setcampaignsListData] = useState([]);
-  const [selectedArray, setselectedArray] = useState([]);
+  // const [selectedArray, setselectedArray] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openCampaignPopup, setOpenCampaignPopup] = useState(false);
@@ -60,11 +62,12 @@ const CampaignDisplay = ({
   useEffect(() => {
     dispatch(campaignActions.getSearchedCampaignList(campaignsList));
     console.log("ownerNameFilterId", ownerNameFilterId);
+
     if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {
       setcampaignsListData(searchedCampaignList);
       // dispatch(campaignActions.getSearchedCampaignList(campaignsList));
       dispatch(
-        campaignCountActions.getAllCampaignsCountAction(searchedCampaignList)
+        campaignCountActions.getAllCampaignsCountAction(campaignsListData)
       );
 
       const activeCampaigns = searchedCampaignList.filter(
@@ -93,7 +96,9 @@ const CampaignDisplay = ({
       setcampaignsListData(filteredCampaigns);
       // dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
       dispatch(
-        campaignCountActions.getAllCampaignsCountAction(filteredCampaigns)
+        campaignCountActions.getAllCampaignsCountAction(
+          filteredCampaigns.length
+        )
       );
 
       const activeCampaigns = filteredCampaigns.filter(
@@ -122,7 +127,9 @@ const CampaignDisplay = ({
       setcampaignsListData(filteredCampaigns);
       // dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
       dispatch(
-        campaignCountActions.getAllCampaignsCountAction(filteredCampaigns)
+        campaignCountActions.getAllCampaignsCountAction(
+          filteredCampaigns.length
+        )
       );
 
       const activeCampaigns = filteredCampaigns.filter(
@@ -148,7 +155,9 @@ const CampaignDisplay = ({
       setcampaignsListData(filteredCampaigns);
       // dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
       dispatch(
-        campaignCountActions.getAllCampaignsCountAction(filteredCampaigns)
+        campaignCountActions.getAllCampaignsCountAction(
+          filteredCampaigns.length
+        )
       );
 
       const activeCampaigns = filteredCampaigns.filter(
@@ -174,7 +183,9 @@ const CampaignDisplay = ({
       setcampaignsListData(filteredCampaigns);
       // dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
       dispatch(
-        campaignCountActions.getAllCampaignsCountAction(filteredCampaigns)
+        campaignCountActions.getAllCampaignsCountAction(
+          filteredCampaigns.length
+        )
       );
 
       const activeCampaigns = filteredCampaigns.filter(
@@ -214,7 +225,9 @@ const CampaignDisplay = ({
       console.log("filtered owners campaign", filtered);
       setcampaignsListData(filtered);
       // dispatch(campaignActions.getSearchedCampaignList(filtered));
-      dispatch(campaignCountActions.getAllCampaignsCountAction(filtered));
+      dispatch(
+        campaignCountActions.getAllCampaignsCountAction(filtered.length)
+      );
 
       const activeCampaigns = filtered.filter(
         (campaign) => campaign?.status === 1
@@ -232,14 +245,15 @@ const CampaignDisplay = ({
         campaignCountActions.getInActiveCampaignsCountAction(inActiveCampaigns)
       );
     }
-  }, [countryFilterValue, ownerFilterValue]);
+  }, [countryFilterValue, ownerFilterValue, campaignStateFilterValue]);
 
   useEffect(() => {
+    console.log("Im happening only once");
     dispatch(
-      campaignCountActions.getAllCampaignsCountAction(campaignsListData)
+      campaignCountActions.getAllCampaignsCountAction(searchedCampaignList)
     );
 
-    const activeCampaigns = campaignsListData.filter(
+    const activeCampaigns = searchedCampaignList.filter(
       (campaign) => campaign?.status === 1
     );
 
@@ -247,7 +261,7 @@ const CampaignDisplay = ({
       campaignCountActions.getActiveCampaignsCountAction(activeCampaigns)
     );
 
-    const inActiveCampaigns = campaignsListData.filter(
+    const inActiveCampaigns = searchedCampaignList.filter(
       (campaign) => campaign?.status === 0
     );
 
@@ -257,13 +271,22 @@ const CampaignDisplay = ({
   });
 
   useEffect(() => {
-    if (campaignStateFilterValue === "AllCampaigns") {
+    console.log("I'm I happening????");
+    if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue === "Owner" &&
+      campaignStateFilterValue === "AllCampaigns"
+    ) {
       setcampaignsListData(searchedCampaignList);
       dispatch(
         campaignCountActions.getAllCampaignsCountAction(searchedCampaignList)
       );
     }
-    if (campaignStateFilterValue === "activeCampaigns") {
+    if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue === "Owner" &&
+      campaignStateFilterValue === "activeCampaigns"
+    ) {
       const filteredCampaigns = searchedCampaignList.filter(
         (campaign) => campaign?.status === 1
       );
@@ -272,7 +295,11 @@ const CampaignDisplay = ({
         campaignCountActions.getActiveCampaignsCountAction(filteredCampaigns)
       );
     }
-    if (campaignStateFilterValue === "inActiveCampaigns") {
+    if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue === "Owner" &&
+      campaignStateFilterValue === "inActiveCampaigns"
+    ) {
       const filteredCampaigns = searchedCampaignList.filter(
         (campaign) => campaign?.status === 0
       );
@@ -525,6 +552,15 @@ const CampaignDisplay = ({
                   }
                   onChange={handleAllCheck}
                   className="campaign-checkbox"
+                  disabled={campgaignId ? true : false}
+                  style={
+                    campgaignId
+                      ? {
+                          pointerEvents: "auto",
+                          cursor: "not-allowed",
+                        }
+                      : {}
+                  }
                 />
               </div>
               {selectedArray.length === 0 ? (
@@ -539,7 +575,7 @@ const CampaignDisplay = ({
                 </div>
               )}
             </div>
-            <CampaignMenu />
+            <CampaignMenu campgaignId={campgaignId} />
           </div>
 
           <div>
@@ -596,12 +632,21 @@ const CampaignDisplay = ({
         <div className="campaign-display-container">
           {campaignsListData.length !== 0 &&
             campaignsListData.map((campaign) => (
-              <div
+              <button
                 key={campaign.id}
                 onClick={(event) => {
                   Viewed(campaign.id);
                   campaignViewUpdate(campaign.id);
                 }}
+                disabled={campgaignId ? true : false}
+                style={
+                  campgaignId
+                    ? {
+                        pointerEvents: "auto",
+                        cursor: "not-allowed",
+                      }
+                    : {}
+                }
                 className={`campaign-display-subcontainers ${
                   campaignDoc.id === campaign.id ? "selected" : ""
                 } ${campaign?.campaignSeen === true ? "campaign-seen" : ""}`}
@@ -619,6 +664,15 @@ const CampaignDisplay = ({
                         : false
                     }
                     onChange={handleOnCheckboxChange}
+                    disabled={campgaignId ? true : false}
+                    style={
+                      campgaignId
+                        ? {
+                            pointerEvents: "auto",
+                            cursor: "not-allowed",
+                          }
+                        : {}
+                    }
                   />
                 </div>
                 <div
@@ -682,7 +736,10 @@ const CampaignDisplay = ({
                             campaign?.campaignSeen === true
                               ? "campaign-seen"
                               : ""
+                          } ${
+                            campaignDoc.id === campaign.id ? "selected" : ""
                           }`}
+                          // style={{ color: "white" }}
                         >
                           {getNumOfLeads(campaign.id)
                             ? `${getNumOfLeads(campaign.id)} leads`
@@ -712,7 +769,7 @@ const CampaignDisplay = ({
                     </span>
                   </div>
                 </div>
-              </div>
+              </button>
             ))}
         </div>
 

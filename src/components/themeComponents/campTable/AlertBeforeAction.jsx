@@ -7,6 +7,7 @@ import {
   DialogTitle,
   Slide,
 } from "@mui/material";
+import { openAlertAction } from "../../../redux/actions/alertActions";
 import DeleteIcon from "@mui/icons-material/Delete";
 import * as campaignActions from "../../../redux/actions/campaignActions";
 
@@ -21,12 +22,22 @@ const AlertBeforeAction = ({
   setIdForDelete,
   campaignName,
   setCampaignName,
+  searchedCampaignList,
 }) => {
   const dispatch = useDispatch();
 
-  const handleClickOpen = () => {
+  const Viewed = async (campaignListItemId) => {
+    try {
+      await dispatch(campaignActions.getACampaignAction(campaignListItemId));
+    } catch (error) {
+      dispatch(openAlertAction(`${error.message}`, true, "error"));
+    }
+  };
+
+  const handleClickOpen = async () => {
     setOpenAlert(false);
-    dispatch(campaignActions.deleteCampaignsAction(campaignItemId));
+    await dispatch(campaignActions.deleteCampaignsAction(campaignItemId));
+    Viewed(searchedCampaignList[1].id);
   };
 
   const handleClose = () => {
@@ -65,7 +76,8 @@ const AlertBeforeAction = ({
             startIcon={<DeleteIcon />}
             style={{
               borderRadius: "10px",
-              background: "rgb(138 31 27)",
+              background: "#ff6c5f",
+              opacity: 1,
               textTransform: "none",
             }}
             onClick={handleClickOpen}

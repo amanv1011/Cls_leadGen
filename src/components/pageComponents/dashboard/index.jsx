@@ -21,6 +21,7 @@ import {
   getAllLeadsAction,
   getLeadsFullDescriptionAction,
 } from "../../../redux/actions/leadActions";
+import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
 import { getCountryAction } from "../../../redux/actions/countryActions";
 
 const Dashboard = ({ children }) => {
@@ -67,6 +68,7 @@ const Dashboard = ({ children }) => {
     dispatch(getAllUsersAction());
     dispatch(getCountryAction());
     dispatch(getAssignedCampaignsAction());
+    dispatch(getlastCrawledDateAction());
   }, []);
 
   useEffect(() => {

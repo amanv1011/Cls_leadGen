@@ -42,6 +42,8 @@ const CampaignDescription = ({
   allUsers,
   selectedUsers,
   onChangeOption,
+  lastCrawledDateList,
+  selectedArray,
 }) => {
   const dispatch = useDispatch();
   const [campaignDocValue, setCampaignDocValue] = useState(campaignDoc);
@@ -101,10 +103,21 @@ const CampaignDescription = ({
     try {
       if (event.target.checked) {
         await get_a_feild_in_a_document(a__campgaignId, { status: 1 });
+        await dispatch(campaignActions.getACampaignAction(a__campgaignId));
+        await dispatch(
+          openAlertAction("Campaign activated Successfully", false, "success")
+        );
       } else {
         await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
+        await dispatch(campaignActions.getACampaignAction(a__campgaignId));
+        await dispatch(
+          openAlertAction(
+            "Campaign de-activated Successfully",
+            false,
+            "success"
+          )
+        );
       }
-      await dispatch(campaignActions.getACampaignAction(a__campgaignId));
     } catch (error) {
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
@@ -232,6 +245,18 @@ const CampaignDescription = ({
     );
     dispatch(campaignActions.campaignIDAction(""));
   };
+
+  // getting last crawled date
+  // const getLastCrawledDate = (campaignId) => {
+  //   const lastCrawledDate = lastCrawledDateList.filter(
+  //     (lastCrawledDateCampaignId) => {
+  //       return lastCrawledDateCampaignId.campaign_id === campaignId;
+  //     }
+  //   );
+  //   console.log("lastCrawledDate", lastCrawledDate);
+  // return descNow.length !== 0 ? descNow.map((wow) => wow.descData) : "";
+  // };
+
   if (searchedCampaignList.length === 0) {
     return <></>;
   } else {
@@ -256,7 +281,7 @@ const CampaignDescription = ({
                           style={{
                             fontStyle: "normal",
                             fontWeight: "600",
-                            fontSize: "14px",
+                            fontSize: "13px",
                             lineHeight: "17px",
                             color: "#1f4173",
                             opacity: "0.6",
@@ -283,7 +308,11 @@ const CampaignDescription = ({
                 </Box>
                 <Box component={"div"} className="right-section">
                   <Box component={"div"} className="subtitle">
-                    <span style={{ marginRight: "5px" }}>Tag:</span>
+                    <span
+                    // style={{ marginRight: "5px" }}
+                    >
+                      Tag:
+                    </span>
                     {campgaignId ? (
                       <input
                         type="text"
@@ -293,7 +322,7 @@ const CampaignDescription = ({
                         onChange={tagInputChange}
                         autoComplete="off"
                         required
-                        style={{ marginLeft: "92px", width: "auto" }}
+                        style={{ marginLeft: "90px", width: "auto" }}
                       />
                     ) : (
                       campaignDocValue.tags && campaignDocValue.tags.toString()
@@ -399,7 +428,7 @@ const CampaignDescription = ({
                             onChange={onInputChangeHandler}
                             autoComplete="off"
                             required
-                            // min={todaysDate}
+                            min={todaysDate}
                             pattern="(?:((?:0[1-9]|1[0-9]|2[0-9])\/(?:0[1-9]|1[0-2])|(?:30)\/(?!02)(?:0[1-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/(?:19|20)[0-9]{2})"
                           />
                         ) : (
@@ -414,6 +443,98 @@ const CampaignDescription = ({
                       </span>
                     </div>
                     <div className="header-item">
+                      <span className="header-key">Parsing Start Time</span>
+                      <span className="header-value">
+                        {campgaignId ? (
+                          <input
+                            type="time"
+                            className="addCampaign-timePicker"
+                            name="start_time"
+                            value={start_time}
+                            disabled={start_date ? false : true}
+                            style={
+                              start_date
+                                ? {}
+                                : {
+                                    pointerEvents: "auto",
+                                    cursor: "not-allowed",
+                                  }
+                            }
+                            onChange={onInputChangeHandler}
+                            autoComplete="off"
+                            min={minStartTime}
+                            max={maxStartTime}
+                            required
+                          />
+                        ) : (
+                          campaignDocValue &&
+                          moment(campaignDocValue.start_time, ["HH:mm"]).format(
+                            "hh:mm A"
+                          )
+                        )}
+                      </span>
+                    </div>
+                    <div className="header-item">
+                      <span className="header-key">Location</span>
+                      <span className="header-value">
+                        {campgaignId ? (
+                          <input
+                            type="text"
+                            className="addCampaign-inputs"
+                            name="location"
+                            value={location}
+                            onChange={onInputChangeHandler}
+                            autoComplete="off"
+                            // style={{ width: "max-content" }}
+                            required
+                          />
+                        ) : (
+                          campaignDocValue && campaignDocValue.location
+                        )}
+                      </span>
+                    </div>
+                    <div className="header-item">
+                      <span className="header-key">Created By</span>
+                      <span
+                        className="header-value"
+                        style={{ marginLeft: "26px" }}
+                      >
+                        {campaignDocValue && campaignDocValue.owner
+                          ? campaignDocValue && campaignDocValue.owner
+                          : "NA"}
+                      </span>
+                    </div>
+                  </Box>
+                  <Box
+                    className={
+                      campgaignId
+                        ? "campaign-description-rigth-sec-edit"
+                        : "campaign-description-rigth-sec"
+                    }
+                  >
+                    <div className="header-item">
+                      <span className="header-key">Frequency</span>
+                      <span className="header-value">
+                        {campgaignId ? (
+                          <input
+                            type="number"
+                            className="addCampaign-inputs"
+                            style={{ width: "120px" }}
+                            name="frequency"
+                            value={frequency}
+                            onChange={onInputChangeHandler}
+                            autoComplete="off"
+                            required
+                            min={1}
+                            max={15}
+                          />
+                        ) : (
+                          campaignDocValue && campaignDocValue.frequency
+                        )}
+                      </span>
+                    </div>
+
+                    <div className="header-item">
                       <span className="header-key">End Date</span>
                       <span className="header-value">
                         {campgaignId ? (
@@ -426,7 +547,7 @@ const CampaignDescription = ({
                               onChange={onInputChangeHandler}
                               autoComplete="off"
                               required
-                              // min={start_date}
+                              min={start_date}
                             />
 
                             <div
@@ -449,26 +570,8 @@ const CampaignDescription = ({
                           </>
                         ) : (
                           <React.Fragment>
-                            {campaignDocValue?.end_date &&
-                              moment
-                                .unix(
-                                  campaignDocValue.end_date.seconds,
-                                  campaignDocValue.end_date.nanoseconds
-                                )
-                                .format("MM/DD/YYYY")}
-                            <div>
-                              <input
-                                type="checkbox"
-                                name="onGoing"
-                                checked={
-                                  campaignDocValue && campaignDocValue.onGoing
-                                    ? true
-                                    : false
-                                }
-                                disabled={true}
-                                readOnly
-                              />
-
+                            {campaignDocValue &&
+                            campaignDocValue.onGoing === true ? (
                               <label
                                 className="addCampaign-labels"
                                 style={{
@@ -479,14 +582,45 @@ const CampaignDescription = ({
                                   fontSize: "13px",
                                   lineHeight: "16px",
                                   color: "#1F4173",
-                                  opacity: "0.3",
                                   marginLeft: "7px",
                                 }}
                               >
                                 On going
                               </label>
-                            </div>
+                            ) : (
+                              campaignDocValue?.end_date &&
+                              moment
+                                .unix(
+                                  campaignDocValue.end_date.seconds,
+                                  campaignDocValue.end_date.nanoseconds
+                                )
+                                .format("MM/DD/YYYY")
+                            )}
+                            <div></div>
                           </React.Fragment>
+                        )}
+                      </span>
+                    </div>
+
+                    <div className="header-item">
+                      <span className="header-key">Parsing End Time</span>
+                      <span className="header-value">
+                        {campgaignId ? (
+                          <input
+                            type="time"
+                            className="addCampaign-timePicker"
+                            name="end_time"
+                            value={end_time}
+                            onChange={onInputChangeHandler}
+                            min={minTimeDiff}
+                            autoComplete="off"
+                            required
+                          />
+                        ) : (
+                          campaignDocValue &&
+                          moment(campaignDocValue.end_time, ["HH:mm"]).format(
+                            "hh:mm A"
+                          )
                         )}
                       </span>
                     </div>
@@ -523,123 +657,15 @@ const CampaignDescription = ({
                     </div>
 
                     <div className="header-item">
-                      <span className="header-key">Location</span>
-                      <span className="header-value">
-                        {campgaignId ? (
-                          <input
-                            type="text"
-                            className="addCampaign-inputs"
-                            name="location"
-                            value={location}
-                            onChange={onInputChangeHandler}
-                            autoComplete="off"
-                            // style={{ width: "max-content" }}
-                            required
-                          />
-                        ) : (
-                          campaignDocValue && campaignDocValue.location
-                        )}
-                      </span>
-                    </div>
-                  </Box>
-                  <Box
-                    className={
-                      campgaignId
-                        ? "campaign-description-rigth-sec-edit"
-                        : "campaign-description-rigth-sec"
-                    }
-                  >
-                    <div className="header-item">
-                      <span className="header-key">Frequency</span>
-                      <span className="header-value">
-                        {campgaignId ? (
-                          <input
-                            type="number"
-                            className="addCampaign-inputs"
-                            style={{ width: "120px" }}
-                            name="frequency"
-                            value={frequency}
-                            onChange={onInputChangeHandler}
-                            autoComplete="off"
-                            required
-                            min={1}
-                            max={15}
-                          />
-                        ) : (
-                          campaignDocValue && campaignDocValue.frequency
-                        )}
-                      </span>
-                    </div>
-                    <div className="header-item">
-                      <span className="header-key">Parsing Start Time</span>
-                      <span className="header-value">
-                        {campgaignId ? (
-                          <input
-                            type="time"
-                            className="addCampaign-timePicker"
-                            name="start_time"
-                            value={start_time}
-                            // disabled={start_date ? false : true}
-                            // style={
-                            //   start_date
-                            //     ? {}
-                            //     : {
-                            //         pointerEvents: "auto",
-                            //         cursor: "not-allowed",
-                            //       }
-                            // }
-                            onChange={onInputChangeHandler}
-                            autoComplete="off"
-                            // min={minStartTime}
-                            // max={maxStartTime}
-                            required
-                          />
-                        ) : (
-                          campaignDocValue &&
-                          moment(campaignDocValue.start_time, ["HH:mm"]).format(
-                            "hh:mm A"
-                          )
-                        )}
-                      </span>
-                    </div>
-                    <div className="header-item">
-                      <span className="header-key">Parsing End Time</span>
-                      <span className="header-value">
-                        {campgaignId ? (
-                          <input
-                            type="time"
-                            className="addCampaign-timePicker"
-                            name="end_time"
-                            value={end_time}
-                            onChange={onInputChangeHandler}
-                            // min={minTimeDiff}
-                            autoComplete="off"
-                            required
-                          />
-                        ) : (
-                          campaignDocValue &&
-                          moment(campaignDocValue.end_time, ["HH:mm"]).format(
-                            "hh:mm A"
-                          )
-                        )}
-                      </span>
-                    </div>
-                    <div className="header-item">
-                      <span className="header-key">Created By</span>
-                      <span
-                        className="header-value"
-                        style={{ marginLeft: "40px" }}
-                      >
-                        {campaignDocValue && campaignDocValue.owner}
-                      </span>
-                    </div>
-                    <div className="header-item">
                       <span className="header-key">Last Crawled Date</span>
                       <span
                         className="header-value"
                         style={{ marginLeft: "40px" }}
                       >
-                        {campaignDocValue && campaignDocValue?.last_crawled_date
+                        {/* {getLastCrawledDate(campaignDocValue.id)} */}
+
+                        {lastCrawledDateList?.campaignDocValue &&
+                        campaignDocValue?.last_crawled_date
                           ? moment
                               .unix(
                                 campaignDocValue.last_crawled_date.seconds,
@@ -671,10 +697,10 @@ const CampaignDescription = ({
                           value={queryURL}
                           onChange={onInputChangeHandler}
                           autoComplete="off"
-                          required
                           style={{ width: "100%" }}
                         />
-                      ) : campaignDocValue && campaignDocValue?.queryURL ? (
+                      ) : campaignDocValue &&
+                        campaignDocValue?.queryURL !== " " ? (
                         campaignDocValue.queryURL
                       ) : (
                         "NA"
@@ -707,6 +733,7 @@ const CampaignDescription = ({
                   options={allUsers}
                   onChangeOption={onChangeOption}
                   selectedUsers={selectedUsers}
+                  selectedArray={selectedArray}
                   width={145}
                 />
               </Box>
@@ -715,6 +742,8 @@ const CampaignDescription = ({
                   campaignDoc={campaignDoc}
                   campgaignId={campgaignId}
                   leadsList={leadsList}
+                  selectedArray={selectedArray}
+                  searchedCampaignList={searchedCampaignList}
                 />
               </Box>
             </Box>

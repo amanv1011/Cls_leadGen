@@ -84,16 +84,16 @@ export const updateCampaignData = async (campaignId, campaignUpdateObject) => {
   }
 };
 
-export const getLastCrawledDate = async (campaignId) => {
+export const getLastCrawledDate = async () => {
   try {
-    const crawledDataSnaphot = await firebaseMethods.getDocs(
+    const crawledDateSnaphot = await firebaseMethods.getDocs(
       crawledDataCollection
     );
-    const CompaignList = crawledDataSnaphot.docs.map((doc) => ({
+    const crawledDateList = crawledDateSnaphot.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
-    return CompaignList.filter((item) => item.campaign_id === campaignId);
+    return crawledDateList;
   } catch (err) {
     return err;
   }

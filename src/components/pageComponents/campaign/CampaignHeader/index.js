@@ -15,6 +15,7 @@ const CampaignHeader = ({
   searchedCampaignList,
   leadsList,
   countryList,
+  campgaignId,
   allUsers,
 }) => {
   const dispatch = useDispatch();
@@ -181,6 +182,15 @@ const CampaignHeader = ({
               id="basic-button"
               onClick={handleClickCountryMenu}
               className="select-button"
+              disabled={campgaignId ? true : false}
+              style={
+                campgaignId
+                  ? {
+                      pointerEvents: "auto",
+                      cursor: "not-allowed",
+                    }
+                  : {}
+              }
             >
               {countryFilter}
               <span style={{ paddingLeft: "45px", paddingBottom: "3px" }}>
@@ -221,15 +231,15 @@ const CampaignHeader = ({
                 uniqueCountries.map((country) => {
                   return (
                     <MenuItem
-                      key={country.id}
-                      data-id={country.id}
+                      key={country && country.id}
+                      data-id={country && country.id}
                       className="menu-item"
                       onClick={handleClosecountryMenu}
                       sx={{
                         fontSize: matches ? "13px" : "14px",
                       }}
                     >
-                      {country}
+                      {country && country}
                     </MenuItem>
                   );
                 })}
@@ -240,6 +250,15 @@ const CampaignHeader = ({
               id="basic-button"
               className="select-button"
               onClick={handleClickOwnerMenu}
+              disabled={campgaignId ? true : false}
+              style={
+                campgaignId
+                  ? {
+                      pointerEvents: "auto",
+                      cursor: "not-allowed",
+                    }
+                  : {}
+              }
             >
               {ownerFilter}
               <span style={{ paddingLeft: "70px", paddingBottom: "3px" }}>
@@ -302,6 +321,7 @@ const CampaignHeader = ({
             <div className="filter-icon">
               <Tooltip title="Clear Filter" placement="top-start">
                 <Button
+                  disabled={campgaignId ? true : false}
                   onClick={() => {
                     dispatch(
                       campaignActions.getSearchedCampaignList(campaignsList)
@@ -335,16 +355,20 @@ const CampaignHeader = ({
               onClick={exportCampaignToExcel}
               className="export-to-excel-button"
               disabled={
-                searchedCampaignList && searchedCampaignList.length === 0
+                campgaignId
+                  ? true
+                  : searchedCampaignList && searchedCampaignList.length === 0
                   ? true
                   : false
               }
               style={
-                searchedCampaignList && searchedCampaignList.length === 0
+                campgaignId
                   ? {
                       pointerEvents: "auto",
                       cursor: "not-allowed",
                     }
+                  : searchedCampaignList && searchedCampaignList.length === 0
+                  ? { pointerEvents: "auto", cursor: "not-allowed" }
                   : {}
               }
             >
