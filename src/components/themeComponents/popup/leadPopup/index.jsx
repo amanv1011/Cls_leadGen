@@ -4,7 +4,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
   IconButton,
 } from "@mui/material";
 import "./Ipopup.scss";
@@ -92,7 +91,7 @@ export default function IPopup(props) {
             style={{
               fontStyle: "normal",
               fontWeight: 400,
-              fontSize: "18px",
+              fontSize: "16px",
               lineHeight: "26px",
               color: "#1F4173",
               textAlign: "justify",
@@ -107,7 +106,7 @@ export default function IPopup(props) {
                   style={{
                     fontStyle: "normal",
                     fontWeight: 400,
-                    fontSize: "18px",
+                    fontSize: "16px",
                     lineHeight: "26px",
                     color: "#1F4173",
                     textAlign: "justify",

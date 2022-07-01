@@ -1,0 +1,25 @@
+.show {
+  border: none;
+  font-weight: 600;
+  height: 40px;
+  width: 80%;
+  color: rgb(30, 38, 51);
+  background: rgb(243, 242, 242);
+  padding-left: 10px;
+  border: 1px solid rgba(31, 65, 115, 0.2) !important;
+  border-radius: 10px;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 15px;
+  color: #1f4173;
+  opacity: 0.8;
+  border: none;
+  outline: none;
+  vertical-align: middle;
+  display: inline-block;
+  resize: none;
+  padding-top: 10px;
+  &:focus {
+    outline: none;
+  }
+}

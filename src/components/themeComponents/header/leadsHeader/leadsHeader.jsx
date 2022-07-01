@@ -146,11 +146,6 @@ const LeadsHeader = (props) => {
     setOwnerMenu(null);
   };
 
-  // const rangeFunc = (event) => {
-  //   console.log("Hello1");
-  //   // props.clearFilterTab();
-  // };
-
   const clearFilterTab = () => {
     dispatch(clearFilters());
     dispatch(datePickerState(0));
@@ -243,10 +238,10 @@ const LeadsHeader = (props) => {
                 style: {
                   width: "auto",
                   borderRadius: "10px",
+                  boxSizing: "border-box",
                   marginTop: "3px",
                   boxshadow: "none",
-                  // backgroundColor: "#E7E7E7",
-                  backgroundColor: "rgb(233,236,241)",
+                  background: "rgba(248, 248, 249, 1)",
                   color: "rgba(92, 117,154)",
                   zIndex: "1",
                   overflow: "auto",
@@ -259,10 +254,12 @@ const LeadsHeader = (props) => {
               onClose={handleCloseAllCampgainsMenu}
             >
               <MenuItem
+                disableRipple
                 key={"abc"}
                 className="menu-item"
                 onClick={handleCloseAllCampgainsMenu}
                 sx={{
+                  boxSizing: "border-box",
                   fontSize: "13px",
                   fontWeight: 600,
                 }}
@@ -274,9 +271,11 @@ const LeadsHeader = (props) => {
                   return (
                     <MenuItem
                       key={idx}
+                      disableRipple
                       className="menu-item"
                       onClick={handleCloseAllCampgainsMenu}
                       sx={{
+                        boxSizing: "border-box",
                         fontSize: "12px",
                         fontWeight: 600,
                       }}
@@ -317,7 +316,7 @@ const LeadsHeader = (props) => {
                 marginTop: "3px",
                 boxshadow: "none",
                 // backgroundColor: "#E7E7E7",
-                backgroundColor: "rgb(233,236,241)",
+                background: "rgba(248, 248, 249, 1)",
                 color: "rgba(92, 117,154)",
                 zIndex: "1",
                 overflow: "auto",
@@ -382,7 +381,7 @@ const LeadsHeader = (props) => {
                   marginTop: "3px",
                   boxshadow: "none",
                   // backgroundColor: "#E7E7E7",
-                  backgroundColor: "rgb(233,236,241)",
+                  background: "rgba(248, 248, 249, 1)",
                   color: "rgba(92, 117,154)",
                   zIndex: "1",
                   overflow: "auto",
