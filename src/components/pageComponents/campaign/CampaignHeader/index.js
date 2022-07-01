@@ -323,9 +323,6 @@ const CampaignHeader = ({
                 <Button
                   disabled={campgaignId ? true : false}
                   onClick={() => {
-                    dispatch(
-                      campaignActions.getSearchedCampaignList(campaignsList)
-                    );
                     dispatch(campaignFilterActions.campaignFilterClearAction());
                   }}
                   className="filter-btn"

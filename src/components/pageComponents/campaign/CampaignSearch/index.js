@@ -5,11 +5,18 @@ import * as paginationActions from "../../../../redux/actions/paginationActions"
 import search from "../../../../assets/icons/search.svg";
 import "./campaignSearch.scss";
 
-const CampaignSearch = ({ campaignsList, searchValue, campgaignId }) => {
+const CampaignSearch = ({
+  campaignsList,
+  searchValue,
+  campgaignId,
+  campaignsListData,
+  countryFilterValue,
+  ownerFilterValue,
+  campaignStateFilterValue,
+}) => {
   const dispatch = useDispatch();
   useEffect(() => {
     searchingTable(searchValue);
-    dispatch(paginationActions.setActivePage(1));
   }, [searchValue]);
 
   useEffect(() => {
@@ -21,6 +28,7 @@ const CampaignSearch = ({ campaignsList, searchValue, campgaignId }) => {
   const searchingTable = (searchTerm) => {
     const lowerCasedValue = searchTerm.toLowerCase().trim();
     let filteredData = [];
+
     if (lowerCasedValue === "") {
       dispatch(campaignActions.getSearchedCampaignList(campaignsList));
     } else {

@@ -2,7 +2,7 @@ import * as types from "../type";
 
 const initialState = {
   allCamapignsCount: [],
-  ativeCamapignsCount: [],
+  activeCamapignsCount: [],
   inActiveCamapignsCount: [],
 };
 
@@ -14,7 +14,7 @@ export const campaignCountReducer = (
     case types.GET_ALL_CAMPAIGNS_COUNT:
       return { ...state, allCamapignsCount: payload };
     case types.GET_ACTIVE_CAMPAIGNS_COUNT:
-      return { ...state, ativeCamapignsCount: payload };
+      return { ...state, activeCamapignsCount: payload };
     case types.GET_IN_ACTIVE_CAMPAIGNS_COUNT:
       return { ...state, inActiveCamapignsCount: payload };
     default:
