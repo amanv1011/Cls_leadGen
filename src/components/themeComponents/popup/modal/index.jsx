@@ -18,26 +18,28 @@ export default function IModal(
     options,
     onChangeOption,
     assignUsers,
-    selectedUsers,
+    selectedBatchAssignUsers,
+    setSelectedBatchAssignUsers,
   },
   props
 ) {
   const closeModal = () => {
     setOpenAssignModel(false);
+    setSelectedBatchAssignUsers([]);
   };
   return (
     <Dialog
       onClose={closeModal}
       open={open}
-      sx={{ backdropFilter: "blur(3px)" }}
+      sx={{ backdropFilter: "blur(1px)" }}
       PaperProps={{
         style: {
           borderRadius: 15,
           width: "auto",
-          height: "fit-content",
-          minHeight: "50%",
-          minWidth: "35%",
+          minHeight: "240px",
+          minWidth: "460px",
           overflow: "hidden",
+          height: "50vh",
         },
       }}
       className="dialoge"
@@ -95,7 +97,7 @@ export default function IModal(
                 options={options}
                 onChangeOption={onChangeOption}
                 assignUsers={assignUsers}
-                selectedUsers={selectedUsers}
+                selectedUsers={selectedBatchAssignUsers}
                 width={180}
               />
             }
