@@ -7,6 +7,7 @@ import CampaignSearch from "./CampaignSearch";
 import CampaignDisplay from "./CampaignDisplay";
 import CampaignDescription from "./CampaignDescription";
 import * as campaignActions from "../../../redux/actions/campaignActions";
+import * as campaignCountActions from "../../../redux/actions/campaignCountActions";
 import "./campaign.scss";
 
 const Campaign = () => {
@@ -46,6 +47,34 @@ const Campaign = () => {
   const lastCrawledDateList = useSelector(
     (state) => state.lastCrawledDateList.lastCrawledDateList
   );
+
+  const allCamapignsCount = useSelector(
+    (state) => state.campaignsCount.allCamapignsCount
+  );
+  const activeCamapignsCount = useSelector(
+    (state) => state.campaignsCount.activeCamapignsCount
+  );
+  const inActiveCamapignsCount = useSelector(
+    (state) => state.campaignsCount.inActiveCamapignsCount
+  );
+
+  useEffect(() => {
+    dispatch(campaignCountActions.getAllCampaignsCountAction(campaignsList));
+    const activeCampaigns = campaignsList.filter(
+      (campaign) => campaign?.status === 1
+    );
+    dispatch(
+      campaignCountActions.getActiveCampaignsCountAction(activeCampaigns)
+    );
+    const inActiveCampaigns = campaignsList.filter(
+      (campaign) => campaign?.status === 0
+    );
+    dispatch(
+      campaignCountActions.getInActiveCampaignsCountAction(inActiveCampaigns)
+    );
+  }, [campaignsList]);
+
+  const [campaignsListData, setcampaignsListData] = useState([]);
 
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedArray, setselectedArray] = useState([]);
@@ -107,14 +136,18 @@ const Campaign = () => {
           >
             <CampaignSearch
               campaignsList={campaignsList}
+              campaignsListData={campaignsListData}
               searchValue={searchValue}
               countryFilterValue={countryFilterValue}
               searchedCampaignList={searchedCampaignList}
               ownerFilterValue={ownerFilterValue}
+              campaignStateFilterValue={campaignStateFilterValue}
               campgaignId={campgaignId}
             />
           </div>
           <CampaignDisplay
+            campaignsListData={campaignsListData}
+            setcampaignsListData={setcampaignsListData}
             campaignDoc={campaignDoc}
             campaignsList={campaignsList}
             searchValue={searchValue}
@@ -131,11 +164,15 @@ const Campaign = () => {
             campgaignId={campgaignId}
             selectedArray={selectedArray}
             setselectedArray={setselectedArray}
+            allCamapignsCount={allCamapignsCount}
+            activeCamapignsCount={activeCamapignsCount}
+            inActiveCamapignsCount={inActiveCamapignsCount}
           />
         </Box>
         <Box component={"div"} className="section campaign-details">
           <CampaignDescription
             campaignDoc={campaignDoc}
+            campaignsListData={campaignsListData}
             searchedCampaignList={searchedCampaignList}
             campgaignId={campgaignId}
             leadsList={leadsList}

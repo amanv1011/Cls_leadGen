@@ -34,10 +34,6 @@ const CampaignButtonActions = ({
     "days"
   );
 
-  console.log(
-    "campaignDoc in CampaignButtonActions",
-    difference_startDate_endDate
-  );
   const getNumOfLeads = (id) => {
     const val =
       leadsList &&
@@ -103,7 +99,6 @@ const CampaignButtonActions = ({
             form="campaignUpdate-form"
             type="submit"
           >
-            {/* <Cancel />  */}
             <span className="campaign-btn-text">Save</span>
           </button>
           <button
@@ -112,7 +107,6 @@ const CampaignButtonActions = ({
               dispatch(campaignActions.campaignIDAction(""));
             }}
           >
-            {/* <Cancel /> */}
             <span className="campaign-btn-text">Cancel</span>
           </button>
         </div>
@@ -128,15 +122,13 @@ const CampaignButtonActions = ({
               dispatch(campaignActions.campaignIDAction(campaignDoc.id));
             }}
             disabled={
-              selectedArray.length !== 0
-                ? // || difference_startDate_endDate > 0
-                  true
+              selectedArray.length !== 0 || difference_startDate_endDate > 0
+                ? true
                 : false
             }
             style={
-              selectedArray.length !== 0
-                ? // || difference_startDate_endDate > 0
-                  {
+              selectedArray.length !== 0 || difference_startDate_endDate > 0
+                ? {
                     pointerEvents: "auto",
                     cursor: "not-allowed",
                   }

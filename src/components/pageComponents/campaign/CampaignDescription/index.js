@@ -44,6 +44,7 @@ const CampaignDescription = ({
   onChangeOption,
   lastCrawledDateList,
   selectedArray,
+  campaignsListData,
 }) => {
   const dispatch = useDispatch();
   const [campaignDocValue, setCampaignDocValue] = useState(campaignDoc);
@@ -103,13 +104,13 @@ const CampaignDescription = ({
     try {
       if (event.target.checked) {
         await get_a_feild_in_a_document(a__campgaignId, { status: 1 });
-        await dispatch(campaignActions.getACampaignAction(a__campgaignId));
+        await dispatch(campaignActions.getAllCampaignsAction());
         await dispatch(
           openAlertAction("Campaign activated Successfully", false, "success")
         );
       } else {
         await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
-        await dispatch(campaignActions.getACampaignAction(a__campgaignId));
+        await dispatch(campaignActions.getAllCampaignsAction());
         await dispatch(
           openAlertAction(
             "Campaign de-activated Successfully",
@@ -257,7 +258,7 @@ const CampaignDescription = ({
   // return descNow.length !== 0 ? descNow.map((wow) => wow.descData) : "";
   // };
 
-  if (searchedCampaignList.length === 0) {
+  if (searchedCampaignList.length === 0 || campaignsListData.length === 0) {
     return <></>;
   } else {
     return (
