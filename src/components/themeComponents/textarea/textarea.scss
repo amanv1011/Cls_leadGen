@@ -10,12 +10,15 @@
   border-radius: 10px;
   font-style: normal;
   font-size: 13px;
-  line-height: 30px;
+  line-height: 15px;
   color: #1f4173;
   opacity: 0.8;
   border: none;
   outline: none;
   vertical-align: middle;
+  display: inline-block;
+  resize: none;
+  padding-top: 10px;
   &:focus {
     outline: none;
   }
