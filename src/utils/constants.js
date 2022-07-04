@@ -1,7 +1,7 @@
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import WysiwygIcon from "@mui/icons-material/Wysiwyg";
-export const userRole = 4;
+export const userRole = 3;
 export const sideBarList =
   userRole !== 4
     ? [

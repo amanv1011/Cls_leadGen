@@ -14,6 +14,8 @@ import {
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import IPopup from "../../../themeComponents/popup/leadPopup";
 import IModal from "../../../themeComponents/popup/modal";
+import RestrictedComponent from "../../../higherOrderComponents/restrictedComponent";
+import { userRole } from "../../../../utils/constants";
 
 const LeadsDisplay = ({
   leadsList,
@@ -194,11 +196,16 @@ const LeadsDisplay = ({
                   children="Approve"
                   onclick={() => handleBatchUpdateStatus(1)}
                 />
-                <IButton
-                  type={"blue"}
-                  name={"blue"}
-                  children={"Assign"}
-                  onclick={() => setOpenAssignModel(true)}
+                <RestrictedComponent
+                  user={userRole}
+                  Component={() => (
+                    <IButton
+                      type={"blue"}
+                      name={"blue"}
+                      children={"Assign"}
+                      onclick={() => setOpenAssignModel(true)}
+                    />
+                  )}
                 />
                 <IButton
                   type={"yellow"}
