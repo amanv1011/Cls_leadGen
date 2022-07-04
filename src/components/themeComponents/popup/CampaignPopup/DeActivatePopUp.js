@@ -17,6 +17,8 @@ const DeActivatePopUp = ({
   openCampaignPopupDeActivate,
   handleClose,
   selectedArray,
+  handleClosePopover,
+  setselectedArray,
 }) => {
   const dispatch = useDispatch();
 
@@ -24,12 +26,14 @@ const DeActivatePopUp = ({
     selectedArray.map((seletedCampaigns) => {
       try {
         get_a_feild_in_a_document(seletedCampaigns, { status: 0 });
-        dispatch(campaignActions.getAllCampaignsAction());
-        handleClose();
       } catch (error) {
         dispatch(openAlertAction(`${error.message}`, true, "error"));
       }
     });
+    dispatch(campaignActions.getAllCampaignsAction());
+    handleClose();
+    handleClosePopover();
+    setselectedArray([]);
   };
 
   return (

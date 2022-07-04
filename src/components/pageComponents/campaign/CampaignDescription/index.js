@@ -9,6 +9,7 @@ import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import { openAlertAction } from "../../../../redux/actions/alertActions";
 import CampaignButtonActions from "../CampaignButtonActions";
 import { Timestamp } from "firebase/firestore";
+import * as campaignCountActions from "../../../../redux/actions/campaignCountActions";
 import AssignCampaign from "../AssignCampaign";
 import "./campaignDescription.scss";
 
@@ -45,6 +46,14 @@ const CampaignDescription = ({
   lastCrawledDateList,
   selectedArray,
   campaignsListData,
+  setcampaignsListData,
+  countryFilterValue,
+  ownerFilterValue,
+  campaignStateFilterValue,
+  assignedCampaigns,
+  campaignsList,
+  options,
+  campaignSateStatus,
 }) => {
   const dispatch = useDispatch();
   const [campaignDocValue, setCampaignDocValue] = useState(campaignDoc);
@@ -100,18 +109,27 @@ const CampaignDescription = ({
   const onOngoing = (event) => {
     setOnGoing(event.target.checked);
   };
-  const statusUpdate = async (event, a__campgaignId) => {
+
+  // useEffect(() => {
+  //   campaignSateStatus &&
+  //     campaignsListData &&
+  //     campaignsListData.forEach((e) => {
+  //       if (e.id === campaignSateStatus.campaignId) {
+  //         e.status = campaignSateStatus.status;
+  //       }
+  //     });
+  // }, [campaignSateStatus]);
+
+  const statusUpdate = (event, a__campgaignId) => {
     try {
       if (event.target.checked) {
-        await get_a_feild_in_a_document(a__campgaignId, { status: 1 });
-        await dispatch(campaignActions.getAllCampaignsAction());
-        await dispatch(
+        dispatch(campaignActions.updateCampaignStatusAction(a__campgaignId, 1));
+        dispatch(
           openAlertAction("Campaign activated Successfully", false, "success")
         );
       } else {
-        await get_a_feild_in_a_document(a__campgaignId, { status: 0 });
-        await dispatch(campaignActions.getAllCampaignsAction());
-        await dispatch(
+        dispatch(campaignActions.updateCampaignStatusAction(a__campgaignId, 0));
+        dispatch(
           openAlertAction(
             "Campaign de-activated Successfully",
             false,
@@ -326,7 +344,10 @@ const CampaignDescription = ({
                         style={{ marginLeft: "90px", width: "auto" }}
                       />
                     ) : (
-                      campaignDocValue.tags && campaignDocValue.tags.toString()
+                      <span style={{ marginLeft: "10px" }}>
+                        {campaignDocValue.tags &&
+                          campaignDocValue.tags.toString()}
+                      </span>
                     )}
                   </Box>
 

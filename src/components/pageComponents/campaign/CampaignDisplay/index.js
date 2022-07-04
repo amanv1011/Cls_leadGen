@@ -26,7 +26,6 @@ const CampaignDisplay = ({
   countryFilterValue,
   ownerFilterValue,
   campaignStateFilterValue,
-  selectedUsersForFilter,
   options,
   assignedCampaigns,
   campaignViewStatus,
@@ -39,7 +38,6 @@ const CampaignDisplay = ({
   setcampaignsListData,
 }) => {
   const dispatch = useDispatch();
-  // const [selectedArray, setselectedArray] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openCampaignPopup, setOpenCampaignPopup] = useState(false);
@@ -62,6 +60,9 @@ const CampaignDisplay = ({
   const ownerNameFilterId = options.filter(
     (user) => user.name === ownerFilterValue
   );
+  // console.log("allCamapignsCount", allCamapignsCount);
+  // console.log("activeCamapignsCount", activeCamapignsCount);
+  // console.log("inActiveCamapignsCount", inActiveCamapignsCount);
 
   useEffect(() => {
     if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {
@@ -251,7 +252,6 @@ const CampaignDisplay = ({
           }
         });
       });
-      // setcampaignsListData(filtered);
       dispatch(campaignCountActions.getAllCampaignsCountAction(filtered));
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
@@ -805,6 +805,7 @@ const CampaignDisplay = ({
           handleClose={handleCloseCampaignPopup}
           disableApplyBtn={disableApplyBtn}
           selectedArray={selectedArray}
+          setselectedArray={setselectedArray}
         />
         <AssignPopUp
           open={openAssignModel}
@@ -812,18 +813,23 @@ const CampaignDisplay = ({
           options={options}
           onChangeOption={assignBatchUsers}
           selectedUsers={selectedUsers}
+          setselectedArray={setselectedArray}
         />
         <ActivePopUp
           openCampaignPopupActive={openCampaignPopupActive}
           handleClickOpen={handleClickOpenCampaignPopupActive}
           handleClose={handleCloseCampaignPopupActive}
           selectedArray={selectedArray}
+          handleClosePopover={handleClose}
+          setselectedArray={setselectedArray}
         />
         <DeActivatePopUp
           openCampaignPopupDeActivate={openCampaignPopupDeActivate}
           handleClickOpen={handleClickOpenCampaignPopupDeActivate}
           handleClose={handleCloseCampaignPopupDeActivate}
           selectedArray={selectedArray}
+          handleClosePopover={handleClose}
+          setselectedArray={setselectedArray}
         />
       </React.Fragment>
     );

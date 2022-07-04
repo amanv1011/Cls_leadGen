@@ -12,6 +12,7 @@ const initialState = {
   assignCampaign: {},
   assignedCampaigns: [],
   campaignViewStatus: {},
+  // campaignStateStatus: {},
 };
 
 // fetch all campaign list
@@ -207,6 +208,40 @@ export const getAllCampaignsReducer = (
         campaignViewStatus: {},
         error: payload,
       };
+
+    case types.UPDATE_CAMPAIGN_STATUS_ACTIVE_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case types.UPDATE_CAMPAIGN_STATUS_ACTIVE_SUCCESS:
+      // var updatedStatus = state.campaignList.filter(
+      //   (item) =>
+      //     // console.log("item", item);
+      //     item.id === payload.id
+      //   // return payload;
+
+      //   // return item;
+      // );
+      let updatedStatus = {};
+      if (state.campaignDoc.id === payload.id) {
+        updatedStatus = { ...state.campaignDoc, status: payload.status };
+      }
+      console.log("updatedStatus", updatedStatus);
+      return {
+        ...state,
+        campaignDoc: updatedStatus,
+        error: null,
+      };
+
+    case types.UPDATE_CAMPAIGN_STATUS_ACTIVE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
     default:
       return state;
   }
