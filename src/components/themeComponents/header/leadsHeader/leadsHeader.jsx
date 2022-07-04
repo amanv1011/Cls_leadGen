@@ -4,7 +4,6 @@ import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import Tooltip from "@mui/material/Tooltip";
@@ -16,15 +15,11 @@ import {
   datePickerState,
   leadsFilterCountiresName,
 } from "../../../../redux/actions/leadsFilter";
-//import moment from "moment";
-//import moment, * as moments from 'moment';
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
-import AdvanceDatePicker from "../../AdvanceDatePicker/advanceDatePicker";
 import NewDateRangePicker from "../../AdvanceDatePicker/newDatePickerCompo";
 import { leadsFilterDate } from "../../../../redux/actions/leadsFilter";
 import { connect } from "react-redux";
-//const today = moment();
-//var moment = require('moment');
+
 import Moment from "moment";
 import { extendMoment } from "moment-range";
 
@@ -57,7 +52,6 @@ const LeadsHeader = (props) => {
   //const filterDate = useSelector((state) => state.leadsFilter.filterDate);
 
   const applyOkButton = (value1) => {
-    console.log(value1);
     setClearDateFilter(value1);
     const calender1 = moment.range(value1[0], value1[1]);
     // const calender1 =

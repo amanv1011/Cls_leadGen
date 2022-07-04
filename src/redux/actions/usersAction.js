@@ -1,5 +1,10 @@
 import { getUsers } from "../../services/api/user";
-import { GET_USERS_ERROR, GET_USERS_PENDING, GET_USERS_SUCCESS } from "../type";
+import {
+  GET_LOGGED_IN_USER,
+  GET_USERS_ERROR,
+  GET_USERS_PENDING,
+  GET_USERS_SUCCESS,
+} from "../type";
 import { closeLoader, openLoader } from "./globalLoaderAction";
 
 export const getAllUsersAction = () => {
@@ -25,5 +30,12 @@ export const getAllUsersAction = () => {
         dispatch({ type: GET_USERS_ERROR });
       }
     }
+  };
+};
+
+export const getLoggedInUserAction = (userInfo) => {
+  console.log({ userInfo });
+  return async (dispatch) => {
+    dispatch({ type: GET_LOGGED_IN_USER, payload: userInfo });
   };
 };

@@ -34,10 +34,6 @@ const CampaignButtonActions = ({
     "days"
   );
 
-  console.log(
-    "campaignDoc in CampaignButtonActions",
-    difference_startDate_endDate
-  );
   const getNumOfLeads = (id) => {
     const val =
       leadsList &&

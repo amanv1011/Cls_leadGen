@@ -5,17 +5,23 @@ import Campaign from "../pageComponents/campaign/index";
 import Leads from "../pageComponents/leads";
 import UnAuthorizedComponent from "../pageComponents/unAuthorized";
 
+import OutletComponent from "../pageComponents/outletComopnent/outletComponent";
+import { userRole } from "../../utils/constants";
+
 const AllRoutes = () => {
+  console.log(window.location.pathname);
   const allRoutes = useRoutes([
     {
-      path: "/",
-      element: <Dashboard />,
+      element: <OutletComponent />,
       children: [
+        {
+          path: "/",
+          element: <>{userRole !== 4 ? <Dashboard /> : <Leads />}</>,
+        },
         {
           path: "/leads",
           element: (
             <>
-              {/* <Header /> */}
               <Leads />
             </>
           ),
@@ -25,53 +31,7 @@ const AllRoutes = () => {
           path: "/campaign",
           element: (
             <>
-              {/* <Header /> */}
               <Campaign />
-            </>
-          ),
-        },
-        {
-          path: "/leads/all",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads />
-            </>
-          ),
-        },
-        {
-          path: "/leads/underreview",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads />
-            </>
-          ),
-        },
-        {
-          path: "/leads/approve",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads />
-            </>
-          ),
-        },
-        {
-          path: "/leads/reject",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads />
-            </>
-          ),
-        },
-        {
-          path: "/leads/archive",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads />
             </>
           ),
         },

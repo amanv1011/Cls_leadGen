@@ -7,7 +7,18 @@ import UnderReview from "../../commonComponents/lead/UnderReview";
 import Archive from "../../commonComponents/lead/Archive";
 import "./leads.scss";
 import "../../pageComponents/leads2/leads.scss";
-import { getAssignedLeadsAction } from "../../../redux/actions/leadActions";
+import {
+  getAllLeadsAction,
+  getAssignedLeadsAction,
+  getLeadsFullDescriptionAction,
+} from "../../../redux/actions/leadActions";
+import {
+  getAllCampaignsAction,
+  getAssignedCampaignsAction,
+} from "../../../redux/actions/campaignActions";
+import { getAllUsersAction } from "../../../redux/actions/usersAction";
+import { getCountryAction } from "../../../redux/actions/countryActions";
+import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
 const Leads = () => {
   const dispatch = useDispatch();
   const leadsDropDownFilter = useSelector(
@@ -15,6 +26,13 @@ const Leads = () => {
   );
   useEffect(() => {
     dispatch(getAssignedLeadsAction());
+    dispatch(getAllCampaignsAction());
+    dispatch(getAllLeadsAction());
+    dispatch(getLeadsFullDescriptionAction());
+    dispatch(getAllUsersAction());
+    dispatch(getCountryAction());
+    dispatch(getAssignedCampaignsAction());
+    dispatch(getlastCrawledDateAction());
   }, []);
 
   return (

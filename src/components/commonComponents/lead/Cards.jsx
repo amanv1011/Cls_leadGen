@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
-import { Divider, Tooltip } from "@mui/material";
+import { Divider, Tooltip, useRadioGroup } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNotestoLeadAction,
@@ -21,7 +21,8 @@ import Textarea from "../../themeComponents/textarea/textarea";
 import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
 import NotesPopup from "../../themeComponents/popup/notesPopup";
-
+import RestrictedComponent from "../../higherOrderComponents/restrictedComponent";
+import { userRole } from "../../../utils/constants";
 const Cards = (props) => {
   const dispatch = useDispatch();
   const [selectedBatchAssignUsers, setSelectedBatchAssignUsers] = useState([]);
@@ -177,7 +178,6 @@ const Cards = (props) => {
   };
 
   const addNotesFunction = (e) => {
-    console.log(e.target);
     if (value.length > 0) {
       const ParamObj = {
         userName: window.localStorage.getItem("userName")
@@ -374,21 +374,27 @@ const Cards = (props) => {
                     </Tooltip>
                   </Box>
                 </Box>
-                <Box
-                  className={`autocomplete-container ${
-                    selectedArray.length > 0 ? "disabled" : ""
-                  }`}
-                >
-                  <Box className="autocomplete-title">Assign To</Box>
-
-                  <IAutocomplete
-                    options={allUsers}
-                    onChangeOption={onChangeOption}
-                    // assignUsers={assignUsers}
-                    selectedUsers={selectedUsers}
-                    width={150}
+                {
+                  <RestrictedComponent
+                    user={userRole}
+                    Component={() => (
+                      <Box
+                        className={`autocomplete-container ${
+                          selectedArray.length > 0 ? "disabled" : ""
+                        }`}
+                      >
+                        <Box className="autocomplete-title">Assign To</Box>
+                        <IAutocomplete
+                          options={allUsers}
+                          onChangeOption={onChangeOption}
+                          // assignUsers={assignUsers}
+                          selectedUsers={selectedUsers}
+                          width={150}
+                        />
+                      </Box>
+                    )}
                   />
-                </Box>
+                }
                 <Box className="add-notes-container">
                   {/* {openText ? (
                     <Textarea
