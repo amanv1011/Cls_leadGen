@@ -13,16 +13,17 @@ import {
 
 const App = (props) => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const snackBarStates = useSelector((state) => state.snackBar);
+  const LoaderData = useSelector((state) => state.loaderReducer.isLoading);
+  const userRole = useSelector(
+    (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
+  );
+
   const handleClose = () => {
     dispatch(closeAlertAction());
   };
-  const LoaderData = useSelector((state) => state.loaderReducer.isLoading);
-  const loggedInUser = useSelector((state) => state.getLoggedInUserAction);
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  console.log(loggedInUser);
   useEffect(() => {
     dispatch(getAllUsersAction());
     if (searchParams.get("token")) {
@@ -52,14 +53,31 @@ const App = (props) => {
         navigate("/unAuthorized");
       }
     }
-    dispatch(
-      getLoggedInUserAction({
-        name: "Onkar",
-        userId: "1234",
-        role: 4,
-      })
-    );
   }, []);
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("token") &&
+      localStorage.getItem("token") !== undefined
+    ) {
+      fetch("https://stageapp.api.classicinformatics.net/api/auth/getDetail", {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: localStorage.getItem("token") }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data && data.result && data.result[0]) {
+            dispatch(getLoggedInUserAction(data.result[0]));
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [localStorage.getItem("token")]);
 
   return (
     <div className="App">
@@ -70,7 +88,7 @@ const App = (props) => {
         handleClose={handleClose}
       />
       {LoaderData && LoaderData === true ? <Loader open={LoaderData} /> : null}
-      <AllRoutes />
+      <AllRoutes userRole={userRole} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Lead from "../../commonComponents/lead";
 import Approve from "../../commonComponents/lead/Approve";
@@ -19,6 +19,7 @@ import {
 import { getAllUsersAction } from "../../../redux/actions/usersAction";
 import { getCountryAction } from "../../../redux/actions/countryActions";
 import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
+
 const Leads = () => {
   const dispatch = useDispatch();
   const leadsDropDownFilter = useSelector(
@@ -66,4 +67,4 @@ const Leads = () => {
   );
 };
 
-export default Leads;
+export default memo(Leads);

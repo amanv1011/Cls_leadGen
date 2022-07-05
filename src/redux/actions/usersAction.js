@@ -34,7 +34,6 @@ export const getAllUsersAction = () => {
 };
 
 export const getLoggedInUserAction = (userInfo) => {
-  console.log({ userInfo });
   return async (dispatch) => {
     dispatch({ type: GET_LOGGED_IN_USER, payload: userInfo });
   };

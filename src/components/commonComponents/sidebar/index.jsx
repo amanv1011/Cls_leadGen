@@ -7,7 +7,12 @@ import ListItemText from "@mui/material/ListItemText";
 import { ListItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./sidebar.scss";
-import { sideBarList } from "../../../utils/constants";
+// import { sideBarList } from "../../../utils/constants";
+import { useSelector } from "react-redux";
+import WidgetsIcon from "@mui/icons-material/Widgets";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
+import WysiwygIcon from "@mui/icons-material/Wysiwyg";
+import { roles } from "../../../utils/constants";
 const drawerWidth = 150;
 
 const openedMixin = (theme) => ({
@@ -60,8 +65,36 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
-  const url = window.location.pathname;
   const navigate = useNavigate();
+  const url = window.location.pathname;
+  const userRole = useSelector(
+    (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
+  );
+  const sideBarList = roles.all.includes(userRole)
+    ? [
+        {
+          icon: <WidgetsIcon />,
+          title: "Dashboard",
+          url: "/",
+        },
+        {
+          icon: <HourglassBottomIcon />,
+          title: "Campaign",
+          url: "/campaign",
+        },
+        {
+          icon: <WysiwygIcon />,
+          title: "Leads",
+          url: "/leads",
+        },
+      ]
+    : [
+        {
+          icon: <WysiwygIcon />,
+          title: "Leads",
+          url: "/leads",
+        },
+      ];
   return (
     <Box
       sx={{

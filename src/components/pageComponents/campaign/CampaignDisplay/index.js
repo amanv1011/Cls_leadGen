@@ -61,7 +61,6 @@ const CampaignDisplay = ({
 
   useEffect(() => {
     dispatch(campaignActions.getSearchedCampaignList(campaignsList));
-    console.log("ownerNameFilterId", ownerNameFilterId);
 
     if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {
       setcampaignsListData(searchedCampaignList);
@@ -222,7 +221,6 @@ const CampaignDisplay = ({
           }
         });
       });
-      console.log("filtered owners campaign", filtered);
       setcampaignsListData(filtered);
       // dispatch(campaignActions.getSearchedCampaignList(filtered));
       dispatch(
@@ -248,7 +246,6 @@ const CampaignDisplay = ({
   }, [countryFilterValue, ownerFilterValue, campaignStateFilterValue]);
 
   useEffect(() => {
-    console.log("Im happening only once");
     dispatch(
       campaignCountActions.getAllCampaignsCountAction(searchedCampaignList)
     );
@@ -271,7 +268,6 @@ const CampaignDisplay = ({
   });
 
   useEffect(() => {
-    console.log("I'm I happening????");
     if (
       countryFilterValue === "Country" &&
       ownerFilterValue === "Owner" &&

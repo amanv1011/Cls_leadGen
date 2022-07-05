@@ -1,11 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
-import { Divider, Tooltip, useRadioGroup } from "@mui/material";
+import { Divider, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNotestoLeadAction,
   assignLeadToUsersAction,
-  getAllLeadsAction,
   getAssignedLeadsAction,
   updateLeadStatus,
 } from "../../../redux/actions/leadActions";
@@ -17,12 +17,11 @@ import LeadsSearch from "../../pageComponents/leads2/LeadsSearch";
 import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
 import "../../pageComponents/leads2/leads.scss";
 import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
-import Textarea from "../../themeComponents/textarea/textarea";
 import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
 import NotesPopup from "../../themeComponents/popup/notesPopup";
 import RestrictedComponent from "../../higherOrderComponents/restrictedComponent";
-import { userRole } from "../../../utils/constants";
+
 const Cards = (props) => {
   const dispatch = useDispatch();
   const [selectedBatchAssignUsers, setSelectedBatchAssignUsers] = useState([]);
@@ -38,6 +37,9 @@ const Cards = (props) => {
   const [reason, setReason] = useState("");
   const leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
+  const userRole = useSelector(
+    (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
+  );
   let assignLeadResponse = useSelector(
     (state) => state.assignLeadToReducer.assignLead
   );
