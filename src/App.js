@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./App.scss";
@@ -14,6 +14,7 @@ import {
 const App = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const [searchParams] = useSearchParams();
   const snackBarStates = useSelector((state) => state.snackBar);
   const LoaderData = useSelector((state) => state.loaderReducer.isLoading);
@@ -77,7 +78,7 @@ const App = (props) => {
         })
         .catch((err) => console.log(err));
     }
-  }, [localStorage.getItem("token")]);
+  }, [token]);
 
   return (
     <div className="App">
@@ -93,4 +94,4 @@ const App = (props) => {
   );
 };
 
-export default App;
+export default memo(App);

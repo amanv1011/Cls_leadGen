@@ -6,40 +6,37 @@ import Leads from "../pageComponents/leads";
 import UnAuthorizedComponent from "../pageComponents/unAuthorized";
 import OutletComponent from "../pageComponents/outletComopnent/outletComponent";
 import { roles } from "../../utils/constants";
+import ProtectedRoute from "./private";
 
 const AllRoutes = ({ userRole }) => {
-  console.log(userRole);
   const allRoutes = useRoutes([
     {
       element: <OutletComponent />,
       children: [
         {
           path: "/",
-          element: (
-            <>
-              {userRole && !roles.all.includes(userRole) ? (
-                <Navigate to="/leads" />
-              ) : (
-                <Dashboard />
-              )}
-            </>
-          ),
+          // element: (
+          //   <>
+          //     {userRole && !roles.all.includes(userRole) ? (
+          //       <Navigate to="/leads" />
+          //     ) : (
+          //       <ProtectedRoute user={userRole} children={<Dashboard />} />
+          //       )}
+          //   </>
+          // ),
+          element: <ProtectedRoute user={userRole} children={<Dashboard />} />,
           // element: <Dashboard />,
         },
         {
           path: "/leads",
-          element: (
-            <>
-              <Leads />
-            </>
-          ),
+          element: <ProtectedRoute user={userRole} children={<Leads />} />,
         },
 
         {
           path: "/campaign",
           element: (
             <>
-              <Campaign />
+              <ProtectedRoute user={userRole} children={<Campaign />} />
             </>
           ),
         },
