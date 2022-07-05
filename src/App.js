@@ -15,33 +15,38 @@ const App = (props) => {
     dispatch(closeAlertAction());
   };
   const LoaderData = useSelector((state) => state.loaderReducer.isLoading);
-  const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   useEffect(async () => {
-    if (searchParams.get('token')) {
-      fetch('https://stageapp.api.classicinformatics.net/api/auth/verifyToken', {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${searchParams.get('token')}`
+    if (searchParams.get("token")) {
+      fetch(
+        "https://stageapp.api.classicinformatics.net/api/auth/verifyToken",
+        {
+          method: "GET",
+          mode: "cors",
+          cache: "no-cache",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${searchParams.get("token")}`,
+          },
         }
-      })
-        .then(data => {
-          localStorage.setItem('userName', searchParams.get('uname'))
-          localStorage.setItem('token', searchParams.get('token'))
+      )
+        .then((data) => {
+          console.log("data", data);
+          localStorage.setItem("userName", searchParams.get("uname"));
+          localStorage.setItem("token", searchParams.get("token"));
         })
-        .catch(error => {
-          localStorage.removeItem('token')
-          navigate('/unAuthorized')
-        })
+        .catch((error) => {
+          localStorage.removeItem("token");
+          navigate("/unAuthorized");
+        });
     } else {
-      if (!localStorage.getItem('token')) {
-        navigate('/unAuthorized')
+      if (!localStorage.getItem("token")) {
+        navigate("/unAuthorized");
       }
     }
-  }, [])
+  }, []);
 
   return (
     <div className="App">
@@ -55,6 +60,6 @@ const App = (props) => {
       <AllRoutes />
     </div>
   );
-}
+};
 
 export default App;
