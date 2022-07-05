@@ -110,16 +110,6 @@ const CampaignDescription = ({
     setOnGoing(event.target.checked);
   };
 
-  // useEffect(() => {
-  //   campaignSateStatus &&
-  //     campaignsListData &&
-  //     campaignsListData.forEach((e) => {
-  //       if (e.id === campaignSateStatus.campaignId) {
-  //         e.status = campaignSateStatus.status;
-  //       }
-  //     });
-  // }, [campaignSateStatus]);
-
   const statusUpdate = (event, a__campgaignId) => {
     try {
       if (event.target.checked) {
@@ -256,7 +246,7 @@ const CampaignDescription = ({
       campaignCreatedAt: campaignDocValue.campaignCreatedAt,
       end_date: Timestamp.fromDate(new Date(end_date)),
       start_date: Timestamp.fromDate(new Date(start_date)),
-      last_crawled_date: Timestamp.fromDate(new Date(start_date)),
+      // last_crawled_date: Timestamp.fromDate(new Date(start_date)),
     };
 
     await dispatch(
@@ -507,7 +497,6 @@ const CampaignDescription = ({
                             value={location}
                             onChange={onInputChangeHandler}
                             autoComplete="off"
-                            // style={{ width: "max-content" }}
                             required
                           />
                         ) : (
@@ -517,13 +506,25 @@ const CampaignDescription = ({
                     </div>
                     <div className="header-item">
                       <span className="header-key">Created By</span>
-                      <span
-                        className="header-value"
-                        style={{ marginLeft: "26px" }}
-                      >
-                        {campaignDocValue && campaignDocValue.owner
-                          ? campaignDocValue && campaignDocValue.owner
-                          : "NA"}
+                      <span className="header-value">
+                        {campgaignId ? (
+                          <input
+                            type="text"
+                            className="addCampaign-inputs"
+                            name="location"
+                            value={
+                              campaignDocValue && campaignDocValue.owner
+                                ? campaignDocValue && campaignDocValue.owner
+                                : "NA"
+                            }
+                            autoComplete="off"
+                            disabled
+                          />
+                        ) : campaignDocValue && campaignDocValue.owner ? (
+                          campaignDocValue && campaignDocValue.owner
+                        ) : (
+                          "NA"
+                        )}
                       </span>
                     </div>
                   </Box>
@@ -541,7 +542,6 @@ const CampaignDescription = ({
                           <input
                             type="number"
                             className="addCampaign-inputs"
-                            style={{ width: "120px" }}
                             name="frequency"
                             value={frequency}
                             onChange={onInputChangeHandler}
@@ -565,10 +565,11 @@ const CampaignDescription = ({
                               type="date"
                               className="addCampaign-datePicker"
                               name="end_date"
-                              value={end_date}
+                              value={onGoing ? "" : end_date}
                               onChange={onInputChangeHandler}
                               autoComplete="off"
-                              required
+                              disabled={onGoing ? true : false}
+                              required={onGoing ? false : true}
                               min={start_date}
                             />
 
@@ -604,7 +605,6 @@ const CampaignDescription = ({
                                   fontSize: "13px",
                                   lineHeight: "16px",
                                   color: "#1F4173",
-                                  marginLeft: "7px",
                                 }}
                               >
                                 On going
@@ -634,7 +634,13 @@ const CampaignDescription = ({
                             name="end_time"
                             value={end_time}
                             onChange={onInputChangeHandler}
-                            min={minTimeDiff}
+                            min={
+                              onGoing
+                                ? ""
+                                : difference_startDate_endDate
+                                ? ""
+                                : minTimeDiff
+                            }
                             autoComplete="off"
                             required
                           />
@@ -685,16 +691,38 @@ const CampaignDescription = ({
                         style={{ marginLeft: "40px" }}
                       >
                         {/* {getLastCrawledDate(campaignDocValue.id)} */}
-
-                        {lastCrawledDateList?.campaignDocValue &&
-                        campaignDocValue?.last_crawled_date
-                          ? moment
-                              .unix(
-                                campaignDocValue.last_crawled_date.seconds,
-                                campaignDocValue.last_crawled_date.nanoseconds
-                              )
-                              .format("MM/DD/YYYY")
-                          : "NA"}
+                        {campgaignId ? (
+                          <input
+                            type="text"
+                            className="addCampaign-inputs"
+                            name="lastCrawledDate"
+                            value={
+                              lastCrawledDateList?.campaignDocValue &&
+                              campaignDocValue?.last_crawled_date
+                                ? moment
+                                    .unix(
+                                      campaignDocValue.last_crawled_date
+                                        .seconds,
+                                      campaignDocValue.last_crawled_date
+                                        .nanoseconds
+                                    )
+                                    .format("MM/DD/YYYY")
+                                : "NA"
+                            }
+                            autoComplete="off"
+                            disabled
+                          />
+                        ) : lastCrawledDateList?.campaignDocValue &&
+                          campaignDocValue?.last_crawled_date ? (
+                          moment
+                            .unix(
+                              campaignDocValue.last_crawled_date.seconds,
+                              campaignDocValue.last_crawled_date.nanoseconds
+                            )
+                            .format("MM/DD/YYYY")
+                        ) : (
+                          "NA"
+                        )}
                       </span>
                     </div>
                   </Box>

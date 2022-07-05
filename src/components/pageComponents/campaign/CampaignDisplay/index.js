@@ -60,9 +60,6 @@ const CampaignDisplay = ({
   const ownerNameFilterId = options.filter(
     (user) => user.name === ownerFilterValue
   );
-  // console.log("allCamapignsCount", allCamapignsCount);
-  // console.log("activeCamapignsCount", activeCamapignsCount);
-  // console.log("inActiveCamapignsCount", inActiveCamapignsCount);
 
   useEffect(() => {
     if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {

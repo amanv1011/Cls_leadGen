@@ -70,7 +70,6 @@ const Campaign = () => {
   );
 
   useEffect(() => {
-    console.log("I'm possible");
     if (countryFilterValue === "Country" && ownerFilterValue === "Owner") {
       dispatch(campaignCountActions.getAllCampaignsCountAction(campaignsList));
       dispatch(

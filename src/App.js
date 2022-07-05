@@ -18,7 +18,7 @@ const App = (props) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(async () => {
     if (searchParams.get("token")) {
       fetch(
         "https://stageapp.api.classicinformatics.net/api/auth/verifyToken",

@@ -16,7 +16,6 @@ export const get_a_feild_in_a_document = async (
       "campaigns",
       a__campgaignId
     );
-    console.log("documentRef", documentRef);
     return firebaseMethods.setDoc(documentRef, statusvalue, { merge: true });
   } catch (err) {
     return err;
@@ -164,7 +163,6 @@ export const updateCampaignStatus = async (campaignId, statusvalue) => {
       { status: statusvalue },
       { merge: true }
     );
-    console.log("updatedRespose", updatedStatus);
     if (updatedStatus === undefined)
       return { id: campaignId, status: statusvalue };
   } catch (error) {

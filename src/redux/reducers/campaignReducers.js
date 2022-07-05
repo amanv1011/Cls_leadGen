@@ -87,7 +87,7 @@ export const getAllCampaignsReducer = (
       };
 
     case types.UPDATE_CAMPAIGN_DATA_SUCCESS:
-      var updatedData = state.campaignList.map((item) => {
+      let updatedData = state.campaignList.map((item) => {
         if (item.id === payload.id) {
           return payload;
         }
@@ -215,23 +215,17 @@ export const getAllCampaignsReducer = (
         loading: true,
         error: null,
       };
-    case types.UPDATE_CAMPAIGN_STATUS_ACTIVE_SUCCESS:
-      // var updatedStatus = state.campaignList.filter(
-      //   (item) =>
-      //     // console.log("item", item);
-      //     item.id === payload.id
-      //   // return payload;
 
-      //   // return item;
-      // );
-      let updatedStatus = {};
-      if (state.campaignDoc.id === payload.id) {
-        updatedStatus = { ...state.campaignDoc, status: payload.status };
-      }
-      console.log("updatedStatus", updatedStatus);
+    case types.UPDATE_CAMPAIGN_STATUS_ACTIVE_SUCCESS:
+      let updatedStatus = state.campaignList.map((item) => {
+        if (item.id === payload.id) {
+          return { ...item, status: payload.status };
+        }
+        return item;
+      });
       return {
         ...state,
-        campaignDoc: updatedStatus,
+        campaignList: updatedStatus,
         error: null,
       };
 
