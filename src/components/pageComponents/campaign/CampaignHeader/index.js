@@ -231,8 +231,8 @@ const CampaignHeader = ({
                 uniqueCountries.map((country) => {
                   return (
                     <MenuItem
-                      key={country && country.id}
-                      data-id={country && country.id}
+                      key={country}
+                      data-id={country}
                       className="menu-item"
                       onClick={handleClosecountryMenu}
                       sx={{
@@ -303,8 +303,8 @@ const CampaignHeader = ({
                 uniqueOwner.sort().map((user) => {
                   return (
                     <MenuItem
-                      key={user.id}
-                      data-id={user && user.id}
+                      key={user}
+                      data-id={user}
                       className="menu-item"
                       onClick={handleCloseOwnerMenu}
                       sx={{
