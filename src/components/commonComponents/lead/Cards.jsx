@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
 import { Divider, Tooltip } from "@mui/material";
@@ -5,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addNotestoLeadAction,
   assignLeadToUsersAction,
-  getAllLeadsAction,
   getAssignedLeadsAction,
   updateLeadStatus,
 } from "../../../redux/actions/leadActions";
@@ -17,10 +17,10 @@ import LeadsSearch from "../../pageComponents/leads2/LeadsSearch";
 import LeadsHeader from "../../themeComponents/header/leadsHeader/leadsHeader";
 import "../../pageComponents/leads2/leads.scss";
 import IAutocomplete from "../../themeComponents/autocomplete/autocomplete";
-import Textarea from "../../themeComponents/textarea/textarea";
 import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
 import NotesPopup from "../../themeComponents/popup/notesPopup";
+import RestrictedComponent from "../../higherOrderComponents/restrictedComponent";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -37,6 +37,9 @@ const Cards = (props) => {
   const [reason, setReason] = useState("");
   const leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
+  const userRole = useSelector(
+    (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
+  );
   let assignLeadResponse = useSelector(
     (state) => state.assignLeadToReducer.assignLead
   );
@@ -177,7 +180,6 @@ const Cards = (props) => {
   };
 
   const addNotesFunction = (e) => {
-    console.log(e.target);
     if (value.length > 0) {
       const ParamObj = {
         userName: window.localStorage.getItem("userName")
@@ -374,21 +376,27 @@ const Cards = (props) => {
                     </Tooltip>
                   </Box>
                 </Box>
-                <Box
-                  className={`autocomplete-container ${
-                    selectedArray.length > 0 ? "disabled" : ""
-                  }`}
-                >
-                  <Box className="autocomplete-title">Assign To</Box>
-
-                  <IAutocomplete
-                    options={allUsers}
-                    onChangeOption={onChangeOption}
-                    // assignUsers={assignUsers}
-                    selectedUsers={selectedUsers}
-                    width={150}
+                {
+                  <RestrictedComponent
+                    user={userRole}
+                    Component={() => (
+                      <Box
+                        className={`autocomplete-container ${
+                          selectedArray.length > 0 ? "disabled" : ""
+                        }`}
+                      >
+                        <Box className="autocomplete-title">Assign To</Box>
+                        <IAutocomplete
+                          options={allUsers}
+                          onChangeOption={onChangeOption}
+                          // assignUsers={assignUsers}
+                          selectedUsers={selectedUsers}
+                          width={150}
+                        />
+                      </Box>
+                    )}
                   />
-                </Box>
+                }
                 <Box className="add-notes-container">
                   {/* {openText ? (
                     <Textarea
