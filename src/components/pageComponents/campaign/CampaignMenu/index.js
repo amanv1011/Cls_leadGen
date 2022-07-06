@@ -1,6 +1,6 @@
 import { MenuItem, Select } from "@mui/material";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { campaignStateFilterValueAction } from "../../../../redux/actions/campaignFilterActions";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./campaignMenu.scss";
@@ -15,22 +15,14 @@ const style = {
   paddingRight: "8px",
 };
 
-const CampaignMenu = ({ campgaignId }) => {
+const CampaignMenu = ({
+  campgaignId,
+  campaignStateFilterValue,
+  allCamapignsCount,
+  activeCamapignsCount,
+  inActiveCamapignsCount,
+}) => {
   const dispatch = useDispatch();
-
-  const campaignsAllCount = useSelector(
-    (state) => state.campaignsCount.allCamapignsCount
-  );
-  const activeCampaignsCount = useSelector(
-    (state) => state.campaignsCount.ativeCamapignsCount
-  );
-  const inActiveCampaignsCount = useSelector(
-    (state) => state.campaignsCount.inActiveCamapignsCount
-  );
-
-  const campaignStateFilterValue = useSelector(
-    (state) => state.campaignFilters.campaignState
-  );
 
   return (
     <Select
@@ -87,17 +79,17 @@ const CampaignMenu = ({ campgaignId }) => {
       }}
     >
       <MenuItem value="AllCampaigns" className="select-option" sx={style}>
-        {`All (${campaignsAllCount && campaignsAllCount.length})`}
+        {`All (${allCamapignsCount && allCamapignsCount.length})`}
       </MenuItem>
       <MenuItem className="select-option" sx={style} value="activeCampaigns">
-        {`Active (${activeCampaignsCount && activeCampaignsCount.length})`}
+        {`Active (${activeCamapignsCount && activeCamapignsCount.length})`}
       </MenuItem>
       <MenuItem
         className="select-option"
         sx={style}
         value="inActiveCampaigns"
       >{`In-Active (${
-        inActiveCampaignsCount && inActiveCampaignsCount.length
+        inActiveCamapignsCount && inActiveCamapignsCount.length
       })`}</MenuItem>
     </Select>
   );

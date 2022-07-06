@@ -16,6 +16,7 @@ const CampaignPopup = ({
   handleClose,
   disableApplyBtn,
   selectedArray,
+  setselectedArray,
 }) => {
   const dispatch = useDispatch();
 
@@ -24,6 +25,7 @@ const CampaignPopup = ({
       dispatch(campaignActions.deleteCampaignsAction(seletedCampaignsId))
     );
     handleClose();
+    setselectedArray([]);
   };
 
   return (

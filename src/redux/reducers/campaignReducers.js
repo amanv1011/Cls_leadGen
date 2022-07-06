@@ -12,6 +12,7 @@ const initialState = {
   assignCampaign: {},
   assignedCampaigns: [],
   campaignViewStatus: {},
+  // campaignStateStatus: {},
 };
 
 // fetch all campaign list
@@ -86,7 +87,7 @@ export const getAllCampaignsReducer = (
       };
 
     case types.UPDATE_CAMPAIGN_DATA_SUCCESS:
-      var updatedData = state.campaignList.map((item) => {
+      let updatedData = state.campaignList.map((item) => {
         if (item.id === payload.id) {
           return payload;
         }
@@ -207,6 +208,34 @@ export const getAllCampaignsReducer = (
         campaignViewStatus: {},
         error: payload,
       };
+
+    case types.UPDATE_CAMPAIGN_STATUS_ACTIVE_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+
+    case types.UPDATE_CAMPAIGN_STATUS_ACTIVE_SUCCESS:
+      let updatedStatus = state.campaignList.map((item) => {
+        if (item.id === payload.id) {
+          return { ...item, status: payload.status };
+        }
+        return item;
+      });
+      return {
+        ...state,
+        campaignList: updatedStatus,
+        error: null,
+      };
+
+    case types.UPDATE_CAMPAIGN_STATUS_ACTIVE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
     default:
       return state;
   }

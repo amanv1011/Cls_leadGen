@@ -17,6 +17,8 @@ const ActivePopUp = ({
   openCampaignPopupActive,
   handleClose,
   selectedArray,
+  handleClosePopover,
+  setselectedArray,
 }) => {
   const dispatch = useDispatch();
 
@@ -24,13 +26,15 @@ const ActivePopUp = ({
     selectedArray.map((seletedCampaigns) => {
       try {
         get_a_feild_in_a_document(seletedCampaigns, { status: 1 });
-        dispatch(campaignActions.getAllCampaignsAction());
-        dispatch(openAlertAction("Campaigns Actived Successfully", false));
-        handleClose();
       } catch (error) {
         dispatch(openAlertAction(`${error.message}`, true, "error"));
       }
     });
+    dispatch(campaignActions.getAllCampaignsAction());
+    dispatch(openAlertAction("Campaigns Actived Successfully", false));
+    handleClose();
+    handleClosePopover();
+    setselectedArray([]);
   };
 
   return (

@@ -169,6 +169,7 @@ const AddCampaginModal = ({ countryList }) => {
         end_time: "",
         onGoing: false,
         status: 1,
+        country: "",
       });
       setTags([]);
     } catch (error) {
@@ -229,14 +230,6 @@ const AddCampaginModal = ({ countryList }) => {
         onClick={() => {
           dispatch(campaignActions.showModal());
         }}
-        // style={{
-        //   width: "160px",
-        //   height: "40px",
-        //   background: "#003AD2",
-        //   borderRadius: "10px",
-        //   marginLeft: "20px",
-        //   marginRight: "10px",
-        // }}
       >
         <PlusIcon />
         <span
@@ -440,6 +433,7 @@ const AddCampaginModal = ({ countryList }) => {
                   name="onGoing"
                   style={{ marginRight: "5px" }}
                   onChange={onOngoing}
+                  value={onGoing}
                 />
                 <label className="addCampaignModal-labels">On going</label>
                 <span> )</span>
@@ -448,10 +442,11 @@ const AddCampaginModal = ({ countryList }) => {
                   type="date"
                   className="addCampaignModal-datePicker"
                   name="end_date"
-                  value={end_date}
+                  value={onGoing ? "" : end_date}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  required
+                  disabled={onGoing ? true : false}
+                  required={onGoing ? false : true}
                   min={start_date}
                 />
               </Grid>
@@ -466,7 +461,13 @@ const AddCampaginModal = ({ countryList }) => {
                   className="addCampaignModal-timePicker"
                   name="end_time"
                   value={end_time}
-                  min={difference_startDate_endDate ? "" : minTimeDiff}
+                  min={
+                    onGoing
+                      ? ""
+                      : difference_startDate_endDate
+                      ? ""
+                      : minTimeDiff
+                  }
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
