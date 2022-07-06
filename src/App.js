@@ -74,7 +74,6 @@ const App = (props) => {
         .then((response) => response.json())
         .then((data) => {
           if (data && data.result && data.result[0]) {
-            console.log(data.result[0]);
             dispatch(getLoggedInUserAction(data.result[0]));
           }
         })

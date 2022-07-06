@@ -8,6 +8,13 @@ import CampaignDisplay from "./CampaignDisplay";
 import CampaignDescription from "./CampaignDescription";
 import * as campaignActions from "../../../redux/actions/campaignActions";
 import * as campaignCountActions from "../../../redux/actions/campaignCountActions";
+import {
+  getAllLeadsAction,
+  getLeadsFullDescriptionAction,
+} from "../../../redux/actions/leadActions";
+import { getCountryAction } from "../../../redux/actions/countryActions";
+import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
+
 import "./campaign.scss";
 
 const Campaign = () => {
@@ -70,6 +77,14 @@ const Campaign = () => {
   const ownerNameFilterId = allUsers.filter(
     (user) => user.name === ownerFilterValue
   );
+  useEffect(() => {
+    dispatch(campaignActions.getAllCampaignsAction());
+    dispatch(getAllLeadsAction());
+    dispatch(getLeadsFullDescriptionAction());
+    dispatch(getCountryAction());
+    dispatch(campaignActions.getAssignedCampaignsAction());
+    dispatch(getlastCrawledDateAction());
+  }, []);
 
   useEffect(() => {
     setCampaignsListData(campaignsList);
@@ -651,16 +666,8 @@ const Campaign = () => {
           >
             <CampaignSearch
               campaignsList={campaignsList}
-              campaignsListData={campaignsListData}
               searchValue={searchValue}
-              countryFilterValue={countryFilterValue}
-              searchedCampaignList={searchedCampaignList}
-              ownerFilterValue={ownerFilterValue}
-              campaignStateFilterValue={campaignStateFilterValue}
               campgaignId={campgaignId}
-              setCampaignsListData={setCampaignsListData}
-              allUsers={allUsers}
-              assignedCampaigns={assignedCampaigns}
             />
           </div>
           <CampaignDisplay

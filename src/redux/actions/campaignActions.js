@@ -268,6 +268,21 @@ export const updateCampaignStatusAction = (campaignId, status) => {
         status
       );
       dispatch(closeLoader());
+
+      if (res.campaignId && res.status === 1) {
+        dispatch(
+          openAlertAction("Campaign activated Successfully", false, "success")
+        );
+      }
+      if (res.campaignId && res.status === 0) {
+        dispatch(
+          openAlertAction(
+            "Campaign de-activated Successfully",
+            false,
+            "success"
+          )
+        );
+      }
       return dispatch({
         type: types.UPDATE_CAMPAIGN_STATUS_SUCCESS,
         payload: res,
