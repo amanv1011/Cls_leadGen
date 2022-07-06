@@ -4,30 +4,16 @@ import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import WidgetsIcon from "@mui/icons-material/Widgets";
-import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
-import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import { ListItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./sidebar.scss";
+// import { sideBarList } from "../../../utils/constants";
+import { useSelector } from "react-redux";
+import WidgetsIcon from "@mui/icons-material/Widgets";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
+import WysiwygIcon from "@mui/icons-material/Wysiwyg";
+import { roles } from "../../../utils/constants";
 const drawerWidth = 150;
-const sideBarList = [
-  {
-    icon: <WidgetsIcon />,
-    title: "Dashboard",
-    url: "/",
-  },
-  {
-    icon: <HourglassBottomIcon />,
-    title: "Campaign",
-    url: "/campaign",
-  },
-  {
-    icon: <WysiwygIcon />,
-    title: "Leads",
-    url: "/leads",
-  },
-];
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -37,7 +23,7 @@ const openedMixin = (theme) => ({
   }),
   overflowX: "hidden",
   boxShadow: "0px 6px 10px #DBEAF3",
-  height: "100%",
+  // height: "100%",
   postion: "fixed",
   marginTop: "60px",
 });
@@ -49,7 +35,7 @@ const closedMixin = (theme) => ({
   }),
   overflowX: "hidden",
   border: "none",
-  height: "100%",
+  // height: "100%",
   postion: "fixed",
   marginTop: "60px",
   boxShadow: "0px 6px 10px #DBEAF3",
@@ -79,8 +65,36 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
-  const url = window.location.pathname;
   const navigate = useNavigate();
+  const url = window.location.pathname;
+  const userRole = useSelector(
+    (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
+  );
+  const sideBarList = roles.all.includes(userRole)
+    ? [
+        {
+          icon: <WidgetsIcon />,
+          title: "Dashboard",
+          url: "/",
+        },
+        {
+          icon: <HourglassBottomIcon />,
+          title: "Campaign",
+          url: "/campaign",
+        },
+        {
+          icon: <WysiwygIcon />,
+          title: "Leads",
+          url: "/leads",
+        },
+      ]
+    : [
+        {
+          icon: <WysiwygIcon />,
+          title: "Leads",
+          url: "/leads",
+        },
+      ];
   return (
     <Box
       sx={{

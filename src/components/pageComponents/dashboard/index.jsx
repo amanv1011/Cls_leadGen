@@ -1,11 +1,7 @@
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Navbar from "../../commonComponents/navbar";
-import SideBar from "../../commonComponents/sidebar";
-import "./dashboard.scss";
 import Table from "../../themeComponents/table";
 import { Outlet, useNavigate } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Circular from "../../themeComponents/circularProgress/circular";
 import CircularChart from "../../themeComponents/circularProgress/circularChart";
 import Button from "@mui/material/Button";
@@ -16,13 +12,13 @@ import {
   getAllCampaignsAction,
   getAssignedCampaignsAction,
 } from "../../../redux/actions/campaignActions";
-import { getAllUsersAction } from "../../../redux/actions/usersAction";
 import {
   getAllLeadsAction,
   getLeadsFullDescriptionAction,
 } from "../../../redux/actions/leadActions";
 import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
 import { getCountryAction } from "../../../redux/actions/countryActions";
+import "./dashboard.scss";
 
 const Dashboard = ({ children }) => {
   const dispatch = useDispatch();
@@ -43,29 +39,16 @@ const Dashboard = ({ children }) => {
   let [yesterdaysLeads, setYesterdaysLeads] = useState(0);
   let [weeklyLeadsPer, setWeeklyLeadsPer] = useState(0);
   let [weeklyLeads, setWeeklyLeads] = useState(0);
-  const [open, setOpen] = useState(true);
-
-  const handleDrawer = () => {
-    setOpen(!open);
-  };
-  const handleDrawerClose = () => {
-    setOpen(true);
-  };
 
   const navigate = useNavigate();
   const viewMore = () => {
     navigate("/campaign");
   };
 
-  const goBack = () => {
-    navigate("/");
-  };
-
   useEffect(() => {
     dispatch(getAllCampaignsAction());
     dispatch(getAllLeadsAction());
     dispatch(getLeadsFullDescriptionAction());
-    dispatch(getAllUsersAction());
     dispatch(getCountryAction());
     dispatch(getAssignedCampaignsAction());
     dispatch(getlastCrawledDateAction());
@@ -174,158 +157,138 @@ const Dashboard = ({ children }) => {
 
   return (
     <>
-      <div>
-        <Navbar open={open} handleDrawer={handleDrawer} />
-      </div>
-      <div className="dashboard-container">
-        <div>
-          <SideBar
-            open={open}
-            handleDrawer={handleDrawer}
-            handleDrawerClose={handleDrawerClose}
-          />
-        </div>
+      <Box component="div" className="dshboard-content">
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
 
-        <Box component="div" className="dshboard-content">
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              marginLeft: "-25px",
-              marginBottom: "5px",
-              paddingTop: "15px",
-            }}
-          >
-            {/* <IconButton onClick={goBack}>
-              <ArrowBackIcon />
-            </IconButton>
-            <Typography component="p" className="dashboard-title">
-              Lead Campaign
-            </Typography> */}
-          </Box>
-          <Outlet />
-          {window.location.pathname === "/" ? (
-            <>
-              <Box className="dash-box">
-                <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
-                  <Circular
-                    value={totalCampPer}
-                    barColor={"#3575FF"}
-                    barName={"TOTAL"}
-                    innerColor={"#EFECFF"}
-                  />
-                  <div style={{ marginLeft: "10px" }}>
-                    <h3 className="dash-card-head">{totalCamp}</h3>
-                    <p className="dash-card-subhead">Total Campaigns</p>
-                  </div>
-                </Box>
-                <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
-                  <Circular
-                    value={activeCampPer}
-                    barColor={"#20C997"}
-                    barName={"ACTIVE"}
-                    innerColor={"#EFECFF"}
-                  />
-                  <div style={{ marginLeft: "10px" }}>
-                    <h3 className="dash-card-head">{activeCamp}</h3>
-                    <p className="dash-card-subhead">Active Campaigns</p>
-                  </div>
-                </Box>
-                <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
-                  <Circular
-                    value={leadsExtractedPer}
-                    barColor={"#F36643"}
-                    barName={"LEADS"}
-                    innerColor={"#FFF3F0"}
-                  />
-                  <div style={{ marginLeft: "10px" }}>
-                    <h3 className="dash-card-head">{leadsExtracted}</h3>
-                    <p className="dash-card-subhead">Leads Extracted</p>
-                  </div>
-                </Box>
-
-                <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
-                  <CircularChart
-                    Todays={todaysLeadsPer}
-                    Yesterdays={yesterdaysLeadsPer}
-                    Weeklys={weeklyLeadsPer}
-                  />
-
-                  <div
-                    style={{
-                      marginLeft: "10px",
-                      display: "flex",
-                      paddingBottom: "16px",
-                      paddingTop: "9px",
-                    }}
-                  >
-                    <div
-                      className="dash-card-subhead-wrapper"
-                      style={{ marginRight: "45px" }}
-                    >
-                      <h3 className="dash-card-head">{todaysLeads}</h3>
-
-                      <span
-                        className="dash-card-bullet"
-                        style={{
-                          backgroundColor: "#20C997",
-                        }}
-                      ></span>
-                      <span className="dash-card-subhead">Today</span>
-                    </div>
-                    <div
-                      className="dash-card-subhead-wrapper"
-                      style={{ marginRight: "45px" }}
-                    >
-                      <h3 className="dash-card-head">{yesterdaysLeads}</h3>
-                      <span
-                        className="dash-card-bullet"
-                        style={{
-                          backgroundColor: "#FF7049",
-                        }}
-                      ></span>
-
-                      <span className="dash-card-subhead">Yesterday</span>
-                    </div>
-                    <div className="dash-card-subhead-wrapper">
-                      <h3 className="dash-card-head">{weeklyLeads}</h3>
-                      <span
-                        className="dash-card-bullet"
-                        style={{
-                          backgroundColor: "#563BFF",
-                        }}
-                      ></span>
-
-                      <span className="dash-card-subhead">Weekly</span>
-                    </div>
-                  </div>
-                </Box>
+            marginBottom: "5px",
+            paddingTop: "15px",
+          }}
+        ></Box>
+        <Outlet />
+        {window.location.pathname === "/" ? (
+          <>
+            <Box className="dash-box">
+              <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
+                <Circular
+                  value={totalCampPer}
+                  barColor={"#3575FF"}
+                  barName={"TOTAL"}
+                  innerColor={"#EFECFF"}
+                />
+                <div style={{ marginLeft: "10px" }}>
+                  <h3 className="dash-card-head">{totalCamp}</h3>
+                  <p className="dash-card-subhead">Total Campaigns</p>
+                </div>
               </Box>
-              <Box
-                sx={{ boxshadow: 3, backgroundColor: "#FFFFFF" }}
-                className="table-container"
-              >
-                {leadReduxState === false && leadReduxStateErr !== null ? (
-                  <Table leadData={leadData} />
-                ) : null}
-                <Button
-                  endIcon={<ArrowRightAltIcon />}
+              <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
+                <Circular
+                  value={activeCampPer}
+                  barColor={"#20C997"}
+                  barName={"ACTIVE"}
+                  innerColor={"#EFECFF"}
+                />
+                <div style={{ marginLeft: "10px" }}>
+                  <h3 className="dash-card-head">{activeCamp}</h3>
+                  <p className="dash-card-subhead">Active Campaigns</p>
+                </div>
+              </Box>
+              <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
+                <Circular
+                  value={leadsExtractedPer}
+                  barColor={"#F36643"}
+                  barName={"LEADS"}
+                  innerColor={"#FFF3F0"}
+                />
+                <div style={{ marginLeft: "10px" }}>
+                  <h3 className="dash-card-head">{leadsExtracted}</h3>
+                  <p className="dash-card-subhead">Leads Extracted</p>
+                </div>
+              </Box>
+
+              <Box sx={{ boxshadow: 3 }} className="dash-lead-box">
+                <CircularChart
+                  Todays={todaysLeadsPer}
+                  Yesterdays={yesterdaysLeadsPer}
+                  Weeklys={weeklyLeadsPer}
+                />
+
+                <div
                   style={{
-                    textTransform: "none",
-                    width: "100%",
-                    color: "#003AD2",
-                    fontWeight: "600",
+                    marginLeft: "10px",
+                    display: "flex",
+                    paddingBottom: "16px",
+                    paddingTop: "9px",
                   }}
-                  onClick={viewMore}
                 >
-                  View More
-                </Button>
+                  <div
+                    className="dash-card-subhead-wrapper"
+                    style={{ marginRight: "45px" }}
+                  >
+                    <h3 className="dash-card-head">{todaysLeads}</h3>
+
+                    <span
+                      className="dash-card-bullet"
+                      style={{
+                        backgroundColor: "#20C997",
+                      }}
+                    ></span>
+                    <span className="dash-card-subhead">Today</span>
+                  </div>
+                  <div
+                    className="dash-card-subhead-wrapper"
+                    style={{ marginRight: "45px" }}
+                  >
+                    <h3 className="dash-card-head">{yesterdaysLeads}</h3>
+                    <span
+                      className="dash-card-bullet"
+                      style={{
+                        backgroundColor: "#FF7049",
+                      }}
+                    ></span>
+
+                    <span className="dash-card-subhead">Yesterday</span>
+                  </div>
+                  <div className="dash-card-subhead-wrapper">
+                    <h3 className="dash-card-head">{weeklyLeads}</h3>
+                    <span
+                      className="dash-card-bullet"
+                      style={{
+                        backgroundColor: "#563BFF",
+                      }}
+                    ></span>
+
+                    <span className="dash-card-subhead">Weekly</span>
+                  </div>
+                </div>
               </Box>
-            </>
-          ) : null}
-        </Box>
-      </div>
+            </Box>
+            <Box
+              sx={{ boxshadow: 3, backgroundColor: "#FFFFFF" }}
+              className="table-container"
+            >
+              {leadReduxState === false && leadReduxStateErr !== null ? (
+                <Table leadData={leadData} />
+              ) : null}
+              <Button
+                endIcon={<ArrowRightAltIcon />}
+                style={{
+                  textTransform: "none",
+                  width: "100%",
+                  color: "#003AD2",
+                  fontWeight: "600",
+                }}
+                onClick={viewMore}
+              >
+                View More
+              </Button>
+            </Box>
+          </>
+        ) : null}
+      </Box>
     </>
   );
 };

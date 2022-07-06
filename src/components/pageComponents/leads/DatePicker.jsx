@@ -41,7 +41,6 @@ class BasicDateRangePicker extends React.Component {
     this.props.leadsFilterDate(this.state.value);
     this.props.closeDateModal();
     this.props.datePickerState(1);
-    console.log(this.props.value);
   };
   closeModal = () => {
     this.props.closeDateModal();
