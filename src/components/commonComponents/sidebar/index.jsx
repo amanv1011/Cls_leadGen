@@ -121,7 +121,7 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
             }
             onClick={() => {
               navigate(item.url);
-              handleDrawerClose();
+              // handleDrawerClose();
             }}
           >
             <ListItemIcon className="list-item-icon">{item.icon}</ListItemIcon>
@@ -142,9 +142,6 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
         ))}
         {/* <Divider /> */}
       </Drawer>
-      {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-      </Box> */}
     </Box>
   );
 }
