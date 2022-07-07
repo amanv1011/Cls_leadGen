@@ -77,6 +77,7 @@ const Campaign = () => {
   const ownerNameFilterId = allUsers.filter(
     (user) => user.name === ownerFilterValue
   );
+
   useEffect(() => {
     dispatch(campaignActions.getAllCampaignsAction());
     dispatch(getAllLeadsAction());
@@ -88,6 +89,39 @@ const Campaign = () => {
 
   useEffect(() => {
     setCampaignsListData(campaignsList);
+  }, [campaignsList]);
+
+  useEffect(() => {
+    if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue === "Owner" &&
+      searchValue === ""
+    ) {
+      dispatch(campaignCountActions.getAllCampaignsCountAction(campaignsList));
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          campaignsList.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          campaignsList.filter((campaign) => campaign?.status === 0)
+        )
+      );
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(campaignsList);
+      }
+      if (campaignStateFilterValue === "activeCampaigns") {
+        setCampaignsListData(
+          campaignsList.filter((campaign) => campaign?.status === 1)
+        );
+      }
+      if (campaignStateFilterValue === "inActiveCampaigns") {
+        setCampaignsListData(
+          campaignsList.filter((campaign) => campaign?.status === 0)
+        );
+      }
+    }
   }, [campaignsList]);
 
   useEffect(() => {
