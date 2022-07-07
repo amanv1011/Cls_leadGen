@@ -789,7 +789,7 @@ const CampaignDescription = ({
                   campgaignId={campgaignId}
                   leadsList={leadsList}
                   selectedArray={selectedArray}
-                  searchedCampaignList={searchedCampaignList}
+                  campaignsListData={campaignsListData}
                 />
               </Box>
             </Box>

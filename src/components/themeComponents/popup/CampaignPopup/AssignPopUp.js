@@ -20,12 +20,14 @@ export default function AssignPopUp(
     assignUsers,
     selectedUsers,
     setselectedArray,
+    handleClosePopover,
   },
   props
 ) {
   const closeModal = () => {
     setOpenAssignModel(false);
-    setselectedArray([]);
+    // setselectedArray([]);
+    handleClosePopover();
   };
   return (
     <Dialog
