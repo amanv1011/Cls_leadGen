@@ -180,6 +180,7 @@ const CampaignDescription = ({
     start_date,
     "days"
   );
+  const endLessDate = moment().add(5, "Y").format("YYYY-MM-DD");
 
   if (difference === 0) {
     minStartTime = currentTime;
@@ -228,10 +229,12 @@ const CampaignDescription = ({
       frequency: parseInt(frequency),
       tags,
       onGoing,
+      campaignSeen: true,
       campaignCreatedAt: campaignDocument.campaignCreatedAt,
-      end_date: Timestamp.fromDate(new Date(end_date)),
+      end_date: onGoing
+        ? Timestamp.fromDate(new Date(endLessDate))
+        : Timestamp.fromDate(new Date(end_date)),
       start_date: Timestamp.fromDate(new Date(start_date)),
-      // last_crawled_date: Timestamp.fromDate(new Date(start_date)),
     };
 
     await dispatch(
@@ -554,7 +557,11 @@ const CampaignDescription = ({
                               type="date"
                               className="addCampaign-datePicker"
                               name="end_date"
-                              value={onGoing ? "" : end_date}
+                              value={
+                                onGoing
+                                  ? Timestamp.fromDate(new Date(endLessDate))
+                                  : end_date
+                              }
                               onChange={onInputChangeHandler}
                               autoComplete="off"
                               disabled={onGoing ? true : false}
