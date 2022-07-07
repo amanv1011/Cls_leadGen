@@ -30,10 +30,7 @@ const Leads = () => {
     dispatch(getAllCampaignsAction());
     dispatch(getAllLeadsAction());
     dispatch(getLeadsFullDescriptionAction());
-    dispatch(getAllUsersAction());
     dispatch(getCountryAction());
-    dispatch(getAssignedCampaignsAction());
-    dispatch(getlastCrawledDateAction());
   }, []);
 
   return (
@@ -67,4 +64,4 @@ const Leads = () => {
   );
 };
 
-export default memo(Leads);
+export default Leads;
