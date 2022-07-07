@@ -64,4 +64,4 @@ const Leads = () => {
   );
 };
 
-export default memo(Leads);
+export default Leads;
