@@ -5,7 +5,7 @@ import { roles } from "../../utils/constants";
 const ProtectedRoute = ({ user, children }) => {
   const location = useLocation();
   const currentPath = location.pathname;
-  console.log(currentPath);
+
   if (user && !roles.all.includes(user) && currentPath !== "/leads") {
     return <Navigate to="/leads" replace />;
   }

@@ -7,6 +7,7 @@ import AlertNotification from "./components/themeComponents/Alerts";
 import { closeAlertAction } from "./redux/actions/alertActions";
 import Loader from "./components/themeComponents/loader/index.jsx";
 import {
+  addUserAction,
   getAllUsersAction,
   getLoggedInUserAction,
 } from "./redux/actions/usersAction";
@@ -17,6 +18,8 @@ const App = (props) => {
   const token = localStorage.getItem("token");
   const [searchParams] = useSearchParams();
   const snackBarStates = useSelector((state) => state.snackBar);
+  const allUsers = useSelector((state) => state.users.users);
+
   const LoaderData = useSelector((state) => state.loaderReducer.isLoading);
   const userRole = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
@@ -74,11 +77,27 @@ const App = (props) => {
         .then((data) => {
           if (data && data.result && data.result[0]) {
             dispatch(getLoggedInUserAction(data.result[0]));
+            if (allUsers.length > 0) {
+              let filtered = allUsers.filter((user) => {
+                return user.userId === data.result[0].id;
+              });
+              console.log({ filtered });
+              if (!filtered.length) {
+                //add user in database here
+                let userInfo = {
+                  name: `${data.result[0].first_name} ${data.result[0].last_name}`,
+                  email: data.result[0].email,
+                  userId: data.result[0].id,
+                  role: data.result[0].user_role_id,
+                };
+                dispatch(addUserAction(userInfo));
+              }
+            }
           }
         })
         .catch((err) => console.log(err));
     }
-  }, [token]);
+  }, [token, allUsers]);
 
   return (
     <div className="App">
