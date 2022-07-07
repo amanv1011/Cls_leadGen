@@ -84,7 +84,6 @@ const App = (props) => {
               let filtered = allUsers.filter((user) => {
                 return user.userId === data.result[0].id;
               });
-              console.log({ filtered });
               if (!filtered.length) {
                 //add user in database here
                 let userInfo = {

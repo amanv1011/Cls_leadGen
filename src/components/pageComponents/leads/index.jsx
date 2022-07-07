@@ -30,7 +30,6 @@ const Leads = () => {
     dispatch(getAllCampaignsAction());
     dispatch(getAllLeadsAction());
     dispatch(getLeadsFullDescriptionAction());
-    dispatch(getAllUsersAction());
     dispatch(getCountryAction());
   }, []);
 
