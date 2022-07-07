@@ -14,10 +14,11 @@ import { dateModalReducer } from "./dateModalReducer";
 import { paginationReducer } from "./paginationReducer";
 import { alertReducer } from "./alertReducer";
 import loaderReducer from "./globalLoaderReducer";
-import { getUsersReducer } from "./usersReducer";
+import { getUsersReducer, getLoggedInUserAction } from "./usersReducer";
 import { campaignFilterReducer } from "./campaignFilterReducer";
 import { countryReducer } from "./countryReducer";
 import { campaignCountReducer } from "./campaignCountReducer";
+import { getLastCrawledDateReducer } from "./lastCrawledDateReducer";
 
 const rootReducer = combineReducers({
   allCampaigns: getAllCampaignsReducer,
@@ -37,6 +38,8 @@ const rootReducer = combineReducers({
   country: countryReducer,
   getAssignedLeadsReducer: getAssignedLeadsReducer,
   campaignsCount: campaignCountReducer,
+  lastCrawledDateList: getLastCrawledDateReducer,
+  getLoggedInUserAction: getLoggedInUserAction,
 });
 
 export default rootReducer;

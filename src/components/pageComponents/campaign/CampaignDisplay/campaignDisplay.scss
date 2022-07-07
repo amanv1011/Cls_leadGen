@@ -11,7 +11,7 @@
   .campaign-display-subcontainers {
     cursor: pointer;
     width: 100%;
-    height: 65px;
+    height: 60px;
     // border: 1px solid aliceblue;
     display: flex;
     font-style: normal;
@@ -48,6 +48,7 @@
           white-space: nowrap;
           text-overflow: ellipsis;
           text-transform: capitalize;
+          text-align: start;
           &.searched-campaign-empty {
             font-size: 12px;
             height: 18px;
@@ -75,6 +76,7 @@
       width: 45%;
       white-space: nowrap;
       overflow: hidden;
+      text-align: start;
     }
     .selected-sub {
       color: rgba(255, 255, 255, 0.5) !important;
@@ -167,13 +169,13 @@
     }
     &.assign-btn {
       color: #ff6c5f;
-      background: #1d9f07;
+      background: #165803;
     }
     &.activate-btn {
-      background: #d0108a;
+      background: #934d79;
     }
     &.deActivate-btn {
-      background: #82b82a;
+      background: #01604b;
     }
   }
 }

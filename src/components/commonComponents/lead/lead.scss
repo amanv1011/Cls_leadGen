@@ -6,7 +6,7 @@
   box-shadow: 0px 4px 8px #d9ebf2;
   border-radius: 15px;
   .leads-header {
-    height: 85px;
+    height: 70px;
     width: 100%;
   }
   .leads-body {
@@ -39,7 +39,6 @@
       box-sizing: border-box;
       height: calc(100vh - 180px);
       margin-top: 15px;
-
       padding: 0px 5px;
       overflow-y: auto;
       overflow-x: hidden;
@@ -54,7 +53,7 @@
         box-sizing: border-box;
         padding: 6px 0px;
         display: grid;
-        grid-gap: 6px;
+        grid-gap: 10px;
       }
       .disabled {
         pointer-events: none;

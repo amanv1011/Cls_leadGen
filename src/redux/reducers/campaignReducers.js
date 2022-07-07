@@ -11,6 +11,8 @@ const initialState = {
   searchedCampaignList: [],
   assignCampaign: {},
   assignedCampaigns: [],
+  campaignViewStatus: {},
+  campaignStateStatus: {},
 };
 
 // fetch all campaign list
@@ -85,7 +87,7 @@ export const getAllCampaignsReducer = (
       };
 
     case types.UPDATE_CAMPAIGN_DATA_SUCCESS:
-      var updatedData = state.campaignList.map((item) => {
+      let updatedData = state.campaignList.map((item) => {
         if (item.id === payload.id) {
           return payload;
         }
@@ -185,6 +187,59 @@ export const getAllCampaignsReducer = (
         assignedCampaigns: payload,
         error: payload,
       };
+
+    case types.UPDATE_CAMPAIGN_VIEW_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case types.UPDATE_CAMPAIGN_VIEW_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        campaignViewStatus: payload,
+        error: null,
+      };
+    case types.UPDATE_CAMPAIGN_VIEW_ERROR:
+      return {
+        ...state,
+        loading: false,
+        campaignViewStatus: {},
+        error: payload,
+      };
+
+    case types.UPDATE_CAMPAIGN_STATUS_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+
+    case types.UPDATE_CAMPAIGN_STATUS_SUCCESS:
+      let updatedStatus = state.campaignList.map(
+        (campaign) => campaign.id === payload.campaignId
+      );
+
+      const response = state.campaignList.map((campaign) => {
+        if (campaign.id === payload.campaignId) {
+          return { ...campaign, status: payload.status };
+        }
+        return campaign;
+      });
+      return {
+        ...state,
+        campaignStateStatus: { ...updatedStatus[0], status: payload.status },
+        campaignList: response,
+        error: null,
+      };
+    case types.UPDATE_CAMPAIGN_STATUS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
     default:
       return state;
   }

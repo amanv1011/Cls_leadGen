@@ -84,16 +84,16 @@ export const updateCampaignData = async (campaignId, campaignUpdateObject) => {
   }
 };
 
-export const getLastCrawledDate = async (campaignId) => {
+export const getLastCrawledDate = async () => {
   try {
-    const crawledDataSnaphot = await firebaseMethods.getDocs(
+    const crawledDateSnaphot = await firebaseMethods.getDocs(
       crawledDataCollection
     );
-    const CompaignList = crawledDataSnaphot.docs.map((doc) => ({
+    const crawledDateList = crawledDateSnaphot.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
-    return CompaignList.filter((item) => item.campaign_id === campaignId);
+    return crawledDateList;
   } catch (err) {
     return err;
   }
@@ -143,4 +143,18 @@ export const getAssignedCampaigns = async () => {
   } catch (error) {
     return error.message;
   }
+};
+
+export const updateCampaignViewStatus = async (campaignId) => {
+  const campaignObject = firebaseMethods.doc(campgaignCollection, campaignId);
+  await firebaseMethods.updateDoc(campaignObject, { campaignSeen: true });
+  return { campaignId: campaignId, campaignSeen: true };
+};
+
+export const updateCampaignStatus = async (campaignId, statusvalue) => {
+  const campaignObject = firebaseMethods.doc(campgaignCollection, campaignId);
+  await firebaseMethods.updateDoc(campaignObject, {
+    status: statusvalue,
+  });
+  return { campaignId: campaignId, status: statusvalue };
 };

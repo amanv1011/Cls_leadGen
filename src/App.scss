@@ -33,16 +33,14 @@ body {
   background: #ffffff;
   margin-top: 20px;
   border-radius: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 *::-webkit-scrollbar-thumb {
-  height: 165px;
+  height: 20%;
   background: #e6eaf2;
   border-radius: 15px;
 }
-
-
 
 //Global css for DateRangePicker component
 
@@ -50,16 +48,17 @@ body {
   padding-top: 7px;
   font-weight: 600;
   border: none;
-  background-color:rgb(233, 236, 241) !important;
+  background-color: rgb(233, 236, 241) !important;
   padding-bottom: 7px;
 }
 .rs-picker-toggle .rs-picker-toggle-placeholder {
   color: rgb(92, 117, 154) !important;
 }
 
-.rs-picker-has-value .rs-btn .rs-picker-toggle-value, .rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
+.rs-picker-has-value .rs-btn .rs-picker-toggle-value,
+.rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
   /* color: #1675e0; */
-  color:rgb(92, 117, 154) !important;
+  color: rgb(92, 117, 154) !important;
 }
 .rs-anim-fade.rs-anim-in {
   opacity: 1;

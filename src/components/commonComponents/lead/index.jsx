@@ -1,5 +1,5 @@
 import Cards from "./Cards";
-import React, { useState } from "react";
+import React, { memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { filterLeads } from "../lead/filterLeads";
 import { filterCount } from "../lead/filterCount";
@@ -8,8 +8,6 @@ import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
 import { getApproveCount } from "../../../redux/actions/approveRejectcount";
 import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
-import { setActivePage } from "../../../redux/actions/paginationActions";
-import { getAllUsersAction } from "../../../redux/actions/usersAction";
 import { useEffect } from "react";
 import "./lead.scss";
 
@@ -30,6 +28,26 @@ const Lead = () => {
   const assignedLeads = useSelector(
     (state) => state.getAssignedLeadsReducer.assignedLeads
   );
+  const approveRejectResponse = useSelector(
+    (state) => state.allLeads.approveRejectResponse
+  );
+
+  useEffect(() => {
+    if (
+      approveRejectResponse &&
+      approveRejectResponse.status &&
+      approveRejectResponse.leadsId
+    ) {
+      approveRejectResponse.leadsId.forEach((ele) => {
+        genratedLeadData &&
+          genratedLeadData.forEach((lead) => {
+            if (lead.id === ele) {
+              lead.status = approveRejectResponse.status;
+            }
+          });
+      });
+    }
+  }, [approveRejectResponse]);
 
   var filterAllLeads;
   var leadListForCount;
@@ -166,4 +184,4 @@ const Lead = () => {
   );
 };
 
-export default Lead;
+export default memo(Lead);

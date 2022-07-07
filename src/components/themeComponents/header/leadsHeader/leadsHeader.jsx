@@ -4,7 +4,6 @@ import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import Tooltip from "@mui/material/Tooltip";
@@ -16,20 +15,15 @@ import {
   datePickerState,
   leadsFilterCountiresName,
 } from "../../../../redux/actions/leadsFilter";
-//import moment from "moment";
-//import moment, * as moments from 'moment';
 import * as commonFunctions from "../../../pageComponents/campaign/commonFunctions";
-import AdvanceDatePicker from "../../AdvanceDatePicker/advanceDatePicker";
 import NewDateRangePicker from "../../AdvanceDatePicker/newDatePickerCompo";
 import { leadsFilterDate } from "../../../../redux/actions/leadsFilter";
 import { connect } from "react-redux";
-//const today = moment();
-//var moment = require('moment');
-import Moment from 'moment';
-import { extendMoment } from 'moment-range';
+
+import Moment from "moment";
+import { extendMoment } from "moment-range";
 
 const moment = extendMoment(Moment);
-
 
 const LeadsHeader = (props) => {
   const dispatch = useDispatch();
@@ -58,9 +52,8 @@ const LeadsHeader = (props) => {
   //const filterDate = useSelector((state) => state.leadsFilter.filterDate);
 
   const applyOkButton = (value1) => {
-    console.log(value1);
     setClearDateFilter(value1);
-    const calender1=moment.range(value1[0], value1[1]);
+    const calender1 = moment.range(value1[0], value1[1]);
     // const calender1 =
     //   props.leadsFilter.datePickerState === 0
     //     ? moment.range(today.clone(), today.clone())
@@ -146,11 +139,6 @@ const LeadsHeader = (props) => {
     }
     setOwnerMenu(null);
   };
-
-  // const rangeFunc = (event) => {
-  //   console.log("Hello1");
-  //   // props.clearFilterTab();
-  // };
 
   const clearFilterTab = () => {
     dispatch(clearFilters());
@@ -244,12 +232,12 @@ const LeadsHeader = (props) => {
                 style: {
                   width: "auto",
                   borderRadius: "10px",
+                  boxSizing: "border-box",
                   marginTop: "3px",
                   boxshadow: "none",
-                  // backgroundColor: "#E7E7E7",
-                  backgroundColor: "rgb(233,236,241)",
+                  background: "rgba(248, 248, 249, 1)",
                   color: "rgba(92, 117,154)",
-                  zIndex: "1000",
+                  zIndex: "1",
                   overflow: "auto",
                   height: "auto",
                   minWidth: "160px",
@@ -260,10 +248,12 @@ const LeadsHeader = (props) => {
               onClose={handleCloseAllCampgainsMenu}
             >
               <MenuItem
+                disableRipple
                 key={"abc"}
                 className="menu-item"
                 onClick={handleCloseAllCampgainsMenu}
                 sx={{
+                  boxSizing: "border-box",
                   fontSize: "13px",
                   fontWeight: 600,
                 }}
@@ -275,9 +265,11 @@ const LeadsHeader = (props) => {
                   return (
                     <MenuItem
                       key={idx}
+                      disableRipple
                       className="menu-item"
                       onClick={handleCloseAllCampgainsMenu}
                       sx={{
+                        boxSizing: "border-box",
                         fontSize: "12px",
                         fontWeight: 600,
                       }}
@@ -289,7 +281,7 @@ const LeadsHeader = (props) => {
             </Menu>
           </div>
           <NewDateRangePicker
-           // rangeFunc={rangeFunc}
+            // rangeFunc={rangeFunc}
             clearDateFilter={clearDateFilter}
             applyOkButton={applyOkButton}
           />
@@ -318,9 +310,9 @@ const LeadsHeader = (props) => {
                 marginTop: "3px",
                 boxshadow: "none",
                 // backgroundColor: "#E7E7E7",
-                backgroundColor: "rgb(233,236,241)",
+                background: "rgba(248, 248, 249, 1)",
                 color: "rgba(92, 117,154)",
-                zIndex: "1000",
+                zIndex: "1",
                 overflow: "auto",
                 height: "auto",
                 minWidth: "160px",
@@ -383,9 +375,9 @@ const LeadsHeader = (props) => {
                   marginTop: "3px",
                   boxshadow: "none",
                   // backgroundColor: "#E7E7E7",
-                  backgroundColor: "rgb(233,236,241)",
+                  background: "rgba(248, 248, 249, 1)",
                   color: "rgba(92, 117,154)",
-                  zIndex: "1000",
+                  zIndex: "1",
                   overflow: "auto",
                   maxHeight: "200px",
                   minWidth: "160px",

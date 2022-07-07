@@ -2,6 +2,7 @@ import * as types from "../type";
 
 const initialState = {
   users: [],
+  loggedInUser: {},
 };
 
 export const getUsersReducer = (state = initialState, { type, payload }) => {
@@ -25,6 +26,23 @@ export const getUsersReducer = (state = initialState, { type, payload }) => {
         loading: false,
         users: [],
         error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const getLoggedInUserAction = (
+  state = initialState,
+  { type, payload }
+) => {
+  switch (type) {
+    case types.GET_LOGGED_IN_USER:
+      return {
+        ...state,
+        loading: false,
+        loggedInUser: payload,
+        error: null,
       };
     default:
       return state;

@@ -21,6 +21,8 @@ export const filterLeads = (
     }
     const fuse = new Fuse(filteredResults, {
       keys: ["title", "summary", "companyName"],
+      includeScore: true,
+      threshold: 0.4,
     });
     const results = fuse.search(searchQuery);
     finalFilteredResults = searchQuery

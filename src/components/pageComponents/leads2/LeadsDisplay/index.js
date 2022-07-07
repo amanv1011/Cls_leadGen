@@ -14,6 +14,7 @@ import {
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import IPopup from "../../../themeComponents/popup/leadPopup";
 import IModal from "../../../themeComponents/popup/modal";
+import RestrictedComponent from "../../../higherOrderComponents/restrictedComponent";
 
 const LeadsDisplay = ({
   leadsList,
@@ -25,8 +26,8 @@ const LeadsDisplay = ({
   status,
   options,
   onChangeOption,
-  selectedUsers,
-  setSelectedUsers,
+  setSelectedBatchAssignUsers,
+  selectedBatchAssignUsers,
   selectedArray,
   setselectedArray,
   reason,
@@ -49,7 +50,9 @@ const LeadsDisplay = ({
   const leadViewUpdate = useSelector(
     (state) => state.updateLeadViewStatusReducer.leadViewStatus
   );
-
+  const userRole = useSelector(
+    (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
+  );
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -118,14 +121,13 @@ const LeadsDisplay = ({
   };
 
   const assignBatchUsers = (e, option) => {
-    setSelectedUsers(option);
-    if (selectedArray.length > 0 && selectedUsers.length > 0) {
+    setSelectedBatchAssignUsers(option);
+    if (selectedArray.length > 0 && selectedBatchAssignUsers.length >= 0) {
       let arr = [];
       option &&
         option.forEach((e) => {
           arr.push(e.userId);
         });
-
       dispatch(assignLeadToUsersAction(selectedArray, arr));
     }
   };
@@ -151,7 +153,8 @@ const LeadsDisplay = ({
           options={options}
           onChangeOption={assignBatchUsers}
           // assignUsers={assignBatchUsers}
-          selectedUsers={selectedUsers}
+          selectedBatchAssignUsers={selectedBatchAssignUsers}
+          setSelectedBatchAssignUsers={setSelectedBatchAssignUsers}
         />
       }
       <div className="checkbox-menu-container">
@@ -193,11 +196,16 @@ const LeadsDisplay = ({
                   children="Approve"
                   onclick={() => handleBatchUpdateStatus(1)}
                 />
-                <IButton
-                  type={"blue"}
-                  name={"blue"}
-                  children={"Assign"}
-                  onclick={() => setOpenAssignModel(true)}
+                <RestrictedComponent
+                  user={userRole}
+                  Component={() => (
+                    <IButton
+                      type={"blue"}
+                      name={"blue"}
+                      children={"Assign"}
+                      onclick={() => setOpenAssignModel(true)}
+                    />
+                  )}
                 />
                 <IButton
                   type={"yellow"}
@@ -300,10 +308,13 @@ const LeadsDisplay = ({
           <>
             <p
               style={{
-                padding: "5px",
-                color: "#003ad2",
+                padding: "10px",
+                color: "rgb(92, 117, 154)",
                 fontSize: "14px",
                 fontWeight: 600,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               No lead(s) to display!

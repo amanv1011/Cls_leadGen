@@ -4,74 +4,39 @@ import Dashboard from "../pageComponents/dashboard";
 import Campaign from "../pageComponents/campaign/index";
 import Leads from "../pageComponents/leads";
 import UnAuthorizedComponent from "../pageComponents/unAuthorized";
+import OutletComponent from "../pageComponents/outletComopnent/outletComponent";
+import { roles } from "../../utils/constants";
+import ProtectedRoute from "./private";
 
-const AllRoutes = () => {
+const AllRoutes = ({ userRole }) => {
   const allRoutes = useRoutes([
     {
-      path: "/",
-      element: <Dashboard />,
+      element: <OutletComponent />,
       children: [
         {
+          path: "/",
+          // element: (
+          //   <>
+          //     {userRole && !roles.all.includes(userRole) ? (
+          //       <Navigate to="/leads" />
+          //     ) : (
+          //       <ProtectedRoute user={userRole} children={<Dashboard />} />
+          //       )}
+          //   </>
+          // ),
+          element: <ProtectedRoute user={userRole} children={<Dashboard />} />,
+          // element: <Dashboard />,
+        },
+        {
           path: "/leads",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads />
-            </>
-          ),
+          element: <ProtectedRoute user={userRole} children={<Leads />} />,
         },
 
         {
           path: "/campaign",
           element: (
             <>
-              {/* <Header /> */}
-              <Campaign />
-            </>
-          ),
-        },
-        {
-          path: "/leads/all",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads />
-            </>
-          ),
-        },
-        {
-          path: "/leads/underreview",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads />
-            </>
-          ),
-        },
-        {
-          path: "/leads/approve",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads />
-            </>
-          ),
-        },
-        {
-          path: "/leads/reject",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads />
-            </>
-          ),
-        },
-        {
-          path: "/leads/archive",
-          element: (
-            <>
-              {/* <Header /> */}
-              <Leads />
+              <ProtectedRoute user={userRole} children={<Campaign />} />
             </>
           ),
         },

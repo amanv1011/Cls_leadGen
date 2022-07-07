@@ -39,7 +39,7 @@ const AddCampaginModal = ({ countryList }) => {
     location: "",
     start_date: "",
     start_time: "",
-    last_crawled_date: "",
+    // last_crawled_date: "",
     end_date: "",
     end_time: "",
     onGoing: false,
@@ -133,7 +133,7 @@ const AddCampaginModal = ({ countryList }) => {
         onGoing,
         end_date: Timestamp.fromDate(new Date(end_date)),
         start_date: Timestamp.fromDate(new Date(start_date)),
-        last_crawled_date: Timestamp.fromDate(new Date(start_date)),
+        // last_crawled_date: Timestamp.fromDate(new Date(start_date)),
         owner: localStorage.getItem("userName")
           ? localStorage.getItem("userName")
           : "NA",
@@ -165,11 +165,11 @@ const AddCampaginModal = ({ countryList }) => {
         location: "",
         start_date: "",
         start_time: "",
-        last_crawled_date: "",
         end_date: "",
         end_time: "",
         onGoing: false,
         status: 1,
+        country: "",
       });
       setTags([]);
     } catch (error) {
@@ -205,16 +205,30 @@ const AddCampaginModal = ({ countryList }) => {
   return (
     <React.Fragment>
       <Button
+        disabled={a__campgaignId ? true : false}
+        style={
+          a__campgaignId
+            ? {
+                pointerEvents: "auto",
+                cursor: "not-allowed",
+                width: "160px",
+                height: "40px",
+                background: "#003AD2",
+                borderRadius: "10px",
+                marginLeft: "20px",
+                marginRight: "10px",
+              }
+            : {
+                width: "160px",
+                height: "40px",
+                background: "#003AD2",
+                borderRadius: "10px",
+                marginLeft: "20px",
+                marginRight: "10px",
+              }
+        }
         onClick={() => {
           dispatch(campaignActions.showModal());
-        }}
-        style={{
-          width: "160px",
-          height: "40px",
-          background: "#003AD2",
-          borderRadius: "10px",
-          marginLeft: "20px",
-          marginRight: "10px",
         }}
       >
         <PlusIcon />
@@ -224,7 +238,7 @@ const AddCampaginModal = ({ countryList }) => {
             height: "17px",
             fontStyle: "normal",
             fontWeight: 600,
-            fontSize: "14px",
+            fontSize: "12px",
             lineHeight: "17px",
             color: " #FFFFFF",
           }}
@@ -419,6 +433,7 @@ const AddCampaginModal = ({ countryList }) => {
                   name="onGoing"
                   style={{ marginRight: "5px" }}
                   onChange={onOngoing}
+                  value={onGoing}
                 />
                 <label className="addCampaignModal-labels">On going</label>
                 <span> )</span>
@@ -427,10 +442,11 @@ const AddCampaginModal = ({ countryList }) => {
                   type="date"
                   className="addCampaignModal-datePicker"
                   name="end_date"
-                  value={end_date}
+                  value={onGoing ? "" : end_date}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  required
+                  disabled={onGoing ? true : false}
+                  required={onGoing ? false : true}
                   min={start_date}
                 />
               </Grid>
@@ -445,7 +461,13 @@ const AddCampaginModal = ({ countryList }) => {
                   className="addCampaignModal-timePicker"
                   name="end_time"
                   value={end_time}
-                  min={difference_startDate_endDate ? "" : minTimeDiff}
+                  min={
+                    onGoing
+                      ? ""
+                      : difference_startDate_endDate
+                      ? ""
+                      : minTimeDiff
+                  }
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
@@ -502,7 +524,6 @@ const AddCampaginModal = ({ countryList }) => {
                   value={queryURL}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  required
                   style={{ width: "100%" }}
                 />
               </Grid>
@@ -541,7 +562,6 @@ const AddCampaginModal = ({ countryList }) => {
                         location: "",
                         start_date: "",
                         start_time: "",
-                        last_crawled_date: "",
                         end_date: "",
                         end_time: "",
                         status: 1,

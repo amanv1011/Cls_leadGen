@@ -7,6 +7,7 @@ import CampaignSearch from "./CampaignSearch";
 import CampaignDisplay from "./CampaignDisplay";
 import CampaignDescription from "./CampaignDescription";
 import * as campaignActions from "../../../redux/actions/campaignActions";
+import * as campaignCountActions from "../../../redux/actions/campaignCountActions";
 import "./campaign.scss";
 
 const Campaign = () => {
@@ -40,13 +41,564 @@ const Campaign = () => {
   const assignedCampaigns = useSelector(
     (state) => state.allCampaigns.assignedCampaigns
   );
+  const campaignViewStatus = useSelector(
+    (state) => state.allCampaigns.campaignViewStatus
+  );
+  const lastCrawledDateList = useSelector(
+    (state) => state.lastCrawledDateList.lastCrawledDateList
+  );
+
+  const allCamapignsCount = useSelector(
+    (state) => state.campaignsCount.allCamapignsCount
+  );
+  const activeCamapignsCount = useSelector(
+    (state) => state.campaignsCount.activeCamapignsCount
+  );
+  const inActiveCamapignsCount = useSelector(
+    (state) => state.campaignsCount.inActiveCamapignsCount
+  );
+  const campaignSateStatus = useSelector(
+    (state) => state.allCampaigns.campaignStateStatus
+  );
+
+  const [campaignsListData, setCampaignsListData] = useState([]);
+  const [campaignDocument, setCampaignDocument] = useState({});
+
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedArray, setselectedArray] = useState([]);
+
+  const ownerNameFilterId = allUsers.filter(
+    (user) => user.name === ownerFilterValue
+  );
+
+  useEffect(() => {
+    setCampaignsListData(campaignsList);
+  }, [campaignsList]);
+
+  useEffect(() => {
+    setCampaignDocument(campaignDoc);
+  }, [campaignDoc]);
+
+  const keysInJSON = ["name", "location", "owner"];
+
+  const searchingTable = (searchTerm) => {
+    const lowerCasedValue = searchTerm.toLowerCase().trim();
+    let filteredDataArray = campaignsList.filter((item) => {
+      return keysInJSON.some((key) =>
+        item[key].toString().toLowerCase().includes(lowerCasedValue)
+      );
+    });
+    return filteredDataArray;
+  };
+
+  useEffect(() => {
+    setCampaignDocument(campaignSateStatus);
+    if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue === "Owner" &&
+      searchValue === ""
+    ) {
+      dispatch(campaignCountActions.getAllCampaignsCountAction(campaignsList));
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          campaignsList.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          campaignsList.filter((campaign) => campaign?.status === 0)
+        )
+      );
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(campaignsList);
+      }
+      if (campaignStateFilterValue === "activeCampaigns") {
+        const activeCampaigns = campaignsList.filter(
+          (campaign) => campaign?.status === 1
+        );
+        setCampaignsListData(activeCampaigns);
+      }
+      if (campaignStateFilterValue === "inActiveCampaigns") {
+        const inActiveCampaigns = campaignsList.filter(
+          (campaign) => campaign?.status === 0
+        );
+        setCampaignsListData(inActiveCampaigns);
+      }
+    } else if (
+      countryFilterValue !== "Country" &&
+      ownerFilterValue === "Owner" &&
+      searchValue === ""
+    ) {
+      const filteredCampaigns = campaignsList.filter(
+        (campaign) => campaign?.country === countryFilterValue
+      );
+
+      dispatch(
+        campaignCountActions.getAllCampaignsCountAction(filteredCampaigns)
+      );
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 0)
+        )
+      );
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(filteredCampaigns);
+      } else if (campaignStateFilterValue === "activeCampaigns") {
+        const activeCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 1
+        );
+        setCampaignsListData(activeCampaigns);
+      } else if (campaignStateFilterValue === "inActiveCampaigns") {
+        const inActiveCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 0
+        );
+        setCampaignsListData(inActiveCampaigns);
+      }
+    } else if (
+      countryFilterValue !== "Country" &&
+      ownerFilterValue !== "Owner" &&
+      searchValue === ""
+    ) {
+      const filteredCampaigns = campaignsList.filter(
+        (campaign) =>
+          campaign?.country === countryFilterValue &&
+          campaign?.owner === ownerFilterValue
+      );
+      dispatch(
+        campaignCountActions.getAllCampaignsCountAction(filteredCampaigns)
+      );
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 0)
+        )
+      );
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(filteredCampaigns);
+      } else if (campaignStateFilterValue === "activeCampaigns") {
+        const activeCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 1
+        );
+        setCampaignsListData(activeCampaigns);
+      } else if (campaignStateFilterValue === "inActiveCampaigns") {
+        const inActiveCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 0
+        );
+        setCampaignsListData(inActiveCampaigns);
+      }
+    } else if (
+      countryFilterValue !== "Country" &&
+      ownerFilterValue !== "Owner" &&
+      searchValue !== ""
+    ) {
+      const searchCampaigns = searchingTable(searchValue);
+
+      const filteredCampaigns = searchCampaigns.filter(
+        (campaign) =>
+          campaign &&
+          campaign?.country === countryFilterValue &&
+          campaign?.owner === ownerFilterValue
+      );
+      dispatch(
+        campaignCountActions.getAllCampaignsCountAction(filteredCampaigns)
+      );
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 0)
+        )
+      );
+
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(filteredCampaigns);
+      } else if (campaignStateFilterValue === "activeCampaigns") {
+        const activeCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 1
+        );
+        setCampaignsListData(activeCampaigns);
+      } else if (campaignStateFilterValue === "inActiveCampaigns") {
+        const inActiveCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 0
+        );
+        setCampaignsListData(inActiveCampaigns);
+      }
+    } else if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue !== "Owner" &&
+      searchValue === ""
+    ) {
+      const filteredCampaigns = campaignsList.filter(
+        (campaign) => campaign && campaign?.owner === ownerFilterValue
+      );
+      dispatch(
+        campaignCountActions.getAllCampaignsCountAction(filteredCampaigns)
+      );
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 0)
+        )
+      );
+
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(filteredCampaigns);
+      } else if (campaignStateFilterValue === "activeCampaigns") {
+        const activeCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 1
+        );
+        setCampaignsListData(activeCampaigns);
+      } else if (campaignStateFilterValue === "inActiveCampaigns") {
+        const inActiveCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 0
+        );
+        setCampaignsListData(inActiveCampaigns);
+      }
+    } else if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue === "Owner" &&
+      searchValue !== ""
+    ) {
+      const lowerCasedValue = searchValue.toLowerCase().trim();
+
+      if (lowerCasedValue === "") {
+        setCampaignsListData(campaignsList);
+        dispatch(campaignActions.getSearchedCampaignList(campaignsList));
+        dispatch(
+          campaignCountActions.getAllCampaignsCountAction(campaignsList)
+        );
+        dispatch(
+          campaignCountActions.getActiveCampaignsCountAction(
+            campaignsList.filter((campaign) => campaign?.status === 1)
+          )
+        );
+        dispatch(
+          campaignCountActions.getInActiveCampaignsCountAction(
+            campaignsList.filter((campaign) => campaign?.status === 0)
+          )
+        );
+      } else {
+        const filteredData = campaignsList.filter((item) => {
+          return keysInJSON.some((key) =>
+            item[key].toString().toLowerCase().includes(lowerCasedValue)
+          );
+        });
+        setCampaignsListData(filteredData);
+        dispatch(campaignCountActions.getAllCampaignsCountAction(filteredData));
+        dispatch(
+          campaignCountActions.getActiveCampaignsCountAction(
+            filteredData.filter((campaign) => campaign?.status === 1)
+          )
+        );
+        dispatch(
+          campaignCountActions.getInActiveCampaignsCountAction(
+            filteredData.filter((campaign) => campaign?.status === 0)
+          )
+        );
+        dispatch(campaignActions.getSearchedCampaignList(filteredData));
+        if (campaignStateFilterValue === "AllCampaigns") {
+          setCampaignsListData(filteredData);
+        } else if (campaignStateFilterValue === "activeCampaigns") {
+          const activeCampaigns = filteredData.filter(
+            (campaign) => campaign?.status === 1
+          );
+          setCampaignsListData(activeCampaigns);
+        } else if (campaignStateFilterValue === "inActiveCampaigns") {
+          const inActiveCampaigns = filteredData.filter(
+            (campaign) => campaign?.status === 0
+          );
+          setCampaignsListData(inActiveCampaigns);
+        }
+      }
+    } else if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue !== "Owner" &&
+      searchValue !== ""
+    ) {
+      const searchCampaigns = searchingTable(searchValue);
+
+      const filteredCampaigns = searchCampaigns.filter(
+        (campaign) => campaign && campaign?.owner === ownerFilterValue
+      );
+      dispatch(
+        campaignCountActions.getAllCampaignsCountAction(filteredCampaigns)
+      );
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 0)
+        )
+      );
+
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(filteredCampaigns);
+      } else if (campaignStateFilterValue === "activeCampaigns") {
+        const activeCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 1
+        );
+        setCampaignsListData(activeCampaigns);
+      } else if (campaignStateFilterValue === "inActiveCampaigns") {
+        const inActiveCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 0
+        );
+        setCampaignsListData(inActiveCampaigns);
+      }
+    } else if (
+      countryFilterValue !== "Country" &&
+      ownerFilterValue === "Owner" &&
+      searchValue !== ""
+    ) {
+      const searchCampaigns = searchingTable(searchValue);
+
+      const filteredCampaigns = searchCampaigns.filter(
+        (campaign) => campaign?.country === countryFilterValue
+      );
+      dispatch(
+        campaignCountActions.getAllCampaignsCountAction(filteredCampaigns)
+      );
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          filteredCampaigns.filter((campaign) => campaign?.status === 0)
+        )
+      );
+
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(filteredCampaigns);
+      } else if (campaignStateFilterValue === "activeCampaigns") {
+        const activeCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 1
+        );
+        setCampaignsListData(activeCampaigns);
+      } else if (campaignStateFilterValue === "inActiveCampaigns") {
+        const inActiveCampaigns = filteredCampaigns.filter(
+          (campaign) => campaign?.status === 0
+        );
+        setCampaignsListData(inActiveCampaigns);
+      }
+    }
+
+    if (
+      countryFilterValue === "Country" &&
+      ownerNameFilterId.length > 0 &&
+      searchValue === ""
+    ) {
+      const arr = [];
+      assignedCampaigns &&
+        ownerNameFilterId &&
+        assignedCampaigns.forEach((campaign) => {
+          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
+            arr.push(campaign.campaignId);
+          }
+        });
+      const filtered = [];
+      arr.forEach((assignedCampaign) => {
+        campaignsList.forEach((campaign) => {
+          if (campaign.id === assignedCampaign) {
+            filtered.push(campaign);
+          }
+        });
+      });
+      dispatch(campaignCountActions.getAllCampaignsCountAction(filtered));
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          filtered.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          filtered.filter((campaign) => campaign?.status === 0)
+        )
+      );
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(filtered);
+      } else if (campaignStateFilterValue === "activeCampaigns") {
+        const activeCampaigns = filtered.filter(
+          (campaign) => campaign?.status === 1
+        );
+        setCampaignsListData(activeCampaigns);
+      } else if (campaignStateFilterValue === "inActiveCampaigns") {
+        const inActiveCampaigns = filtered.filter(
+          (campaign) => campaign?.status === 0
+        );
+        setCampaignsListData(inActiveCampaigns);
+      }
+    }
+
+    if (countryFilterValue !== "Country" && ownerNameFilterId.length > 0) {
+      const arr = [];
+      assignedCampaigns &&
+        ownerNameFilterId &&
+        assignedCampaigns.forEach((campaign) => {
+          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
+            arr.push(campaign.campaignId);
+          }
+        });
+      const filtered = [];
+      arr.forEach((assignedCampaign) => {
+        campaignsList.forEach((campaign) => {
+          if (campaign.id === assignedCampaign) {
+            filtered.push(campaign);
+          }
+        });
+      });
+      const finalFiltered = filtered.filter(
+        (campaign) => campaign?.country === countryFilterValue
+      );
+      dispatch(campaignCountActions.getAllCampaignsCountAction(finalFiltered));
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          finalFiltered.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          finalFiltered.filter((campaign) => campaign?.status === 0)
+        )
+      );
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(finalFiltered);
+      } else if (campaignStateFilterValue === "activeCampaigns") {
+        const activeCampaigns = finalFiltered.filter(
+          (campaign) => campaign?.status === 1
+        );
+        setCampaignsListData(activeCampaigns);
+      } else if (campaignStateFilterValue === "inActiveCampaigns") {
+        const inActiveCampaigns = finalFiltered.filter(
+          (campaign) => campaign?.status === 0
+        );
+        setCampaignsListData(inActiveCampaigns);
+      }
+    }
+    if (
+      countryFilterValue === "Country" &&
+      ownerNameFilterId.length > 0 &&
+      searchValue !== ""
+    ) {
+      const searchCampaigns = searchingTable(searchValue);
+      const arr = [];
+      assignedCampaigns &&
+        ownerNameFilterId &&
+        assignedCampaigns.forEach((campaign) => {
+          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
+            arr.push(campaign.campaignId);
+          }
+        });
+      const filtered = [];
+      arr.forEach((assignedCampaign) => {
+        searchCampaigns.forEach((campaign) => {
+          if (campaign.id === assignedCampaign) {
+            filtered.push(campaign);
+          }
+        });
+      });
+      dispatch(campaignCountActions.getAllCampaignsCountAction(filtered));
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          filtered.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          filtered.filter((campaign) => campaign?.status === 0)
+        )
+      );
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(filtered);
+      } else if (campaignStateFilterValue === "activeCampaigns") {
+        const activeCampaigns = filtered.filter(
+          (campaign) => campaign?.status === 1
+        );
+        setCampaignsListData(activeCampaigns);
+      } else if (campaignStateFilterValue === "inActiveCampaigns") {
+        const inActiveCampaigns = filtered.filter(
+          (campaign) => campaign?.status === 0
+        );
+        setCampaignsListData(inActiveCampaigns);
+      }
+    }
+    if (
+      countryFilterValue !== "Country" &&
+      ownerNameFilterId.length > 0 &&
+      searchValue !== ""
+    ) {
+      const searchCampaigns = searchingTable(searchValue);
+
+      const filteredCampaigns = searchCampaigns.filter(
+        (campaign) => campaign?.country === countryFilterValue
+      );
+      const arr = [];
+      assignedCampaigns &&
+        ownerNameFilterId &&
+        assignedCampaigns.forEach((campaign) => {
+          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
+            arr.push(campaign.campaignId);
+          }
+        });
+      const filtered = [];
+      arr.forEach((assignedCampaign) => {
+        filteredCampaigns.forEach((campaign) => {
+          if (campaign.id === assignedCampaign) {
+            filtered.push(campaign);
+          }
+        });
+      });
+      dispatch(campaignCountActions.getAllCampaignsCountAction(filtered));
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          filtered.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          filtered.filter((campaign) => campaign?.status === 0)
+        )
+      );
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(filtered);
+      } else if (campaignStateFilterValue === "activeCampaigns") {
+        const activeCampaigns = filtered.filter(
+          (campaign) => campaign?.status === 1
+        );
+        setCampaignsListData(activeCampaigns);
+      } else if (campaignStateFilterValue === "inActiveCampaigns") {
+        const inActiveCampaigns = filtered.filter(
+          (campaign) => campaign?.status === 0
+        );
+        setCampaignsListData(inActiveCampaigns);
+      }
+    }
+  }, [campaignSateStatus]);
 
   useEffect(() => {
     setSelectedUsers([]);
-    if (assignedCampaigns && campaignDoc && campaignDoc.id) {
+    if (assignedCampaigns && campaignDocument && campaignDocument.id) {
       assignedCampaigns.forEach((assignedCampaign) => {
-        if (assignedCampaign.campaignId === campaignDoc.id) {
+        if (assignedCampaign.campaignId === campaignDocument.id) {
           let selectedId = assignedCampaign.userId;
           const filteredArray = allUsers.filter((value) =>
             selectedId.includes(value.userId)
@@ -55,7 +607,7 @@ const Campaign = () => {
         }
       });
     }
-  }, [campaignDoc]);
+  }, [campaignDocument]);
 
   const onChangeOption = async (e, option) => {
     setSelectedUsers(option);
@@ -65,7 +617,7 @@ const Campaign = () => {
         arr.push(e.userId);
       });
     await dispatch(
-      campaignActions.assignCampaignToUsersAction([campaignDoc.id], arr)
+      campaignActions.assignCampaignToUsersAction([campaignDocument.id], arr)
     );
     await dispatch(campaignActions.getAssignedCampaignsAction());
   };
@@ -79,6 +631,7 @@ const Campaign = () => {
           leadsList={leadsList}
           countryList={countryList}
           allUsers={allUsers}
+          campgaignId={campgaignId}
         />
       </Box>
       <Divider
@@ -98,14 +651,23 @@ const Campaign = () => {
           >
             <CampaignSearch
               campaignsList={campaignsList}
+              campaignsListData={campaignsListData}
               searchValue={searchValue}
               countryFilterValue={countryFilterValue}
               searchedCampaignList={searchedCampaignList}
               ownerFilterValue={ownerFilterValue}
+              campaignStateFilterValue={campaignStateFilterValue}
+              campgaignId={campgaignId}
+              setCampaignsListData={setCampaignsListData}
+              allUsers={allUsers}
+              assignedCampaigns={assignedCampaigns}
             />
           </div>
           <CampaignDisplay
-            campaignDoc={campaignDoc}
+            campaignsList={campaignsList}
+            campaignsListData={campaignsListData}
+            setCampaignsListData={setCampaignsListData}
+            campaignDocument={campaignDocument}
             searchValue={searchValue}
             searchedCampaignList={searchedCampaignList}
             campaignLoader={campaignLoader}
@@ -115,11 +677,20 @@ const Campaign = () => {
             campaignStateFilterValue={campaignStateFilterValue}
             selectedUsersForFilter={selectedUsers}
             options={allUsers}
+            assignedCampaigns={assignedCampaigns}
+            campaignViewStatus={campaignViewStatus}
+            campgaignId={campgaignId}
+            selectedArray={selectedArray}
+            setselectedArray={setselectedArray}
+            allCamapignsCount={allCamapignsCount}
+            activeCamapignsCount={activeCamapignsCount}
+            inActiveCamapignsCount={inActiveCamapignsCount}
           />
         </Box>
         <Box component={"div"} className="section campaign-details">
           <CampaignDescription
-            campaignDoc={campaignDoc}
+            campaignDocument={campaignDocument}
+            campaignsListData={campaignsListData}
             searchedCampaignList={searchedCampaignList}
             campgaignId={campgaignId}
             leadsList={leadsList}
@@ -127,6 +698,16 @@ const Campaign = () => {
             allUsers={allUsers}
             onChangeOption={onChangeOption}
             selectedUsers={selectedUsers}
+            lastCrawledDateList={lastCrawledDateList}
+            selectedArray={selectedArray}
+            setCampaignsListData={setCampaignsListData}
+            countryFilterValue={countryFilterValue}
+            ownerFilterValue={ownerFilterValue}
+            campaignStateFilterValue={campaignStateFilterValue}
+            assignedCampaigns={assignedCampaigns}
+            campaignsList={campaignsList}
+            options={allUsers}
+            campaignSateStatus={campaignSateStatus}
           />
         </Box>
       </Box>
