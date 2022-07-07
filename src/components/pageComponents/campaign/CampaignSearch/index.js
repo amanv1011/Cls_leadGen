@@ -6,18 +6,7 @@ import search from "../../../../assets/icons/search.svg";
 import "./campaignSearch.scss";
 import { Tooltip } from "@mui/material";
 
-const CampaignSearch = ({
-  campaignsList,
-  searchValue,
-  campgaignId,
-  setCampaignsListData,
-  campaignsListData,
-  countryFilterValue,
-  ownerFilterValue,
-  campaignStateFilterValue,
-  allUsers,
-  assignedCampaigns,
-}) => {
+const CampaignSearch = ({ campaignsList, searchValue, campgaignId }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -8,6 +8,13 @@ import CampaignDisplay from "./CampaignDisplay";
 import CampaignDescription from "./CampaignDescription";
 import * as campaignActions from "../../../redux/actions/campaignActions";
 import * as campaignCountActions from "../../../redux/actions/campaignCountActions";
+import {
+  getAllLeadsAction,
+  getLeadsFullDescriptionAction,
+} from "../../../redux/actions/leadActions";
+import { getCountryAction } from "../../../redux/actions/countryActions";
+import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
+
 import "./campaign.scss";
 
 const Campaign = () => {
@@ -72,7 +79,49 @@ const Campaign = () => {
   );
 
   useEffect(() => {
+    dispatch(campaignActions.getAllCampaignsAction());
+    dispatch(getAllLeadsAction());
+    dispatch(getLeadsFullDescriptionAction());
+    dispatch(getCountryAction());
+    dispatch(campaignActions.getAssignedCampaignsAction());
+    dispatch(getlastCrawledDateAction());
+  }, []);
+
+  useEffect(() => {
     setCampaignsListData(campaignsList);
+  }, [campaignsList]);
+
+  useEffect(() => {
+    if (
+      countryFilterValue === "Country" &&
+      ownerFilterValue === "Owner" &&
+      searchValue === ""
+    ) {
+      dispatch(campaignCountActions.getAllCampaignsCountAction(campaignsList));
+      dispatch(
+        campaignCountActions.getActiveCampaignsCountAction(
+          campaignsList.filter((campaign) => campaign?.status === 1)
+        )
+      );
+      dispatch(
+        campaignCountActions.getInActiveCampaignsCountAction(
+          campaignsList.filter((campaign) => campaign?.status === 0)
+        )
+      );
+      if (campaignStateFilterValue === "AllCampaigns") {
+        setCampaignsListData(campaignsList);
+      }
+      if (campaignStateFilterValue === "activeCampaigns") {
+        setCampaignsListData(
+          campaignsList.filter((campaign) => campaign?.status === 1)
+        );
+      }
+      if (campaignStateFilterValue === "inActiveCampaigns") {
+        setCampaignsListData(
+          campaignsList.filter((campaign) => campaign?.status === 0)
+        );
+      }
+    }
   }, [campaignsList]);
 
   useEffect(() => {
@@ -651,16 +700,8 @@ const Campaign = () => {
           >
             <CampaignSearch
               campaignsList={campaignsList}
-              campaignsListData={campaignsListData}
               searchValue={searchValue}
-              countryFilterValue={countryFilterValue}
-              searchedCampaignList={searchedCampaignList}
-              ownerFilterValue={ownerFilterValue}
-              campaignStateFilterValue={campaignStateFilterValue}
               campgaignId={campgaignId}
-              setCampaignsListData={setCampaignsListData}
-              allUsers={allUsers}
-              assignedCampaigns={assignedCampaigns}
             />
           </div>
           <CampaignDisplay

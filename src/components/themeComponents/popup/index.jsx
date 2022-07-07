@@ -39,7 +39,6 @@ const AddCampaginModal = ({ countryList }) => {
     location: "",
     start_date: "",
     start_time: "",
-    // last_crawled_date: "",
     end_date: "",
     end_time: "",
     onGoing: false,

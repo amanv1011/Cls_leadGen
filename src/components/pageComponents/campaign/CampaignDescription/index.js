@@ -109,18 +109,8 @@ const CampaignDescription = ({
     try {
       if (event.target.checked) {
         dispatch(campaignActions.updateCampaignStatusAction(a__campgaignId, 1));
-        dispatch(
-          openAlertAction("Campaign activated Successfully", false, "success")
-        );
       } else {
         dispatch(campaignActions.updateCampaignStatusAction(a__campgaignId, 0));
-        dispatch(
-          openAlertAction(
-            "Campaign de-activated Successfully",
-            false,
-            "success"
-          )
-        );
       }
     } catch (error) {
       dispatch(openAlertAction(`${error.message}`, true, "error"));

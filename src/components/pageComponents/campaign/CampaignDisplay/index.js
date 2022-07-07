@@ -1040,7 +1040,6 @@ const CampaignDisplay = ({
                               ? "selected"
                               : ""
                           }`}
-                          // style={{ color: "white" }}
                         >
                           {getNumOfLeads(campaign.id)
                             ? `${getNumOfLeads(campaign.id)} leads`
