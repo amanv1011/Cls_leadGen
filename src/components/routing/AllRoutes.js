@@ -82,8 +82,8 @@ const AllRoutes = () => {
       element: <Navigate to="/" />,
     },
     {
-      path: "unAuthorized",
-      element: <UnAuthorizedComponent></UnAuthorizedComponent>,
+      // path: "unAuthorized",
+      // element: <UnAuthorizedComponent></UnAuthorizedComponent>,
     },
   ]);
   return allRoutes;
