@@ -24,6 +24,9 @@ const App = (props) => {
   const userRole = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
   );
+  const loggedInUser = useSelector(
+    (state) => state.getLoggedInUserAction.loggedInUser
+  );
 
   const handleClose = () => {
     dispatch(closeAlertAction());
@@ -46,12 +49,12 @@ const App = (props) => {
         .then((data) => {
           localStorage.setItem("userName", searchParams.get("uname"));
           localStorage.setItem("token", searchParams.get("token"));
+          navigate("/");
         })
         .catch((error) => {
           localStorage.removeItem("token");
           navigate("/unAuthorized");
         });
-      //api for userId
     } else {
       if (!localStorage.getItem("token")) {
         navigate("/unAuthorized");
@@ -98,6 +101,35 @@ const App = (props) => {
         .catch((err) => console.log(err));
     }
   }, [token, allUsers]);
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("token") &&
+      localStorage.getItem("token") !== undefined &&
+      loggedInUser &&
+      loggedInUser.id
+    ) {
+      fetch(
+        `https://stageapp.api.classicinformatics.net/api/auth/getusertools?id=${loggedInUser.id}`,
+        {
+          method: "GET",
+          mode: "cors",
+          cache: "no-cache",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          const crm = res && res.filter((element) => element.id === "11");
+          if (crm && crm[0] && crm[0].is_active === false) {
+            navigate("/unAuthorized");
+          }
+        });
+    }
+  }, [token, loggedInUser]);
 
   return (
     <div className="App">
