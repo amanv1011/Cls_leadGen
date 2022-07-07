@@ -23,14 +23,11 @@ const DeActivatePopUp = ({
   const dispatch = useDispatch();
 
   const deActivateMultipleCampaings = () => {
-    selectedArray.map((seletedCampaigns) => {
-      try {
-        get_a_feild_in_a_document(seletedCampaigns, { status: 0 });
-      } catch (error) {
-        dispatch(openAlertAction(`${error.message}`, true, "error"));
-      }
+    selectedArray.forEach((seletedCampaignId) => {
+      dispatch(
+        campaignActions.updateCampaignStatusAction(seletedCampaignId, 0)
+      );
     });
-    dispatch(campaignActions.getAllCampaignsAction());
     handleClose();
     handleClosePopover();
     setselectedArray([]);

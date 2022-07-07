@@ -11,7 +11,7 @@ import moment from "moment";
 import "./campaignButtonActions.scss";
 
 const CampaignButtonActions = ({
-  campaignDoc,
+  campaignDocument,
   campgaignId,
   leadsList,
   selectedArray,
@@ -24,13 +24,13 @@ const CampaignButtonActions = ({
 
   const current_date = moment().format("YYYY-MM-DD");
   const difference_startDate_endDate = moment(current_date).diff(
-    campaignDoc?.start_date &&
+    campaignDocument?.start_date &&
       moment
         .unix(
-          campaignDoc.start_date.seconds,
-          campaignDoc.start_date.nanoseconds
+          campaignDocument.start_date.seconds,
+          campaignDocument.start_date.nanoseconds
         )
-        .format("MM/DD/YYYY"),
+        .format("YYYY-MM-DD"),
     "days"
   );
 
@@ -119,7 +119,7 @@ const CampaignButtonActions = ({
           <button
             className="campaign-btn edit-btn"
             onClick={() => {
-              dispatch(campaignActions.campaignIDAction(campaignDoc.id));
+              dispatch(campaignActions.campaignIDAction(campaignDocument.id));
             }}
             disabled={
               selectedArray.length !== 0 || difference_startDate_endDate > 0
@@ -143,7 +143,7 @@ const CampaignButtonActions = ({
             disabled={
               selectedArray.length !== 0
                 ? true
-                : getNumOfLeads(campaignDoc.id)
+                : getNumOfLeads(campaignDocument.id)
                 ? true
                 : false
             }
@@ -153,14 +153,14 @@ const CampaignButtonActions = ({
                     pointerEvents: "auto",
                     cursor: "not-allowed",
                   }
-                : getNumOfLeads(campaignDoc.id)
+                : getNumOfLeads(campaignDocument.id)
                 ? { pointerEvents: "auto", cursor: "not-allowed" }
                 : {}
             }
             onClick={() => {
               setOpenAlert(true);
-              setCampaignName(campaignDoc.name);
-              setIdForDelete(campaignDoc.id);
+              setCampaignName(campaignDocument.name);
+              setIdForDelete(campaignDocument.id);
             }}
           >
             <Delete /> <span className="campaign-btn-text">Delete</span>
@@ -170,7 +170,7 @@ const CampaignButtonActions = ({
             disabled={
               selectedArray.length !== 0
                 ? true
-                : getNumOfLeads(campaignDoc.id)
+                : getNumOfLeads(campaignDocument.id)
                 ? false
                 : true
             }
@@ -180,11 +180,13 @@ const CampaignButtonActions = ({
                     pointerEvents: "auto",
                     cursor: "not-allowed",
                   }
-                : getNumOfLeads(campaignDoc.id)
+                : getNumOfLeads(campaignDocument.id)
                 ? {}
                 : { pointerEvents: "auto", cursor: "not-allowed" }
             }
-            onClick={() => forDownloading(campaignDoc.id, campaignDoc.name)}
+            onClick={() =>
+              forDownloading(campaignDocument.id, campaignDocument.name)
+            }
           >
             <Download /> <span className="campaign-btn-text">Download</span>
           </button>

@@ -35,7 +35,7 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const CampaignDescription = ({
-  campaignDoc,
+  campaignDocument,
   searchedCampaignList,
   campgaignId,
   leadsList,
@@ -56,11 +56,6 @@ const CampaignDescription = ({
   campaignSateStatus,
 }) => {
   const dispatch = useDispatch();
-  const [campaignDocValue, setCampaignDocValue] = useState(campaignDoc);
-
-  useEffect(() => {
-    setCampaignDocValue(campaignDoc);
-  }, [campaignDoc]);
 
   const [addCampaignDetails, setAddCampaignDetails] = useState({
     name: "",
@@ -114,18 +109,8 @@ const CampaignDescription = ({
     try {
       if (event.target.checked) {
         dispatch(campaignActions.updateCampaignStatusAction(a__campgaignId, 1));
-        dispatch(
-          openAlertAction("Campaign activated Successfully", false, "success")
-        );
       } else {
         dispatch(campaignActions.updateCampaignStatusAction(a__campgaignId, 0));
-        dispatch(
-          openAlertAction(
-            "Campaign de-activated Successfully",
-            false,
-            "success"
-          )
-        );
       }
     } catch (error) {
       dispatch(openAlertAction(`${error.message}`, true, "error"));
@@ -134,25 +119,25 @@ const CampaignDescription = ({
 
   let sourceType = "";
 
-  if (campaignDocValue && campaignDocValue.source === "seek_aus") {
+  if (campaignDocument && campaignDocument.source === "seek_aus") {
     sourceType = "Seek Australia";
-  } else if (campaignDocValue && campaignDocValue.source === "indeed_aus") {
+  } else if (campaignDocument && campaignDocument.source === "indeed_aus") {
     sourceType = "Indeed Australia";
-  } else if (campaignDocValue && campaignDocValue.source === "indeed_ca") {
+  } else if (campaignDocument && campaignDocument.source === "indeed_ca") {
     sourceType = "Indeed Canada";
-  } else if (campaignDocValue && campaignDocValue.source === "indeed_uk") {
+  } else if (campaignDocument && campaignDocument.source === "indeed_uk") {
     sourceType = "Indeed United";
-  } else if (campaignDocValue && campaignDocValue.source === "indeed_il") {
+  } else if (campaignDocument && campaignDocument.source === "indeed_il") {
     sourceType = "Indeed Italy";
-  } else if (campaignDocValue && campaignDocValue.source === "indeed_ae") {
+  } else if (campaignDocument && campaignDocument.source === "indeed_ae") {
     sourceType = "Indeed UAE";
-  } else if (campaignDocValue && campaignDocValue.source === "indeed_fi") {
+  } else if (campaignDocument && campaignDocument.source === "indeed_fi") {
     sourceType = "Indeed Finland";
-  } else if (campaignDocValue && campaignDocValue.source === "indeed_ch") {
+  } else if (campaignDocument && campaignDocument.source === "indeed_ch") {
     sourceType = "Indeed China";
-  } else if (campaignDocValue && campaignDocValue.source === "indeed_pt") {
+  } else if (campaignDocument && campaignDocument.source === "indeed_pt") {
     sourceType = "Indeed Portugal";
-  } else if (campaignDocValue && campaignDocValue.source === "indeed_sg") {
+  } else if (campaignDocument && campaignDocument.source === "indeed_sg") {
     sourceType = "Indeed Singapore";
   } else {
     sourceType = "LinkedIn";
@@ -161,26 +146,26 @@ const CampaignDescription = ({
   useEffect(() => {
     if (campgaignId !== undefined && campgaignId !== "") {
       setAddCampaignDetails({
-        name: campaignDocValue.name,
-        source: campaignDocValue.source,
-        frequency: parseInt(campaignDocValue.frequency),
+        name: campaignDocument.name,
+        source: campaignDocument.source,
+        frequency: parseInt(campaignDocument.frequency),
         start_date: moment
-          .unix(campaignDocValue.start_date.seconds)
+          .unix(campaignDocument.start_date.seconds)
           .format("YYYY-MM-DD"),
-        start_time: campaignDocValue.start_time,
+        start_time: campaignDocument.start_time,
         end_date: moment
-          .unix(campaignDocValue.end_date.seconds)
+          .unix(campaignDocument.end_date.seconds)
           .format("YYYY-MM-DD"),
-        end_time: campaignDocValue.end_time,
-        location: campaignDocValue.location,
-        country: campaignDocValue.country,
-        status: parseInt(campaignDocValue.status),
+        end_time: campaignDocument.end_time,
+        location: campaignDocument.location,
+        country: campaignDocument.country,
+        status: parseInt(campaignDocument.status),
         queryURL:
-          campaignDocValue.queryURL !== "" ? campaignDocValue.queryURL : "NA",
-        owner: campaignDocValue.owner,
+          campaignDocument.queryURL !== "" ? campaignDocument.queryURL : "NA",
+        owner: campaignDocument.owner,
       });
-      setTags([...campaignDocValue.tags]);
-      setOnGoing(campaignDocValue.onGoing);
+      setTags([...campaignDocument.tags]);
+      setOnGoing(campaignDocument.onGoing);
     }
   }, [campgaignId]);
 
@@ -195,6 +180,7 @@ const CampaignDescription = ({
     start_date,
     "days"
   );
+  const endLessDate = moment().add(5, "Y").format("YYYY-MM-DD");
 
   if (difference === 0) {
     minStartTime = currentTime;
@@ -243,10 +229,12 @@ const CampaignDescription = ({
       frequency: parseInt(frequency),
       tags,
       onGoing,
-      campaignCreatedAt: campaignDocValue.campaignCreatedAt,
-      end_date: Timestamp.fromDate(new Date(end_date)),
+      campaignSeen: true,
+      campaignCreatedAt: campaignDocument.campaignCreatedAt,
+      end_date: onGoing
+        ? Timestamp.fromDate(new Date(endLessDate))
+        : Timestamp.fromDate(new Date(end_date)),
       start_date: Timestamp.fromDate(new Date(start_date)),
-      // last_crawled_date: Timestamp.fromDate(new Date(start_date)),
     };
 
     await dispatch(
@@ -266,7 +254,11 @@ const CampaignDescription = ({
   // return descNow.length !== 0 ? descNow.map((wow) => wow.descData) : "";
   // };
 
-  if (searchedCampaignList.length === 0 || campaignsListData.length === 0) {
+  if (
+    searchedCampaignList.length === 0 ||
+    campaignsListData.length === 0 ||
+    Object.keys(campaignDocument).length === 0
+  ) {
     return <></>;
   } else {
     return (
@@ -311,7 +303,7 @@ const CampaignDescription = ({
                         />
                       </React.Fragment>
                     ) : (
-                      campaignDocValue && campaignDocValue.name
+                      campaignDocument && campaignDocument.name
                     )}
                   </Box>
                 </Box>
@@ -335,27 +327,27 @@ const CampaignDescription = ({
                       />
                     ) : (
                       <span style={{ marginLeft: "10px" }}>
-                        {campaignDocValue.tags &&
-                          campaignDocValue.tags.toString()}
+                        {campaignDocument.tags &&
+                          campaignDocument.tags.toString()}
                       </span>
                     )}
                   </Box>
 
                   <Box component={"div"} className="subtitle">
                     <span className="status-text">
-                      {campaignDocValue && campaignDocValue.status
+                      {campaignDocument && campaignDocument.status
                         ? "Active"
                         : "In-Active"}
                     </span>
                     <GreenSwitch
                       className="toggleSwitch"
                       checked={
-                        campaignDocValue && campaignDocValue.status
+                        campaignDocument && campaignDocument.status
                           ? true
                           : false
                       }
                       onClick={(event) =>
-                        statusUpdate(event, campaignDocValue.id)
+                        statusUpdate(event, campaignDocument.id)
                       }
                     />
                   </Box>
@@ -424,7 +416,7 @@ const CampaignDescription = ({
                             <option value="linkedin">LinkedIn</option>
                           </select>
                         ) : (
-                          campaignDocValue && sourceType
+                          campaignDocument && sourceType
                         )}
                       </span>
                     </div>
@@ -444,11 +436,11 @@ const CampaignDescription = ({
                             pattern="(?:((?:0[1-9]|1[0-9]|2[0-9])\/(?:0[1-9]|1[0-2])|(?:30)\/(?!02)(?:0[1-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/(?:19|20)[0-9]{2})"
                           />
                         ) : (
-                          campaignDocValue?.start_date &&
+                          campaignDocument?.start_date &&
                           moment
                             .unix(
-                              campaignDocValue.start_date.seconds,
-                              campaignDocValue.start_date.nanoseconds
+                              campaignDocument.start_date.seconds,
+                              campaignDocument.start_date.nanoseconds
                             )
                             .format("MM/DD/YYYY")
                         )}
@@ -479,8 +471,8 @@ const CampaignDescription = ({
                             required
                           />
                         ) : (
-                          campaignDocValue &&
-                          moment(campaignDocValue.start_time, ["HH:mm"]).format(
+                          campaignDocument &&
+                          moment(campaignDocument.start_time, ["HH:mm"]).format(
                             "hh:mm A"
                           )
                         )}
@@ -500,7 +492,7 @@ const CampaignDescription = ({
                             required
                           />
                         ) : (
-                          campaignDocValue && campaignDocValue.location
+                          campaignDocument && campaignDocument.location
                         )}
                       </span>
                     </div>
@@ -513,15 +505,15 @@ const CampaignDescription = ({
                             className="addCampaign-inputs"
                             name="location"
                             value={
-                              campaignDocValue && campaignDocValue.owner
-                                ? campaignDocValue && campaignDocValue.owner
+                              campaignDocument && campaignDocument.owner
+                                ? campaignDocument && campaignDocument.owner
                                 : "NA"
                             }
                             autoComplete="off"
                             disabled
                           />
-                        ) : campaignDocValue && campaignDocValue.owner ? (
-                          campaignDocValue && campaignDocValue.owner
+                        ) : campaignDocument && campaignDocument.owner ? (
+                          campaignDocument && campaignDocument.owner
                         ) : (
                           "NA"
                         )}
@@ -551,7 +543,7 @@ const CampaignDescription = ({
                             max={15}
                           />
                         ) : (
-                          campaignDocValue && campaignDocValue.frequency
+                          campaignDocument && campaignDocument.frequency
                         )}
                       </span>
                     </div>
@@ -565,7 +557,11 @@ const CampaignDescription = ({
                               type="date"
                               className="addCampaign-datePicker"
                               name="end_date"
-                              value={onGoing ? "" : end_date}
+                              value={
+                                onGoing
+                                  ? Timestamp.fromDate(new Date(endLessDate))
+                                  : end_date
+                              }
                               onChange={onInputChangeHandler}
                               autoComplete="off"
                               disabled={onGoing ? true : false}
@@ -593,8 +589,8 @@ const CampaignDescription = ({
                           </>
                         ) : (
                           <React.Fragment>
-                            {campaignDocValue &&
-                            campaignDocValue.onGoing === true ? (
+                            {campaignDocument &&
+                            campaignDocument.onGoing === true ? (
                               <label
                                 className="addCampaign-labels"
                                 style={{
@@ -610,11 +606,11 @@ const CampaignDescription = ({
                                 On going
                               </label>
                             ) : (
-                              campaignDocValue?.end_date &&
+                              campaignDocument?.end_date &&
                               moment
                                 .unix(
-                                  campaignDocValue.end_date.seconds,
-                                  campaignDocValue.end_date.nanoseconds
+                                  campaignDocument.end_date.seconds,
+                                  campaignDocument.end_date.nanoseconds
                                 )
                                 .format("MM/DD/YYYY")
                             )}
@@ -645,8 +641,8 @@ const CampaignDescription = ({
                             required
                           />
                         ) : (
-                          campaignDocValue &&
-                          moment(campaignDocValue.end_time, ["HH:mm"]).format(
+                          campaignDocument &&
+                          moment(campaignDocument.end_time, ["HH:mm"]).format(
                             "hh:mm A"
                           )
                         )}
@@ -655,7 +651,7 @@ const CampaignDescription = ({
                     <div className="header-item">
                       <span className="header-key">Country</span>
                       <span className="header-value">
-                        {campgaignId && campaignDocValue.country ? (
+                        {campgaignId && campaignDocument.country ? (
                           <select
                             className="addCampaign-selects"
                             name="country"
@@ -676,8 +672,8 @@ const CampaignDescription = ({
                               </option>
                             ))}
                           </select>
-                        ) : campaignDocValue && campaignDocValue.country ? (
-                          campaignDocValue.country
+                        ) : campaignDocument && campaignDocument.country ? (
+                          campaignDocument.country
                         ) : (
                           "NA"
                         )}
@@ -690,20 +686,20 @@ const CampaignDescription = ({
                         className="header-value"
                         style={{ marginLeft: "40px" }}
                       >
-                        {/* {getLastCrawledDate(campaignDocValue.id)} */}
+                        {/* {getLastCrawledDate(campaignDocument.id)} */}
                         {campgaignId ? (
                           <input
                             type="text"
                             className="addCampaign-inputs"
                             name="lastCrawledDate"
                             value={
-                              lastCrawledDateList?.campaignDocValue &&
-                              campaignDocValue?.last_crawled_date
+                              lastCrawledDateList?.campaignDocument &&
+                              campaignDocument?.last_crawled_date
                                 ? moment
                                     .unix(
-                                      campaignDocValue.last_crawled_date
+                                      campaignDocument.last_crawled_date
                                         .seconds,
-                                      campaignDocValue.last_crawled_date
+                                      campaignDocument.last_crawled_date
                                         .nanoseconds
                                     )
                                     .format("MM/DD/YYYY")
@@ -712,12 +708,12 @@ const CampaignDescription = ({
                             autoComplete="off"
                             disabled
                           />
-                        ) : lastCrawledDateList?.campaignDocValue &&
-                          campaignDocValue?.last_crawled_date ? (
+                        ) : lastCrawledDateList?.campaignDocument &&
+                          campaignDocument?.last_crawled_date ? (
                           moment
                             .unix(
-                              campaignDocValue.last_crawled_date.seconds,
-                              campaignDocValue.last_crawled_date.nanoseconds
+                              campaignDocument.last_crawled_date.seconds,
+                              campaignDocument.last_crawled_date.nanoseconds
                             )
                             .format("MM/DD/YYYY")
                         ) : (
@@ -749,9 +745,9 @@ const CampaignDescription = ({
                           autoComplete="off"
                           style={{ width: "100%" }}
                         />
-                      ) : campaignDocValue &&
-                        campaignDocValue?.queryURL !== " " ? (
-                        campaignDocValue.queryURL
+                      ) : campaignDocument &&
+                        campaignDocument?.queryURL !== " " ? (
+                        campaignDocument.queryURL
                       ) : (
                         "NA"
                       )}
@@ -789,7 +785,7 @@ const CampaignDescription = ({
               </Box>
               <Box component={"div"} className="action-buttons">
                 <CampaignButtonActions
-                  campaignDoc={campaignDoc}
+                  campaignDocument={campaignDocument}
                   campgaignId={campgaignId}
                   leadsList={leadsList}
                   selectedArray={selectedArray}

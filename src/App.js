@@ -31,6 +31,7 @@ const App = (props) => {
   const handleClose = () => {
     dispatch(closeAlertAction());
   };
+
   useEffect(() => {
     dispatch(getAllUsersAction());
     if (searchParams.get("token")) {

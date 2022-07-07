@@ -258,7 +258,7 @@ export const updateCampaignViewStatusAction = (campaignId) => {
 export const updateCampaignStatusAction = (campaignId, status) => {
   return async (dispatch) => {
     dispatch({
-      type: types.UPDATE_CAMPAIGN_STATUS_ACTIVE_PENDING,
+      type: types.UPDATE_CAMPAIGN_STATUS_PENDING,
       loading: true,
     });
     dispatch(openLoader({ isLoading: true }));
@@ -268,20 +268,35 @@ export const updateCampaignStatusAction = (campaignId, status) => {
         status
       );
       dispatch(closeLoader());
+
+      if (res.campaignId && res.status === 1) {
+        dispatch(
+          openAlertAction("Campaign activated Successfully", false, "success")
+        );
+      }
+      if (res.campaignId && res.status === 0) {
+        dispatch(
+          openAlertAction(
+            "Campaign de-activated Successfully",
+            false,
+            "success"
+          )
+        );
+      }
       return dispatch({
-        type: types.UPDATE_CAMPAIGN_STATUS_ACTIVE_SUCCESS,
+        type: types.UPDATE_CAMPAIGN_STATUS_SUCCESS,
         payload: res,
       });
     } catch (err) {
       if (!!err && !!err.response && !!err.response.data) {
         dispatch(closeLoader());
         dispatch({
-          type: types.UPDATE_CAMPAIGN_STATUS_ACTIVE_ERROR,
+          type: types.UPDATE_CAMPAIGN_STATUS_ERROR,
           payload: err,
         });
       } else {
         dispatch(closeLoader());
-        dispatch({ type: types.UPDATE_CAMPAIGN_STATUS_ACTIVE_ERROR });
+        dispatch({ type: types.UPDATE_CAMPAIGN_STATUS_ERROR });
       }
     }
   };

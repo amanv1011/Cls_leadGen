@@ -152,20 +152,9 @@ export const updateCampaignViewStatus = async (campaignId) => {
 };
 
 export const updateCampaignStatus = async (campaignId, statusvalue) => {
-  try {
-    const documentRef = await firebaseMethods.doc(
-      firestore,
-      "campaigns",
-      campaignId
-    );
-    const updatedStatus = await firebaseMethods.setDoc(
-      documentRef,
-      { status: statusvalue },
-      { merge: true }
-    );
-    if (updatedStatus === undefined)
-      return { id: campaignId, status: statusvalue };
-  } catch (error) {
-    return error;
-  }
+  const campaignObject = firebaseMethods.doc(campgaignCollection, campaignId);
+  await firebaseMethods.updateDoc(campaignObject, {
+    status: statusvalue,
+  });
+  return { campaignId: campaignId, status: statusvalue };
 };
