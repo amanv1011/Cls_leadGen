@@ -318,7 +318,7 @@ const CampaignHeader = ({
             </Menu>
           </div>
           <div>
-            <div className="filter-icon">
+            <div className="filter-icon-campaign ">
               <Tooltip title="Clear Filter" placement="top-start">
                 <Button
                   disabled={campgaignId ? true : false}
@@ -335,8 +335,6 @@ const CampaignHeader = ({
                     fontWeight: "600",
                     padding: "0px",
                     borderRadius: "10px",
-                    marginLeft: "0px",
-                    backgroundColor: "rgb(231, 231, 231)",
                     color: "rgb(92, 117, 154)",
                   }}
                 >
