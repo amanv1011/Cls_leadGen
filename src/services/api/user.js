@@ -11,6 +11,5 @@ export const getUsers = async () => {
 
 export const addUsers = async (userInfo) => {
   const docRef = await addDoc(usersCollection, userInfo);
-  console.log(docRef);
   return userInfo;
 };
