@@ -6,7 +6,10 @@ const ProtectedRoute = ({ user, children }) => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  if (user && !roles.all.includes(user) && currentPath !== "/leads") {
+  if (
+    (user && !roles.all.includes(user) && currentPath !== "/leads") ||
+    (user === null && currentPath !== "/leads")
+  ) {
     return <Navigate to="/leads" replace />;
   }
 

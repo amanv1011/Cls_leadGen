@@ -60,7 +60,6 @@ const LeadsHeader = (props) => {
     //     : moment.range(value1[0], value1[1]);
     props.leadsFilterDate(calender1);
     props.datePickerState(1);
-    console.log("Selected Date By User", value1[0], value1[1]);
   };
 
   const openAllCampgainsMenu = Boolean(allCampgainsMenu);
@@ -87,9 +86,9 @@ const LeadsHeader = (props) => {
   const uniqueCountries = [];
 
   leadData.forEach((c) => {
-    if (!arr.includes(c.owner)) {
-      arr.push(c.owner);
-    }
+    // if (!arr.includes(c.owner)) {
+    //   arr.push(c.owner);
+    // }
 
     if (!uniqueCountries.includes(c.country)) {
       uniqueCountries.push(c.country);
