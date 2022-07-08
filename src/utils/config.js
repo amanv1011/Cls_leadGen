@@ -1,4 +1,4 @@
-export const cf = {
+export const firebaseConfig = {
   type: "service_account",
   projectId: "lead-gen-production",
   private_key_id: "6b8cbd436d8e0890b5c1ba38c2d333fb21397bdd",
