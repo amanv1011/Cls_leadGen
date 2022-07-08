@@ -11,12 +11,13 @@ import { getAllCount } from "../../../redux/actions/approveRejectcount";
 import { useEffect } from "react";
 import "./lead.scss";
 
-const Lead = () => {
+const Lead = (props) => {
   const dispatch = useDispatch();
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
-  const campgainData = useSelector((state) => state.allCampaigns.campaignList);
+  // const campgainData = useSelector((state) => state.allCampaigns.campaignList);
+  const campgainData = props.campaign;
   const allUsers = useSelector((state) => state.users.users);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
@@ -80,7 +81,6 @@ const Lead = () => {
       searchQuery
     );
   }
-
   if (
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter === "All Owners"
