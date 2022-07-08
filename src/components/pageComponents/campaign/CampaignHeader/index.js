@@ -231,8 +231,8 @@ const CampaignHeader = ({
                 uniqueCountries.map((country) => {
                   return (
                     <MenuItem
-                      key={country && country.id}
-                      data-id={country && country.id}
+                      key={country}
+                      data-id={country}
                       className="menu-item"
                       onClick={handleClosecountryMenu}
                       sx={{
@@ -303,8 +303,8 @@ const CampaignHeader = ({
                 uniqueOwner.sort().map((user) => {
                   return (
                     <MenuItem
-                      key={user.id}
-                      data-id={user && user.id}
+                      key={user}
+                      data-id={user}
                       className="menu-item"
                       onClick={handleCloseOwnerMenu}
                       sx={{
@@ -318,11 +318,13 @@ const CampaignHeader = ({
             </Menu>
           </div>
           <div>
-            <div className="filter-icon">
+            <div className="filter-icon-campaign ">
               <Tooltip title="Clear Filter" placement="top-start">
                 <Button
                   disabled={campgaignId ? true : false}
                   onClick={() => {
+                    dispatch(campaignActions.getAllCampaignsAction());
+                    dispatch(campaignActions.searchInputValueAction(""));
                     dispatch(campaignFilterActions.campaignFilterClearAction());
                   }}
                   className="filter-btn"
@@ -333,8 +335,6 @@ const CampaignHeader = ({
                     fontWeight: "600",
                     padding: "0px",
                     borderRadius: "10px",
-                    marginLeft: "0px",
-                    backgroundColor: "rgb(231, 231, 231)",
                     color: "rgb(92, 117, 154)",
                   }}
                 >

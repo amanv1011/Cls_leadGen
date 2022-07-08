@@ -146,7 +146,15 @@ export const getAssignedCampaigns = async () => {
 };
 
 export const updateCampaignViewStatus = async (campaignId) => {
-  const leadObject = firebaseMethods.doc(campgaignCollection, campaignId);
-  await firebaseMethods.updateDoc(leadObject, { campaignSeen: true });
+  const campaignObject = firebaseMethods.doc(campgaignCollection, campaignId);
+  await firebaseMethods.updateDoc(campaignObject, { campaignSeen: true });
   return { campaignId: campaignId, campaignSeen: true };
+};
+
+export const updateCampaignStatus = async (campaignId, statusvalue) => {
+  const campaignObject = firebaseMethods.doc(campgaignCollection, campaignId);
+  await firebaseMethods.updateDoc(campaignObject, {
+    status: statusvalue,
+  });
+  return { campaignId: campaignId, status: statusvalue };
 };

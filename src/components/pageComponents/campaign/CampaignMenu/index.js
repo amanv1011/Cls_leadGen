@@ -1,6 +1,6 @@
 import { MenuItem, Select } from "@mui/material";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { campaignStateFilterValueAction } from "../../../../redux/actions/campaignFilterActions";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./campaignMenu.scss";
@@ -23,20 +23,6 @@ const CampaignMenu = ({
   inActiveCamapignsCount,
 }) => {
   const dispatch = useDispatch();
-
-  // const campaignsAllCount = useSelector(
-  //   (state) => state.campaignsCount.allCamapignsCount
-  // );
-  // const activeCampaignsCount = useSelector(
-  //   (state) => state.campaignsCount.ativeCamapignsCount
-  // );
-  // const inActiveCampaignsCount = useSelector(
-  //   (state) => state.campaignsCount.inActiveCamapignsCount
-  // );
-
-  // const campaignStateFilterValue = useSelector(
-  //   (state) => state.campaignFilters.campaignState
-  // );
 
   return (
     <Select

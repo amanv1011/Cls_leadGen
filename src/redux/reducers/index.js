@@ -14,7 +14,11 @@ import { dateModalReducer } from "./dateModalReducer";
 import { paginationReducer } from "./paginationReducer";
 import { alertReducer } from "./alertReducer";
 import loaderReducer from "./globalLoaderReducer";
-import { getUsersReducer } from "./usersReducer";
+import {
+  getUsersReducer,
+  getLoggedInUserAction,
+  addUsersReducer,
+} from "./usersReducer";
 import { campaignFilterReducer } from "./campaignFilterReducer";
 import { countryReducer } from "./countryReducer";
 import { campaignCountReducer } from "./campaignCountReducer";
@@ -39,6 +43,8 @@ const rootReducer = combineReducers({
   getAssignedLeadsReducer: getAssignedLeadsReducer,
   campaignsCount: campaignCountReducer,
   lastCrawledDateList: getLastCrawledDateReducer,
+  getLoggedInUserAction: getLoggedInUserAction,
+  addUsersReducer: addUsersReducer,
 });
 
 export default rootReducer;
