@@ -70,31 +70,32 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
   const userRole = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
   );
-  const sideBarList = roles.all.includes(userRole)
-    ? [
-        {
-          icon: <WidgetsIcon />,
-          title: "Dashboard",
-          url: "/",
-        },
-        {
-          icon: <HourglassBottomIcon />,
-          title: "Campaign",
-          url: "/campaign",
-        },
-        {
-          icon: <WysiwygIcon />,
-          title: "Leads",
-          url: "/leads",
-        },
-      ]
-    : [
-        {
-          icon: <WysiwygIcon />,
-          title: "Leads",
-          url: "/leads",
-        },
-      ];
+  const sideBarList =
+    userRole && roles.all.includes(userRole)
+      ? [
+          {
+            icon: <WidgetsIcon />,
+            title: "Dashboard",
+            url: "/",
+          },
+          {
+            icon: <HourglassBottomIcon />,
+            title: "Campaign",
+            url: "/campaign",
+          },
+          {
+            icon: <WysiwygIcon />,
+            title: "Leads",
+            url: "/leads",
+          },
+        ]
+      : [
+          {
+            icon: <WysiwygIcon />,
+            title: "Leads",
+            url: "/leads",
+          },
+        ];
   return (
     <Box
       sx={{

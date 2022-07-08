@@ -79,7 +79,7 @@ export default function NotesPopup({
         </div>
       </DialogContent>
       <DialogActions className="dialoge-action">
-        <Textarea value={value} setValue={setValue} />
+        <Textarea className="show" value={value} setValue={setValue} />
         <IButton
           type="apply"
           name="apply"

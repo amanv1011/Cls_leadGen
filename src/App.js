@@ -81,7 +81,7 @@ const App = (props) => {
         .then((data) => {
           if (data && data.result && data.result[0]) {
             dispatch(getLoggedInUserAction(data.result[0]));
-            if (allUsers.length > 0) {
+            if (allUsers && allUsers.length) {
               let filtered = allUsers.filter((user) => {
                 return user.userId === data.result[0].id;
               });
