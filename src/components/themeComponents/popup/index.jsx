@@ -39,10 +39,8 @@ const AddCampaginModal = ({ countryList }) => {
     location: "",
     start_date: "",
     start_time: "",
-    // last_crawled_date: "",
     end_date: "",
     end_time: "",
-    onGoing: false,
     status: 1,
     country: "",
     queryURL: "",
@@ -63,6 +61,7 @@ const AddCampaginModal = ({ countryList }) => {
 
   const [tags, setTags] = useState([]);
   const [onGoing, setOnGoing] = useState(false);
+  const endLessDate = moment().add(5, "Y").format("YYYY-MM-DD");
 
   useEffect(() => {
     if (
@@ -126,14 +125,16 @@ const AddCampaginModal = ({ countryList }) => {
           return;
         }
       }
+
       const newCampaign = {
         ...addCampaignDetails,
         frequency: parseInt(frequency),
         tags,
         onGoing,
-        end_date: Timestamp.fromDate(new Date(end_date)),
         start_date: Timestamp.fromDate(new Date(start_date)),
-        // last_crawled_date: Timestamp.fromDate(new Date(start_date)),
+        end_date: onGoing
+          ? Timestamp.fromDate(new Date(endLessDate))
+          : Timestamp.fromDate(new Date(end_date)),
         owner: localStorage.getItem("userName")
           ? localStorage.getItem("userName")
           : "NA",
@@ -141,6 +142,9 @@ const AddCampaginModal = ({ countryList }) => {
         campaignSeen: false,
       };
 
+      // if (a__campgaignId === "") {
+      //   dispatch(campaignActions.postCampaignAction(newCampaign));
+      // }
       if (a__campgaignId) {
         dispatch(
           campaignActions.updateCampaignsAction(a__campgaignId, newCampaign)
@@ -155,22 +159,24 @@ const AddCampaginModal = ({ countryList }) => {
         errorFromStore === ""
       ) {
         dispatch(campaignActions.handleClose());
+        setAddCampaignDetails({
+          name: "",
+          source: "",
+          frequency: "",
+          location: "",
+          start_date: "",
+          start_time: "",
+          end_date: "",
+          end_time: "",
+          status: 1,
+          country: "",
+          queryURL: "",
+        });
+        setOnGoing(false);
+        setTags([]);
       } else {
         dispatch(campaignActions.showModal());
       }
-      setAddCampaignDetails({
-        name: "",
-        source: "",
-        frequency: "",
-        location: "",
-        start_date: "",
-        start_time: "",
-        end_date: "",
-        end_time: "",
-        onGoing: false,
-        status: 1,
-      });
-      setTags([]);
     } catch (error) {
       dispatch(
         openAlertAction(
@@ -229,14 +235,6 @@ const AddCampaginModal = ({ countryList }) => {
         onClick={() => {
           dispatch(campaignActions.showModal());
         }}
-        // style={{
-        //   width: "160px",
-        //   height: "40px",
-        //   background: "#003AD2",
-        //   borderRadius: "10px",
-        //   marginLeft: "20px",
-        //   marginRight: "10px",
-        // }}
       >
         <PlusIcon />
         <span
@@ -307,7 +305,6 @@ const AddCampaginModal = ({ countryList }) => {
                   required
                 />
               </Grid>
-
               <Grid
                 item
                 xs={4}
@@ -341,7 +338,6 @@ const AddCampaginModal = ({ countryList }) => {
                   <option value="linkedin">LinkedIn</option>
                 </select>
               </Grid>
-
               <Grid
                 item
                 xs={4}
@@ -362,7 +358,6 @@ const AddCampaginModal = ({ countryList }) => {
                   required
                 />
               </Grid>
-
               <Grid item xs={4}>
                 <label className="addCampaignModal-labels">
                   No. of times campaign runs per day
@@ -381,7 +376,6 @@ const AddCampaginModal = ({ countryList }) => {
                   max={15}
                 />
               </Grid>
-
               <Grid item xs={4}>
                 <label className="addCampaignModal-labels">Start Date</label>
                 <br />
@@ -397,7 +391,6 @@ const AddCampaginModal = ({ countryList }) => {
                   pattern="(?:((?:0[1-9]|1[0-9]|2[0-9])\/(?:0[1-9]|1[0-2])|(?:30)\/(?!02)(?:0[1-9]|1[0-2])|31\/(?:0[13578]|1[02]))\/(?:19|20)[0-9]{2})"
                 />
               </Grid>
-
               <Grid item xs={4}>
                 <label className="addCampaignModal-labels">
                   Parsing Start Time
@@ -424,7 +417,6 @@ const AddCampaginModal = ({ countryList }) => {
                   required
                 />
               </Grid>
-
               <Grid item xs={4}>
                 <label
                   className="addCampaignModal-labels"
@@ -440,6 +432,7 @@ const AddCampaginModal = ({ countryList }) => {
                   name="onGoing"
                   style={{ marginRight: "5px" }}
                   onChange={onOngoing}
+                  value={onGoing}
                 />
                 <label className="addCampaignModal-labels">On going</label>
                 <span> )</span>
@@ -448,14 +441,18 @@ const AddCampaginModal = ({ countryList }) => {
                   type="date"
                   className="addCampaignModal-datePicker"
                   name="end_date"
-                  value={end_date}
+                  value={
+                    onGoing
+                      ? Timestamp.fromDate(new Date(endLessDate))
+                      : end_date
+                  }
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  required
+                  disabled={onGoing ? true : false}
+                  required={onGoing ? false : true}
                   min={start_date}
                 />
               </Grid>
-
               <Grid item xs={4}>
                 <label className="addCampaignModal-labels">
                   Parsing End Time
@@ -466,13 +463,18 @@ const AddCampaginModal = ({ countryList }) => {
                   className="addCampaignModal-timePicker"
                   name="end_time"
                   value={end_time}
-                  min={difference_startDate_endDate ? "" : minTimeDiff}
+                  min={
+                    onGoing
+                      ? ""
+                      : difference_startDate_endDate
+                      ? ""
+                      : minTimeDiff
+                  }
                   onChange={onInputChangeHandler}
                   autoComplete="off"
                   required
                 />
               </Grid>
-
               <Grid item xs={4}>
                 <label className="addCampaignModal-labels">Location</label>
                 <br />
@@ -526,7 +528,6 @@ const AddCampaginModal = ({ countryList }) => {
                   style={{ width: "100%" }}
                 />
               </Grid>
-
               <Grid item xs={12}>
                 <Divider style={{ marginBottom: "30px" }} />
               </Grid>
@@ -564,7 +565,9 @@ const AddCampaginModal = ({ countryList }) => {
                         end_date: "",
                         end_time: "",
                         status: 1,
+                        country: "",
                       });
+                      setOnGoing(false);
                       setTags([]);
                     }}
                   >

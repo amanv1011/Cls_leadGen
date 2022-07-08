@@ -14,6 +14,7 @@ import {
 import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import IPopup from "../../../themeComponents/popup/leadPopup";
 import IModal from "../../../themeComponents/popup/modal";
+import RestrictedComponent from "../../../higherOrderComponents/restrictedComponent";
 
 const LeadsDisplay = ({
   leadsList,
@@ -49,7 +50,9 @@ const LeadsDisplay = ({
   const leadViewUpdate = useSelector(
     (state) => state.updateLeadViewStatusReducer.leadViewStatus
   );
-
+  const userRole = useSelector(
+    (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
+  );
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -120,7 +123,6 @@ const LeadsDisplay = ({
   const assignBatchUsers = (e, option) => {
     setSelectedBatchAssignUsers(option);
     if (selectedArray.length > 0 && selectedBatchAssignUsers.length >= 0) {
-      console.log(option);
       let arr = [];
       option &&
         option.forEach((e) => {
@@ -194,11 +196,16 @@ const LeadsDisplay = ({
                   children="Approve"
                   onclick={() => handleBatchUpdateStatus(1)}
                 />
-                <IButton
-                  type={"blue"}
-                  name={"blue"}
-                  children={"Assign"}
-                  onclick={() => setOpenAssignModel(true)}
+                <RestrictedComponent
+                  user={userRole}
+                  Component={() => (
+                    <IButton
+                      type={"blue"}
+                      name={"blue"}
+                      children={"Assign"}
+                      onclick={() => setOpenAssignModel(true)}
+                    />
+                  )}
                 />
                 <IButton
                   type={"yellow"}

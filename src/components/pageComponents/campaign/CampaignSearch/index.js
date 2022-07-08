@@ -1,58 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
-import * as paginationActions from "../../../../redux/actions/paginationActions";
+import * as campaignCountActions from "../../../../redux/actions/campaignCountActions";
 import search from "../../../../assets/icons/search.svg";
 import "./campaignSearch.scss";
+import { Tooltip } from "@mui/material";
 
-const CampaignSearch = ({
-  campaignsList,
-  searchValue,
-  campgaignId,
-  campaignsListData,
-  countryFilterValue,
-  ownerFilterValue,
-  campaignStateFilterValue,
-}) => {
+const CampaignSearch = ({ campaignsList, searchValue, campgaignId }) => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    searchingTable(searchValue);
-  }, [searchValue]);
 
   useEffect(() => {
     dispatch(campaignActions.getSearchedCampaignList(campaignsList));
   }, [campaignsList]);
 
   const keysInJSON = ["name", "location", "owner"];
-
-  const searchingTable = (searchTerm) => {
-    const lowerCasedValue = searchTerm.toLowerCase().trim();
-    let filteredData = [];
-
-    if (lowerCasedValue === "") {
-      dispatch(campaignActions.getSearchedCampaignList(campaignsList));
-    } else {
-      filteredData = campaignsList.filter((item) => {
-        return keysInJSON.some((key) =>
-          item[key].toString().toLowerCase().includes(lowerCasedValue)
-        );
-      });
-      dispatch(campaignActions.getSearchedCampaignList(filteredData));
-    }
-  };
-
   return (
     <React.Fragment>
+      {/* <Tooltip title={"Search the campaign by name, location and owner"}> */}
       <div className="campaign-search">
         <input
-          placeholder="Search"
+          placeholder="Search by campaign name & location"
           autoComplete="off"
           disabled={campgaignId ? true : false}
           onChange={(event) => {
             dispatch(
               campaignActions.searchInputValueAction(event.target.value)
             );
-            searchingTable(searchValue);
           }}
           type="text"
           value={searchValue}
@@ -60,6 +33,7 @@ const CampaignSearch = ({
         />
         <img src={search} alt="search" className="search-icon" />
       </div>
+      {/* </Tooltip> */}
     </React.Fragment>
   );
 };
