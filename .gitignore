@@ -8,7 +8,7 @@ node_modules/
 dist/
 
 # Firebase Config
-src/utils/config.js
+# src/utils/config.js
 
 # Compiled Java class files
 *.class
