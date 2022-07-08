@@ -12,6 +12,10 @@ import {
   getLoggedInUserAction,
 } from "./redux/actions/usersAction";
 
+const {
+  REACT_APP_APPLICATION_LINK
+} = process.env
+
 const App = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,7 +40,7 @@ const App = (props) => {
     dispatch(getAllUsersAction());
     if (searchParams.get("token")) {
       fetch(
-        "https://stageapp.api.classicinformatics.net/api/auth/verifyToken",
+        `${REACT_APP_APPLICATION_LINK}api/auth/verifyToken`,
         {
           method: "GET",
           mode: "cors",
@@ -68,7 +72,7 @@ const App = (props) => {
       localStorage.getItem("token") &&
       localStorage.getItem("token") !== undefined
     ) {
-      fetch("https://stageapp.api.classicinformatics.net/api/auth/getDetail", {
+      fetch(`${REACT_APP_APPLICATION_LINK}api/auth/getDetail`, {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
@@ -110,7 +114,7 @@ const App = (props) => {
       loggedInUser.id
     ) {
       fetch(
-        `https://stageapp.api.classicinformatics.net/api/auth/getusertools?id=${loggedInUser.id}`,
+        `${REACT_APP_APPLICATION_LINK}api/auth/getusertools?id=${loggedInUser.id}`,
         {
           method: "GET",
           mode: "cors",

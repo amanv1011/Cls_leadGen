@@ -13,7 +13,10 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
     "@testing-library/user-event": "^13.5.0",
+    "config": "^3.3.7",
     "date-fns": "^2.28.0",
+    "dotenv": "^10.0.0",
+    "env-cmd": "^10.1.0",
     "firebase": "^9.6.8",
     "fuse.js": "^6.5.3",
     "mobiscroll-react": "^4.0.0",
@@ -39,6 +42,8 @@
   },
   "scripts": {
     "start": "set PORT=3333 && react-scripts start",
+    "start:prod": "set PORT=3333 && env-cmd -f environments/production.env react-scripts start",
+    "start:stage": "set PORT=3333 && env-cmd -f environments/staging.env react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -64,5 +69,9 @@
   "devDependencies": {
     "prettier": "^2.5.1",
     "redux-logger": "^3.0.6"
+  },
+  "browser": {
+    "fs": false,
+    "os": false
   }
 }
