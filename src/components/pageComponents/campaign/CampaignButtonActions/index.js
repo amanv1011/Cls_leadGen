@@ -15,7 +15,7 @@ const CampaignButtonActions = ({
   campgaignId,
   leadsList,
   selectedArray,
-  searchedCampaignList,
+  campaignsListData,
 }) => {
   const dispatch = useDispatch();
   const [openAlert, setOpenAlert] = useState(false);
@@ -191,8 +191,7 @@ const CampaignButtonActions = ({
             <Download /> <span className="campaign-btn-text">Download</span>
           </button>
         </div>
-        {/* <div>Updated by:</div>
-        <div>Updated at</div> */}
+
         <AlertBeforeAction
           open={openAlert}
           setOpenAlert={setOpenAlert}
@@ -200,7 +199,7 @@ const CampaignButtonActions = ({
           setIdForDelete={setIdForDelete}
           campaignName={campaignName}
           setCampaignName={setCampaignName}
-          searchedCampaignList={searchedCampaignList}
+          campaignsListData={campaignsListData}
         />
       </React.Fragment>
     );
