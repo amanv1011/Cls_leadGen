@@ -46,6 +46,8 @@ const CampaignHeader = ({
   const handleClickOwnerMenu = (event) => {
     setOwnerMenu(event.currentTarget);
   };
+  console.log(countryList);
+  console.log(allUsers);
 
   const handleClosecountryMenu = (event) => {
     if (event.target.innerText === "") {
@@ -93,15 +95,15 @@ const CampaignHeader = ({
       }
     });
 
-  useEffect(() => {
-    const tempArray = [...finalUniqueOwnerArray];
-    allUsers.map((user) => {
-      if (!tempArray.includes(user.name)) {
-        tempArray.push(user.name);
-      }
-    });
-    setUniqueOwner(tempArray);
-  }, [allUsers, searchedCampaignList]);
+  // useEffect(() => {
+  //   const tempArray = [...finalUniqueOwnerArray];
+  //   allUsers.map((user) => {
+  //     if (!tempArray.includes(user.name)) {
+  //       // tempArray.push(user.name);
+  //     }
+  //   });
+  //   setUniqueOwner(tempArray);
+  // }, [allUsers, searchedCampaignList]);
 
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
@@ -299,52 +301,51 @@ const CampaignHeader = ({
               >
                 Owner
               </MenuItem>
-              {uniqueOwner &&
-                uniqueOwner.sort().map((user) => {
+              {allUsers &&
+                allUsers.sort().map((user) => {
                   return (
                     <MenuItem
-                      key={user}
-                      data-id={user}
+                      key={user.name}
+                      data-id={user.name}
                       className="menu-item"
                       onClick={handleCloseOwnerMenu}
                       sx={{
                         fontSize: matches ? "13px" : "14px",
                       }}
                     >
-                      {user}
+                      {user.name}
                     </MenuItem>
                   );
                 })}
             </Menu>
           </div>
-          <div>
-            <div className="filter-icon-campaign ">
-              <Tooltip title="Clear Filter" placement="top-start">
-                <Button
-                  disabled={campgaignId ? true : false}
-                  onClick={() => {
-                    dispatch(campaignActions.getAllCampaignsAction());
-                    dispatch(campaignActions.searchInputValueAction(""));
-                    dispatch(campaignFilterActions.campaignFilterClearAction());
-                  }}
-                  className="filter-btn"
-                  style={{
-                    textTransform: "none",
-                    height: "40px",
-                    width: "25px",
-                    fontWeight: "600",
-                    padding: "0px",
-                    borderRadius: "10px",
-                    color: "rgb(92, 117, 154)",
-                  }}
-                >
-                  <FilterAltOffIcon />
-                </Button>
-              </Tooltip>
-            </div>
-          </div>
+          <div></div>
         </div>
         <div className="right-section">
+          <div className="filter-icon-campaign ">
+            <Tooltip title="Clear Filter" placement="top-start">
+              <Button
+                disabled={campgaignId ? true : false}
+                onClick={() => {
+                  dispatch(campaignActions.getAllCampaignsAction());
+                  dispatch(campaignActions.searchInputValueAction(""));
+                  dispatch(campaignFilterActions.campaignFilterClearAction());
+                }}
+                className="filter-btn"
+                style={{
+                  textTransform: "none",
+                  height: "40px",
+                  width: "25px",
+                  fontWeight: "600",
+                  padding: "0px",
+                  borderRadius: "10px",
+                  color: "rgb(92, 117, 154)",
+                }}
+              >
+                <FilterAltOffIcon fontSize="small" />
+              </Button>
+            </Tooltip>
+          </div>
           <span>
             <AddCampaginModal countryList={countryList} />
             <Button

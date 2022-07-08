@@ -220,7 +220,7 @@ const AddCampaginModal = ({ countryList }) => {
                 height: "40px",
                 background: "#003AD2",
                 borderRadius: "10px",
-                marginLeft: "20px",
+                marginLeft: "10px",
                 marginRight: "10px",
               }
             : {
@@ -228,7 +228,7 @@ const AddCampaginModal = ({ countryList }) => {
                 height: "40px",
                 background: "#003AD2",
                 borderRadius: "10px",
-                marginLeft: "20px",
+                marginLeft: "10px",
                 marginRight: "10px",
               }
         }

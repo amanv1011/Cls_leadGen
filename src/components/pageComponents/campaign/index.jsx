@@ -14,7 +14,7 @@ import {
 } from "../../../redux/actions/leadActions";
 import { getCountryAction } from "../../../redux/actions/countryActions";
 import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
-
+import * as campaignFilterActions from "../../../redux/actions/campaignFilterActions";
 import "./campaign.scss";
 
 const Campaign = () => {
@@ -85,11 +85,20 @@ const Campaign = () => {
     dispatch(getCountryAction());
     dispatch(campaignActions.getAssignedCampaignsAction());
     dispatch(getlastCrawledDateAction());
+    dispatch(campaignFilterActions.campaignFilterClearAction());
   }, []);
 
   useEffect(() => {
     setCampaignsListData(campaignsList);
+    const newCampaigns = campaignsList.filter(
+      (campaign) => campaign.id === campaignDoc.id
+    );
+    setCampaignDocument(newCampaigns);
   }, [campaignsList]);
+
+  useEffect(() => {
+    setCampaignDocument(campaignDoc);
+  }, [campaignDoc]);
 
   useEffect(() => {
     if (
@@ -123,10 +132,6 @@ const Campaign = () => {
       }
     }
   }, [campaignsList]);
-
-  useEffect(() => {
-    setCampaignDocument(campaignDoc);
-  }, [campaignDoc]);
 
   const keysInJSON = ["name", "location", "owner"];
 
@@ -580,17 +585,17 @@ const Campaign = () => {
     }
   }, [campaignDocument]);
 
-  const onChangeOption = async (e, option) => {
+  const onChangeOption = (e, option) => {
     setSelectedUsers(option);
     let arr = [];
     option &&
       option.forEach((e) => {
         arr.push(e.userId);
       });
-    await dispatch(
+    dispatch(
       campaignActions.assignCampaignToUsersAction([campaignDocument.id], arr)
     );
-    await dispatch(campaignActions.getAssignedCampaignsAction());
+    dispatch(campaignActions.getAssignedCampaignsAction());
   };
 
   return (
