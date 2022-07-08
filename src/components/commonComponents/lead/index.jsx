@@ -10,12 +10,15 @@ import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
 import { useEffect } from "react";
 import "./lead.scss";
+import { useState } from "react";
 
 const Lead = (props) => {
+  const { option } = props;
   const dispatch = useDispatch();
+  const [leadsToProp, setleadsToProp] = useState([]);
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
-  const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
+  let genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   // const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const campgainData = props.campaign;
   const allUsers = useSelector((state) => state.users.users);
@@ -146,40 +149,51 @@ const Lead = (props) => {
   }
   AppendAssignedLeadtoOwner();
 
-  const rejectList =
-    searchDate === "" && searchQuery === ""
-      ? leadListForCount.filter((ele) => ele.status === -1)
-      : filterAllLeads.filter((ele) => ele.status === -1);
+  var xyz = 0;
+  function leadsCountByOption(option) {
+    if (option === "AllLeads") {
+      xyz = filterAllLeads;
+    } else if (option === "UnderReveiwLeads") {
+      let arr = filterAllLeads?.filter((ele) => ele.status === 0);
+      xyz = arr;
+    } else if (option === "ApprovedLeads") {
+      let arr = filterAllLeads?.filter((ele) => ele.status === 1);
+      xyz = arr;
+    } else if (option === "RejectedLeads") {
+      let arr = filterAllLeads?.filter((ele) => ele.status === -1);
+      xyz = arr;
+    } else if (option === "ArcheievdLeads") {
+      let arr = filterAllLeads?.filter((ele) => ele.status === 2);
+      xyz = arr;
+    }
+  }
+
+  leadsCountByOption(option);
+  console.log({ xyz });
+
+  const rejectList = filterAllLeads.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;
-  const underReviewList =
-    searchDate === "" && searchQuery === ""
-      ? leadListForCount.filter((ele) => ele.status === 0)
-      : filterAllLeads.filter((ele) => ele.status === 0);
+  const underReviewList = filterAllLeads.filter((ele) => ele.status === 0);
   const underReviewCount = underReviewList.length;
-  const archieveList =
-    searchDate === "" && searchQuery === ""
-      ? leadListForCount.filter((ele) => ele.status === 2)
-      : filterAllLeads.filter((ele) => ele.status === 2);
+  const archieveList = filterAllLeads.filter((ele) => ele.status === 2);
   const archieveCount = archieveList.length;
-  const approveList =
-    searchDate === "" && searchQuery === ""
-      ? leadListForCount.filter((ele) => ele.status === 1)
-      : filterAllLeads.filter((ele) => ele.status === 1);
+  const approveList = filterAllLeads.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
+  const totalCount =
+    approveCount + underReviewCount + rejectCount + archieveCount;
 
   useEffect(() => {
+    // setleadsToProp(filterAllLeads);
     dispatch(getApproveCount(approveCount));
     dispatch(getUnderreviewCount(underReviewCount));
     dispatch(getRejectCount(rejectCount));
     dispatch(getArchieveCount(archieveCount));
-    dispatch(
-      getAllCount(approveCount + underReviewCount + rejectCount + archieveCount)
-    );
-  });
+    dispatch(getAllCount(totalCount));
+  }, [filterAllLeads]);
 
   return (
     <>
-      <Cards leadData={filterAllLeads} />
+      <Cards leadData={xyz} />
     </>
   );
 };

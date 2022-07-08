@@ -78,13 +78,13 @@ const Leads = () => {
   console.log({ campaign });
   return (
     <React.Fragment>
-      {leadsDropDownFilter === "AllLeads" ? (
+      {/* {leadsDropDownFilter === "AllLeads" ? (
         <>
-          <Lead campaign={campaign} />
+          <Lead campaign={campaign} {} />
         </>
       ) : leadsDropDownFilter === "ApprovedLeads" ? (
         <>
-          <Approve campaign={campaign} />
+          <Leads campaign={campaign} />
         </>
       ) : leadsDropDownFilter === "RejectedLeads" ? (
         <>
@@ -102,7 +102,8 @@ const Leads = () => {
         <>
           <Archive campaign={campaign} />
         </>
-      ) : null}
+      ) : null} */}
+      <Lead campaign={campaign} option={leadsDropDownFilter} />
     </React.Fragment>
   );
 };
