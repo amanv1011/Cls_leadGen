@@ -46,8 +46,6 @@ const CampaignHeader = ({
   const handleClickOwnerMenu = (event) => {
     setOwnerMenu(event.currentTarget);
   };
-  console.log(countryList);
-  console.log(allUsers);
 
   const handleClosecountryMenu = (event) => {
     if (event.target.innerText === "") {
