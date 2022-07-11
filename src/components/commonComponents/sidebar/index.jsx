@@ -64,12 +64,14 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
+export default function MiniDrawer({
+  open,
+  userRole,
+  handleDrawer,
+  handleDrawerClose,
+}) {
   const navigate = useNavigate();
   const url = window.location.pathname;
-  const userRole = useSelector(
-    (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
-  );
   const sideBarList =
     userRole && roles.all.includes(userRole)
       ? [

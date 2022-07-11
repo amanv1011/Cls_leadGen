@@ -24,6 +24,7 @@ const OutletComponent = (props) => {
           open={open}
           handleDrawer={handleDrawer}
           handleDrawerClose={handleDrawerClose}
+          userRole={props.userRole}
         />
 
         <Outlet />
