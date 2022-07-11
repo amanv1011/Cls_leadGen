@@ -65,3 +65,31 @@ export const filterLeads = (
     return finalFilteredResults;
   }
 };
+
+export const ownerAndAssignedCampaigns = (
+  campaignList,
+  userName,
+  userId,
+  assignedCampaigns
+) => {
+  const filteredCampaign =
+    campaignList &&
+    campaignList.filter((ele) => ele.owner.includes(`${userName}`));
+  const arr = [];
+  assignedCampaigns &&
+    assignedCampaigns?.forEach((campaign) => {
+      if (campaign.userId.length && campaign.userId.includes(userId)) {
+        arr.push(campaign.campaignId);
+      }
+    });
+  const filtered = [];
+  arr.forEach((assignedCampaign) => {
+    campaignList.forEach((campaign) => {
+      if (campaign.id === assignedCampaign) {
+        filtered.push(campaign);
+      }
+    });
+  });
+  const xyz = filteredCampaign.concat(filtered);
+  return xyz;
+};

@@ -265,7 +265,7 @@ const Cards = (props) => {
       }
       <Box component="div" className="leads-container">
         <Box component={"div"} className="leads-header">
-          <LeadsHeader />
+          <LeadsHeader campaign={props.campaign} />
         </Box>
         <Divider
           light={true}

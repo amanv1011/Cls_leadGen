@@ -24,6 +24,7 @@ const App = (props) => {
   const userRole = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
   );
+  // const userRole = 2;
   const loggedInUser = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser
   );
@@ -91,8 +92,10 @@ const App = (props) => {
                   name: `${data.result[0].first_name} ${data.result[0].last_name}`,
                   email: data.result[0].email,
                   userId: data.result[0].id,
-                  role: data.result[0].user_role_id,
+                  // role: data.result[0].user_role_id,
+                  role: 2,
                 };
+
                 dispatch(addUserAction(userInfo));
               }
             }

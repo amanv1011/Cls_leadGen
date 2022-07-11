@@ -1,10 +1,6 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Lead from "../../commonComponents/lead";
-import Approve from "../../commonComponents/lead/Approve";
-import Reject from "../../commonComponents/lead/Reject";
-import UnderReview from "../../commonComponents/lead/UnderReview";
-import Archive from "../../commonComponents/lead/Archive";
 import "./leads.scss";
 import "../../pageComponents/leads2/leads.scss";
 import {
@@ -16,12 +12,11 @@ import {
   getAllCampaignsAction,
   getAssignedCampaignsAction,
 } from "../../../redux/actions/campaignActions";
-import { getAllUsersAction } from "../../../redux/actions/usersAction";
 import { getCountryAction } from "../../../redux/actions/countryActions";
-import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
-import { set } from "firebase/database";
+import { ownerAndAssignedCampaigns } from "../../commonComponents/lead/filterLeads";
+import { roles } from "../../../utils/constants";
 
-const Leads = () => {
+const Leads = ({ userRole }) => {
   const dispatch = useDispatch();
   const [campaign, setCampaign] = useState([]);
 
@@ -35,6 +30,9 @@ const Leads = () => {
   const assignedCampaigns = useSelector(
     (state) => state.allCampaigns.assignedCampaigns
   );
+  const assignedLeads = useSelector(
+    (state) => state.getAssignedLeadsReducer.assignedLeads
+  );
   useEffect(() => {
     dispatch(getAssignedLeadsAction());
     dispatch(getAllCampaignsAction());
@@ -43,11 +41,9 @@ const Leads = () => {
     dispatch(getCountryAction());
     dispatch(getAssignedCampaignsAction());
   }, []);
-  console.log(assignedCampaigns);
+
   useEffect(() => {
-    const user = 2;
-    console.log(loggedInUser);
-    if (user === 2) {
+    if (roles && !roles.all.includes(userRole)) {
       const filteredCampaign = campaignList.filter((ele) =>
         ele.owner.includes(`${loggedInUser.first_name}`)
       );
@@ -74,8 +70,8 @@ const Leads = () => {
     } else {
       setCampaign(campaignList);
     }
-  }, [campaignList, loggedInUser, assignedCampaigns]);
-  console.log({ campaign });
+  }, [campaignList, loggedInUser, assignedCampaigns, assignedLeads]);
+
   return (
     <React.Fragment>
       {/* {leadsDropDownFilter === "AllLeads" ? (
@@ -103,7 +99,14 @@ const Leads = () => {
           <Archive campaign={campaign} />
         </>
       ) : null} */}
-      <Lead campaign={campaign} option={leadsDropDownFilter} />
+      <Lead
+        campaign={campaign}
+        option={leadsDropDownFilter}
+        userRole={userRole}
+        assignedCampaigns={assignedCampaigns}
+        campaignList={campaignList}
+        assignedLeads={assignedLeads}
+      />
     </React.Fragment>
   );
 };

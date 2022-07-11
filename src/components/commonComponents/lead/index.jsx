@@ -1,7 +1,7 @@
 import Cards from "./Cards";
 import React, { memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { filterLeads } from "../lead/filterLeads";
+import { filterLeads, ownerAndAssignedCampaigns } from "../lead/filterLeads";
 import { filterCount } from "../lead/filterCount";
 import { getRejectCount } from "../../../redux/actions/approveRejectcount";
 import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
@@ -11,16 +11,24 @@ import { getAllCount } from "../../../redux/actions/approveRejectcount";
 import { useEffect } from "react";
 import "./lead.scss";
 import { useState } from "react";
+import { roles } from "../../../utils/constants";
 
 const Lead = (props) => {
-  const { option } = props;
+  const {
+    option,
+    campaign,
+    userRole,
+    assignedCampaigns,
+    campaignList,
+    assignedLeads,
+  } = props;
   const dispatch = useDispatch();
   const [leadsToProp, setleadsToProp] = useState([]);
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
   let genratedLeadData = useSelector((state) => state.allLeads.leadsList);
   // const campgainData = useSelector((state) => state.allCampaigns.campaignList);
-  const campgainData = props.campaign;
+  const campgainData = campaign;
   const allUsers = useSelector((state) => state.users.users);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
@@ -29,11 +37,17 @@ const Lead = (props) => {
   const countriesNameFilter = useSelector(
     (state) => state.leadsFilter.countriesName
   );
-  const assignedLeads = useSelector(
-    (state) => state.getAssignedLeadsReducer.assignedLeads
-  );
+  // const assignedLeads = useSelector(
+  //   (state) => state.getAssignedLeadsReducer.assignedLeads
+  // );
   const approveRejectResponse = useSelector(
     (state) => state.allLeads.approveRejectResponse
+  );
+  const ownerNameFilterId = allUsers?.filter(
+    (user) => user.name === ownerNameFilter
+  );
+  const loggedInUser = useSelector(
+    (state) => state.getLoggedInUserAction.loggedInUser
   );
 
   useEffect(() => {
@@ -55,34 +69,46 @@ const Lead = (props) => {
 
   var filterAllLeads;
   var leadListForCount;
+  var xyz = [];
 
   if (
     (campaignNameFilter === "" && ownerNameFilter === "") ||
     (campaignNameFilter === "All Campaigns" && ownerNameFilter === "All Owners")
   ) {
     const campaignIds = campgainData;
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
     filterAllLeads = filterLeads(
       campaignIds,
       genratedLeadData,
       searchDate,
       searchQuery
     );
+    if (roles && !roles.all.includes(userRole)) {
+      AppendAssignedLeadtoOwner(loggedInUser?.id);
+    }
   }
   if (
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
     ownerNameFilter !== "All Owners"
   ) {
-    const campaignIds = campgainData.filter(
-      (ele) => ele.owner === ownerNameFilter
+    // in owner filter dissabled this so we can get leads of assigned campaign too
+    const owner = allUsers?.filter((user) => user.name === ownerNameFilter);
+
+    const ownerNameFilterId = owner[0]?.userId;
+    const ownerAndAssignedCamp = ownerAndAssignedCampaigns(
+      campaignList,
+      ownerNameFilter,
+      ownerNameFilterId,
+      assignedCampaigns
     );
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
+    const campaignIds = ownerAndAssignedCamp;
+
     filterAllLeads = filterLeads(
       campaignIds,
       genratedLeadData,
       searchDate,
       searchQuery
     );
+    AppendAssignedLeadtoOwner(ownerNameFilterId);
   }
   if (
     campaignNameFilter !== "All Campaigns" &&
@@ -91,29 +117,38 @@ const Lead = (props) => {
     const campaignIds = campgainData.filter(
       (ele) => ele.name === campaignNameFilter
     );
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
+
     filterAllLeads = filterLeads(
       campaignIds,
       genratedLeadData,
       searchDate,
       searchQuery
     );
+    // AppendAssignedLeadtoOwner(ownerNameFilterId[0]?.userI);
   }
 
   if (
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter !== "All Owners"
   ) {
-    const campaignIds = campgainData.filter(
-      (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
+    const owner = allUsers?.filter((user) => user.name === ownerNameFilter);
+    const ownerNameFilterId = owner[0]?.userId;
+    const ownerAndAssignedCamp = ownerAndAssignedCampaigns(
+      campaignList,
+      ownerNameFilter,
+      ownerNameFilterId,
+      assignedCampaigns
     );
-    leadListForCount = filterCount(campaignIds, genratedLeadData);
+    const campaignIds = ownerAndAssignedCamp.filter(
+      (ele) => ele.owner === ownerNameFilter
+    );
     filterAllLeads = filterLeads(
       campaignIds,
       genratedLeadData,
       searchDate,
       searchQuery
     );
+    // AppendAssignedLeadtoOwner(ownerNameFilterId[0]?);
   }
 
   if (countriesNameFilter !== "All Countries") {
@@ -121,18 +156,15 @@ const Lead = (props) => {
       (ele) => ele.country === countriesNameFilter
     );
     filterAllLeads = arr;
-    leadListForCount = filterAllLeads;
+    // leadListForCount = filterAllLeads;
   }
 
-  function AppendAssignedLeadtoOwner() {
+  function AppendAssignedLeadtoOwner(filterProp) {
     const arr = [];
-    const ownerNameFilterId = allUsers.filter(
-      (user) => user.name === ownerNameFilter
-    );
+
     assignedLeads &&
-      ownerNameFilterId &&
       assignedLeads.forEach((lead) => {
-        if (lead.userId.includes(ownerNameFilterId[0]?.userId)) {
+        if (lead.userId.includes(filterProp)) {
           arr.push(lead.leadId);
         }
       });
@@ -144,12 +176,11 @@ const Lead = (props) => {
         }
       });
     });
-    filterAllLeads = [...filterAllLeads, ...filtered];
-    leadListForCount = filterAllLeads;
-  }
-  AppendAssignedLeadtoOwner();
 
-  var xyz = 0;
+    filterAllLeads = [...filterAllLeads, ...filtered];
+    xyz = filterAllLeads;
+  }
+
   function leadsCountByOption(option) {
     if (option === "AllLeads") {
       xyz = filterAllLeads;
@@ -169,7 +200,6 @@ const Lead = (props) => {
   }
 
   leadsCountByOption(option);
-  console.log({ xyz });
 
   const rejectList = filterAllLeads.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;
@@ -193,7 +223,7 @@ const Lead = (props) => {
 
   return (
     <>
-      <Cards leadData={xyz} />
+      <Cards leadData={xyz} campaign={campaign} />
     </>
   );
 };
