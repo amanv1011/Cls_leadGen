@@ -26,9 +26,10 @@ import { extendMoment } from "moment-range";
 const moment = extendMoment(Moment);
 
 const LeadsHeader = (props) => {
+  const { campaign } = props;
   const dispatch = useDispatch();
   const [uniqueOwner, setUniqueOwner] = useState([]);
-  const leadData = useSelector((state) => state.allCampaigns.campaignList);
+  // const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const allUsers = useSelector((state) => state.users.users);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
@@ -85,7 +86,7 @@ const LeadsHeader = (props) => {
   const arr = [];
   const uniqueCountries = [];
 
-  leadData.forEach((c) => {
+  campaign.forEach((c) => {
     // if (!arr.includes(c.owner)) {
     //   arr.push(c.owner);
     // }
@@ -103,7 +104,7 @@ const LeadsHeader = (props) => {
       }
     });
     setUniqueOwner(array);
-  }, [allUsers, leadData]);
+  }, [allUsers, campaign]);
 
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);
@@ -259,8 +260,8 @@ const LeadsHeader = (props) => {
               >
                 All Campaigns
               </MenuItem>
-              {leadData &&
-                leadData.map((ele, idx) => {
+              {campaign &&
+                campaign.map((ele, idx) => {
                   return (
                     <MenuItem
                       key={idx}

@@ -63,6 +63,7 @@ const Cards = (props) => {
   const filterChangeCountryState = useSelector(
     (state) => state.leadsFilter.countriesName
   );
+  const filterChangeDate = useSelector((state) => state.leadsFilter.filterDate);
 
   const assignedLeads = useSelector(
     (state) => state.getAssignedLeadsReducer.assignedLeads
@@ -116,6 +117,7 @@ const Cards = (props) => {
     filterChangeOwnerState,
     filterChangeCountryState,
     filterChangeSearchState,
+    filterChangeDate,
   ]);
 
   useEffect(() => {
@@ -227,7 +229,8 @@ const Cards = (props) => {
   };
 
   useEffect(() => {
-    const arr = allUsers.filter((ele) => ele.userId !== loggedInUser.id);
+    const arr =
+      allUsers && allUsers.filter((ele) => ele.userId !== loggedInUser.id);
     setfilteredUsers(arr);
   }, [allUsers, loggedInUser]);
 
@@ -262,7 +265,7 @@ const Cards = (props) => {
       }
       <Box component="div" className="leads-container">
         <Box component={"div"} className="leads-header">
-          <LeadsHeader />
+          <LeadsHeader campaign={props.campaign} />
         </Box>
         <Divider
           light={true}

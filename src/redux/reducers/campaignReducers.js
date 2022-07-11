@@ -28,15 +28,10 @@ export const getAllCampaignsReducer = (
         error: null,
       };
     case types.GET_CAMPAIGN_LIST_SUCCESS:
-      let filteredCampaigns = payload.filter(
-        (campaign) => campaign.owner === localStorage.getItem("userName")
-      );
-
-      console.log("filteredCampaigns", filteredCampaigns);
       return {
         ...state,
         loading: false,
-        campaignList: filteredCampaigns,
+        campaignList: payload,
         error: null,
       };
     case types.GET_CAMPAIGN_LIST_ERROR:
