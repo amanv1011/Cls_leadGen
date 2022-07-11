@@ -585,17 +585,17 @@ const Campaign = () => {
     }
   }, [campaignDocument]);
 
-  const onChangeOption = (e, option) => {
+  const onChangeOption = async (e, option) => {
     setSelectedUsers(option);
     let arr = [];
     option &&
       option.forEach((e) => {
         arr.push(e.userId);
       });
-    dispatch(
+    await dispatch(
       campaignActions.assignCampaignToUsersAction([campaignDocument.id], arr)
     );
-    dispatch(campaignActions.getAssignedCampaignsAction());
+    await dispatch(campaignActions.getAssignedCampaignsAction());
   };
 
   return (
