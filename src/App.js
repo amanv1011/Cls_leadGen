@@ -11,6 +11,8 @@ import {
   getAllUsersAction,
   getLoggedInUserAction,
 } from "./redux/actions/usersAction";
+import UAParser from "ua-parser-js";
+import jwt_decode from "jwt-decode";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -68,6 +70,14 @@ const App = (props) => {
       localStorage.getItem("token") &&
       localStorage.getItem("token") !== undefined
     ) {
+      const parser = new UAParser()
+      if (localStorage.getItem('token')) {
+        const decodedToken = jwt_decode(localStorage.getItem('token'))
+        if (decodedToken.navigator !== parser.getBrowser().name) {
+          localStorage.removeItem("token");
+          navigate("/unAuthorized");
+        }
+      }
       fetch("https://stageapp.api.classicinformatics.net/api/auth/getDetail", {
         method: "POST",
         mode: "cors",
