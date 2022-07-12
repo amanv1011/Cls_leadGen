@@ -71,9 +71,9 @@ const App = (props) => {
       localStorage.getItem("token") &&
       localStorage.getItem("token") !== undefined
     ) {
-      const parser = new UAParser()
-      if (localStorage.getItem('token')) {
-        const decodedToken = jwt_decode(localStorage.getItem('token'))
+      const parser = new UAParser();
+      if (localStorage.getItem("token")) {
+        const decodedToken = jwt_decode(localStorage.getItem("token"));
         if (decodedToken.navigator !== parser.getBrowser().name) {
           localStorage.removeItem("token");
           navigate("/unAuthorized");

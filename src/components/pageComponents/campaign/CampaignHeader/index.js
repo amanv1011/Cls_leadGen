@@ -93,16 +93,6 @@ const CampaignHeader = ({
       }
     });
 
-  // useEffect(() => {
-  //   const tempArray = [...finalUniqueOwnerArray];
-  //   allUsers.map((user) => {
-  //     if (!tempArray.includes(user.name)) {
-  //       // tempArray.push(user.name);
-  //     }
-  //   });
-  //   setUniqueOwner(tempArray);
-  // }, [allUsers, searchedCampaignList]);
-
   const getNumOfLeads = (id) => {
     const val = leadsList.filter((valID) => {
       return valID.campaignId === id;
