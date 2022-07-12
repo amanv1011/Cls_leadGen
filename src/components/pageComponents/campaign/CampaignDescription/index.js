@@ -250,7 +250,6 @@ const CampaignDescription = ({
   //       return lastCrawledDateCampaignId.campaign_id === campaignId;
   //     }
   //   );
-  //   console.log("lastCrawledDate", lastCrawledDate);
   // return descNow.length !== 0 ? descNow.map((wow) => wow.descData) : "";
   // };
 
