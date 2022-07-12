@@ -766,7 +766,7 @@ const CampaignDescription = ({
                               style={{ width: "100%" }}
                             />
                           ) : campaignDocument &&
-                            campaignDocument?.queryURL !== " " ? (
+                            campaignDocument?.queryURL !== "" ? (
                             campaignDocument.queryURL
                           ) : (
                             "NA"
