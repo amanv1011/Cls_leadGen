@@ -11,6 +11,8 @@ import {
   getAllUsersAction,
   getLoggedInUserAction,
 } from "./redux/actions/usersAction";
+import UAParser from "ua-parser-js";
+import jwt_decode from "jwt-decode";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -24,6 +26,7 @@ const App = (props) => {
   const userRole = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
   );
+  // const userRole = 2;
   const loggedInUser = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser
   );
@@ -68,6 +71,14 @@ const App = (props) => {
       localStorage.getItem("token") &&
       localStorage.getItem("token") !== undefined
     ) {
+      const parser = new UAParser()
+      if (localStorage.getItem('token')) {
+        const decodedToken = jwt_decode(localStorage.getItem('token'))
+        if (decodedToken.navigator !== parser.getBrowser().name) {
+          localStorage.removeItem("token");
+          navigate("/unAuthorized");
+        }
+      }
       fetch("https://stageapp.api.classicinformatics.net/api/auth/getDetail", {
         method: "POST",
         mode: "cors",
@@ -92,7 +103,9 @@ const App = (props) => {
                   email: data.result[0].email,
                   userId: data.result[0].id,
                   role: data.result[0].user_role_id,
+                  // role: 2,
                 };
+
                 dispatch(addUserAction(userInfo));
               }
             }
