@@ -14,6 +14,7 @@ import DeActivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActi
 import CampaignMenu from "../CampaignMenu";
 import * as campaignCountActions from "../../../../redux/actions/campaignCountActions";
 import AssignPopUp from "../../../themeComponents/popup/CampaignPopup/AssignPopUp";
+
 import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
@@ -39,6 +40,7 @@ const CampaignDisplay = ({
   searchValue,
   selectedUsers,
   setSelectedUsers,
+  loggedInUser,
 }) => {
   const dispatch = useDispatch();
 
@@ -51,15 +53,11 @@ const CampaignDisplay = ({
     useState(false);
   const [openAssignModel, setOpenAssignModel] = useState(false);
 
-  const ownerNameFilterId = options.filter(
-    (user) => user.name === ownerFilterValue
-  );
-
   useEffect(() => {
-    // if (campgaignId === "") {
-    campaignsListData.length !== 0 &&
-      dispatch(campaignActions.getACampaignAction(campaignsListData[0].id));
-    // }
+    if (campgaignId === "") {
+      campaignsListData.length !== 0 &&
+        dispatch(campaignActions.getACampaignAction(campaignsListData[0].id));
+    }
   }, [campaignsListData]);
 
   const keysInJSON = ["name", "location", "owner"];
@@ -158,55 +156,94 @@ const CampaignDisplay = ({
           campaign?.country === countryFilterValue &&
           campaign?.owner === ownerFilterValue
       );
-      const arr = [];
-      assignedCampaigns &&
-        ownerNameFilterId &&
-        assignedCampaigns.forEach((campaign) => {
-          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
-            arr.push(campaign.campaignId);
-          }
-        });
-      const filtered = [];
-      arr.forEach((assignedCampaign) => {
-        campaignsList.forEach((campaign) => {
-          if (campaign.id === assignedCampaign) {
-            filtered.push(campaign);
-          }
-        });
-      });
-
-      const combinedFilteredCampaigns = [...filteredCampaigns, ...filtered];
 
       dispatch(
         campaignCountActions.getAllCampaignsCountAction(
-          combinedFilteredCampaigns
+          commonFunctions.ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
         )
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 1)
+          commonFunctions
+            .ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+            .filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 0)
+          commonFunctions
+            .ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+            .filter((campaign) => campaign?.status === 0)
         )
       );
       if (campaignStateFilterValue === "AllCampaigns") {
-        setCampaignsListData(combinedFilteredCampaigns);
+        setCampaignsListData(
+          commonFunctions.ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+        );
         dispatch(
-          campaignActions.getSearchedCampaignList(combinedFilteredCampaigns)
+          campaignActions.getSearchedCampaignList(
+            commonFunctions.ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+          )
         );
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = combinedFilteredCampaigns.filter(
-          (campaign) => campaign?.status === 1
-        );
+        const activeCampaigns = commonFunctions
+          .ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+          .filter((campaign) => campaign?.status === 1);
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = combinedFilteredCampaigns.filter(
-          (campaign) => campaign?.status === 0
-        );
+        const inActiveCampaigns = commonFunctions
+          .ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+          .filter((campaign) => campaign?.status === 0);
         setCampaignsListData(inActiveCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(inActiveCampaigns));
       }
@@ -223,56 +260,95 @@ const CampaignDisplay = ({
           campaign?.country === countryFilterValue &&
           campaign?.owner === ownerFilterValue
       );
-      const arr = [];
-      assignedCampaigns &&
-        ownerNameFilterId &&
-        assignedCampaigns.forEach((campaign) => {
-          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
-            arr.push(campaign.campaignId);
-          }
-        });
-      const filtered = [];
-      arr.forEach((assignedCampaign) => {
-        campaignsList.forEach((campaign) => {
-          if (campaign.id === assignedCampaign) {
-            filtered.push(campaign);
-          }
-        });
-      });
-
-      const combinedFilteredCampaigns = [...filteredCampaigns, ...filtered];
 
       dispatch(
         campaignCountActions.getAllCampaignsCountAction(
-          combinedFilteredCampaigns
+          commonFunctions.ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
         )
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 1)
+          commonFunctions
+            .ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+            .filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 0)
+          commonFunctions
+            .ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+            .filter((campaign) => campaign?.status === 0)
         )
       );
 
       if (campaignStateFilterValue === "AllCampaigns") {
-        setCampaignsListData(combinedFilteredCampaigns);
+        setCampaignsListData(
+          commonFunctions.ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+        );
         dispatch(
-          campaignActions.getSearchedCampaignList(combinedFilteredCampaigns)
+          campaignActions.getSearchedCampaignList(
+            commonFunctions.ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+          )
         );
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = combinedFilteredCampaigns.filter(
-          (campaign) => campaign?.status === 1
-        );
+        const activeCampaigns = commonFunctions
+          .ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+          .filter((campaign) => campaign?.status === 1);
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = combinedFilteredCampaigns.filter(
-          (campaign) => campaign?.status === 0
-        );
+        const inActiveCampaigns = commonFunctions
+          .ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+          .filter((campaign) => campaign?.status === 0);
         setCampaignsListData(inActiveCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(inActiveCampaigns));
       }
@@ -284,56 +360,95 @@ const CampaignDisplay = ({
       const filteredCampaigns = campaignsList.filter(
         (campaign) => campaign && campaign?.owner === ownerFilterValue
       );
-      const arr = [];
-      assignedCampaigns &&
-        ownerNameFilterId &&
-        assignedCampaigns.forEach((campaign) => {
-          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
-            arr.push(campaign.campaignId);
-          }
-        });
-      const filtered = [];
-      arr.forEach((assignedCampaign) => {
-        campaignsList.forEach((campaign) => {
-          if (campaign.id === assignedCampaign) {
-            filtered.push(campaign);
-          }
-        });
-      });
-
-      const combinedFilteredCampaigns = [...filteredCampaigns, ...filtered];
 
       dispatch(
         campaignCountActions.getAllCampaignsCountAction(
-          combinedFilteredCampaigns
+          commonFunctions.ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
         )
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 1)
+          commonFunctions
+            .ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+            .filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 0)
+          commonFunctions
+            .ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+            .filter((campaign) => campaign?.status === 0)
         )
       );
 
       if (campaignStateFilterValue === "AllCampaigns") {
-        setCampaignsListData(combinedFilteredCampaigns);
+        setCampaignsListData(
+          commonFunctions.ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+        );
         dispatch(
-          campaignActions.getSearchedCampaignList(combinedFilteredCampaigns)
+          campaignActions.getSearchedCampaignList(
+            commonFunctions.ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+          )
         );
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = combinedFilteredCampaigns.filter(
-          (campaign) => campaign?.status === 1
-        );
+        const activeCampaigns = commonFunctions
+          .ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+          .filter((campaign) => campaign?.status === 1);
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = combinedFilteredCampaigns.filter(
-          (campaign) => campaign?.status === 0
-        );
+        const inActiveCampaigns = commonFunctions
+          .ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+          .filter((campaign) => campaign?.status === 0);
         setCampaignsListData(inActiveCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(inActiveCampaigns));
       }
@@ -404,54 +519,95 @@ const CampaignDisplay = ({
       const filteredCampaigns = searchCampaigns.filter(
         (campaign) => campaign && campaign?.owner === ownerFilterValue
       );
-      const arr = [];
-      assignedCampaigns &&
-        ownerNameFilterId &&
-        assignedCampaigns.forEach((campaign) => {
-          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
-            arr.push(campaign.campaignId);
-          }
-        });
-      const filtered = [];
-      arr.forEach((assignedCampaign) => {
-        campaignsList.forEach((campaign) => {
-          if (campaign.id === assignedCampaign) {
-            filtered.push(campaign);
-          }
-        });
-      });
-      const combinedFilteredCampaigns = [...filteredCampaigns, ...filtered];
+
       dispatch(
         campaignCountActions.getAllCampaignsCountAction(
-          combinedFilteredCampaigns
+          commonFunctions.ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
         )
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 1)
+          commonFunctions
+            .ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+            .filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 0)
+          commonFunctions
+            .ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+            .filter((campaign) => campaign?.status === 0)
         )
       );
 
       if (campaignStateFilterValue === "AllCampaigns") {
-        setCampaignsListData(combinedFilteredCampaigns);
+        setCampaignsListData(
+          commonFunctions.ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+        );
         dispatch(
-          campaignActions.getSearchedCampaignList(combinedFilteredCampaigns)
+          campaignActions.getSearchedCampaignList(
+            commonFunctions.ownerFilter(
+              filteredCampaigns,
+              options,
+              ownerFilterValue,
+              assignedCampaigns,
+              campaignsList,
+              loggedInUser
+            )
+          )
         );
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = combinedFilteredCampaigns.filter(
-          (campaign) => campaign?.status === 1
-        );
+        const activeCampaigns = commonFunctions
+          .ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+          .filter((campaign) => campaign?.status === 1);
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = combinedFilteredCampaigns.filter(
-          (campaign) => campaign?.status === 0
-        );
+        const inActiveCampaigns = commonFunctions
+          .ownerFilter(
+            filteredCampaigns,
+            options,
+            ownerFilterValue,
+            assignedCampaigns,
+            campaignsList,
+            loggedInUser
+          )
+          .filter((campaign) => campaign?.status === 0);
         setCampaignsListData(inActiveCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(inActiveCampaigns));
       }
@@ -638,17 +794,17 @@ const CampaignDisplay = ({
   };
 
   const onDeleteMulitpleCampaign = () => {
+    let arrayForDelete = [];
     handleClickOpenCampaignPopup();
 
-    selectedArray.map((selectedCampaign) => {
-      if (getNumOfLeads(selectedCampaign)) {
-        setDisableApplyBtn(true);
-        return;
-      } else {
-        setDisableApplyBtn(false);
-        return;
-      }
-    });
+    selectedArray.map(
+      (selectedCampaign) =>
+        (arrayForDelete = [getNumOfLeads(selectedCampaign), ...arrayForDelete])
+    );
+    const newArrayForDelete = arrayForDelete.filter((campaign) => campaign > 0);
+    newArrayForDelete.length !== 0
+      ? setDisableApplyBtn(true)
+      : setDisableApplyBtn(false);
   };
 
   const onAssignMulitpleCampaign = () => {
@@ -795,7 +951,6 @@ const CampaignDisplay = ({
               }}
               PaperProps={{
                 boxshadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
-                borderRadius: "10px",
               }}
             >
               <div className="popover-body-campaign">

@@ -250,7 +250,6 @@ const CampaignDescription = ({
   //       return lastCrawledDateCampaignId.campaign_id === campaignId;
   //     }
   //   );
-  //   console.log("lastCrawledDate", lastCrawledDate);
   // return descNow.length !== 0 ? descNow.map((wow) => wow.descData) : "";
   // };
 
@@ -767,7 +766,7 @@ const CampaignDescription = ({
                               style={{ width: "100%" }}
                             />
                           ) : campaignDocument &&
-                            campaignDocument?.queryURL !== " " ? (
+                            campaignDocument?.queryURL !== "" ? (
                             campaignDocument.queryURL
                           ) : (
                             "NA"
