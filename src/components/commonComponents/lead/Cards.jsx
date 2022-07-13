@@ -118,6 +118,7 @@ const Cards = (props) => {
     filterChangeCountryState,
     filterChangeSearchState,
     filterChangeDate,
+    leadsData,
   ]);
 
   useEffect(() => {
