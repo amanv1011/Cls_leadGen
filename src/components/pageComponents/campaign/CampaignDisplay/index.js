@@ -796,7 +796,6 @@ const CampaignDisplay = ({
   const onDeleteMulitpleCampaign = () => {
     let arrayForDelete = [];
     handleClickOpenCampaignPopup();
-
     selectedArray.map(
       (selectedCampaign) =>
         (arrayForDelete = [getNumOfLeads(selectedCampaign), ...arrayForDelete])
@@ -805,6 +804,7 @@ const CampaignDisplay = ({
     newArrayForDelete.length !== 0
       ? setDisableApplyBtn(true)
       : setDisableApplyBtn(false);
+    handleClose();
   };
 
   const onAssignMulitpleCampaign = () => {
@@ -975,12 +975,38 @@ const CampaignDisplay = ({
                 </button>
                 <button
                   className="campaign-btn activate-btn"
+                  disabled={
+                    campaignStateFilterValue === "activeCampaigns"
+                      ? true
+                      : false
+                  }
+                  style={
+                    campaignStateFilterValue === "activeCampaigns"
+                      ? {
+                          pointerEvents: "auto",
+                          cursor: "not-allowed",
+                        }
+                      : {}
+                  }
                   onClick={onActivateMulitpleCampaign}
                 >
                   <span className="campaign-btn-text">Activate</span>
                 </button>
                 <button
                   className="campaign-btn deActivate-btn"
+                  disabled={
+                    campaignStateFilterValue === "inActiveCampaigns"
+                      ? true
+                      : false
+                  }
+                  style={
+                    campaignStateFilterValue === "inActiveCampaigns"
+                      ? {
+                          pointerEvents: "auto",
+                          cursor: "not-allowed",
+                        }
+                      : {}
+                  }
                   onClick={onDeActivateMulitpleCampaign}
                 >
                   <span className="campaign-btn-text ">De-Activate</span>

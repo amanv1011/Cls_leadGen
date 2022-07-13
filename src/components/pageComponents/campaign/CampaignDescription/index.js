@@ -235,6 +235,7 @@ const CampaignDescription = ({
         ? Timestamp.fromDate(new Date(endLessDate))
         : Timestamp.fromDate(new Date(end_date)),
       start_date: Timestamp.fromDate(new Date(start_date)),
+      end_time: onGoing ? "" : end_time,
     };
 
     await dispatch(
@@ -648,7 +649,7 @@ const CampaignDescription = ({
                                 type="time"
                                 className="addCampaign-timePicker"
                                 name="end_time"
-                                value={end_time}
+                                value={onGoing ? "" : end_time}
                                 onChange={onInputChangeHandler}
                                 min={
                                   onGoing
@@ -658,13 +659,15 @@ const CampaignDescription = ({
                                     : minTimeDiff
                                 }
                                 autoComplete="off"
-                                required
+                                disabled={onGoing ? true : false}
+                                required={onGoing ? false : true}
                               />
-                            ) : (
-                              campaignDocument &&
+                            ) : campaignDocument?.end_time ? (
                               moment(campaignDocument.end_time, [
                                 "HH:mm",
                               ]).format("hh:mm A")
+                            ) : (
+                              "NA"
                             )}
                           </span>
                         </div>

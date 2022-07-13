@@ -89,7 +89,7 @@ const AddCampaginModal = ({ countryList }) => {
     setOnGoing(event.target.checked);
   };
 
-  const onSubmitEventhandler = (event) => {
+  const onSubmitEventhandler = async (event) => {
     event.preventDefault();
 
     try {
@@ -140,25 +140,19 @@ const AddCampaginModal = ({ countryList }) => {
           : "NA",
         campaignCreatedAt: Timestamp.fromDate(new Date()),
         campaignSeen: false,
+        end_time: onGoing ? "" : end_time,
       };
 
-      // if (a__campgaignId === "") {
-      //   dispatch(campaignActions.postCampaignAction(newCampaign));
-      // }
-      if (a__campgaignId) {
-        dispatch(
-          campaignActions.updateCampaignsAction(a__campgaignId, newCampaign)
-        );
-        dispatch(campaignActions.campaignIDAction(""));
-      } else {
-        dispatch(campaignActions.postCampaignAction(newCampaign));
+      if (a__campgaignId === "") {
+        await dispatch(campaignActions.postCampaignAction(newCampaign));
       }
+
       if (
         errorFromStore === null ||
         errorFromStore === undefined ||
         errorFromStore === ""
       ) {
-        dispatch(campaignActions.handleClose());
+        await dispatch(campaignActions.handleClose());
         setAddCampaignDetails({
           name: "",
           source: "",
@@ -178,7 +172,7 @@ const AddCampaginModal = ({ countryList }) => {
         dispatch(campaignActions.showModal());
       }
     } catch (error) {
-      dispatch(
+      await dispatch(
         openAlertAction(
           `${error.message}. Please provide a valid input`,
           true,
@@ -462,7 +456,8 @@ const AddCampaginModal = ({ countryList }) => {
                   type="time"
                   className="addCampaignModal-timePicker"
                   name="end_time"
-                  value={end_time}
+                  disabled={onGoing ? true : false}
+                  value={onGoing ? "" : end_time}
                   min={
                     onGoing
                       ? ""
@@ -472,7 +467,7 @@ const AddCampaginModal = ({ countryList }) => {
                   }
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  required
+                  required={onGoing ? false : true}
                 />
               </Grid>
               <Grid item xs={4}>

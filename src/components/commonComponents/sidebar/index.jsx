@@ -70,6 +70,9 @@ export default function MiniDrawer({
   handleDrawer,
   handleDrawerClose,
 }) {
+  const campgaignId = useSelector(
+    (state) => state.allCampaigns.a__campgaign__Id
+  );
   const navigate = useNavigate();
   const url = window.location.pathname;
   const sideBarList =
@@ -121,6 +124,15 @@ export default function MiniDrawer({
                 : !open && item.url === url
                 ? "list-item-closed-selected"
                 : "list-item-closed"
+            }
+            disabled={campgaignId ? true : false}
+            style={
+              campgaignId
+                ? {
+                    pointerEvents: "none",
+                    cursor: "not-allowed",
+                  }
+                : {}
             }
             onClick={() => {
               navigate(item.url);
