@@ -118,6 +118,7 @@ const Cards = (props) => {
     filterChangeCountryState,
     filterChangeSearchState,
     filterChangeDate,
+    leadsData,
   ]);
 
   useEffect(() => {
@@ -265,7 +266,7 @@ const Cards = (props) => {
       }
       <Box component="div" className="leads-container">
         <Box component={"div"} className="leads-header">
-          <LeadsHeader campaign={props.campaign} />
+          <LeadsHeader campaign={props.campaign} userRole={props.userRole} />
         </Box>
         <Divider
           light={true}
