@@ -796,7 +796,6 @@ const CampaignDisplay = ({
   const onDeleteMulitpleCampaign = () => {
     let arrayForDelete = [];
     handleClickOpenCampaignPopup();
-
     selectedArray.map(
       (selectedCampaign) =>
         (arrayForDelete = [getNumOfLeads(selectedCampaign), ...arrayForDelete])
@@ -805,6 +804,7 @@ const CampaignDisplay = ({
     newArrayForDelete.length !== 0
       ? setDisableApplyBtn(true)
       : setDisableApplyBtn(false);
+    handleClose();
   };
 
   const onAssignMulitpleCampaign = () => {
