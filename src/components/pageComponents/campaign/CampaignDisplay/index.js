@@ -975,12 +975,38 @@ const CampaignDisplay = ({
                 </button>
                 <button
                   className="campaign-btn activate-btn"
+                  disabled={
+                    campaignStateFilterValue === "activeCampaigns"
+                      ? true
+                      : false
+                  }
+                  style={
+                    campaignStateFilterValue === "activeCampaigns"
+                      ? {
+                          pointerEvents: "auto",
+                          cursor: "not-allowed",
+                        }
+                      : {}
+                  }
                   onClick={onActivateMulitpleCampaign}
                 >
                   <span className="campaign-btn-text">Activate</span>
                 </button>
                 <button
                   className="campaign-btn deActivate-btn"
+                  disabled={
+                    campaignStateFilterValue === "inActiveCampaigns"
+                      ? true
+                      : false
+                  }
+                  style={
+                    campaignStateFilterValue === "inActiveCampaigns"
+                      ? {
+                          pointerEvents: "auto",
+                          cursor: "not-allowed",
+                        }
+                      : {}
+                  }
                   onClick={onDeActivateMulitpleCampaign}
                 >
                   <span className="campaign-btn-text ">De-Activate</span>
