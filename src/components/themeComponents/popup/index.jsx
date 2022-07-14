@@ -242,7 +242,7 @@ const AddCampaginModal = ({ countryList }) => {
             color: " #FFFFFF",
           }}
         >
-          Add Campagin
+          Add Campaign
         </span>
       </Button>
       <Modal

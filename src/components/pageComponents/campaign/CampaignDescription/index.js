@@ -709,7 +709,6 @@ const CampaignDescription = ({
                             className="header-value"
                             style={{ marginLeft: "40px" }}
                           >
-                            {/* {getLastCrawledDate(campaignDocument.id)} */}
                             {campgaignId ? (
                               <input
                                 type="text"
@@ -731,8 +730,7 @@ const CampaignDescription = ({
                                 autoComplete="off"
                                 disabled
                               />
-                            ) : lastCrawledDateList?.campaignDocument &&
-                              campaignDocument?.last_crawled_date ? (
+                            ) : campaignDocument?.last_crawled_date ? (
                               moment
                                 .unix(
                                   campaignDocument.last_crawled_date.seconds,
