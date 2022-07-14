@@ -223,7 +223,7 @@ const Lead = (props) => {
 
   return (
     <>
-      <Cards leadData={xyz} campaign={campaign} />
+      <Cards leadData={xyz} campaign={campaign} userRole={userRole} />
     </>
   );
 };
