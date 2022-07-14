@@ -54,10 +54,10 @@ const CampaignDisplay = ({
   const [openAssignModel, setOpenAssignModel] = useState(false);
 
   useEffect(() => {
-    if (campgaignId === "") {
-      campaignsListData.length !== 0 &&
-        dispatch(campaignActions.getACampaignAction(campaignsListData[0].id));
-    }
+    // if (campgaignId === "") {
+    campaignsListData.length !== 0 &&
+      dispatch(campaignActions.getACampaignAction(campaignsListData[0].id));
+    // }
   }, [campaignsListData]);
 
   const keysInJSON = ["name", "location", "owner"];

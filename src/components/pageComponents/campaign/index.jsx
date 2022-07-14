@@ -89,10 +89,6 @@ const Campaign = () => {
 
   useEffect(() => {
     setCampaignsListData(campaignsList);
-    const newCampaigns = campaignsList.filter(
-      (campaign) => campaign.id === campaignDoc.id
-    );
-    setCampaignDocument(newCampaigns);
   }, [campaignsList]);
 
   useEffect(() => {
