@@ -58,7 +58,6 @@ const AddCampaginModal = ({ countryList }) => {
     country,
     queryURL,
   } = addCampaignDetails;
-
   const [tags, setTags] = useState([]);
   const [onGoing, setOnGoing] = useState(false);
   const endLessDate = moment().add(5, "Y").format("YYYY-MM-DD");
@@ -140,7 +139,7 @@ const AddCampaginModal = ({ countryList }) => {
           : "NA",
         campaignCreatedAt: Timestamp.fromDate(new Date()),
         campaignSeen: false,
-        end_time: onGoing ? "" : end_time,
+        end_time: onGoing ? "23:59" : end_time,
       };
 
       if (a__campgaignId === "") {
@@ -457,7 +456,7 @@ const AddCampaginModal = ({ countryList }) => {
                   className="addCampaignModal-timePicker"
                   name="end_time"
                   disabled={onGoing ? true : false}
-                  value={onGoing ? "" : end_time}
+                  value={onGoing ? "23:59" : end_time}
                   min={
                     onGoing
                       ? ""

@@ -235,7 +235,7 @@ const CampaignDescription = ({
         ? Timestamp.fromDate(new Date(endLessDate))
         : Timestamp.fromDate(new Date(end_date)),
       start_date: Timestamp.fromDate(new Date(start_date)),
-      end_time: onGoing ? "" : end_time,
+      end_time: onGoing ? "23:59" : end_time,
     };
 
     await dispatch(
@@ -340,7 +340,6 @@ const CampaignDescription = ({
                           </span>
                         )}
                       </Box>
-
                       <Box component={"div"} className="subtitle">
                         <span className="status-text">
                           {campaignDocument && campaignDocument.status
@@ -635,7 +634,6 @@ const CampaignDescription = ({
                                     )
                                     .format("MM/DD/YYYY")
                                 )}
-                                <div></div>
                               </React.Fragment>
                             )}
                           </span>
@@ -644,31 +642,50 @@ const CampaignDescription = ({
                         <div className="header-item">
                           <span className="header-key">Parsing End Time</span>
                           <span className="header-value">
-                            {campgaignId ? (
-                              <input
-                                type="time"
-                                className="addCampaign-timePicker"
-                                name="end_time"
-                                value={onGoing ? "" : end_time}
-                                onChange={onInputChangeHandler}
-                                min={
-                                  onGoing
-                                    ? ""
-                                    : difference_startDate_endDate
-                                    ? ""
-                                    : minTimeDiff
-                                }
-                                autoComplete="off"
-                                disabled={onGoing ? true : false}
-                                required={onGoing ? false : true}
-                              />
-                            ) : campaignDocument?.end_time ? (
-                              moment(campaignDocument.end_time, [
-                                "HH:mm",
-                              ]).format("hh:mm A")
-                            ) : (
-                              "NA"
-                            )}
+                            {
+                              campgaignId ? (
+                                <input
+                                  type="time"
+                                  className="addCampaign-timePicker"
+                                  name="end_time"
+                                  value={onGoing ? "23:59" : end_time}
+                                  onChange={onInputChangeHandler}
+                                  min={
+                                    onGoing
+                                      ? ""
+                                      : difference_startDate_endDate
+                                      ? ""
+                                      : minTimeDiff
+                                  }
+                                  autoComplete="off"
+                                  disabled={onGoing ? true : false}
+                                  required={onGoing ? false : true}
+                                />
+                              ) : campaignDocument.onGoing &&
+                                campaignDocument.end_time ? (
+                                "NA"
+                              ) : (
+                                moment(campaignDocument.end_time, [
+                                  "HH:mm",
+                                ]).format("hh:mm A")
+                              )
+
+                              // onGoing &&
+                              //   campaignDocument.end_time === "23:59" ? (
+                              //   "NA"
+                              // ) : (
+                              //   moment(campaignDocument.end_time, [
+                              //     "HH:mm",
+                              //   ]).format("hh:mm A")
+                              // )
+                              // : campaignDocument?.end_time ? (
+                              //   moment(campaignDocument.end_time, [
+                              //     "HH:mm",
+                              //   ]).format("hh:mm A")
+                              // ) : (
+                              //   "NA"
+                              // )
+                            }
                           </span>
                         </div>
                         <div className="header-item">
