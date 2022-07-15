@@ -813,18 +813,17 @@ const CampaignDisplay = ({
 
   const assignBatchUsers = async (e, option) => {
     setSelectedUsers(option);
-    if (selectedArray.length > 0 && selectedUsers.length > 0) {
+    if (selectedArray.length > 0 && selectedUsers.length >= 0) {
       let arr = [];
       option &&
         option.forEach((e) => {
           arr.push(e.userId);
         });
-
       await dispatch(
         campaignActions.assignCampaignToUsersAction(selectedArray, arr)
       );
-      await dispatch(campaignActions.getAssignedCampaignsAction());
     }
+    await dispatch(campaignActions.getAssignedCampaignsAction());
   };
 
   const onActivateMulitpleCampaign = () => {
