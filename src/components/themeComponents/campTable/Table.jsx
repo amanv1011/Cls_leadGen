@@ -104,14 +104,14 @@ const Table = () => {
   }, [initialSearchValue]);
 
   const getNumOfLeads = (id) => {
-    const val = leadsListData.filter((valID) => {
+    const val = leadsListData?.filter((valID) => {
       return valID.campaignId === id;
     });
     return val.length;
   };
 
   const forDownloading = (campaignListId, campaignListItemName) => {
-    const val = leadsListData.filter((valID) => {
+    const val = leadsListData?.filter((valID) => {
       return valID.campaignId === campaignListId;
     });
 
@@ -201,7 +201,7 @@ const Table = () => {
       setCampaignListData(campaignList);
       dispatch(campaignActions.getSearchedCampaignList(campaignList));
     } else {
-      filteredData = campaignList.filter((item) => {
+      filteredData = campaignList?.filter((item) => {
         return keysInJSON.some((key) =>
           item[key].toString().toLowerCase().includes(lowerCasedValue)
         );

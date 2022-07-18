@@ -109,7 +109,7 @@ export const assignCampaign = async (campaignId, userId) => {
   }));
   campaignId &&
     campaignId.forEach(async (ele) => {
-      const filt = list.filter((element) => element.campaignId === campaignId);
+      const filt = list?.filter((element) => element.campaignId === campaignId);
       if (filt.length === 0) {
         const newCityRef = firebaseMethods.doc(assignedCampaignCollection, ele);
         await firebaseMethods.setDoc(newCityRef, {

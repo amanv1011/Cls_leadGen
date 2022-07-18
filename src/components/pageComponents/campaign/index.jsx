@@ -104,12 +104,12 @@ const Campaign = () => {
       dispatch(campaignCountActions.getAllCampaignsCountAction(campaignsList));
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          campaignsList.filter((campaign) => campaign?.status === 1)
+          campaignsList?.filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          campaignsList.filter((campaign) => campaign?.status === 0)
+          campaignsList?.filter((campaign) => campaign?.status === 0)
         )
       );
       if (campaignStateFilterValue === "AllCampaigns") {
@@ -117,12 +117,12 @@ const Campaign = () => {
       }
       if (campaignStateFilterValue === "activeCampaigns") {
         setCampaignsListData(
-          campaignsList.filter((campaign) => campaign?.status === 1)
+          campaignsList?.filter((campaign) => campaign?.status === 1)
         );
       }
       if (campaignStateFilterValue === "inActiveCampaigns") {
         setCampaignsListData(
-          campaignsList.filter((campaign) => campaign?.status === 0)
+          campaignsList?.filter((campaign) => campaign?.status === 0)
         );
       }
     }
@@ -134,7 +134,7 @@ const Campaign = () => {
       assignedCampaigns.forEach((assignedCampaign) => {
         if (assignedCampaign.campaignId === campaignDocument.id) {
           let selectedId = assignedCampaign.userId;
-          const filteredArray = allUsers.filter((value) =>
+          const filteredArray = allUsers?.filter((value) =>
             selectedId.includes(value.userId)
           );
           setSelectedUsers(filteredArray);

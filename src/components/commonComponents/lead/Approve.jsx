@@ -34,11 +34,11 @@ const Approve = (props) => {
   const approveRejectResponse = useSelector(
     (state) => state.allLeads.approveRejectResponse
   );
-  const approveList = genratedLeadData.filter((ele) => ele.status === 1);
+  const approveList = genratedLeadData?.filter((ele) => ele.status === 1);
   const loggedInUser = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser
   );
-  const ownerNameFilterId = allUsers.filter(
+  const ownerNameFilterId = allUsers?.filter(
     (user) => user.name === ownerNameFilter
   );
   const assignedLeads = useSelector(
@@ -83,7 +83,7 @@ const Approve = (props) => {
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
     ownerNameFilter !== "All Owners"
   ) {
-    const campaignIds = campgainData.filter(
+    const campaignIds = campgainData?.filter(
       (ele) => ele.owner === ownerNameFilter
     );
     leadListForCount = filterCount(campaignIds, genratedLeadData);
@@ -100,7 +100,7 @@ const Approve = (props) => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter === "All Owners"
   ) {
-    const campaignIds = campgainData.filter(
+    const campaignIds = campgainData?.filter(
       (ele) => ele.name === campaignNameFilter
     );
     leadListForCount = filterCount(campaignIds, genratedLeadData);
@@ -117,7 +117,7 @@ const Approve = (props) => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter !== "All Owners"
   ) {
-    const campaignIds = campgainData.filter(
+    const campaignIds = campgainData?.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
     leadListForCount = filterCount(campaignIds, genratedLeadData);
@@ -131,14 +131,16 @@ const Approve = (props) => {
   }
 
   if (countriesNameFilter !== "All Countries") {
-    let arr = filterApprov.filter((ele) => ele.country === countriesNameFilter);
+    let arr = filterApprov?.filter(
+      (ele) => ele.country === countriesNameFilter
+    );
     filterApprov = arr;
     leadListForCount = filterApprov;
   }
 
   // function AppendAssignedLeadtoOwner() {
   //   const arr = [];
-  //   const ownerNameFilterId = allUsers.filter(
+  //   const ownerNameFilterId = allUsers?.filter(
   //     (user) => user.name === ownerNameFilter
   //   );
   //   assignedLeads &&
@@ -161,16 +163,16 @@ const Approve = (props) => {
   // }
   // AppendAssignedLeadtoOwner();
 
-  const rejectList = leadListForCount.filter((ele) => ele.status === -1);
+  const rejectList = leadListForCount?.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;
-  const underReviewList = leadListForCount.filter((ele) => ele.status === 0);
+  const underReviewList = leadListForCount?.filter((ele) => ele.status === 0);
   const underReviewCount = underReviewList.length;
-  const archieveList = leadListForCount.filter((ele) => ele.status === 2);
+  const archieveList = leadListForCount?.filter((ele) => ele.status === 2);
   const archieveCount = archieveList.length;
   const approveListCount =
     searchQuery === "" && searchDate === ""
-      ? leadListForCount.filter((ele) => ele.status === 1)
-      : filterApprov.filter((ele) => ele.status === 1);
+      ? leadListForCount?.filter((ele) => ele.status === 1)
+      : filterApprov?.filter((ele) => ele.status === 1);
   const approveCount = approveListCount.length;
 
   useEffect(() => {
