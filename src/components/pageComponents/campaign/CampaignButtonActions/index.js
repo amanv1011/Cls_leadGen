@@ -15,7 +15,7 @@ const CampaignButtonActions = ({
   campgaignId,
   leadsList,
   selectedArray,
-  searchedCampaignList,
+  campaignsListData,
 }) => {
   const dispatch = useDispatch();
   const [openAlert, setOpenAlert] = useState(false);
@@ -116,83 +116,89 @@ const CampaignButtonActions = ({
     return (
       <React.Fragment>
         <div className="campaignButton-actions">
-          <button
-            className="campaign-btn edit-btn"
-            onClick={() => {
-              dispatch(campaignActions.campaignIDAction(campaignDocument.id));
-            }}
-            disabled={
-              selectedArray.length !== 0 || difference_startDate_endDate > 0
-                ? true
-                : false
-            }
-            style={
-              selectedArray.length !== 0 || difference_startDate_endDate > 0
-                ? {
-                    pointerEvents: "auto",
-                    cursor: "not-allowed",
-                  }
-                : {}
-            }
-          >
-            <Edit /> <span className="campaign-btn-text">Edit</span>
-          </button>
+          {campaignDocument.name && (
+            <button
+              className="campaign-btn edit-btn"
+              onClick={() => {
+                dispatch(campaignActions.campaignIDAction(campaignDocument.id));
+              }}
+              disabled={
+                selectedArray.length !== 0 || difference_startDate_endDate > 0
+                  ? true
+                  : false
+              }
+              style={
+                selectedArray.length !== 0 || difference_startDate_endDate > 0
+                  ? {
+                      pointerEvents: "auto",
+                      cursor: "not-allowed",
+                    }
+                  : {}
+              }
+            >
+              <Edit /> <span className="campaign-btn-text">Edit</span>
+            </button>
+          )}
 
-          <button
-            className="campaign-btn delete-btn"
-            disabled={
-              selectedArray.length !== 0
-                ? true
-                : getNumOfLeads(campaignDocument.id)
-                ? true
-                : false
-            }
-            style={
-              selectedArray.length !== 0
-                ? {
-                    pointerEvents: "auto",
-                    cursor: "not-allowed",
-                  }
-                : getNumOfLeads(campaignDocument.id)
-                ? { pointerEvents: "auto", cursor: "not-allowed" }
-                : {}
-            }
-            onClick={() => {
-              setOpenAlert(true);
-              setCampaignName(campaignDocument.name);
-              setIdForDelete(campaignDocument.id);
-            }}
-          >
-            <Delete /> <span className="campaign-btn-text">Delete</span>
-          </button>
-          <button
-            className="campaign-btn download-btn"
-            disabled={
-              selectedArray.length !== 0
-                ? true
-                : getNumOfLeads(campaignDocument.id)
-                ? false
-                : true
-            }
-            style={
-              selectedArray.length !== 0
-                ? {
-                    pointerEvents: "auto",
-                    cursor: "not-allowed",
-                  }
-                : getNumOfLeads(campaignDocument.id)
-                ? {}
-                : { pointerEvents: "auto", cursor: "not-allowed" }
-            }
-            onClick={() =>
-              forDownloading(campaignDocument.id, campaignDocument.name)
-            }
-          >
-            <Download /> <span className="campaign-btn-text">Download</span>
-          </button>
+          {campaignDocument.name && (
+            <button
+              className="campaign-btn delete-btn"
+              disabled={
+                selectedArray.length !== 0
+                  ? true
+                  : getNumOfLeads(campaignDocument.id)
+                  ? true
+                  : false
+              }
+              style={
+                selectedArray.length !== 0
+                  ? {
+                      pointerEvents: "auto",
+                      cursor: "not-allowed",
+                    }
+                  : getNumOfLeads(campaignDocument.id)
+                  ? { pointerEvents: "auto", cursor: "not-allowed" }
+                  : {}
+              }
+              onClick={() => {
+                setOpenAlert(true);
+                setCampaignName(campaignDocument.name);
+                setIdForDelete(campaignDocument.id);
+              }}
+            >
+              <Delete /> <span className="campaign-btn-text">Delete</span>
+            </button>
+          )}
+
+          {campaignDocument.name && (
+            <button
+              className="campaign-btn download-btn"
+              disabled={
+                selectedArray.length !== 0
+                  ? true
+                  : getNumOfLeads(campaignDocument.id)
+                  ? false
+                  : true
+              }
+              style={
+                selectedArray.length !== 0
+                  ? {
+                      pointerEvents: "auto",
+                      cursor: "not-allowed",
+                    }
+                  : getNumOfLeads(campaignDocument.id)
+                  ? {}
+                  : { pointerEvents: "auto", cursor: "not-allowed" }
+              }
+              onClick={() =>
+                forDownloading(campaignDocument.id, campaignDocument.name)
+              }
+            >
+              <Download /> <span className="campaign-btn-text">Download</span>
+            </button>
+          )}
         </div>
-        {/* <div>Updated by:</div>
-        <div>Updated at</div> */}
+
         <AlertBeforeAction
           open={openAlert}
           setOpenAlert={setOpenAlert}
@@ -200,7 +206,7 @@ const CampaignButtonActions = ({
           setIdForDelete={setIdForDelete}
           campaignName={campaignName}
           setCampaignName={setCampaignName}
-          searchedCampaignList={searchedCampaignList}
+          campaignsListData={campaignsListData}
         />
       </React.Fragment>
     );

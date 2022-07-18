@@ -3,6 +3,7 @@ import * as types from "../type";
 const initialState = {
   users: [],
   loggedInUser: {},
+  addedUser: {},
 };
 
 export const getUsersReducer = (state = initialState, { type, payload }) => {
@@ -43,6 +44,33 @@ export const getLoggedInUserAction = (
         loading: false,
         loggedInUser: payload,
         error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const addUsersReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
+    case types.ADD_USERS_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case types.ADD_USERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        addedUser: payload,
+        error: null,
+      };
+    case types.ADD_USERS_ERROR:
+      return {
+        ...state,
+        loading: false,
+        addedUser: {},
+        error: payload,
       };
     default:
       return state;

@@ -2,14 +2,16 @@ import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { roles } from "../../utils/constants";
 
-const ProtectedRoute = ({ user, children }) => {
+const ProtectedRoute = ({ userRole, children }) => {
   const location = useLocation();
   const currentPath = location.pathname;
-  console.log(currentPath);
-  if (user && !roles.all.includes(user) && currentPath !== "/leads") {
+
+  if (
+    (userRole && !roles.all.includes(userRole) && currentPath !== "/leads") ||
+    (userRole === null && currentPath !== "/leads")
+  ) {
     return <Navigate to="/leads" replace />;
   }
-
   return children;
 };
 

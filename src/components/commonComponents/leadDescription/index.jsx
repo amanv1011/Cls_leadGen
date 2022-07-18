@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Avatar, Divider, IconButton, Box } from "@mui/material";
 import Details from "../../../assets/icons/Details.png";
@@ -161,7 +161,9 @@ const LeadDescription = ({ displayLeadData }) => {
                     ? null
                     : getDescription(displayLeadData.uniqueId)
                     ? getDescription(displayLeadData.uniqueId)[0]
-                    : displayLeadData.summary}
+                    : displayLeadData.summary
+                    ? displayLeadData.summary.trim()
+                    : "No Description Available"}
                 </Box>
               </Box>
             </>

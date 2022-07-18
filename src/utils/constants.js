@@ -1,1 +1,1 @@
-export const roles = { limited: [4], all: [1, 2, 3] };
+export const roles = { limited: [3], all: [1, 2] };

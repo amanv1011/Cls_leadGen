@@ -15,12 +15,14 @@ import { getTotalCount } from "../lead/getTotalCount";
 import { setActivePage } from "../../../redux/actions/paginationActions";
 import "./lead.scss";
 
-const Approve = () => {
+const Approve = (props) => {
   const dispatch = useDispatch();
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
   const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
-  const campgainData = useSelector((state) => state.allCampaigns.campaignList);
+  // const campgainData = useSelector((state) => state.allCampaigns.campaignList);
+  const campgainData = props.campaign;
+  const allUsers = useSelector((state) => state.users.users);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
   );
@@ -28,7 +30,37 @@ const Approve = () => {
   const countriesNameFilter = useSelector(
     (state) => state.leadsFilter.countriesName
   );
+
+  const approveRejectResponse = useSelector(
+    (state) => state.allLeads.approveRejectResponse
+  );
   const approveList = genratedLeadData.filter((ele) => ele.status === 1);
+  const loggedInUser = useSelector(
+    (state) => state.getLoggedInUserAction.loggedInUser
+  );
+  const ownerNameFilterId = allUsers.filter(
+    (user) => user.name === ownerNameFilter
+  );
+  const assignedLeads = useSelector(
+    (state) => state.getAssignedLeadsReducer.assignedLeads
+  );
+
+  useEffect(() => {
+    if (
+      approveRejectResponse &&
+      approveRejectResponse.status &&
+      approveRejectResponse.leadsId
+    ) {
+      approveRejectResponse.leadsId.forEach((ele) => {
+        genratedLeadData &&
+          genratedLeadData.forEach((lead) => {
+            if (lead.id === ele) {
+              lead.status = approveRejectResponse.status;
+            }
+          });
+      });
+    }
+  }, [approveRejectResponse]);
 
   var filterApprov;
   var leadListForCount;
@@ -45,6 +77,7 @@ const Approve = () => {
       searchDate,
       searchQuery
     );
+    // AppendAssignedLeadtoOwner(loggedInUser?.id);
   }
   if (
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
@@ -60,6 +93,7 @@ const Approve = () => {
       searchDate,
       searchQuery
     );
+    // AppendAssignedLeadtoOwner(loggedInUser?.id);
   }
 
   if (
@@ -76,6 +110,7 @@ const Approve = () => {
       searchDate,
       searchQuery
     );
+    // AppendAssignedLeadtoOwner(loggedInUser?.id);
   }
 
   if (
@@ -92,6 +127,7 @@ const Approve = () => {
       searchDate,
       searchQuery
     );
+    // AppendAssignedLeadtoOwner(loggedInUser?.id);
   }
 
   if (countriesNameFilter !== "All Countries") {
@@ -99,6 +135,31 @@ const Approve = () => {
     filterApprov = arr;
     leadListForCount = filterApprov;
   }
+
+  // function AppendAssignedLeadtoOwner() {
+  //   const arr = [];
+  //   const ownerNameFilterId = allUsers.filter(
+  //     (user) => user.name === ownerNameFilter
+  //   );
+  //   assignedLeads &&
+  //     ownerNameFilterId &&
+  //     assignedLeads.forEach((lead) => {
+  //       if (lead.userId.includes(ownerNameFilterId[0]?.userId)) {
+  //         arr.push(lead.leadId);
+  //       }
+  //     });
+  //   const filtered = [];
+  //   arr.forEach((assignLead) => {
+  //     genratedLeadData.forEach((genLead) => {
+  //       if (genLead.id === assignLead) {
+  //         filtered.push(genLead);
+  //       }
+  //     });
+  //   });
+  //   filterApprov = [...filterApprov, ...filtered];
+  //   leadListForCount = filterApprov;
+  // }
+  // AppendAssignedLeadtoOwner();
 
   const rejectList = leadListForCount.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;

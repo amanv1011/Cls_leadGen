@@ -34,6 +34,7 @@ const Cards = (props) => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedArray, setselectedArray] = useState([]);
   const [showNotesState, setShowNotesState] = useState(false);
+  const [filteredUsers, setfilteredUsers] = useState([]);
   const [reason, setReason] = useState("");
   const leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
@@ -62,9 +63,13 @@ const Cards = (props) => {
   const filterChangeCountryState = useSelector(
     (state) => state.leadsFilter.countriesName
   );
+  const filterChangeDate = useSelector((state) => state.leadsFilter.filterDate);
 
   const assignedLeads = useSelector(
     (state) => state.getAssignedLeadsReducer.assignedLeads
+  );
+  const loggedInUser = useSelector(
+    (state) => state.getLoggedInUserAction.loggedInUser
   );
 
   leadsData.sort(
@@ -112,6 +117,8 @@ const Cards = (props) => {
     filterChangeOwnerState,
     filterChangeCountryState,
     filterChangeSearchState,
+    filterChangeDate,
+    props.option,
   ]);
 
   useEffect(() => {
@@ -222,6 +229,12 @@ const Cards = (props) => {
     }
   };
 
+  useEffect(() => {
+    const arr =
+      allUsers && allUsers.filter((ele) => ele.userId !== loggedInUser.id);
+    setfilteredUsers(arr);
+  }, [allUsers, loggedInUser]);
+
   return (
     <>
       {
@@ -253,7 +266,7 @@ const Cards = (props) => {
       }
       <Box component="div" className="leads-container">
         <Box component={"div"} className="leads-header">
-          <LeadsHeader />
+          <LeadsHeader campaign={props.campaign} userRole={props.userRole} />
         </Box>
         <Divider
           light={true}
@@ -277,7 +290,7 @@ const Cards = (props) => {
               handleBatchUpdateStatus={handleBatchUpdateStatus}
               status={status}
               //autocomplete props
-              options={allUsers}
+              options={filteredUsers}
               // onChangeOption={onChangeOption}
               selectedUsers={selectedUsers}
               // setSelectedUsers={setSelectedUsers}
@@ -387,7 +400,7 @@ const Cards = (props) => {
                       >
                         <Box className="autocomplete-title">Assign To</Box>
                         <IAutocomplete
-                          options={allUsers}
+                          options={filteredUsers}
                           onChangeOption={onChangeOption}
                           // assignUsers={assignUsers}
                           selectedUsers={selectedUsers}

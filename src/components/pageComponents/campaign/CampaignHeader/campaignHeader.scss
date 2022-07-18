@@ -67,7 +67,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    .filter-icon {
+    .filter-icon-campaign {
       .filter-btn {
         text-transform: none;
         height: 40px;
@@ -75,8 +75,6 @@
         font-weight: 600;
         padding: 10px;
         border-radius: 10px;
-        margin-left: 5px;
-        background-color: rgba(231, 231, 231);
         color: rgba(92, 117, 154);
       }
     }

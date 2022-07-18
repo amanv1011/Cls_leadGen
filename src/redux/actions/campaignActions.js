@@ -27,9 +27,11 @@ export const getACampaignAction = (a__campgaignId) => {
 
 export const getAllCampaignsAction = () => {
   return async (dispatch) => {
-    dispatch({ type: types.GET_CAMPAIGN_LIST_PENDING });
+    dispatch({ type: types.GET_CAMPAIGN_LIST_PENDING, loading: true });
+    dispatch(openLoader({ isLoading: true }));
     try {
       const response = await campaignServices.getCampaignList();
+      dispatch(closeLoader());
       if (response.length === undefined || response.length === 0) {
         dispatch({
           type: types.GET_CAMPAIGN_LIST_ERROR,
@@ -42,6 +44,7 @@ export const getAllCampaignsAction = () => {
         });
       }
     } catch (err) {
+      dispatch(closeLoader());
       dispatch({
         type: types.GET_CAMPAIGN_LIST_ERROR,
         payload: err,
@@ -53,9 +56,10 @@ export const getAllCampaignsAction = () => {
 
 export const postCampaignAction = (data) => {
   return async (dispatch) => {
-    dispatch({ type: types.POST_CAMPAIGN_DATA_PENDING });
+    dispatch({ type: types.POST_CAMPAIGN_DATA_PENDING, loading: true });
     try {
       const addDoc = await campaignServices.postCampaignData(data);
+      dispatch(closeLoader());
       if (addDoc.id) {
         dispatch({
           type: types.POST_CAMPAIGN_DATA_SUCCESS,
@@ -72,6 +76,7 @@ export const postCampaignAction = (data) => {
         return dispatch(openAlertAction(addDoc.message, true, "error"));
       }
     } catch (err) {
+      dispatch(closeLoader());
       dispatch({
         type: types.POST_CAMPAIGN_DATA_ERROR,
         payload: err.message,
@@ -83,8 +88,10 @@ export const postCampaignAction = (data) => {
 
 export const deleteCampaignsAction = (campaignId) => {
   return async (dispatch) => {
+    dispatch(openLoader({ isLoading: true }));
     try {
       const response = await campaignServices.deleteCampaignData(campaignId);
+      dispatch(closeLoader());
       if (response.id) {
         dispatch({
           type: types.DELETE_CAMPAIGN_DATA_SUCCESS,
@@ -94,6 +101,7 @@ export const deleteCampaignsAction = (campaignId) => {
           openAlertAction("Campaign Deleted successfully", true, "success")
         );
       } else {
+        dispatch(closeLoader());
         dispatch({
           type: types.DELETE_CAMPAIGN_DATA_ERROR,
           payload: response.message,
@@ -101,6 +109,7 @@ export const deleteCampaignsAction = (campaignId) => {
         return dispatch(openAlertAction(response.message, true, "error"));
       }
     } catch (err) {
+      dispatch(closeLoader());
       dispatch({
         type: types.DELETE_CAMPAIGN_DATA_ERROR,
         payload: err.message,
@@ -112,7 +121,7 @@ export const deleteCampaignsAction = (campaignId) => {
 
 export const updateCampaignsAction = (campaignId, campaignUpdateObject) => {
   return async (dispatch) => {
-    // dispatch({ type: types.UPDATE_CAMPAIGN_DATA_PENDING });
+    dispatch({ type: types.UPDATE_CAMPAIGN_DATA_PENDING, loading: true });
     try {
       const res = await campaignServices.updateCampaignData(
         campaignId,
@@ -268,6 +277,21 @@ export const updateCampaignStatusAction = (campaignId, status) => {
         status
       );
       dispatch(closeLoader());
+
+      if (res.campaignId && res.status === 1) {
+        dispatch(
+          openAlertAction("Campaign activated Successfully", false, "success")
+        );
+      }
+      if (res.campaignId && res.status === 0) {
+        dispatch(
+          openAlertAction(
+            "Campaign de-activated Successfully",
+            false,
+            "success"
+          )
+        );
+      }
       return dispatch({
         type: types.UPDATE_CAMPAIGN_STATUS_SUCCESS,
         payload: res,

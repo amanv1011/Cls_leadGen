@@ -132,9 +132,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding-bottom: 4px;
       }
       .leads-description-desc-desc {
-        height: 33vh;
+        height: calc(100vh - 410px);
         font-style: normal;
         font-weight: 500;
         font-size: 13px;

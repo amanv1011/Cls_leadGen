@@ -19,16 +19,19 @@ import * as commonFunctions from "../../../pageComponents/campaign/commonFunctio
 import NewDateRangePicker from "../../AdvanceDatePicker/newDatePickerCompo";
 import { leadsFilterDate } from "../../../../redux/actions/leadsFilter";
 import { connect } from "react-redux";
+import RestrictedComponent from "../../../higherOrderComponents/restrictedComponent";
 
 import Moment from "moment";
 import { extendMoment } from "moment-range";
+import { roles } from "../../../../utils/constants";
 
 const moment = extendMoment(Moment);
 
 const LeadsHeader = (props) => {
+  const { campaign, userRole } = props;
   const dispatch = useDispatch();
   const [uniqueOwner, setUniqueOwner] = useState([]);
-  const leadData = useSelector((state) => state.allCampaigns.campaignList);
+  // const leadData = useSelector((state) => state.allCampaigns.campaignList);
   const allUsers = useSelector((state) => state.users.users);
   const campaignNameFilter = useSelector(
     (state) => state.leadsFilter.campaignName
@@ -60,7 +63,6 @@ const LeadsHeader = (props) => {
     //     : moment.range(value1[0], value1[1]);
     props.leadsFilterDate(calender1);
     props.datePickerState(1);
-    console.log("Selected Date By User", value1[0], value1[1]);
   };
 
   const openAllCampgainsMenu = Boolean(allCampgainsMenu);
@@ -86,10 +88,10 @@ const LeadsHeader = (props) => {
   const arr = [];
   const uniqueCountries = [];
 
-  leadData.forEach((c) => {
-    if (!arr.includes(c.owner)) {
-      arr.push(c.owner);
-    }
+  campaign.forEach((c) => {
+    // if (!arr.includes(c.owner)) {
+    //   arr.push(c.owner);
+    // }
 
     if (!uniqueCountries.includes(c.country)) {
       uniqueCountries.push(c.country);
@@ -104,7 +106,7 @@ const LeadsHeader = (props) => {
       }
     });
     setUniqueOwner(array);
-  }, [allUsers, leadData]);
+  }, [allUsers, campaign]);
 
   useEffect(() => {
     setAllCampgainsFilter(campaignNameFilter);
@@ -127,6 +129,7 @@ const LeadsHeader = (props) => {
   const [ownerMenu, setOwnerMenu] = useState(null);
   const openOwnerMenu = Boolean(ownerMenu);
   const handleClickOwnerMenu = (event) => {
+    console.log(event.target.value);
     setOwnerMenu(event.currentTarget);
   };
   const handleCloseOwnerMenu = (event) => {
@@ -260,8 +263,8 @@ const LeadsHeader = (props) => {
               >
                 All Campaigns
               </MenuItem>
-              {leadData &&
-                leadData.map((ele, idx) => {
+              {campaign &&
+                campaign.map((ele, idx) => {
                   return (
                     <MenuItem
                       key={idx}
@@ -352,72 +355,73 @@ const LeadsHeader = (props) => {
                 );
               })}
           </Menu>
-
-          <div className="select-container">
-            <Button
-              id="basic-button"
-              className="select-button"
-              onClick={handleClickOwnerMenu}
-            >
-              <span className="select-btn-title">{allOwnersFilter}</span>
-              <span>
-                <DownArrow />
-              </span>
-            </Button>
-            <Menu
-              id="basic-menu"
-              anchorEl={ownerMenu}
-              className="menu"
-              PaperProps={{
-                style: {
-                  width: "auto",
-                  borderRadius: "10px",
-                  marginTop: "3px",
-                  boxshadow: "none",
-                  // backgroundColor: "#E7E7E7",
-                  background: "rgba(248, 248, 249, 1)",
-                  color: "rgba(92, 117,154)",
-                  zIndex: "1",
-                  overflow: "auto",
-                  maxHeight: "200px",
-                  minWidth: "160px",
-                },
-              }}
-              open={openOwnerMenu}
-              onClose={handleCloseOwnerMenu}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-            >
-              <MenuItem
-                key={"xyz"}
-                className="menu-item"
-                sx={{
-                  fontSize: "13px",
-                  fontWeight: 600,
-                }}
-                onClick={handleCloseOwnerMenu}
+          {roles && roles.all.includes(userRole && userRole) ? (
+            <div className="select-container">
+              <Button
+                id="basic-button"
+                className="select-button"
+                onClick={handleClickOwnerMenu}
               >
-                All Owners
-              </MenuItem>
-              {uniqueOwner &&
-                uniqueOwner.sort().map((ele, idx) => {
-                  return (
-                    <MenuItem
-                      key={idx}
-                      className="menu-item"
-                      onClick={handleCloseOwnerMenu}
-                      sx={{
-                        fontSize: "13px",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {ele}
-                    </MenuItem>
-                  );
-                })}
-            </Menu>
-          </div>
+                <span className="select-btn-title">{allOwnersFilter}</span>
+                <span>
+                  <DownArrow />
+                </span>
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={ownerMenu}
+                className="menu"
+                PaperProps={{
+                  style: {
+                    width: "auto",
+                    borderRadius: "10px",
+                    marginTop: "3px",
+                    boxshadow: "none",
+                    // backgroundColor: "#E7E7E7",
+                    background: "rgba(248, 248, 249, 1)",
+                    color: "rgba(92, 117,154)",
+                    zIndex: "1",
+                    overflow: "auto",
+                    maxHeight: "200px",
+                    minWidth: "160px",
+                  },
+                }}
+                open={openOwnerMenu}
+                onClose={handleCloseOwnerMenu}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem
+                  key={"xyz"}
+                  className="menu-item"
+                  sx={{
+                    fontSize: "13px",
+                    fontWeight: 600,
+                  }}
+                  onClick={handleCloseOwnerMenu}
+                >
+                  All Owners
+                </MenuItem>
+                {uniqueOwner &&
+                  uniqueOwner.sort().map((ele, idx) => {
+                    return (
+                      <MenuItem
+                        key={idx}
+                        className="menu-item"
+                        onClick={handleCloseOwnerMenu}
+                        sx={{
+                          fontSize: "13px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {ele}
+                      </MenuItem>
+                    );
+                  })}
+              </Menu>
+            </div>
+          ) : null}
         </div>
         <div className="right-section">
           <div className="filter-icon">

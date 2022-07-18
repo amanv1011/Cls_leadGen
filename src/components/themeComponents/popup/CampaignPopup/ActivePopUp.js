@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import { openAlertAction } from "../../../../redux/actions/alertActions";
-import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import closeIcon from "../../../../assets/icons/closeIcon.png";
 import IButton from "../../button";
 
@@ -23,15 +22,11 @@ const ActivePopUp = ({
   const dispatch = useDispatch();
 
   const ActivateMultipleCampaings = () => {
-    selectedArray.map((seletedCampaigns) => {
-      try {
-        get_a_feild_in_a_document(seletedCampaigns, { status: 1 });
-      } catch (error) {
-        dispatch(openAlertAction(`${error.message}`, true, "error"));
-      }
+    selectedArray.forEach((seletedCampaignId) => {
+      dispatch(
+        campaignActions.updateCampaignStatusAction(seletedCampaignId, 1)
+      );
     });
-    dispatch(campaignActions.getAllCampaignsAction());
-    dispatch(openAlertAction("Campaigns Actived Successfully", false));
     handleClose();
     handleClosePopover();
     setselectedArray([]);

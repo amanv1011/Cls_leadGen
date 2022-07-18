@@ -22,22 +22,24 @@ const AlertBeforeAction = ({
   setIdForDelete,
   campaignName,
   setCampaignName,
-  searchedCampaignList,
+  campaignsListData,
 }) => {
   const dispatch = useDispatch();
 
-  const Viewed = async (campaignListItemId) => {
+  const Viewed = (campaignListItemId) => {
     try {
-      await dispatch(campaignActions.getACampaignAction(campaignListItemId));
+      dispatch(campaignActions.getACampaignAction(campaignListItemId));
     } catch (error) {
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };
 
-  const handleClickOpen = async () => {
+  const handleClickOpen = () => {
     setOpenAlert(false);
-    await dispatch(campaignActions.deleteCampaignsAction(campaignItemId));
-    Viewed(searchedCampaignList[1].id);
+    dispatch(campaignActions.deleteCampaignsAction(campaignItemId));
+    campaignsListData && campaignsListData[0]
+      ? Viewed(campaignsListData[1].id)
+      : Viewed(campaignsListData[0].id);
   };
 
   const handleClose = () => {
@@ -76,7 +78,8 @@ const AlertBeforeAction = ({
             startIcon={<DeleteIcon />}
             style={{
               borderRadius: "10px",
-              background: "#ff6c5f",
+              background: "#e53935",
+
               opacity: 1,
               textTransform: "none",
             }}

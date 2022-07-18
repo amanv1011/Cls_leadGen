@@ -5,13 +5,12 @@ import Campaign from "../pageComponents/campaign/index";
 import Leads from "../pageComponents/leads";
 import UnAuthorizedComponent from "../pageComponents/unAuthorized";
 import OutletComponent from "../pageComponents/outletComopnent/outletComponent";
-import { roles } from "../../utils/constants";
 import ProtectedRoute from "./private";
 
 const AllRoutes = ({ userRole }) => {
   const allRoutes = useRoutes([
     {
-      element: <OutletComponent />,
+      element: <OutletComponent userRole={userRole} />,
       children: [
         {
           path: "/",
@@ -24,19 +23,29 @@ const AllRoutes = ({ userRole }) => {
           //       )}
           //   </>
           // ),
-          element: <ProtectedRoute user={userRole} children={<Dashboard />} />,
+          element: (
+            <ProtectedRoute
+              userRole={userRole}
+              children={<Dashboard userRole={userRole} />}
+            />
+          ),
           // element: <Dashboard />,
         },
         {
           path: "/leads",
-          element: <ProtectedRoute user={userRole} children={<Leads />} />,
+          element: (
+            <ProtectedRoute
+              userRole={userRole}
+              children={<Leads userRole={userRole} />}
+            />
+          ),
         },
 
         {
           path: "/campaign",
           element: (
             <>
-              <ProtectedRoute user={userRole} children={<Campaign />} />
+              <ProtectedRoute userRole={userRole} children={<Campaign />} />
             </>
           ),
         },
