@@ -1,17 +1,37 @@
 import { collection } from "firebase/firestore";
 import { firestore } from "./firebaseInit";
 
-export const campgaignCollection = collection(firestore, "campaigns");
-export const crawledDataCollection = collection(firestore, "crawledData");
+console.log(`web/${process.env.NODE_ENV}/campaigns`);
+
+export const campgaignCollection = collection(
+  firestore,
+  `web/${process.env.NODE_ENV}/campaigns`
+);
+export const crawledDataCollection = collection(
+  firestore,
+  `web/${process.env.NODE_ENV}/crawledData`
+);
 export const fullDescriptionCollection = collection(
   firestore,
-  "fullDescription"
+  `web/${process.env.NODE_ENV}/fullDescription`
 );
-export const leadsCollection = collection(firestore, "leads");
-export const usersCollection = collection(firestore, "users");
-export const assignedLeadCollection = collection(firestore, "assignedLead");
+export const leadsCollection = collection(
+  firestore,
+  `web/${process.env.NODE_ENV}/leads`
+);
+export const usersCollection = collection(
+  firestore,
+  `web/${process.env.NODE_ENV}/users`
+);
+export const assignedLeadCollection = collection(
+  firestore,
+  `web/${process.env.NODE_ENV}/assignedLead`
+);
 export const assignedCampaignCollection = collection(
   firestore,
-  "assignedCampaign"
+  `web/${process.env.NODE_ENV}/assignedCampaign`
 );
-export const countryCollection = collection(firestore, "country");
+export const countryCollection = collection(
+  firestore,
+  `web/${process.env.NODE_ENV}/country`
+);
