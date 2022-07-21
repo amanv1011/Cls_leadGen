@@ -46,7 +46,7 @@ const CampaignHeader = ({
   const handleClickOwnerMenu = (event) => {
     setOwnerMenu(event.currentTarget);
   };
-   
+
   const handleClosecountryMenu = (event) => {
     if (event.target.innerText === "") {
       dispatch(
@@ -218,7 +218,7 @@ const CampaignHeader = ({
                 Country
               </MenuItem>
               {uniqueCountries &&
-                uniqueCountries.map((country) => {
+                uniqueCountries.sort().map((country) => {
                   return (
                     <MenuItem
                       key={country}
