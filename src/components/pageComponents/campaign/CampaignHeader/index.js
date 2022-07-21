@@ -218,7 +218,7 @@ const CampaignHeader = ({
                 Country
               </MenuItem>
               {uniqueCountries &&
-                uniqueCountries.map((country) => {
+                uniqueCountries.sort().map((country) => {
                   return (
                     <MenuItem
                       key={country}
