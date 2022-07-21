@@ -15,7 +15,7 @@ export const ownerFilter = (
   campaignsList
   // loggedInUser
 ) => {
-  const ownerNameFilterId = options.filter(
+  const ownerNameFilterId = options?.filter(
     (user) => user.name === ownerFilterValue
   );
 

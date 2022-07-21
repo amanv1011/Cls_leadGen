@@ -129,7 +129,6 @@ const LeadsHeader = (props) => {
   const [ownerMenu, setOwnerMenu] = useState(null);
   const openOwnerMenu = Boolean(ownerMenu);
   const handleClickOwnerMenu = (event) => {
-    console.log(event.target.value);
     setOwnerMenu(event.currentTarget);
   };
   const handleCloseOwnerMenu = (event) => {
