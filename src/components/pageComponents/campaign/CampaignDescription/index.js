@@ -135,6 +135,8 @@ const CampaignDescription = ({
     sourceType = "Indeed Finland";
   } else if (campaignDocument && campaignDocument.source === "indeed_ch") {
     sourceType = "Indeed China";
+  } else if (campaignDocument && campaignDocument.source === "indeed_se") {
+    sourceType = "Indeed Sweden";
   } else if (campaignDocument && campaignDocument.source === "indeed_pt") {
     sourceType = "Indeed Portugal";
   } else if (campaignDocument && campaignDocument.source === "indeed_sg") {
@@ -208,7 +210,8 @@ const CampaignDescription = ({
       source === "indeed_ch" ||
       source === "indeed_pt" ||
       source === "indeed_sg" ||
-      source === "indeed_ae"
+      source === "indeed_ae" ||
+      source === "indeed_se"
     ) {
       if (tags.length > 10) {
         alert(
@@ -395,28 +398,28 @@ const CampaignDescription = ({
                               value={source}
                               onChange={onInputChangeHandler}
                               autoComplete="off"
-                              // style={{ width: "max-content" }}
                               required
                             >
                               <option value="" disabled defaultValue>
                                 Select the source
                               </option>
-                              <option value="seek_aus">Seek Australia</option>
                               <option value="indeed_aus">
                                 Indeed Australia
                               </option>
                               <option value="indeed_ca">Indeed Canada</option>
-                              <option value="indeed_uk">
-                                Indeed United Kingdom
-                              </option>
-                              <option value="indeed_il">Indeed Italy</option>
-                              <option value="indeed_ae">Indeed UAE</option>
-                              <option value="indeed_fi">Indeed Finland</option>
                               <option value="indeed_ch">Indeed China</option>
+                              <option value="indeed_fi">Indeed Finland</option>
+                              <option value="indeed_il">Indeed Italy</option>
                               <option value="indeed_pt">Indeed Portugal</option>
                               <option value="indeed_sg">
                                 Indeed Singapore
                               </option>
+                              <option value="indeed_se">Indeed Sweden</option>
+                              <option value="indeed_ae">Indeed UAE</option>
+                              <option value="indeed_uk">
+                                Indeed United Kingdom
+                              </option>
+                              <option value="seek_aus">Seek Australia</option>
                               <option value="linkedin">LinkedIn</option>
                             </select>
                           ) : (
