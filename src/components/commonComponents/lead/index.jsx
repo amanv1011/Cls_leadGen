@@ -1,8 +1,7 @@
 import Cards from "./Cards";
-import React, { memo } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { filterLeads, ownerAndAssignedCampaigns } from "../lead/filterLeads";
-import { filterCount } from "../lead/filterCount";
 import { getRejectCount } from "../../../redux/actions/approveRejectcount";
 import { getUnderreviewCount } from "../../../redux/actions/approveRejectcount";
 import { getApproveCount } from "../../../redux/actions/approveRejectcount";
@@ -10,7 +9,6 @@ import { getArchieveCount } from "../../../redux/actions/approveRejectcount";
 import { getAllCount } from "../../../redux/actions/approveRejectcount";
 import { useEffect } from "react";
 import "./lead.scss";
-import { useState } from "react";
 import { roles } from "../../../utils/constants";
 
 const Lead = (props) => {
@@ -23,7 +21,6 @@ const Lead = (props) => {
     assignedLeads,
   } = props;
   const dispatch = useDispatch();
-  const [leadsToProp, setleadsToProp] = useState([]);
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
   let genratedLeadData = useSelector((state) => state.allLeads.leadsList);
@@ -68,7 +65,7 @@ const Lead = (props) => {
   }, [approveRejectResponse]);
 
   var filterAllLeads;
-  var leadListForCount;
+
   var xyz = [];
 
   if (
@@ -223,7 +220,12 @@ const Lead = (props) => {
 
   return (
     <>
-      <Cards leadData={xyz} campaign={campaign} userRole={userRole} />
+      <Cards
+        leadData={xyz}
+        campaign={campaign}
+        userRole={userRole}
+        option={option}
+      />
     </>
   );
 };

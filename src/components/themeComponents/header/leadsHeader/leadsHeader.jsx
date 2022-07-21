@@ -23,6 +23,7 @@ import RestrictedComponent from "../../../higherOrderComponents/restrictedCompon
 
 import Moment from "moment";
 import { extendMoment } from "moment-range";
+import { roles } from "../../../../utils/constants";
 
 const moment = extendMoment(Moment);
 
@@ -128,6 +129,7 @@ const LeadsHeader = (props) => {
   const [ownerMenu, setOwnerMenu] = useState(null);
   const openOwnerMenu = Boolean(ownerMenu);
   const handleClickOwnerMenu = (event) => {
+    console.log(event.target.value);
     setOwnerMenu(event.currentTarget);
   };
   const handleCloseOwnerMenu = (event) => {
@@ -353,76 +355,73 @@ const LeadsHeader = (props) => {
                 );
               })}
           </Menu>
-          <RestrictedComponent
-            user={userRole}
-            Component={() => (
-              <div className="select-container">
-                <Button
-                  id="basic-button"
-                  className="select-button"
-                  onClick={handleClickOwnerMenu}
-                >
-                  <span className="select-btn-title">{allOwnersFilter}</span>
-                  <span>
-                    <DownArrow />
-                  </span>
-                </Button>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={ownerMenu}
-                  className="menu"
-                  PaperProps={{
-                    style: {
-                      width: "auto",
-                      borderRadius: "10px",
-                      marginTop: "3px",
-                      boxshadow: "none",
-                      // backgroundColor: "#E7E7E7",
-                      background: "rgba(248, 248, 249, 1)",
-                      color: "rgba(92, 117,154)",
-                      zIndex: "1",
-                      overflow: "auto",
-                      maxHeight: "200px",
-                      minWidth: "160px",
-                    },
+          {roles && roles.all.includes(userRole && userRole) ? (
+            <div className="select-container">
+              <Button
+                id="basic-button"
+                className="select-button"
+                onClick={handleClickOwnerMenu}
+              >
+                <span className="select-btn-title">{allOwnersFilter}</span>
+                <span>
+                  <DownArrow />
+                </span>
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={ownerMenu}
+                className="menu"
+                PaperProps={{
+                  style: {
+                    width: "auto",
+                    borderRadius: "10px",
+                    marginTop: "3px",
+                    boxshadow: "none",
+                    // backgroundColor: "#E7E7E7",
+                    background: "rgba(248, 248, 249, 1)",
+                    color: "rgba(92, 117,154)",
+                    zIndex: "1",
+                    overflow: "auto",
+                    maxHeight: "200px",
+                    minWidth: "160px",
+                  },
+                }}
+                open={openOwnerMenu}
+                onClose={handleCloseOwnerMenu}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem
+                  key={"xyz"}
+                  className="menu-item"
+                  sx={{
+                    fontSize: "13px",
+                    fontWeight: 600,
                   }}
-                  open={openOwnerMenu}
-                  onClose={handleCloseOwnerMenu}
-                  MenuListProps={{
-                    "aria-labelledby": "basic-button",
-                  }}
+                  onClick={handleCloseOwnerMenu}
                 >
-                  <MenuItem
-                    key={"xyz"}
-                    className="menu-item"
-                    sx={{
-                      fontSize: "13px",
-                      fontWeight: 600,
-                    }}
-                    onClick={handleCloseOwnerMenu}
-                  >
-                    All Owners
-                  </MenuItem>
-                  {uniqueOwner &&
-                    uniqueOwner.sort().map((ele, idx) => {
-                      return (
-                        <MenuItem
-                          key={idx}
-                          className="menu-item"
-                          onClick={handleCloseOwnerMenu}
-                          sx={{
-                            fontSize: "13px",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {ele}
-                        </MenuItem>
-                      );
-                    })}
-                </Menu>
-              </div>
-            )}
-          ></RestrictedComponent>
+                  All Owners
+                </MenuItem>
+                {uniqueOwner &&
+                  uniqueOwner.sort().map((ele, idx) => {
+                    return (
+                      <MenuItem
+                        key={idx}
+                        className="menu-item"
+                        onClick={handleCloseOwnerMenu}
+                        sx={{
+                          fontSize: "13px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {ele}
+                      </MenuItem>
+                    );
+                  })}
+              </Menu>
+            </div>
+          ) : null}
         </div>
         <div className="right-section">
           <div className="filter-icon">
