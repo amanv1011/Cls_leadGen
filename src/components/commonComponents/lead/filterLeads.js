@@ -74,7 +74,7 @@ export const ownerAndAssignedCampaigns = (
 ) => {
   const filteredCampaign =
     campaignList &&
-    campaignList.filter((ele) => ele.owner.includes(`${userName}`));
+    campaignList?.filter((ele) => ele.owner.includes(`${userName}`));
   const arr = [];
   assignedCampaigns &&
     assignedCampaigns?.forEach((campaign) => {

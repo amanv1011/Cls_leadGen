@@ -65,7 +65,7 @@ export const getAllCampaignsReducer = (
       };
 
     case types.DELETE_CAMPAIGN_DATA_SUCCESS:
-      const newList = state.campaignList.filter(
+      const newList = state.campaignList?.filter(
         (item) => item.id !== payload.id
       );
       return {

@@ -75,7 +75,7 @@ const LeadsDisplay = ({
   }, [leadViewUpdate]);
 
   const handleClick = (leadId) => {
-    let leadsIdData = leadsList.filter((ele) => ele.id === leadId);
+    let leadsIdData = leadsList?.filter((ele) => ele.id === leadId);
     selectedLeadIdFun(leadsIdData[0].id);
     dispatch(getSingleLeadDetail(leadsIdData[0]));
     //set already assigned user here
@@ -89,7 +89,7 @@ const LeadsDisplay = ({
     if (event.target.checked) {
       setselectedArray([...selectedArray, event.target.value]);
     } else {
-      const filtered = selectedArray.filter(
+      const filtered = selectedArray?.filter(
         (item) => item !== event.target.value
       );
       setselectedArray(filtered);
@@ -254,7 +254,7 @@ const LeadsDisplay = ({
                       className="checkbox"
                       checked={
                         selectedArray &&
-                        selectedArray.filter((it) => it === lead.id).length > 0
+                        selectedArray?.filter((it) => it === lead.id).length > 0
                           ? true
                           : false
                       }

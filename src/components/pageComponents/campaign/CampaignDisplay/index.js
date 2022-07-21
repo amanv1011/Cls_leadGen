@@ -80,12 +80,12 @@ const CampaignDisplay = ({
       dispatch(campaignCountActions.getAllCampaignsCountAction(campaignsList));
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          campaignsList.filter((campaign) => campaign?.status === 1)
+          campaignsList?.filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          campaignsList.filter((campaign) => campaign?.status === 0)
+          campaignsList?.filter((campaign) => campaign?.status === 0)
         )
       );
       dispatch(campaignActions.getSearchedCampaignList(campaignsList));
@@ -94,14 +94,14 @@ const CampaignDisplay = ({
         dispatch(campaignActions.getSearchedCampaignList(campaignsList));
       }
       if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = campaignsList.filter(
+        const activeCampaigns = campaignsList?.filter(
           (campaign) => campaign?.status === 1
         );
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       }
       if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = campaignsList.filter(
+        const inActiveCampaigns = campaignsList?.filter(
           (campaign) => campaign?.status === 0
         );
         setCampaignsListData(inActiveCampaigns);
@@ -112,7 +112,7 @@ const CampaignDisplay = ({
       ownerFilterValue === "Owner" &&
       searchValue === ""
     ) {
-      const filteredCampaigns = campaignsList.filter(
+      const filteredCampaigns = campaignsList?.filter(
         (campaign) => campaign?.country === countryFilterValue
       );
 
@@ -121,25 +121,25 @@ const CampaignDisplay = ({
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          filteredCampaigns.filter((campaign) => campaign?.status === 1)
+          filteredCampaigns?.filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          filteredCampaigns.filter((campaign) => campaign?.status === 0)
+          filteredCampaigns?.filter((campaign) => campaign?.status === 0)
         )
       );
       if (campaignStateFilterValue === "AllCampaigns") {
         setCampaignsListData(filteredCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = filteredCampaigns.filter(
+        const activeCampaigns = filteredCampaigns?.filter(
           (campaign) => campaign?.status === 1
         );
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = filteredCampaigns.filter(
+        const inActiveCampaigns = filteredCampaigns?.filter(
           (campaign) => campaign?.status === 0
         );
         setCampaignsListData(inActiveCampaigns);
@@ -150,7 +150,7 @@ const CampaignDisplay = ({
       ownerFilterValue !== "Owner" &&
       searchValue === ""
     ) {
-      const filteredCampaigns = campaignsList.filter(
+      const filteredCampaigns = campaignsList?.filter(
         (campaign) =>
           campaign?.country === countryFilterValue &&
           campaign?.owner === ownerFilterValue
@@ -205,7 +205,7 @@ const CampaignDisplay = ({
     ) {
       const searchCampaigns = searchingTable(searchValue, campaignsList);
 
-      const filteredCampaigns = searchCampaigns.filter(
+      const filteredCampaigns = searchCampaigns?.filter(
         (campaign) =>
           campaign &&
           campaign?.country === countryFilterValue &&
@@ -265,7 +265,7 @@ const CampaignDisplay = ({
       ownerFilterValue !== "Owner" &&
       searchValue === ""
     ) {
-      const filteredCampaigns = campaignsList.filter(
+      const filteredCampaigns = campaignsList?.filter(
         (campaign) => campaign && campaign?.owner === ownerFilterValue
       );
       const returnedCampaigns = commonFunctions.ownerFilter(
@@ -322,16 +322,16 @@ const CampaignDisplay = ({
         );
         dispatch(
           campaignCountActions.getActiveCampaignsCountAction(
-            campaignsList.filter((campaign) => campaign?.status === 1)
+            campaignsList?.filter((campaign) => campaign?.status === 1)
           )
         );
         dispatch(
           campaignCountActions.getInActiveCampaignsCountAction(
-            campaignsList.filter((campaign) => campaign?.status === 0)
+            campaignsList?.filter((campaign) => campaign?.status === 0)
           )
         );
       } else {
-        const filteredData = campaignsList.filter((item) => {
+        const filteredData = campaignsList?.filter((item) => {
           return keysInJSON.some((key) =>
             item[key].toString().toLowerCase().includes(lowerCasedValue)
           );
@@ -339,25 +339,25 @@ const CampaignDisplay = ({
         dispatch(campaignCountActions.getAllCampaignsCountAction(filteredData));
         dispatch(
           campaignCountActions.getActiveCampaignsCountAction(
-            filteredData.filter((campaign) => campaign?.status === 1)
+            filteredData?.filter((campaign) => campaign?.status === 1)
           )
         );
         dispatch(
           campaignCountActions.getInActiveCampaignsCountAction(
-            filteredData.filter((campaign) => campaign?.status === 0)
+            filteredData?.filter((campaign) => campaign?.status === 0)
           )
         );
         if (campaignStateFilterValue === "AllCampaigns") {
           setCampaignsListData(filteredData);
           dispatch(campaignActions.getSearchedCampaignList(filteredData));
         } else if (campaignStateFilterValue === "activeCampaigns") {
-          const activeCampaigns = filteredData.filter(
+          const activeCampaigns = filteredData?.filter(
             (campaign) => campaign?.status === 1
           );
           setCampaignsListData(activeCampaigns);
           dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
         } else if (campaignStateFilterValue === "inActiveCampaigns") {
-          const inActiveCampaigns = filteredData.filter(
+          const inActiveCampaigns = filteredData?.filter(
             (campaign) => campaign?.status === 0
           );
           setCampaignsListData(inActiveCampaigns);
@@ -371,7 +371,7 @@ const CampaignDisplay = ({
     ) {
       const searchCampaigns = searchingTable(searchValue, campaignsList);
 
-      const filteredCampaigns = searchCampaigns.filter(
+      const filteredCampaigns = searchCampaigns?.filter(
         (campaign) => campaign && campaign?.owner === ownerFilterValue
       );
       let returnedCampaigns = commonFunctions.ownerFilter(
@@ -427,7 +427,7 @@ const CampaignDisplay = ({
     ) {
       const searchCampaigns = searchingTable(searchValue, campaignsList);
 
-      const filteredCampaigns = searchCampaigns.filter(
+      const filteredCampaigns = searchCampaigns?.filter(
         (campaign) => campaign?.country === countryFilterValue
       );
       dispatch(
@@ -435,12 +435,12 @@ const CampaignDisplay = ({
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          filteredCampaigns.filter((campaign) => campaign?.status === 1)
+          filteredCampaigns?.filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          filteredCampaigns.filter((campaign) => campaign?.status === 0)
+          filteredCampaigns?.filter((campaign) => campaign?.status === 0)
         )
       );
 
@@ -448,13 +448,13 @@ const CampaignDisplay = ({
         setCampaignsListData(filteredCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = filteredCampaigns.filter(
+        const activeCampaigns = filteredCampaigns?.filter(
           (campaign) => campaign?.status === 1
         );
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = filteredCampaigns.filter(
+        const inActiveCampaigns = filteredCampaigns?.filter(
           (campaign) => campaign?.status === 0
         );
         setCampaignsListData(inActiveCampaigns);
@@ -469,7 +469,7 @@ const CampaignDisplay = ({
   ]);
 
   const getNumOfLeads = (id) => {
-    const val = leadsList.filter((valID) => {
+    const val = leadsList?.filter((valID) => {
       return valID.campaignId === id;
     });
     return val.length;
@@ -498,7 +498,7 @@ const CampaignDisplay = ({
     if (event.target.checked) {
       setselectedArray([...selectedArray, event.target.value]);
     } else {
-      const filtered = selectedArray.filter(
+      const filtered = selectedArray?.filter(
         (item) => item !== event.target.value
       );
       setselectedArray(filtered);
@@ -521,7 +521,7 @@ const CampaignDisplay = ({
   // To download selected campaigns
   const downloadSelectedCampaigns = () => {
     // handleClickOpenCampaignPopup();
-    const filteredcampaignsForDownload = campaignsListData.filter((campaign) =>
+    const filteredcampaignsForDownload = campaignsListData?.filter((campaign) =>
       selectedArray.find((item) => campaign.id === item)
     );
     let updatedcampaignListDataToDownload = [];
@@ -609,7 +609,9 @@ const CampaignDisplay = ({
       (selectedCampaign) =>
         (arrayForDelete = [getNumOfLeads(selectedCampaign), ...arrayForDelete])
     );
-    const newArrayForDelete = arrayForDelete.filter((campaign) => campaign > 0);
+    const newArrayForDelete = arrayForDelete?.filter(
+      (campaign) => campaign > 0
+    );
     newArrayForDelete.length !== 0
       ? setDisableApplyBtn(true)
       : setDisableApplyBtn(false);
@@ -654,7 +656,7 @@ const CampaignDisplay = ({
   }, [campaignViewStatus]);
 
   const campaignViewUpdate = (campgaignId) => {
-    let campaignIdData = campaignsListData.filter(
+    let campaignIdData = campaignsListData?.filter(
       (campaign) => campaign.id === campgaignId
     );
     if (

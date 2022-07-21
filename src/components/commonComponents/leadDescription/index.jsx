@@ -23,10 +23,17 @@ const LeadDescription = ({ displayLeadData }) => {
   }
 
   const getDescription = (elementUniqueId) => {
-    const descNow = leadsFullDescription.filter((leadsFullDescUniqueId) => {
-      return leadsFullDescUniqueId.uniqueId === elementUniqueId;
-    });
-    return descNow.length !== 0 ? descNow.map((wow) => wow.descData) : "";
+    let descNow = [];
+    descNow =
+      leadsFullDescription &&
+      Array.isArray(leadsFullDescription) &&
+      leadsFullDescription.length &&
+      leadsFullDescription.filter((leadsFullDescUniqueId) => {
+        return leadsFullDescUniqueId.uniqueId === elementUniqueId;
+      });
+    return descNow && descNow.length !== 0
+      ? descNow && descNow.length && descNow?.map((wow) => wow.descData)
+      : "";
   };
 
   return (

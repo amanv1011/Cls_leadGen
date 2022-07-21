@@ -94,7 +94,7 @@ const CampaignHeader = ({
     });
 
   const getNumOfLeads = (id) => {
-    const val = leadsList.filter((valID) => {
+    const val = leadsList?.filter((valID) => {
       return valID.campaignId === id;
     });
     return val.length;

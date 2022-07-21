@@ -249,7 +249,7 @@ const CampaignDescription = ({
 
   // getting last crawled date
   // const getLastCrawledDate = (campaignId) => {
-  //   const lastCrawledDate = lastCrawledDateList.filter(
+  //   const lastCrawledDate = lastCrawledDateList?.filter(
   //     (lastCrawledDateCampaignId) => {
   //       return lastCrawledDateCampaignId.campaign_id === campaignId;
   //     }

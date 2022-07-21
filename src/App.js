@@ -93,7 +93,7 @@ const App = (props) => {
           if (data && data.result && data.result[0]) {
             dispatch(getLoggedInUserAction(data.result[0]));
             if (allUsers && allUsers.length) {
-              let filtered = allUsers.filter((user) => {
+              let filtered = allUsers?.filter((user) => {
                 return user.userId === data.result[0].id;
               });
               if (!filtered.length) {
@@ -136,7 +136,7 @@ const App = (props) => {
       )
         .then((res) => res.json())
         .then((res) => {
-          const crm = res && res.filter((element) => element.id === "11");
+          const crm = res && res?.filter((element) => element.id === "11");
           if (crm && crm[0] && crm[0].is_active === false) {
             navigate("/unAuthorized");
           }
