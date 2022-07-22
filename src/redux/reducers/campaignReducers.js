@@ -51,7 +51,8 @@ export const getAllCampaignsReducer = (
     case types.POST_CAMPAIGN_DATA_SUCCESS:
       return {
         ...state,
-        campaignList: [...state.campaignList, payload],
+        campaignList: [payload, ...state.campaignList],
+        campaignDoc: {},
         loading: false,
         error: null,
       };
@@ -64,12 +65,13 @@ export const getAllCampaignsReducer = (
       };
 
     case types.DELETE_CAMPAIGN_DATA_SUCCESS:
-      const newList = state.campaignList.filter(
+      const newList = state.campaignList?.filter(
         (item) => item.id !== payload.id
       );
       return {
         ...state,
         campaignList: newList,
+        campaignDoc: {},
         error: null,
       };
 
@@ -96,6 +98,9 @@ export const getAllCampaignsReducer = (
       return {
         ...state,
         campaignList: updatedData,
+        campaignDoc: updatedData.filter(
+          (updatedCampaign) => updatedCampaign.id === payload.id
+        ),
         error: null,
       };
 

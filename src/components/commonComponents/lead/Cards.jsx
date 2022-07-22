@@ -83,15 +83,17 @@ const Cards = (props) => {
     setdisplayLeadData(allLeadData);
 
     if (assignedLeads && allLeadData && allLeadData.id) {
-      assignedLeads.forEach((lead) => {
-        if (lead.leadId === allLeadData.id) {
-          let selectedId = lead.userId;
-          const filteredArray = allUsers.filter((value) =>
-            selectedId.includes(value.userId)
-          );
-          setSelectedUsers(filteredArray);
-        }
-      });
+      assignedLeads &&
+        assignedLeads.length &&
+        assignedLeads.forEach((lead) => {
+          if (lead.leadId === allLeadData.id) {
+            let selectedId = lead.userId;
+            const filteredArray = allUsers?.filter((value) =>
+              selectedId.includes(value.userId)
+            );
+            setSelectedUsers(filteredArray);
+          }
+        });
     }
   }, [allLeadData]);
 
@@ -231,7 +233,7 @@ const Cards = (props) => {
 
   useEffect(() => {
     const arr =
-      allUsers && allUsers.filter((ele) => ele.userId !== loggedInUser.id);
+      allUsers && allUsers?.filter((ele) => ele.userId !== loggedInUser.id);
     setfilteredUsers(arr);
   }, [allUsers, loggedInUser]);
 

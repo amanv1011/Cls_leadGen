@@ -37,14 +37,14 @@ const CampaignButtonActions = ({
   const getNumOfLeads = (id) => {
     const val =
       leadsList &&
-      leadsList.filter((valID) => {
+      leadsList?.filter((valID) => {
         return valID.campaignId === id;
       });
     return val.length;
   };
 
   const forDownloading = (campaignListId, campaignListItemName) => {
-    const val = leadsList.filter((valID) => {
+    const val = leadsList?.filter((valID) => {
       return valID.campaignId === campaignListId;
     });
 

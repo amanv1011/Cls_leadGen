@@ -67,7 +67,7 @@ export const assignLead = async (leadId, userId) => {
   }));
   leadId &&
     leadId.forEach(async (ele) => {
-      const filt = list.filter((element) => element.leadId === leadId);
+      const filt = list?.filter((element) => element.leadId === leadId);
       if (filt.length === 0) {
         // await addDoc(assignedLeadCollection, { leadId: leadId, userId: [userId] });
         const newCityRef = doc(assignedLeadCollection, ele);

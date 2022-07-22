@@ -111,7 +111,7 @@ const Lead = (props) => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter === "All Owners"
   ) {
-    const campaignIds = campgainData.filter(
+    const campaignIds = campgainData?.filter(
       (ele) => ele.name === campaignNameFilter
     );
 
@@ -136,8 +136,8 @@ const Lead = (props) => {
       ownerNameFilterId,
       assignedCampaigns
     );
-    const campaignIds = ownerAndAssignedCamp.filter(
-      (ele) => ele.owner === ownerNameFilter
+    const campaignIds = ownerAndAssignedCamp?.filter(
+      (ele) => ele.owner === ownerNameFilter && ele.name === campaignNameFilter
     );
     filterAllLeads = filterLeads(
       campaignIds,
@@ -149,7 +149,7 @@ const Lead = (props) => {
   }
 
   if (countriesNameFilter !== "All Countries") {
-    let arr = filterAllLeads.filter(
+    let arr = filterAllLeads?.filter(
       (ele) => ele.country === countriesNameFilter
     );
     filterAllLeads = arr;
@@ -160,6 +160,7 @@ const Lead = (props) => {
     const arr = [];
 
     assignedLeads &&
+      assignedLeads.length &&
       assignedLeads.forEach((lead) => {
         if (lead.userId.includes(filterProp)) {
           arr.push(lead.leadId);
@@ -198,13 +199,13 @@ const Lead = (props) => {
 
   leadsCountByOption(option);
 
-  const rejectList = filterAllLeads.filter((ele) => ele.status === -1);
+  const rejectList = filterAllLeads?.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;
-  const underReviewList = filterAllLeads.filter((ele) => ele.status === 0);
+  const underReviewList = filterAllLeads?.filter((ele) => ele.status === 0);
   const underReviewCount = underReviewList.length;
-  const archieveList = filterAllLeads.filter((ele) => ele.status === 2);
+  const archieveList = filterAllLeads?.filter((ele) => ele.status === 2);
   const archieveCount = archieveList.length;
-  const approveList = filterAllLeads.filter((ele) => ele.status === 1);
+  const approveList = filterAllLeads?.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
   const totalCount =
     approveCount + underReviewCount + rejectCount + archieveCount;

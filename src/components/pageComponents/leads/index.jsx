@@ -44,7 +44,7 @@ const Leads = ({ userRole }) => {
 
   useEffect(() => {
     if (roles && !roles.all.includes(userRole)) {
-      const filteredCampaign = campaignList.filter((ele) =>
+      const filteredCampaign = campaignList?.filter((ele) =>
         ele.owner.includes(`${loggedInUser.first_name}`)
       );
       const arr = [];
