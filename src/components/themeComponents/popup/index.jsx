@@ -172,6 +172,7 @@ const AddCampaginModal = ({ countryList }) => {
         dispatch(campaignActions.showModal());
       }
     } catch (error) {
+      console.log(error);
       await dispatch(
         openAlertAction(
           `${error.message}. Please provide a valid input`,

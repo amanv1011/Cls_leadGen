@@ -479,6 +479,7 @@ const CampaignDisplay = ({
     try {
       await dispatch(campaignActions.getACampaignAction(campaignListItemId));
     } catch (error) {
+      console.log(error);
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };

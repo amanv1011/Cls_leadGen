@@ -30,6 +30,7 @@ const AlertBeforeAction = ({
     try {
       dispatch(campaignActions.getACampaignAction(campaignListItemId));
     } catch (error) {
+      console.log(error);
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };
