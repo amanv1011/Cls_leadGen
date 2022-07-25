@@ -1,8 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
-import { openAlertAction } from "../../../../redux/actions/alertActions";
-import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import IButton from "../../button";
 import {
   Dialog,

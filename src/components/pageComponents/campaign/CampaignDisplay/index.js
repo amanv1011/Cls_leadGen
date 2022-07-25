@@ -14,6 +14,7 @@ import DeActivatePopUp from "../../../themeComponents/popup/CampaignPopup/DeActi
 import CampaignMenu from "../CampaignMenu";
 import * as campaignCountActions from "../../../../redux/actions/campaignCountActions";
 import AssignPopUp from "../../../themeComponents/popup/CampaignPopup/AssignPopUp";
+
 import "./campaignDisplay.scss";
 
 const CampaignDisplay = ({
@@ -21,7 +22,6 @@ const CampaignDisplay = ({
   campaignsList,
   setCampaignsListData,
   campgaignId,
-  searchedCampaignList,
   campaignLoader,
   campaignDocument,
   leadsList,
@@ -39,6 +39,7 @@ const CampaignDisplay = ({
   searchValue,
   selectedUsers,
   setSelectedUsers,
+  loggedInUser,
 }) => {
   const dispatch = useDispatch();
 
@@ -51,22 +52,18 @@ const CampaignDisplay = ({
     useState(false);
   const [openAssignModel, setOpenAssignModel] = useState(false);
 
-  const ownerNameFilterId = options.filter(
-    (user) => user.name === ownerFilterValue
-  );
-
   useEffect(() => {
-    if (campgaignId === "") {
-      campaignsListData.length !== 0 &&
-        dispatch(campaignActions.getACampaignAction(campaignsListData[0].id));
-    }
+    // if (campgaignId === "") {
+    campaignsListData.length !== 0 &&
+      dispatch(campaignActions.getACampaignAction(campaignsListData[0].id));
+    // }
   }, [campaignsListData]);
 
   const keysInJSON = ["name", "location", "owner"];
 
-  const searchingTable = (searchTerm) => {
+  const searchingTable = (searchTerm, campaignsToSearch) => {
     const lowerCasedValue = searchTerm.toLowerCase().trim();
-    let filteredDataArray = campaignsList.filter((item) => {
+    let filteredDataArray = campaignsToSearch.filter((item) => {
       return keysInJSON.some((key) =>
         item[key].toString().toLowerCase().includes(lowerCasedValue)
       );
@@ -83,12 +80,12 @@ const CampaignDisplay = ({
       dispatch(campaignCountActions.getAllCampaignsCountAction(campaignsList));
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          campaignsList.filter((campaign) => campaign?.status === 1)
+          campaignsList?.filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          campaignsList.filter((campaign) => campaign?.status === 0)
+          campaignsList?.filter((campaign) => campaign?.status === 0)
         )
       );
       dispatch(campaignActions.getSearchedCampaignList(campaignsList));
@@ -97,14 +94,14 @@ const CampaignDisplay = ({
         dispatch(campaignActions.getSearchedCampaignList(campaignsList));
       }
       if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = campaignsList.filter(
+        const activeCampaigns = campaignsList?.filter(
           (campaign) => campaign?.status === 1
         );
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       }
       if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = campaignsList.filter(
+        const inActiveCampaigns = campaignsList?.filter(
           (campaign) => campaign?.status === 0
         );
         setCampaignsListData(inActiveCampaigns);
@@ -115,7 +112,7 @@ const CampaignDisplay = ({
       ownerFilterValue === "Owner" &&
       searchValue === ""
     ) {
-      const filteredCampaigns = campaignsList.filter(
+      const filteredCampaigns = campaignsList?.filter(
         (campaign) => campaign?.country === countryFilterValue
       );
 
@@ -124,25 +121,25 @@ const CampaignDisplay = ({
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          filteredCampaigns.filter((campaign) => campaign?.status === 1)
+          filteredCampaigns?.filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          filteredCampaigns.filter((campaign) => campaign?.status === 0)
+          filteredCampaigns?.filter((campaign) => campaign?.status === 0)
         )
       );
       if (campaignStateFilterValue === "AllCampaigns") {
         setCampaignsListData(filteredCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = filteredCampaigns.filter(
+        const activeCampaigns = filteredCampaigns?.filter(
           (campaign) => campaign?.status === 1
         );
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = filteredCampaigns.filter(
+        const inActiveCampaigns = filteredCampaigns?.filter(
           (campaign) => campaign?.status === 0
         );
         setCampaignsListData(inActiveCampaigns);
@@ -153,58 +150,49 @@ const CampaignDisplay = ({
       ownerFilterValue !== "Owner" &&
       searchValue === ""
     ) {
-      const filteredCampaigns = campaignsList.filter(
+      const filteredCampaigns = campaignsList?.filter(
         (campaign) =>
           campaign?.country === countryFilterValue &&
           campaign?.owner === ownerFilterValue
       );
-      const arr = [];
-      assignedCampaigns &&
-        ownerNameFilterId &&
-        assignedCampaigns.forEach((campaign) => {
-          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
-            arr.push(campaign.campaignId);
-          }
-        });
-      const filtered = [];
-      arr.forEach((assignedCampaign) => {
-        campaignsList.forEach((campaign) => {
-          if (campaign.id === assignedCampaign) {
-            filtered.push(campaign);
-          }
-        });
-      });
-
-      const combinedFilteredCampaigns = [...filteredCampaigns, ...filtered];
+      let returnedCampaigns = commonFunctions.ownerFilter(
+        filteredCampaigns,
+        options,
+        ownerFilterValue,
+        assignedCampaigns,
+        campaignsList,
+        loggedInUser
+      );
+      if (filteredCampaigns.length === 0 && returnedCampaigns.length !== 0) {
+        returnedCampaigns = returnedCampaigns.filter(
+          (returnedCampaign) => returnedCampaign?.country === countryFilterValue
+        );
+      }
 
       dispatch(
-        campaignCountActions.getAllCampaignsCountAction(
-          combinedFilteredCampaigns
-        )
+        campaignCountActions.getAllCampaignsCountAction(returnedCampaigns)
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 1)
+          returnedCampaigns.filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 0)
+          returnedCampaigns.filter((campaign) => campaign?.status === 0)
         )
       );
       if (campaignStateFilterValue === "AllCampaigns") {
-        setCampaignsListData(combinedFilteredCampaigns);
-        dispatch(
-          campaignActions.getSearchedCampaignList(combinedFilteredCampaigns)
-        );
+        setCampaignsListData(returnedCampaigns);
+        dispatch(campaignActions.getSearchedCampaignList(returnedCampaigns));
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = combinedFilteredCampaigns.filter(
+        const activeCampaigns = returnedCampaigns.filter(
           (campaign) => campaign?.status === 1
         );
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = combinedFilteredCampaigns.filter(
+        const inActiveCampaigns = returnedCampaigns.filter(
           (campaign) => campaign?.status === 0
         );
         setCampaignsListData(inActiveCampaigns);
@@ -215,62 +203,58 @@ const CampaignDisplay = ({
       ownerFilterValue !== "Owner" &&
       searchValue !== ""
     ) {
-      const searchCampaigns = searchingTable(searchValue);
+      const searchCampaigns = searchingTable(searchValue, campaignsList);
 
-      const filteredCampaigns = searchCampaigns.filter(
+      const filteredCampaigns = searchCampaigns?.filter(
         (campaign) =>
           campaign &&
           campaign?.country === countryFilterValue &&
           campaign?.owner === ownerFilterValue
       );
-      const arr = [];
-      assignedCampaigns &&
-        ownerNameFilterId &&
-        assignedCampaigns.forEach((campaign) => {
-          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
-            arr.push(campaign.campaignId);
-          }
-        });
-      const filtered = [];
-      arr.forEach((assignedCampaign) => {
-        campaignsList.forEach((campaign) => {
-          if (campaign.id === assignedCampaign) {
-            filtered.push(campaign);
-          }
-        });
-      });
+      let returnedCampaigns = commonFunctions.ownerFilter(
+        filteredCampaigns,
+        options,
+        ownerFilterValue,
+        assignedCampaigns,
+        campaignsList,
+        loggedInUser
+      );
 
-      const combinedFilteredCampaigns = [...filteredCampaigns, ...filtered];
+      if (filteredCampaigns.length === 0 && returnedCampaigns.length !== 0) {
+        const searchedCampaigns = searchingTable(
+          searchValue,
+          returnedCampaigns
+        );
+        returnedCampaigns = searchedCampaigns.filter(
+          (returnedCampaign) => returnedCampaign?.country === countryFilterValue
+        );
+      }
 
       dispatch(
-        campaignCountActions.getAllCampaignsCountAction(
-          combinedFilteredCampaigns
-        )
+        campaignCountActions.getAllCampaignsCountAction(returnedCampaigns)
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 1)
+          returnedCampaigns.filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 0)
+          returnedCampaigns.filter((campaign) => campaign?.status === 0)
         )
       );
 
       if (campaignStateFilterValue === "AllCampaigns") {
-        setCampaignsListData(combinedFilteredCampaigns);
-        dispatch(
-          campaignActions.getSearchedCampaignList(combinedFilteredCampaigns)
-        );
+        setCampaignsListData(returnedCampaigns);
+        dispatch(campaignActions.getSearchedCampaignList(returnedCampaigns));
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = combinedFilteredCampaigns.filter(
+        const activeCampaigns = returnedCampaigns.filter(
           (campaign) => campaign?.status === 1
         );
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = combinedFilteredCampaigns.filter(
+        const inActiveCampaigns = returnedCampaigns.filter(
           (campaign) => campaign?.status === 0
         );
         setCampaignsListData(inActiveCampaigns);
@@ -281,57 +265,43 @@ const CampaignDisplay = ({
       ownerFilterValue !== "Owner" &&
       searchValue === ""
     ) {
-      const filteredCampaigns = campaignsList.filter(
+      const filteredCampaigns = campaignsList?.filter(
         (campaign) => campaign && campaign?.owner === ownerFilterValue
       );
-      const arr = [];
-      assignedCampaigns &&
-        ownerNameFilterId &&
-        assignedCampaigns.forEach((campaign) => {
-          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
-            arr.push(campaign.campaignId);
-          }
-        });
-      const filtered = [];
-      arr.forEach((assignedCampaign) => {
-        campaignsList.forEach((campaign) => {
-          if (campaign.id === assignedCampaign) {
-            filtered.push(campaign);
-          }
-        });
-      });
-
-      const combinedFilteredCampaigns = [...filteredCampaigns, ...filtered];
+      const returnedCampaigns = commonFunctions.ownerFilter(
+        filteredCampaigns,
+        options,
+        ownerFilterValue,
+        assignedCampaigns,
+        campaignsList,
+        loggedInUser
+      );
 
       dispatch(
-        campaignCountActions.getAllCampaignsCountAction(
-          combinedFilteredCampaigns
-        )
+        campaignCountActions.getAllCampaignsCountAction(returnedCampaigns)
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 1)
+          returnedCampaigns.filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 0)
+          returnedCampaigns.filter((campaign) => campaign?.status === 0)
         )
       );
 
       if (campaignStateFilterValue === "AllCampaigns") {
-        setCampaignsListData(combinedFilteredCampaigns);
-        dispatch(
-          campaignActions.getSearchedCampaignList(combinedFilteredCampaigns)
-        );
+        setCampaignsListData(returnedCampaigns);
+        dispatch(campaignActions.getSearchedCampaignList(returnedCampaigns));
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = combinedFilteredCampaigns.filter(
+        const activeCampaigns = returnedCampaigns.filter(
           (campaign) => campaign?.status === 1
         );
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = combinedFilteredCampaigns.filter(
+        const inActiveCampaigns = returnedCampaigns.filter(
           (campaign) => campaign?.status === 0
         );
         setCampaignsListData(inActiveCampaigns);
@@ -352,16 +322,16 @@ const CampaignDisplay = ({
         );
         dispatch(
           campaignCountActions.getActiveCampaignsCountAction(
-            campaignsList.filter((campaign) => campaign?.status === 1)
+            campaignsList?.filter((campaign) => campaign?.status === 1)
           )
         );
         dispatch(
           campaignCountActions.getInActiveCampaignsCountAction(
-            campaignsList.filter((campaign) => campaign?.status === 0)
+            campaignsList?.filter((campaign) => campaign?.status === 0)
           )
         );
       } else {
-        const filteredData = campaignsList.filter((item) => {
+        const filteredData = campaignsList?.filter((item) => {
           return keysInJSON.some((key) =>
             item[key].toString().toLowerCase().includes(lowerCasedValue)
           );
@@ -369,25 +339,25 @@ const CampaignDisplay = ({
         dispatch(campaignCountActions.getAllCampaignsCountAction(filteredData));
         dispatch(
           campaignCountActions.getActiveCampaignsCountAction(
-            filteredData.filter((campaign) => campaign?.status === 1)
+            filteredData?.filter((campaign) => campaign?.status === 1)
           )
         );
         dispatch(
           campaignCountActions.getInActiveCampaignsCountAction(
-            filteredData.filter((campaign) => campaign?.status === 0)
+            filteredData?.filter((campaign) => campaign?.status === 0)
           )
         );
         if (campaignStateFilterValue === "AllCampaigns") {
           setCampaignsListData(filteredData);
           dispatch(campaignActions.getSearchedCampaignList(filteredData));
         } else if (campaignStateFilterValue === "activeCampaigns") {
-          const activeCampaigns = filteredData.filter(
+          const activeCampaigns = filteredData?.filter(
             (campaign) => campaign?.status === 1
           );
           setCampaignsListData(activeCampaigns);
           dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
         } else if (campaignStateFilterValue === "inActiveCampaigns") {
-          const inActiveCampaigns = filteredData.filter(
+          const inActiveCampaigns = filteredData?.filter(
             (campaign) => campaign?.status === 0
           );
           setCampaignsListData(inActiveCampaigns);
@@ -399,57 +369,52 @@ const CampaignDisplay = ({
       ownerFilterValue !== "Owner" &&
       searchValue !== ""
     ) {
-      const searchCampaigns = searchingTable(searchValue);
+      const searchCampaigns = searchingTable(searchValue, campaignsList);
 
-      const filteredCampaigns = searchCampaigns.filter(
+      const filteredCampaigns = searchCampaigns?.filter(
         (campaign) => campaign && campaign?.owner === ownerFilterValue
       );
-      const arr = [];
-      assignedCampaigns &&
-        ownerNameFilterId &&
-        assignedCampaigns.forEach((campaign) => {
-          if (campaign.userId.includes(ownerNameFilterId[0]?.userId)) {
-            arr.push(campaign.campaignId);
-          }
-        });
-      const filtered = [];
-      arr.forEach((assignedCampaign) => {
-        campaignsList.forEach((campaign) => {
-          if (campaign.id === assignedCampaign) {
-            filtered.push(campaign);
-          }
-        });
-      });
-      const combinedFilteredCampaigns = [...filteredCampaigns, ...filtered];
+      let returnedCampaigns = commonFunctions.ownerFilter(
+        filteredCampaigns,
+        options,
+        ownerFilterValue,
+        assignedCampaigns,
+        campaignsList,
+        loggedInUser
+      );
+      if (filteredCampaigns.length === 0 && returnedCampaigns.length !== 0) {
+        const searchedCampaigns = searchingTable(
+          searchValue,
+          returnedCampaigns
+        );
+        returnedCampaigns = searchedCampaigns;
+      }
+
       dispatch(
-        campaignCountActions.getAllCampaignsCountAction(
-          combinedFilteredCampaigns
-        )
+        campaignCountActions.getAllCampaignsCountAction(returnedCampaigns)
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 1)
+          returnedCampaigns.filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          combinedFilteredCampaigns.filter((campaign) => campaign?.status === 0)
+          returnedCampaigns.filter((campaign) => campaign?.status === 0)
         )
       );
 
       if (campaignStateFilterValue === "AllCampaigns") {
-        setCampaignsListData(combinedFilteredCampaigns);
-        dispatch(
-          campaignActions.getSearchedCampaignList(combinedFilteredCampaigns)
-        );
+        setCampaignsListData(returnedCampaigns);
+        dispatch(campaignActions.getSearchedCampaignList(returnedCampaigns));
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = combinedFilteredCampaigns.filter(
+        const activeCampaigns = returnedCampaigns.filter(
           (campaign) => campaign?.status === 1
         );
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = combinedFilteredCampaigns.filter(
+        const inActiveCampaigns = returnedCampaigns.filter(
           (campaign) => campaign?.status === 0
         );
         setCampaignsListData(inActiveCampaigns);
@@ -460,9 +425,9 @@ const CampaignDisplay = ({
       ownerFilterValue === "Owner" &&
       searchValue !== ""
     ) {
-      const searchCampaigns = searchingTable(searchValue);
+      const searchCampaigns = searchingTable(searchValue, campaignsList);
 
-      const filteredCampaigns = searchCampaigns.filter(
+      const filteredCampaigns = searchCampaigns?.filter(
         (campaign) => campaign?.country === countryFilterValue
       );
       dispatch(
@@ -470,12 +435,12 @@ const CampaignDisplay = ({
       );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          filteredCampaigns.filter((campaign) => campaign?.status === 1)
+          filteredCampaigns?.filter((campaign) => campaign?.status === 1)
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          filteredCampaigns.filter((campaign) => campaign?.status === 0)
+          filteredCampaigns?.filter((campaign) => campaign?.status === 0)
         )
       );
 
@@ -483,13 +448,13 @@ const CampaignDisplay = ({
         setCampaignsListData(filteredCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(filteredCampaigns));
       } else if (campaignStateFilterValue === "activeCampaigns") {
-        const activeCampaigns = filteredCampaigns.filter(
+        const activeCampaigns = filteredCampaigns?.filter(
           (campaign) => campaign?.status === 1
         );
         setCampaignsListData(activeCampaigns);
         dispatch(campaignActions.getSearchedCampaignList(activeCampaigns));
       } else if (campaignStateFilterValue === "inActiveCampaigns") {
-        const inActiveCampaigns = filteredCampaigns.filter(
+        const inActiveCampaigns = filteredCampaigns?.filter(
           (campaign) => campaign?.status === 0
         );
         setCampaignsListData(inActiveCampaigns);
@@ -504,7 +469,7 @@ const CampaignDisplay = ({
   ]);
 
   const getNumOfLeads = (id) => {
-    const val = leadsList.filter((valID) => {
+    const val = leadsList?.filter((valID) => {
       return valID.campaignId === id;
     });
     return val.length;
@@ -533,7 +498,7 @@ const CampaignDisplay = ({
     if (event.target.checked) {
       setselectedArray([...selectedArray, event.target.value]);
     } else {
-      const filtered = selectedArray.filter(
+      const filtered = selectedArray?.filter(
         (item) => item !== event.target.value
       );
       setselectedArray(filtered);
@@ -556,7 +521,7 @@ const CampaignDisplay = ({
   // To download selected campaigns
   const downloadSelectedCampaigns = () => {
     // handleClickOpenCampaignPopup();
-    const filteredcampaignsForDownload = campaignsListData.filter((campaign) =>
+    const filteredcampaignsForDownload = campaignsListData?.filter((campaign) =>
       selectedArray.find((item) => campaign.id === item)
     );
     let updatedcampaignListDataToDownload = [];
@@ -638,17 +603,19 @@ const CampaignDisplay = ({
   };
 
   const onDeleteMulitpleCampaign = () => {
+    let arrayForDelete = [];
     handleClickOpenCampaignPopup();
-
-    selectedArray.map((selectedCampaign) => {
-      if (getNumOfLeads(selectedCampaign)) {
-        setDisableApplyBtn(true);
-        return;
-      } else {
-        setDisableApplyBtn(false);
-        return;
-      }
-    });
+    selectedArray.map(
+      (selectedCampaign) =>
+        (arrayForDelete = [getNumOfLeads(selectedCampaign), ...arrayForDelete])
+    );
+    const newArrayForDelete = arrayForDelete?.filter(
+      (campaign) => campaign > 0
+    );
+    newArrayForDelete.length !== 0
+      ? setDisableApplyBtn(true)
+      : setDisableApplyBtn(false);
+    handleClose();
   };
 
   const onAssignMulitpleCampaign = () => {
@@ -657,18 +624,17 @@ const CampaignDisplay = ({
 
   const assignBatchUsers = async (e, option) => {
     setSelectedUsers(option);
-    if (selectedArray.length > 0 && selectedUsers.length > 0) {
+    if (selectedArray.length > 0 && selectedUsers.length >= 0) {
       let arr = [];
       option &&
         option.forEach((e) => {
           arr.push(e.userId);
         });
-
       await dispatch(
         campaignActions.assignCampaignToUsersAction(selectedArray, arr)
       );
-      await dispatch(campaignActions.getAssignedCampaignsAction());
     }
+    await dispatch(campaignActions.getAssignedCampaignsAction());
   };
 
   const onActivateMulitpleCampaign = () => {
@@ -690,7 +656,7 @@ const CampaignDisplay = ({
   }, [campaignViewStatus]);
 
   const campaignViewUpdate = (campgaignId) => {
-    let campaignIdData = campaignsListData.filter(
+    let campaignIdData = campaignsListData?.filter(
       (campaign) => campaign.id === campgaignId
     );
     if (
@@ -795,7 +761,6 @@ const CampaignDisplay = ({
               }}
               PaperProps={{
                 boxshadow: "0px 6px 10px rgba(180, 180, 180, 0.35)",
-                borderRadius: "10px",
               }}
             >
               <div className="popover-body-campaign">
@@ -820,12 +785,38 @@ const CampaignDisplay = ({
                 </button>
                 <button
                   className="campaign-btn activate-btn"
+                  disabled={
+                    campaignStateFilterValue === "activeCampaigns"
+                      ? true
+                      : false
+                  }
+                  style={
+                    campaignStateFilterValue === "activeCampaigns"
+                      ? {
+                          pointerEvents: "auto",
+                          cursor: "not-allowed",
+                        }
+                      : {}
+                  }
                   onClick={onActivateMulitpleCampaign}
                 >
                   <span className="campaign-btn-text">Activate</span>
                 </button>
                 <button
                   className="campaign-btn deActivate-btn"
+                  disabled={
+                    campaignStateFilterValue === "inActiveCampaigns"
+                      ? true
+                      : false
+                  }
+                  style={
+                    campaignStateFilterValue === "inActiveCampaigns"
+                      ? {
+                          pointerEvents: "auto",
+                          cursor: "not-allowed",
+                        }
+                      : {}
+                  }
                   onClick={onDeActivateMulitpleCampaign}
                 >
                   <span className="campaign-btn-text ">De-Activate</span>
@@ -834,151 +825,183 @@ const CampaignDisplay = ({
             </Popover>
           </div>
         </div>
+        {/* a[col] === b[col] ? 0 : a[col] > b[col] ? 1 : -1 */}
         <div className="campaign-display-container">
           {campaignsListData.length !== 0 &&
-            campaignsListData.map((campaign) => (
-              <button
-                key={campaign.id}
-                onClick={(event) => {
-                  Viewed(campaign.id);
-                  campaignViewUpdate(campaign.id);
-                }}
-                disabled={campgaignId ? true : false}
-                style={
-                  campgaignId
-                    ? {
-                        pointerEvents: "auto",
-                        cursor: "not-allowed",
-                      }
-                    : {}
-                }
-                className={`campaign-display-subcontainers ${
-                  campaignDocument.id === campaign.id ? "selected" : ""
-                } ${campaign?.campaignSeen === true ? "campaign-seen" : ""}`}
-              >
-                <div className="campaign-display-check">
-                  <input
-                    type="checkbox"
-                    name={campaign.id}
-                    value={campaign.id}
-                    checked={
-                      selectedArray &&
-                      selectedArray.filter((it) => it === campaign.id).length >
-                        0
-                        ? true
-                        : false
-                    }
-                    onChange={handleOnCheckboxChange}
-                    disabled={campgaignId ? true : false}
-                    style={
-                      campgaignId
-                        ? {
-                            pointerEvents: "auto",
-                            cursor: "not-allowed",
-                          }
-                        : {}
-                    }
-                  />
-                </div>
-                <div
-                  className={`campaign-display-subcontainer1 ${
+            campaignsListData
+              .sort((a, b) =>
+                moment
+                  .unix(
+                    a.campaignCreatedAt.seconds,
+                    a.campaignCreatedAt.nanoseconds
+                  )
+                  .format("MM/DD/YYYY") ===
+                moment
+                  .unix(
+                    b.campaignCreatedAt.seconds,
+                    b.campaignCreatedAt.nanoseconds
+                  )
+                  .format("MM/DD/YYYY")
+                  ? 0
+                  : moment
+                      .unix(
+                        a.campaignCreatedAt.seconds,
+                        a.campaignCreatedAt.nanoseconds
+                      )
+                      .format("MM/DD/YYYY") <
+                    moment
+                      .unix(
+                        b.campaignCreatedAt.seconds,
+                        b.campaignCreatedAt.nanoseconds
+                      )
+                      .format("MM/DD/YYYY")
+                  ? 1
+                  : -1
+              )
+              .map((campaign) => (
+                <button
+                  key={campaign.id}
+                  onClick={(event) => {
+                    Viewed(campaign.id);
+                    campaignViewUpdate(campaign.id);
+                  }}
+                  disabled={campgaignId ? true : false}
+                  style={
+                    campgaignId
+                      ? {
+                          pointerEvents: "auto",
+                          cursor: "not-allowed",
+                        }
+                      : {}
+                  }
+                  className={`campaign-display-subcontainers ${
                     campaignDocument.id === campaign.id ? "selected" : ""
-                  }`}
+                  } ${campaign?.campaignSeen === true ? "campaign-seen" : ""}`}
                 >
-                  <div className="display-count">
-                    <div
-                      className={`campaign-display-btn-text ${
-                        campaignDocument.id === campaign.id ? "selected" : ""
-                      } ${
-                        campaign?.campaignSeen === true ? "campaign-seen" : ""
-                      }`}
-                    >
-                      {campaign.name}
-                    </div>
-                    <div
-                      onClick={() => {
-                        if (getNumOfLeads(campaign.id)) {
-                          dispatch(
-                            leadsFilterActions.leadsFilterCampaignName(
-                              campaign.name
-                            )
-                          );
-                          dispatch(
-                            leadsFilterActions.leadsFilterOwnerName(
-                              campaign.owner
-                            )
-                          );
-                        } else {
-                          dispatch(
-                            leadsFilterActions.leadsFilterCampaignName(
-                              "All Campaigns"
-                            )
-                          );
-                          dispatch(
-                            leadsFilterActions.leadsFilterOwnerName(
-                              "All Owners"
-                            )
-                          );
-                        }
-                      }}
-                    >
-                      <Link
-                        to={getNumOfLeads(campaign.id) ? "/leads" : false}
-                        style={
-                          getNumOfLeads(campaign.id) === 0
-                            ? {
-                                pointerEvents: "auto",
-                                cursor: "not-allowed",
-                                color: "var(--rs-text-link)",
-                                textDecoration: "none",
-                                fontSize: "12px",
-                              }
-                            : {}
-                        }
-                      >
-                        <span
-                          className={`${
-                            campaign?.campaignSeen === true
-                              ? "campaign-seen"
-                              : ""
-                          } ${
-                            campaignDocument.id === campaign.id
-                              ? "selected"
-                              : ""
-                          }`}
-                        >
-                          {getNumOfLeads(campaign.id)
-                            ? `${getNumOfLeads(campaign.id)} leads`
-                            : "No Leads"}
-                        </span>
-                      </Link>
-                    </div>
+                  <div className="campaign-display-check">
+                    <input
+                      type="checkbox"
+                      name={campaign.id}
+                      value={campaign.id}
+                      checked={
+                        selectedArray &&
+                        selectedArray.filter((it) => it === campaign.id)
+                          .length > 0
+                          ? true
+                          : false
+                      }
+                      onChange={handleOnCheckboxChange}
+                      disabled={campgaignId ? true : false}
+                      style={
+                        campgaignId
+                          ? {
+                              pointerEvents: "auto",
+                              cursor: "not-allowed",
+                            }
+                          : {}
+                      }
+                    />
                   </div>
-
                   <div
-                    className={`campaign-display-subcontainer2 ${
-                      campaignDocument.id === campaign.id ? "selected-sub" : ""
+                    className={`campaign-display-subcontainer1 ${
+                      campaignDocument.id === campaign.id ? "selected" : ""
                     }`}
                   >
-                    <p className="location-text">
-                      {campaign.location === null ? "NA" : campaign.location}
-                    </p>
-                    <span>
-                      {campaignDocument?.campaignCreatedAt
-                        ? moment
-                            .unix(
-                              campaign.campaignCreatedAt.seconds,
-                              campaign.campaignCreatedAt.nanoseconds
-                            )
-                            .fromNow()
-                        : "long back"}
-                    </span>
-                  </div>
-                </div>
-              </button>
-            ))}
-        </div>
+                    <div className="display-count">
+                      <div
+                        className={`campaign-display-btn-text ${
+                          campaignDocument.id === campaign.id ? "selected" : ""
+                        } ${
+                          campaign?.campaignSeen === true ? "campaign-seen" : ""
+                        }`}
+                      >
+                        {campaign.name}
+                      </div>
+                      <div
+                        onClick={() => {
+                          if (getNumOfLeads(campaign.id)) {
+                            dispatch(
+                              leadsFilterActions.leadsFilterCampaignName(
+                                campaign.name
+                              )
+                            );
+                            dispatch(
+                              leadsFilterActions.leadsFilterOwnerName(
+                                campaign.owner
+                              )
+                            );
+                          } else {
+                            dispatch(
+                              leadsFilterActions.leadsFilterCampaignName(
+                                "All Campaigns"
+                              )
+                            );
+                            dispatch(
+                              leadsFilterActions.leadsFilterOwnerName(
+                                "All Owners"
+                              )
+                            );
+                          }
+                        }}
+                      >
+                        <Link
+                          to={getNumOfLeads(campaign.id) ? "/leads" : false}
+                          style={
+                            getNumOfLeads(campaign.id) === 0
+                              ? {
+                                  pointerEvents: "auto",
+                                  cursor: "not-allowed",
+                                  color: "var(--rs-text-link)",
+                                  textDecoration: "none",
+                                  fontSize: "12px",
+                                }
+                              : {}
+                          }
+                        >
+                          <span
+                            className={`${
+                              campaign?.campaignSeen === true
+                                ? "campaign-seen"
+                                : ""
+                            } ${
+                              campaignDocument.id === campaign.id
+                                ? "selected"
+                                : ""
+                            }`}
+                          >
+                            {getNumOfLeads(campaign.id)
+                              ? `${getNumOfLeads(campaign.id)} leads`
+                              : "No Leads"}
+                          </span>
+                        </Link>
+                      </div>
+                    </div>
 
+                    <div
+                      className={`campaign-display-subcontainer2 ${
+                        campaignDocument.id === campaign.id
+                          ? "selected-sub"
+                          : ""
+                      }`}
+                    >
+                      <p className="location-text">
+                        {campaign.location === null ? "NA" : campaign.location}
+                      </p>
+                      <span>
+                        {campaignDocument?.campaignCreatedAt
+                          ? moment
+                              .unix(
+                                campaign.campaignCreatedAt.seconds,
+                                campaign.campaignCreatedAt.nanoseconds
+                              )
+                              .fromNow()
+                          : "long back"}
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              ))}
+        </div>
         <CampaignPopup
           openCampaignPopup={openCampaignPopup}
           handleClickOpen={handleClickOpenCampaignPopup}

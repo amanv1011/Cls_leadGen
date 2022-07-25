@@ -26,7 +26,7 @@ const UnderReview = () => {
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
 
-  const underReviewList = genratedLeadData.filter((ele) => ele.status === 0);
+  const underReviewList = genratedLeadData?.filter((ele) => ele.status === 0);
 
   var filterUnderreview;
   var leadListForCount;
@@ -48,7 +48,7 @@ const UnderReview = () => {
     (campaignNameFilter === "All Campaigns" || campaignNameFilter === "") &&
     ownerNameFilter !== "All Owners"
   ) {
-    let campaignIds = campgainData.filter(
+    let campaignIds = campgainData?.filter(
       (ele) => ele.owner === ownerNameFilter
     );
     leadListForCount = filterCount(campaignIds, genratedLeadData);
@@ -64,7 +64,7 @@ const UnderReview = () => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter === "All Owners"
   ) {
-    let campaignIds = campgainData.filter(
+    let campaignIds = campgainData?.filter(
       (ele) => ele.name === campaignNameFilter
     );
     leadListForCount = filterCount(campaignIds, genratedLeadData);
@@ -80,7 +80,7 @@ const UnderReview = () => {
     campaignNameFilter !== "All Campaigns" &&
     ownerNameFilter !== "All Owners"
   ) {
-    let campaignIds = campgainData.filter(
+    let campaignIds = campgainData?.filter(
       (ele) => ele.name === campaignNameFilter && ele.owner === ownerNameFilter
     );
     leadListForCount = filterCount(campaignIds, genratedLeadData);
@@ -93,23 +93,23 @@ const UnderReview = () => {
   }
 
   if (countriesNameFilter !== "All Countries") {
-    let arr = filterUnderreview.filter(
+    let arr = filterUnderreview?.filter(
       (ele) => ele.country === countriesNameFilter
     );
     filterUnderreview = arr;
     leadListForCount = filterUnderreview;
   }
 
-  const rejectList = leadListForCount.filter((ele) => ele.status === -1);
+  const rejectList = leadListForCount?.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;
   const underReviewListCount =
     searchDate === "" && searchQuery === ""
-      ? leadListForCount.filter((ele) => ele.status === 0)
-      : filterUnderreview.filter((ele) => ele.status === 0);
+      ? leadListForCount?.filter((ele) => ele.status === 0)
+      : filterUnderreview?.filter((ele) => ele.status === 0);
   const underReviewCount = underReviewListCount.length;
-  const archieveList = leadListForCount.filter((ele) => ele.status === 2);
+  const archieveList = leadListForCount?.filter((ele) => ele.status === 2);
   const archieveCount = archieveList.length;
-  const approveList = leadListForCount.filter((ele) => ele.status === 1);
+  const approveList = leadListForCount?.filter((ele) => ele.status === 1);
   const approveCount = approveList.length;
 
   useEffect(() => {

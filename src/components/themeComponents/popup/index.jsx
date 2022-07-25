@@ -58,7 +58,6 @@ const AddCampaginModal = ({ countryList }) => {
     country,
     queryURL,
   } = addCampaignDetails;
-
   const [tags, setTags] = useState([]);
   const [onGoing, setOnGoing] = useState(false);
   const endLessDate = moment().add(5, "Y").format("YYYY-MM-DD");
@@ -89,7 +88,7 @@ const AddCampaginModal = ({ countryList }) => {
     setOnGoing(event.target.checked);
   };
 
-  const onSubmitEventhandler = (event) => {
+  const onSubmitEventhandler = async (event) => {
     event.preventDefault();
 
     try {
@@ -109,7 +108,8 @@ const AddCampaginModal = ({ countryList }) => {
         source === "indeed_ch" ||
         source === "indeed_pt" ||
         source === "indeed_sg" ||
-        source === "indeed_ae"
+        source === "indeed_ae" ||
+        source === "indeed_se"
       ) {
         if (tags.length > 10) {
           alert(
@@ -140,25 +140,19 @@ const AddCampaginModal = ({ countryList }) => {
           : "NA",
         campaignCreatedAt: Timestamp.fromDate(new Date()),
         campaignSeen: false,
+        end_time: onGoing ? "23:59" : end_time,
       };
 
-      // if (a__campgaignId === "") {
-      //   dispatch(campaignActions.postCampaignAction(newCampaign));
-      // }
-      if (a__campgaignId) {
-        dispatch(
-          campaignActions.updateCampaignsAction(a__campgaignId, newCampaign)
-        );
-        dispatch(campaignActions.campaignIDAction(""));
-      } else {
-        dispatch(campaignActions.postCampaignAction(newCampaign));
+      if (a__campgaignId === "") {
+        await dispatch(campaignActions.postCampaignAction(newCampaign));
       }
+
       if (
         errorFromStore === null ||
         errorFromStore === undefined ||
         errorFromStore === ""
       ) {
-        dispatch(campaignActions.handleClose());
+        await dispatch(campaignActions.handleClose());
         setAddCampaignDetails({
           name: "",
           source: "",
@@ -178,7 +172,7 @@ const AddCampaginModal = ({ countryList }) => {
         dispatch(campaignActions.showModal());
       }
     } catch (error) {
-      dispatch(
+      await dispatch(
         openAlertAction(
           `${error.message}. Please provide a valid input`,
           true,
@@ -220,7 +214,7 @@ const AddCampaginModal = ({ countryList }) => {
                 height: "40px",
                 background: "#003AD2",
                 borderRadius: "10px",
-                marginLeft: "20px",
+                marginLeft: "10px",
                 marginRight: "10px",
               }
             : {
@@ -228,7 +222,7 @@ const AddCampaginModal = ({ countryList }) => {
                 height: "40px",
                 background: "#003AD2",
                 borderRadius: "10px",
-                marginLeft: "20px",
+                marginLeft: "10px",
                 marginRight: "10px",
               }
         }
@@ -248,7 +242,7 @@ const AddCampaginModal = ({ countryList }) => {
             color: " #FFFFFF",
           }}
         >
-          Add Campagin
+          Add Campaign
         </span>
       </Button>
       <Modal
@@ -325,16 +319,17 @@ const AddCampaginModal = ({ countryList }) => {
                   <option value="" disabled defaultValue>
                     Select the source
                   </option>
-                  <option value="seek_aus">Seek Australia</option>
                   <option value="indeed_aus">Indeed Australia</option>
                   <option value="indeed_ca">Indeed Canada</option>
-                  <option value="indeed_uk">Indeed United Kingdom</option>
-                  <option value="indeed_il">Indeed Italy</option>
-                  <option value="indeed_ae">Indeed UAE</option>
-                  <option value="indeed_fi">Indeed Finland</option>
                   <option value="indeed_ch">Indeed China</option>
+                  <option value="indeed_fi">Indeed Finland</option>
+                  <option value="indeed_il">Indeed Italy</option>
                   <option value="indeed_pt">Indeed Portugal</option>
                   <option value="indeed_sg">Indeed Singapore</option>
+                  <option value="indeed_se">Indeed Sweden</option>
+                  <option value="indeed_ae">Indeed UAE</option>
+                  <option value="indeed_uk">Indeed United Kingdom</option>
+                  <option value="seek_aus">Seek Australia</option>
                   <option value="linkedin">LinkedIn</option>
                 </select>
               </Grid>
@@ -462,7 +457,8 @@ const AddCampaginModal = ({ countryList }) => {
                   type="time"
                   className="addCampaignModal-timePicker"
                   name="end_time"
-                  value={end_time}
+                  disabled={onGoing ? true : false}
+                  value={onGoing ? "23:59" : end_time}
                   min={
                     onGoing
                       ? ""
@@ -472,7 +468,7 @@ const AddCampaginModal = ({ countryList }) => {
                   }
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  required
+                  required={onGoing ? false : true}
                 />
               </Grid>
               <Grid item xs={4}>

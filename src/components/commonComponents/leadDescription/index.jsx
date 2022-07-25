@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Avatar, Divider, IconButton, Box } from "@mui/material";
 import Details from "../../../assets/icons/Details.png";
@@ -23,10 +23,17 @@ const LeadDescription = ({ displayLeadData }) => {
   }
 
   const getDescription = (elementUniqueId) => {
-    const descNow = leadsFullDescription.filter((leadsFullDescUniqueId) => {
-      return leadsFullDescUniqueId.uniqueId === elementUniqueId;
-    });
-    return descNow.length !== 0 ? descNow.map((wow) => wow.descData) : "";
+    let descNow = [];
+    descNow =
+      leadsFullDescription &&
+      Array.isArray(leadsFullDescription) &&
+      leadsFullDescription.length &&
+      leadsFullDescription.filter((leadsFullDescUniqueId) => {
+        return leadsFullDescUniqueId.uniqueId === elementUniqueId;
+      });
+    return descNow && descNow.length !== 0
+      ? descNow && descNow.length && descNow?.map((wow) => wow.descData)
+      : "";
   };
 
   return (
@@ -161,7 +168,9 @@ const LeadDescription = ({ displayLeadData }) => {
                     ? null
                     : getDescription(displayLeadData.uniqueId)
                     ? getDescription(displayLeadData.uniqueId)[0]
-                    : displayLeadData.summary}
+                    : displayLeadData.summary
+                    ? displayLeadData.summary.trim()
+                    : "No Description Available"}
                 </Box>
               </Box>
             </>

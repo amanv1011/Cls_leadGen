@@ -64,37 +64,43 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
+export default function MiniDrawer({
+  open,
+  userRole,
+  handleDrawer,
+  handleDrawerClose,
+}) {
+  const campgaignId = useSelector(
+    (state) => state.allCampaigns.a__campgaign__Id
+  );
   const navigate = useNavigate();
   const url = window.location.pathname;
-  const userRole = useSelector(
-    (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
-  );
-  const sideBarList = roles.all.includes(userRole)
-    ? [
-        {
-          icon: <WidgetsIcon />,
-          title: "Dashboard",
-          url: "/",
-        },
-        {
-          icon: <HourglassBottomIcon />,
-          title: "Campaign",
-          url: "/campaign",
-        },
-        {
-          icon: <WysiwygIcon />,
-          title: "Leads",
-          url: "/leads",
-        },
-      ]
-    : [
-        {
-          icon: <WysiwygIcon />,
-          title: "Leads",
-          url: "/leads",
-        },
-      ];
+  const sideBarList =
+    userRole && roles.all.includes(userRole)
+      ? [
+          {
+            icon: <WidgetsIcon />,
+            title: "Dashboard",
+            url: "/",
+          },
+          {
+            icon: <HourglassBottomIcon />,
+            title: "Campaign",
+            url: "/campaign",
+          },
+          {
+            icon: <WysiwygIcon />,
+            title: "Leads",
+            url: "/leads",
+          },
+        ]
+      : [
+          {
+            icon: <WysiwygIcon />,
+            title: "Leads",
+            url: "/leads",
+          },
+        ];
   return (
     <Box
       sx={{
@@ -118,6 +124,15 @@ export default function MiniDrawer({ open, handleDrawer, handleDrawerClose }) {
                 : !open && item.url === url
                 ? "list-item-closed-selected"
                 : "list-item-closed"
+            }
+            disabled={campgaignId ? true : false}
+            style={
+              campgaignId
+                ? {
+                    pointerEvents: "none",
+                    cursor: "not-allowed",
+                  }
+                : {}
             }
             onClick={() => {
               navigate(item.url);

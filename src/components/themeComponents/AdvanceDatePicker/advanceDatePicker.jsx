@@ -37,9 +37,7 @@ class AdvanceDatePicker extends React.Component {
     this.props.datePickerState(1);
   }
 
-  rangeCallback(index, value) {
-    // console.log(index, value);
-  }
+  rangeCallback(index, value) {}
 
   onClick() {
     let newStart = moment(this.state.start).subtract(3, "days");

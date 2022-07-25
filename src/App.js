@@ -11,6 +11,8 @@ import {
   getAllUsersAction,
   getLoggedInUserAction,
 } from "./redux/actions/usersAction";
+import UAParser from "ua-parser-js";
+import jwt_decode from "jwt-decode";
 
 const {
   REACT_APP_APPLICATION_LINK
@@ -28,6 +30,7 @@ const App = (props) => {
   const userRole = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
   );
+  // const userRole = 2;
   const loggedInUser = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser
   );
@@ -72,6 +75,14 @@ const App = (props) => {
       localStorage.getItem("token") &&
       localStorage.getItem("token") !== undefined
     ) {
+      const parser = new UAParser();
+      if (localStorage.getItem("token")) {
+        const decodedToken = jwt_decode(localStorage.getItem("token"));
+        if (decodedToken.navigator !== parser.getBrowser().name) {
+          localStorage.removeItem("token");
+          navigate("/unAuthorized");
+        }
+      }
       fetch(`${REACT_APP_APPLICATION_LINK}api/auth/getDetail`, {
         method: "POST",
         mode: "cors",
@@ -85,8 +96,8 @@ const App = (props) => {
         .then((data) => {
           if (data && data.result && data.result[0]) {
             dispatch(getLoggedInUserAction(data.result[0]));
-            if (allUsers.length > 0) {
-              let filtered = allUsers.filter((user) => {
+            if (allUsers && allUsers.length) {
+              let filtered = allUsers?.filter((user) => {
                 return user.userId === data.result[0].id;
               });
               if (!filtered.length) {
@@ -96,7 +107,9 @@ const App = (props) => {
                   email: data.result[0].email,
                   userId: data.result[0].id,
                   role: data.result[0].user_role_id,
+                  // role: 2,
                 };
+
                 dispatch(addUserAction(userInfo));
               }
             }
@@ -127,7 +140,7 @@ const App = (props) => {
       )
         .then((res) => res.json())
         .then((res) => {
-          const crm = res && res.filter((element) => element.id === "11");
+          const crm = res && res?.filter((element) => element.id === "11");
           if (crm && crm[0] && crm[0].is_active === false) {
             navigate("/unAuthorized");
           }
