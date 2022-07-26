@@ -113,6 +113,7 @@ const CampaignDescription = ({
         dispatch(campaignActions.updateCampaignStatusAction(a__campgaignId, 0));
       }
     } catch (error) {
+      console.log(error);
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };
