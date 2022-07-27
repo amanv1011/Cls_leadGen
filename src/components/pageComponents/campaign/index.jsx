@@ -236,6 +236,7 @@ const Campaign = () => {
             campaignsList={campaignsList}
             options={allUsers}
             campaignSateStatus={campaignSateStatus}
+            loggedInUser={loggedInUser}
           />
         </Box>
       </Box>

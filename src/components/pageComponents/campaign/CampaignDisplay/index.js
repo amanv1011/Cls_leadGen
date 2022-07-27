@@ -479,7 +479,6 @@ const CampaignDisplay = ({
     try {
       await dispatch(campaignActions.getACampaignAction(campaignListItemId));
     } catch (error) {
-      console.log(error);
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };
@@ -1014,7 +1013,7 @@ const CampaignDisplay = ({
         <AssignPopUp
           open={openAssignModel}
           setOpenAssignModel={setOpenAssignModel}
-          options={options}
+          options={options.filter((user) => user.userId !== loggedInUser.id)}
           onChangeOption={assignBatchUsers}
           selectedUsers={selectedUsers}
           setselectedArray={setselectedArray}

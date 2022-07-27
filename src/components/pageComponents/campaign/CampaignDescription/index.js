@@ -46,14 +46,7 @@ const CampaignDescription = ({
   lastCrawledDateList,
   selectedArray,
   campaignsListData,
-  setcampaignsListData,
-  countryFilterValue,
-  ownerFilterValue,
-  campaignStateFilterValue,
-  assignedCampaigns,
-  campaignsList,
-  options,
-  campaignSateStatus,
+  loggedInUser,
 }) => {
   const dispatch = useDispatch();
 
@@ -113,7 +106,6 @@ const CampaignDescription = ({
         dispatch(campaignActions.updateCampaignStatusAction(a__campgaignId, 0));
       }
     } catch (error) {
-      console.log(error);
       dispatch(openAlertAction(`${error.message}`, true, "error"));
     }
   };
@@ -787,8 +779,11 @@ const CampaignDescription = ({
                   >
                     Assign To
                   </Box>
+
                   <AssignCampaign
-                    options={allUsers}
+                    options={allUsers.filter(
+                      (user) => user.userId !== loggedInUser.id
+                    )}
                     onChangeOption={onChangeOption}
                     selectedUsers={selectedUsers}
                     selectedArray={selectedArray}
