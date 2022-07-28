@@ -8,7 +8,6 @@ import {
   DialogContent,
 } from "@mui/material";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
-import { openAlertAction } from "../../../../redux/actions/alertActions";
 import closeIcon from "../../../../assets/icons/closeIcon.png";
 import IButton from "../../button";
 
