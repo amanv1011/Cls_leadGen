@@ -95,7 +95,7 @@ const Cards = (props) => {
           }
         });
     }
-  }, [allLeadData]);
+  }, [allLeadData, allUsers]);
 
   useEffect(() => {
     dispatch(getAssignedLeadsAction());

@@ -1013,7 +1013,7 @@ const CampaignDisplay = ({
         <AssignPopUp
           open={openAssignModel}
           setOpenAssignModel={setOpenAssignModel}
-          options={options}
+          options={options.filter((user) => user.userId !== loggedInUser.id)}
           onChangeOption={assignBatchUsers}
           selectedUsers={selectedUsers}
           setselectedArray={setselectedArray}
