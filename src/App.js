@@ -14,6 +14,12 @@ import {
 import UAParser from "ua-parser-js";
 import jwt_decode from "jwt-decode";
 
+console.log(process.env.REACT_APP_ENV);
+
+const {
+  REACT_APP_APPLICATION_LINK
+} = process.env
+
 const App = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,7 +45,7 @@ const App = (props) => {
     dispatch(getAllUsersAction());
     if (searchParams.get("token")) {
       fetch(
-        "https://stageapp.api.classicinformatics.net/api/auth/verifyToken",
+        `${REACT_APP_APPLICATION_LINK}api/auth/verifyToken`,
         {
           method: "GET",
           mode: "cors",
@@ -79,7 +85,7 @@ const App = (props) => {
           navigate("/unAuthorized");
         }
       }
-      fetch("https://stageapp.api.classicinformatics.net/api/auth/getDetail", {
+      fetch(`${REACT_APP_APPLICATION_LINK}api/auth/getDetail`, {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
@@ -123,7 +129,7 @@ const App = (props) => {
       loggedInUser.id
     ) {
       fetch(
-        `https://stageapp.api.classicinformatics.net/api/auth/getusertools?id=${loggedInUser.id}`,
+        `${REACT_APP_APPLICATION_LINK}api/auth/getusertools?id=${loggedInUser.id}`,
         {
           method: "GET",
           mode: "cors",
