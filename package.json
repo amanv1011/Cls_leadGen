@@ -43,10 +43,10 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "set PORT=3333 && react-scripts start",
     "start:prod": "set PORT=3333 && env-cmd -f environments/production.env react-scripts start",
     "start:stage": "set PORT=3333 && env-cmd -f environments/staging.env react-scripts start",
-    "build": "env-cmd -f environments/production.env react-scripts build",
+    "build:stage": "env-cmd -f environments/staging.env react-scripts build",
+    "build:prod": "env-cmd -f environments/production.env react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
