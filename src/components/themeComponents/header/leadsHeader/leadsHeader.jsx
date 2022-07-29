@@ -286,6 +286,7 @@ const LeadsHeader = (props) => {
             // rangeFunc={rangeFunc}
             clearDateFilter={clearDateFilter}
             applyOkButton={applyOkButton}
+            setClearDateFilter={setClearDateFilter}
           />
           {/* <DateModal/> */}
 

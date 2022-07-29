@@ -5,8 +5,6 @@ import "./advanceDatePicker.scss";
 import { useDispatch } from "react-redux";
 
 const NewDateRangePicker = (props) => {
-  const dispatch = useDispatch();
-
   return (
     <DateRangePicker
       format="MMM dd , yyyy HH:mm"
@@ -31,6 +29,9 @@ const NewDateRangePicker = (props) => {
       character={" to "}
       //  onClean={props.rangeFunc}
       //  onSelect={rangeFunc}
+      onClean={() => {
+        props.setClearDateFilter([]);
+      }}
     />
   );
 };
