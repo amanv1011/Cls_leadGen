@@ -620,6 +620,7 @@ const CampaignDisplay = ({
 
   const onAssignMulitpleCampaign = () => {
     setOpenAssignModel(true);
+    setSelectedUsers([]);
   };
 
   const assignBatchUsers = async (e, option) => {
