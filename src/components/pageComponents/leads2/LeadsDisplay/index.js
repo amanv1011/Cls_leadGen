@@ -120,7 +120,7 @@ const LeadsDisplay = ({
     onClosePopup();
   };
 
-  const assignBatchUsers = (e, option) => {
+  const assignBatchUsers = (e, option, multiple = true) => {
     setSelectedBatchAssignUsers(option);
     if (selectedArray.length > 0 && selectedBatchAssignUsers.length >= 0) {
       let arr = [];
@@ -128,7 +128,7 @@ const LeadsDisplay = ({
         option.forEach((e) => {
           arr.push(e.userId);
         });
-      dispatch(assignLeadToUsersAction(selectedArray, arr));
+      dispatch(assignLeadToUsersAction(selectedArray, arr, multiple));
     }
   };
 
