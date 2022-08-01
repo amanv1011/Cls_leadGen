@@ -81,7 +81,6 @@ const Cards = (props) => {
   useEffect(() => {
     setSelectedUsers([]);
     setdisplayLeadData(allLeadData);
-
     if (assignedLeads && allLeadData && allLeadData.id) {
       assignedLeads &&
         assignedLeads.length &&
@@ -95,7 +94,7 @@ const Cards = (props) => {
           }
         });
     }
-  }, [allLeadData, allUsers]);
+  }, [allLeadData, allUsers, assignedLeads]);
 
   useEffect(() => {
     dispatch(getAssignedLeadsAction());
