@@ -73,9 +73,9 @@ const Campaign = () => {
 
   const [campaignsListData, setCampaignsListData] = useState([]);
   const [campaignDocument, setCampaignDocument] = useState({});
-
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedArray, setselectedArray] = useState([]);
+  const [selectedBatchAssignUsers, setSelectedBatchAssignUsers] = useState([]);
 
   useEffect(() => {
     dispatch(campaignActions.getAllCampaignsAction());
@@ -86,6 +86,10 @@ const Campaign = () => {
     dispatch(getlastCrawledDateAction());
     dispatch(campaignFilterActions.campaignFilterClearAction());
   }, []);
+
+  // useEffect(() => {
+  //   dispatch(campaignActions.getAssignedCampaignsAction());
+  // }, [assignedCampaigns]);
 
   useEffect(() => {
     setCampaignsListData(campaignsList);
@@ -141,7 +145,7 @@ const Campaign = () => {
         }
       });
     }
-  }, [campaignDocument]);
+  }, [campaignDocument, allUsers, assignedCampaigns]);
 
   const onChangeOption = async (e, option) => {
     setSelectedUsers(option);
@@ -213,6 +217,8 @@ const Campaign = () => {
             activeCamapignsCount={activeCamapignsCount}
             inActiveCamapignsCount={inActiveCamapignsCount}
             loggedInUser={loggedInUser}
+            selectedBatchAssignUsers={selectedBatchAssignUsers}
+            setSelectedBatchAssignUsers={setSelectedBatchAssignUsers}
           />
         </Box>
         <Box component={"div"} className="section campaign-details">

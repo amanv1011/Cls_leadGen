@@ -18,8 +18,10 @@ export default function AssignPopUp(
     options,
     onChangeOption,
     assignUsers,
-    selectedUsers,
+    // selectedUsers,
     handleClosePopover,
+    selectedBatchAssignUsers,
+    setSelectedBatchAssignUsers,
   },
   props
 ) {
@@ -97,7 +99,7 @@ export default function AssignPopUp(
                 options={options}
                 onChangeOption={onChangeOption}
                 assignUsers={assignUsers}
-                selectedUsers={selectedUsers}
+                selectedUsers={selectedBatchAssignUsers}
                 width={180}
               />
             }
