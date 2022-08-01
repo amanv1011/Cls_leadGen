@@ -6,6 +6,7 @@ import {
   query,
   setDoc,
   arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import {
   leadsCollection,
@@ -58,33 +59,84 @@ export const approvRejectLeads = async (leadsId, leadStatus, reason) => {
     return err;
   }
 };
+let prevOpt = [];
+export const assignLead = async (leadId, userId, mutliple) => {
+  let flag = false;
+  let intersection;
+  if (prevOpt.length === 0 && mutliple) {
+    prevOpt = userId;
+  } else {
+    if (userId.length < prevOpt.length) {
+      intersection = prevOpt.filter((x) => !userId.includes(x));
+      flag = true;
+    }
+    prevOpt = userId;
+  }
+  if (mutliple && mutliple === true) {
+    const leadsSnapshot = await getDocs(assignedLeadCollection);
+    const list = await leadsSnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    leadId &&
+      leadId.forEach(async (ele) => {
+        const filt = list?.filter((element) => element.leadId === ele);
 
-export const assignLead = async (leadId, userId) => {
-  const leadsSnapshot = await getDocs(assignedLeadCollection);
-  const list = leadsSnapshot.docs.map((doc) => ({
-    ...doc.data(),
-    id: doc.id,
-  }));
-  leadId &&
-    leadId.forEach(async (ele) => {
-      const filt = list?.filter((element) => element.leadId === leadId);
-      if (filt.length === 0) {
-        // await addDoc(assignedLeadCollection, { leadId: leadId, userId: [userId] });
-        const newCityRef = doc(assignedLeadCollection, ele);
-        await setDoc(newCityRef, {
-          leadId: ele,
-          userId: userId,
-        });
-      } else {
-        //find for existing user
-        const documnet = doc(assignedLeadCollection, ele);
-        await updateDoc(documnet, {
-          leadId: ele,
-          userId: arrayUnion(...userId),
-        });
-      }
-    });
-  return { leadId: leadId, userId: userId };
+        if (filt.length === 0) {
+          // await addDoc(assignedLeadCollection, { leadId: leadId, userId: [userId] });
+          const newCityRef = doc(assignedLeadCollection, ele);
+          await setDoc(newCityRef, {
+            leadId: ele,
+            userId: userId,
+          });
+        } else {
+          //find for existing user
+          if (flag === false) {
+            const documnet = doc(assignedLeadCollection, ele);
+            await updateDoc(documnet, {
+              leadId: ele,
+              userId: arrayUnion(...userId),
+            });
+          }
+          if (flag === true) {
+            const documnet = doc(assignedLeadCollection, ele);
+            await updateDoc(documnet, {
+              leadId: ele,
+              userId: arrayRemove(...intersection),
+            });
+            flag = false;
+            intersection = [];
+          }
+        }
+      });
+    return { leadId: leadId, userId: userId };
+  } else {
+    const leadsSnapshot = await getDocs(assignedLeadCollection);
+    const list = leadsSnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    leadId &&
+      leadId.forEach(async (ele) => {
+        const filt = list?.filter((element) => element.leadId === leadId);
+        if (filt.length === 0) {
+          // await addDoc(assignedLeadCollection, { leadId: leadId, userId: [userId] });
+          const newCityRef = doc(assignedLeadCollection, ele);
+          await setDoc(newCityRef, {
+            leadId: ele,
+            userId: userId,
+          });
+        } else {
+          //find for existing user
+          const documnet = doc(assignedLeadCollection, ele);
+          await updateDoc(documnet, {
+            leadId: ele,
+            userId: arrayUnion(...userId),
+          });
+        }
+      });
+    return { leadId: leadId, userId: userId };
+  }
 };
 
 export const addNotes = async (leadsId, notes) => {
