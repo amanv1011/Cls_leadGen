@@ -14,7 +14,7 @@ import {
 import UAParser from "ua-parser-js";
 import jwt_decode from "jwt-decode";
 
-console.log(process.env.REACT_APP_ENV);
+console.log('just for development',process.env.REACT_APP_ENV);
 
 const {
   REACT_APP_APPLICATION_LINK
