@@ -128,12 +128,12 @@ export const cardsDisplayAction = (cards) => {
   };
 };
 
-export const assignLeadToUsersAction = (leadId, userId) => {
+export const assignLeadToUsersAction = (leadId, userId, multiple) => {
   return async (dispatch) => {
     dispatch({ type: ASSIGN_LEAD_PENDING, loading: true });
     dispatch(openLoader({ isLoading: true }));
     try {
-      const res = await assignLead(leadId, userId);
+      const res = await assignLead(leadId, userId, multiple);
       dispatch({
         type: ASSIGN_LEAD_SUCCESS,
         payload: res,
