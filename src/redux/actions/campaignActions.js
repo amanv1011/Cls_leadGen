@@ -185,12 +185,16 @@ export const getSearchedCampaignList = (searchedCampaignList) => {
   };
 };
 
-export const assignCampaignToUsersAction = (campaignId, userId) => {
+export const assignCampaignToUsersAction = (campaignId, userId, multiple) => {
   return async (dispatch) => {
     dispatch({ type: types.ASSIGN_CAMPAIGN_PENDING, loading: true });
     dispatch(openLoader({ isLoading: true }));
     try {
-      const res = await campaignServices.assignCampaign(campaignId, userId);
+      const res = await campaignServices.assignCampaign(
+        campaignId,
+        userId,
+        multiple
+      );
       dispatch(closeLoader());
       return dispatch({
         type: types.ASSIGN_CAMPAIGN_SUCCESS,

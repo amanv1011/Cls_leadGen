@@ -168,7 +168,7 @@ export const getAllCampaignsReducer = (
       return {
         ...state,
         loading: false,
-        assignCampaign: payload,
+        assignCampaign: {},
         error: payload,
       };
 
@@ -189,7 +189,7 @@ export const getAllCampaignsReducer = (
       return {
         ...state,
         loading: false,
-        assignedCampaigns: payload,
+        assignedCampaigns: [],
         error: payload,
       };
 

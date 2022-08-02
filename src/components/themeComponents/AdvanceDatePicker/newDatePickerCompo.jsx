@@ -3,14 +3,13 @@ import { DateRangePicker } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
 import "./advanceDatePicker.scss";
 import { useDispatch } from "react-redux";
+import { leadsFilterDate } from "../../../redux/actions/leadsFilter";
 
 const NewDateRangePicker = (props) => {
+  const dispatch = useDispatch();
   return (
     <DateRangePicker
       format="MMM dd , yyyy HH:mm"
-      // placeholder={
-      //   filterDate === "" ? "Select Date Range": "Select Date Range"
-      // }
       placeholder="Select Date Range"
       showOneCalendar
       style={{
@@ -25,11 +24,9 @@ const NewDateRangePicker = (props) => {
       }}
       value={props.clearDateFilter}
       onOk={props.applyOkButton}
-      //  onChange={setValue}
       character={" to "}
-      //  onClean={props.rangeFunc}
-      //  onSelect={rangeFunc}
       onClean={() => {
+        dispatch(leadsFilterDate(""));
         props.setClearDateFilter([]);
       }}
     />
