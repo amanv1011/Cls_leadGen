@@ -37,8 +37,6 @@ const CampaignDisplay = ({
   activeCamapignsCount,
   inActiveCamapignsCount,
   searchValue,
-  selectedUsers,
-  setSelectedUsers,
   loggedInUser,
   selectedBatchAssignUsers,
   setSelectedBatchAssignUsers,
@@ -73,7 +71,7 @@ const CampaignDisplay = ({
     return filteredDataArray;
   };
 
-  useEffect(() => {
+  const filterFunc = () => {
     if (
       countryFilterValue === "Country" &&
       ownerFilterValue === "Owner" &&
@@ -463,12 +461,20 @@ const CampaignDisplay = ({
         dispatch(campaignActions.getSearchedCampaignList(inActiveCampaigns));
       }
     }
+  };
+
+  useEffect(() => {
+    filterFunc();
   }, [
     searchValue,
     countryFilterValue,
     ownerFilterValue,
     campaignStateFilterValue,
   ]);
+
+  useEffect(() => {
+    filterFunc();
+  }, [assignedCampaigns]);
 
   const getNumOfLeads = (id) => {
     const val = leadsList?.filter((valID) => {
