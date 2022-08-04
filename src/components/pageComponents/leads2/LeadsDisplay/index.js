@@ -237,13 +237,13 @@ const LeadsDisplay = ({
         {leadsList && leadsList.length > 0 ? (
           <>
             {leadsList &&
-              leadsList.map((lead) => (
+              leadsList.map((lead, idx) => (
                 <div
                   className={`lead-display-subcontainers ${
                     selectedLeadId === lead.id ? "selected" : ""
                   }  ${lead && lead.seen && lead.seen === true ? "seen" : ""} `}
                   onClick={() => handleClick(lead.id)}
-                  key={lead.id}
+                  key={idx}
                 >
                   <div className="lead-display-check">
                     {/* <LeadsCheckbox /> */}
