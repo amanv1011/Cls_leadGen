@@ -73,7 +73,7 @@ const LeadsDisplay = ({
 
   useEffect(() => {
     setLeadsListData(leadsList);
-    setData(leadsListData.slice(firstIndex, pageSize));
+    setData(leadsList.slice(firstIndex, pageSize));
   }, [leadsList]);
 
   useEffect(() => {
