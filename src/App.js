@@ -66,7 +66,7 @@ const App = (props) => {
           navigate("/unAuthorized");
         });
     } else {
-      console.log('checking for token!', localstorage.getItem('token'));
+      console.log('checking for token!', localStorage.getItem("token"));
       if (!localStorage.getItem("token")) {
         console.log('token not found');
         navigate("/unAuthorized");
