@@ -15,7 +15,11 @@ import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import IPopup from "../../../themeComponents/popup/leadPopup";
 import IModal from "../../../themeComponents/popup/modal";
 import RestrictedComponent from "../../../higherOrderComponents/restrictedComponent";
+import PaginationComponent from "../../../commonComponents/PaginationComponent/index";
+//import { Pagination } from "rsuite";
+import Pagination from "@mui/material/Pagination";
 
+const firstIndex = 0;
 const LeadsDisplay = ({
   leadsList,
   selectedLeadIdFun,
@@ -37,10 +41,17 @@ const LeadsDisplay = ({
   const dispatch = useDispatch();
 
   const [leadsListData, setLeadsListData] = useState([]);
-
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openAssignModel, setOpenAssignModel] = useState(false);
+  //pagination state
+  //const [activePage, setActivePage] = React.useState(2);
+  const [pageSize, setPageSize] = React.useState(10);
+  const [page, setPage] = React.useState(1);
+  const [data, setData] = React
+    .useState
+    // leadsListData.slice(firstIndex, pageSize)
+    ();
 
   //functions for popover
   const handlePopClick = (event) => {
@@ -62,6 +73,7 @@ const LeadsDisplay = ({
 
   useEffect(() => {
     setLeadsListData(leadsList);
+    setData(leadsListData.slice(firstIndex, pageSize));
   }, [leadsList]);
 
   useEffect(() => {
@@ -131,7 +143,23 @@ const LeadsDisplay = ({
       dispatch(assignLeadToUsersAction(selectedArray, arr, multiple));
     }
   };
+  //pagination
+  React.useEffect(() => {
+    setData(leadsListData.slice(0, pageSize));
+  }, [pageSize]);
 
+  const handleChange = (event, value) => {
+    setPage(value);
+    setData(
+      leadsListData.slice(firstIndex + pageSize * (value - 1), pageSize * value)
+    );
+  };
+
+  // //Change widths
+  // const changeWidth = (e) => {
+  //   setPageSize(parseInt(e.target.value, 10));
+  // };
+  console.log(data);
   return (
     <React.Fragment>
       {
@@ -234,10 +262,10 @@ const LeadsDisplay = ({
         <LeadsMenu />
       </div>
       <div className="lead-display-container">
-        {leadsList && leadsList.length > 0 ? (
+        {data && data.length > 0 ? (
           <>
-            {leadsList &&
-              leadsList.map((lead) => (
+            {data &&
+              data.map((lead) => (
                 <div
                   className={`lead-display-subcontainers ${
                     selectedLeadId === lead.id ? "selected" : ""
@@ -303,6 +331,25 @@ const LeadsDisplay = ({
                   </div>
                 </div>
               ))}
+            <Pagination
+              count={Math.ceil(leadsListData.length / pageSize)}
+              page={page}
+              color="primary"
+              sx={{marginTop:"8px"}}
+              onChange={handleChange}
+            />
+            {/* <Pagination
+              prev
+              last
+              next
+              first
+              size="sm"
+              total={leadsList.length}
+              limit={20}
+              activePage={activePage}
+              onChangePage={setActivePage}
+            /> */}
+            {/* <PaginationComponent dataPerPage={10} dataLength={leadsList.length} /> */}
           </>
         ) : (
           <>
