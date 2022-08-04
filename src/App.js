@@ -14,7 +14,7 @@ import {
 import UAParser from "ua-parser-js";
 import jwt_decode from "jwt-decode";
 
-console.log('just for development',process.env.REACT_APP_ENV);
+console.log('just for development', process.env.REACT_APP_ENV);
 
 const {
   REACT_APP_APPLICATION_LINK
@@ -66,7 +66,9 @@ const App = (props) => {
           navigate("/unAuthorized");
         });
     } else {
+      console.log('checking for token!', localStorage.getItem("token"));
       if (!localStorage.getItem("token")) {
+        console.log('token not found, rerouting');
         navigate("/unAuthorized");
       }
     }
