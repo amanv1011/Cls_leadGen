@@ -265,13 +265,13 @@ const LeadsDisplay = ({
         {data && data.length > 0 ? (
           <>
             {data &&
-              data.map((lead) => (
+              data.map((lead, idx) => (
                 <div
                   className={`lead-display-subcontainers ${
                     selectedLeadId === lead.id ? "selected" : ""
                   }  ${lead && lead.seen && lead.seen === true ? "seen" : ""} `}
                   onClick={() => handleClick(lead.id)}
-                  key={lead.id}
+                  key={idx}
                 >
                   <div className="lead-display-check">
                     {/* <LeadsCheckbox /> */}
@@ -335,7 +335,7 @@ const LeadsDisplay = ({
               count={Math.ceil(leadsListData.length / pageSize)}
               page={page}
               color="primary"
-              sx={{marginTop:"8px"}}
+              sx={{ marginTop: "8px" }}
               onChange={handleChange}
             />
             {/* <Pagination
