@@ -37,9 +37,9 @@ const CampaignDisplay = ({
   activeCamapignsCount,
   inActiveCamapignsCount,
   searchValue,
-  selectedUsers,
-  setSelectedUsers,
   loggedInUser,
+  selectedBatchAssignUsers,
+  setSelectedBatchAssignUsers,
 }) => {
   const dispatch = useDispatch();
 
@@ -71,7 +71,7 @@ const CampaignDisplay = ({
     return filteredDataArray;
   };
 
-  useEffect(() => {
+  const filterFunc = () => {
     if (
       countryFilterValue === "Country" &&
       ownerFilterValue === "Owner" &&
@@ -461,12 +461,20 @@ const CampaignDisplay = ({
         dispatch(campaignActions.getSearchedCampaignList(inActiveCampaigns));
       }
     }
+  };
+
+  useEffect(() => {
+    filterFunc();
   }, [
     searchValue,
     countryFilterValue,
     ownerFilterValue,
     campaignStateFilterValue,
   ]);
+
+  useEffect(() => {
+    filterFunc();
+  }, [assignedCampaigns]);
 
   const getNumOfLeads = (id) => {
     const val = leadsList?.filter((valID) => {
@@ -620,18 +628,23 @@ const CampaignDisplay = ({
 
   const onAssignMulitpleCampaign = () => {
     setOpenAssignModel(true);
+    setSelectedBatchAssignUsers([]);
   };
 
-  const assignBatchUsers = async (e, option) => {
-    setSelectedUsers(option);
-    if (selectedArray.length > 0 && selectedUsers.length >= 0) {
+  const assignBatchUsers = async (e, option, multiple = true) => {
+    setSelectedBatchAssignUsers(option);
+    if (selectedArray.length > 0 && selectedBatchAssignUsers.length >= 0) {
       let arr = [];
       option &&
         option.forEach((e) => {
           arr.push(e.userId);
         });
       await dispatch(
-        campaignActions.assignCampaignToUsersAction(selectedArray, arr)
+        campaignActions.assignCampaignToUsersAction(
+          selectedArray,
+          arr,
+          multiple
+        )
       );
     }
     await dispatch(campaignActions.getAssignedCampaignsAction());
@@ -1015,9 +1028,9 @@ const CampaignDisplay = ({
           setOpenAssignModel={setOpenAssignModel}
           options={options.filter((user) => user.userId !== loggedInUser.id)}
           onChangeOption={assignBatchUsers}
-          selectedUsers={selectedUsers}
-          setselectedArray={setselectedArray}
           handleClosePopover={handleClose}
+          selectedBatchAssignUsers={selectedBatchAssignUsers}
+          setSelectedBatchAssignUsers={setSelectedBatchAssignUsers}
         />
         <ActivePopUp
           openCampaignPopupActive={openCampaignPopupActive}
