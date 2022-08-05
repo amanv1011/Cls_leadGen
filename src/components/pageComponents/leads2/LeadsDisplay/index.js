@@ -48,6 +48,7 @@ const LeadsDisplay = ({
   //const [activePage, setActivePage] = React.useState(2);
   const [pageSize, setPageSize] = React.useState(10);
   const [page, setPage] = React.useState(1);
+  const [index, setIndex] = React.useState(1);
   const [data, setData] = React
     .useState
     // leadsListData.slice(firstIndex, pageSize)
@@ -73,8 +74,11 @@ const LeadsDisplay = ({
 
   useEffect(() => {
     setLeadsListData(leadsList);
-    setData(leadsList.slice(firstIndex, pageSize));
-  }, []);
+    // setData(leadsList.slice(index, pageSize));
+    setData(
+      leadsList.slice(firstIndex + pageSize * (index - 1), pageSize * index)
+    );
+  }, [leadsList]);
 
   useEffect(() => {
     leadViewUpdate &&
@@ -148,9 +152,10 @@ const LeadsDisplay = ({
   }, [pageSize]);
 
   const handleChange = (event, value) => {
+    setIndex(value);
     setPage(value);
     setData(
-      leadsListData.slice(firstIndex + pageSize * (value - 1), pageSize * value)
+      leadsList.slice(firstIndex + pageSize * (value - 1), pageSize * value)
     );
   };
 
