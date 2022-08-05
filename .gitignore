@@ -7,6 +7,9 @@
 node_modules/
 dist/
 
+#Build
+build/
+
 # Firebase Config
 # src/utils/config.js
 
