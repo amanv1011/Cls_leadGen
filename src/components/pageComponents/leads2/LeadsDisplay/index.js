@@ -48,6 +48,7 @@ const LeadsDisplay = ({
   //const [activePage, setActivePage] = React.useState(2);
   const [pageSize, setPageSize] = React.useState(10);
   const [page, setPage] = React.useState(1);
+  const [index, setIndex] = React.useState(1);
   const [data, setData] = React
     .useState
     // leadsListData.slice(firstIndex, pageSize)
@@ -73,7 +74,10 @@ const LeadsDisplay = ({
 
   useEffect(() => {
     setLeadsListData(leadsList);
-    setData(leadsList.slice(firstIndex, pageSize));
+    // setData(leadsList.slice(index, pageSize));
+    setData(
+      leadsList.slice(firstIndex + pageSize * (index - 1), pageSize * index)
+    );
   }, [leadsList]);
 
   useEffect(() => {
@@ -96,7 +100,6 @@ const LeadsDisplay = ({
       dispatch(updateLeadViewStatusAction(leadId));
     }
   };
-
   const handleOnCheckboxChange = (event) => {
     if (event.target.checked) {
       setselectedArray([...selectedArray, event.target.value]);
@@ -149,9 +152,10 @@ const LeadsDisplay = ({
   }, [pageSize]);
 
   const handleChange = (event, value) => {
+    setIndex(value);
     setPage(value);
     setData(
-      leadsListData.slice(firstIndex + pageSize * (value - 1), pageSize * value)
+      leadsList.slice(firstIndex + pageSize * (value - 1), pageSize * value)
     );
   };
 
@@ -335,7 +339,14 @@ const LeadsDisplay = ({
               count={Math.ceil(leadsListData.length / pageSize)}
               page={page}
               color="primary"
-              sx={{ marginTop: "8px" }}
+              size="small"
+              sx={{
+                marginTop: "8px",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+              boundaryCount={1}
               onChange={handleChange}
             />
             {/* <Pagination
