@@ -74,7 +74,7 @@ export default function NotesPopup({
               );
             })
           ) : (
-            <h5 className="note-unavailable">Notes not available!</h5>
+            <h5 className="note-unavailable">No Record Found!</h5>
           )}
         </div>
       </DialogContent>

@@ -159,7 +159,7 @@ const LeadsDisplay = ({
   // const changeWidth = (e) => {
   //   setPageSize(parseInt(e.target.value, 10));
   // };
-  console.log(data);
+
   return (
     <React.Fragment>
       {

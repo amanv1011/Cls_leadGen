@@ -16,6 +16,7 @@ import { roles } from "../../../utils/constants";
 import {
   clearFilters,
   datePickerState,
+  leadsDropDownFilterAction,
 } from "../../../redux/actions/leadsFilter";
 import { useDispatch } from "react-redux";
 const drawerWidth = 150;
@@ -85,6 +86,7 @@ export default function MiniDrawer({
     if (url === "/leads") {
       dispatch(clearFilters());
       dispatch(datePickerState(0));
+      dispatch(leadsDropDownFilterAction("AllLeads"));
     }
   };
   const sideBarList =
