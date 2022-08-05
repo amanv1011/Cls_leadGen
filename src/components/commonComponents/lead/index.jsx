@@ -137,7 +137,8 @@ const Lead = (props) => {
       assignedCampaigns
     );
     const campaignIds = ownerAndAssignedCamp?.filter(
-      (ele) => ele.owner === ownerNameFilter && ele.name === campaignNameFilter
+      // (ele) => ele.owner === ownerNameFilter && ele.name === campaignNameFilter
+      (ele) => ele.name === campaignNameFilter
     );
     filterAllLeads = filterLeads(
       campaignIds,
