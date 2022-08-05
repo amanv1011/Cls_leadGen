@@ -74,7 +74,7 @@ const LeadsDisplay = ({
   useEffect(() => {
     setLeadsListData(leadsList);
     setData(leadsList.slice(firstIndex, pageSize));
-  }, [leadsList]);
+  }, []);
 
   useEffect(() => {
     leadViewUpdate &&
@@ -96,7 +96,6 @@ const LeadsDisplay = ({
       dispatch(updateLeadViewStatusAction(leadId));
     }
   };
-
   const handleOnCheckboxChange = (event) => {
     if (event.target.checked) {
       setselectedArray([...selectedArray, event.target.value]);
@@ -335,7 +334,14 @@ const LeadsDisplay = ({
               count={Math.ceil(leadsListData.length / pageSize)}
               page={page}
               color="primary"
-              sx={{ marginTop: "8px" }}
+              size="small"
+              sx={{
+                marginTop: "8px",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+              boundaryCount={1}
               onChange={handleChange}
             />
             {/* <Pagination
