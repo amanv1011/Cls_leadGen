@@ -164,6 +164,8 @@ const CampaignDescription = ({
     }
   }, [campgaignId]);
 
+  allUsers = allUsers.filter((user) => campaignDocument.owner !== user.name);
+
   // Campaign Update form action
   let minStartTime;
   let maxStartTime;
