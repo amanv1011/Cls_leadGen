@@ -13,6 +13,12 @@ import WidgetsIcon from "@mui/icons-material/Widgets";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import { roles } from "../../../utils/constants";
+import {
+  clearFilters,
+  datePickerState,
+  leadsDropDownFilterAction,
+} from "../../../redux/actions/leadsFilter";
+import { useDispatch } from "react-redux";
 const drawerWidth = 150;
 
 const openedMixin = (theme) => ({
@@ -75,6 +81,14 @@ export default function MiniDrawer({
   );
   const navigate = useNavigate();
   const url = window.location.pathname;
+  const dispatch = useDispatch();
+  const clearFilterTab = (url) => {
+    if (url === "/leads") {
+      dispatch(clearFilters());
+      dispatch(datePickerState(0));
+      dispatch(leadsDropDownFilterAction("AllLeads"));
+    }
+  };
   const sideBarList =
     userRole && roles.all.includes(userRole)
       ? [
@@ -137,6 +151,7 @@ export default function MiniDrawer({
             onClick={() => {
               navigate(item.url);
               // handleDrawerClose();
+              clearFilterTab(item.url);
             }}
           >
             <ListItemIcon className="list-item-icon">{item.icon}</ListItemIcon>

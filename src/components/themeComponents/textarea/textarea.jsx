@@ -4,7 +4,7 @@ import "./textarea.scss";
 const Textarea = ({ setValue, value }) => {
   return (
     <textarea
-      spellcheck="false"
+      spellCheck="false"
       placeholder={"Add Notes"}
       value={value}
       onChange={(e) => {

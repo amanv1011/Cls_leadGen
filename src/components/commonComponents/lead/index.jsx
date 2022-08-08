@@ -137,7 +137,8 @@ const Lead = (props) => {
       assignedCampaigns
     );
     const campaignIds = ownerAndAssignedCamp?.filter(
-      (ele) => ele.owner === ownerNameFilter && ele.name === campaignNameFilter
+      // (ele) => ele.owner === ownerNameFilter && ele.name === campaignNameFilter
+      (ele) => ele.name === campaignNameFilter
     );
     filterAllLeads = filterLeads(
       campaignIds,
@@ -175,7 +176,11 @@ const Lead = (props) => {
       });
     });
 
-    filterAllLeads = [...filterAllLeads, ...filtered];
+    // filterAllLeads = [...filterAllLeads, ...filtered];
+    /*For removing duplicate leads use below filter */
+    filterAllLeads = filterAllLeads.concat(
+      filtered.filter((bo) => filterAllLeads.every((ao) => ao.id !== bo.id))
+    );
     xyz = filterAllLeads;
   }
 
