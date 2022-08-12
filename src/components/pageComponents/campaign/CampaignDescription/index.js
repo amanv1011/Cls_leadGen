@@ -5,12 +5,11 @@ import moment from "moment";
 import { alpha, styled } from "@mui/material/styles";
 import { green, red } from "@mui/material/colors";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
-import { get_a_feild_in_a_document } from "../../../../services/api/campaign";
 import { openAlertAction } from "../../../../redux/actions/alertActions";
 import CampaignButtonActions from "../CampaignButtonActions";
 import { Timestamp } from "firebase/firestore";
-import * as campaignCountActions from "../../../../redux/actions/campaignCountActions";
 import AssignCampaign from "../AssignCampaign";
+import * as commonFunctions from "../commonFunctions";
 import "./campaignDescription.scss";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -177,8 +176,7 @@ const CampaignDescription = ({
     start_date,
     "days"
   );
-  const endLessDate = moment().add(5, "Y").format("YYYY-MM-DD");
-
+  const endLessDate = moment(start_date).add(5, "Y").format("YYYY-MM-DD");
   if (difference === 0) {
     minStartTime = currentTime;
     maxStartTime = "24:00";
@@ -222,6 +220,7 @@ const CampaignDescription = ({
         return;
       }
     }
+
     const updateDetails = {
       ...addCampaignDetails,
       frequency: parseInt(frequency),
@@ -229,6 +228,7 @@ const CampaignDescription = ({
       onGoing,
       campaignSeen: true,
       campaignCreatedAt: campaignDocument.campaignCreatedAt,
+
       end_date: onGoing
         ? Timestamp.fromDate(new Date(endLessDate))
         : Timestamp.fromDate(new Date(end_date)),
@@ -308,11 +308,7 @@ const CampaignDescription = ({
                   </Box>
                   <Box component={"div"} className="right-section">
                     <Box component={"div"} className="subtitle">
-                      <span
-                      // style={{ marginRight: "5px" }}
-                      >
-                        Tag:
-                      </span>
+                      <span>Tag:</span>
                       {campgaignId ? (
                         <input
                           type="text"
@@ -398,24 +394,13 @@ const CampaignDescription = ({
                               <option value="" disabled defaultValue>
                                 Select the source
                               </option>
-                              <option value="indeed_aus">
-                                Indeed Australia
-                              </option>
-                              <option value="indeed_ca">Indeed Canada</option>
-                              <option value="indeed_ch">Indeed China</option>
-                              <option value="indeed_fi">Indeed Finland</option>
-                              <option value="indeed_il">Indeed Italy</option>
-                              <option value="indeed_pt">Indeed Portugal</option>
-                              <option value="indeed_sg">
-                                Indeed Singapore
-                              </option>
-                              <option value="indeed_se">Indeed Sweden</option>
-                              <option value="indeed_ae">Indeed UAE</option>
-                              <option value="indeed_uk">
-                                Indeed United Kingdom
-                              </option>
-                              <option value="seek_aus">Seek Australia</option>
-                              <option value="linkedin">LinkedIn</option>
+                              {commonFunctions.typesOfSource.map((source) => (
+                                <React.Fragment key={source.value}>
+                                  <option value={source.value}>
+                                    {source.sourceName}
+                                  </option>
+                                </React.Fragment>
+                              ))}
                             </select>
                           ) : (
                             campaignDocument && sourceType
@@ -559,11 +544,7 @@ const CampaignDescription = ({
                                 type="date"
                                 className="addCampaign-datePicker"
                                 name="end_date"
-                                value={
-                                  onGoing
-                                    ? Timestamp.fromDate(new Date(endLessDate))
-                                    : end_date
-                                }
+                                value={onGoing ? endLessDate : end_date}
                                 onChange={onInputChangeHandler}
                                 autoComplete="off"
                                 disabled={onGoing ? true : false}
@@ -715,12 +696,28 @@ const CampaignDescription = ({
                               disabled
                             />
                           ) : campaignDocument?.last_crawled_date ? (
-                            moment
-                              .unix(
-                                campaignDocument.last_crawled_date.seconds,
-                                campaignDocument.last_crawled_date.nanoseconds
-                              )
-                              .format("MM/DD/YYYY")
+                            <>
+                              <span>
+                                {moment
+                                  .unix(
+                                    campaignDocument.last_crawled_date.seconds,
+                                    campaignDocument.last_crawled_date
+                                      .nanoseconds
+                                  )
+                                  .format("MM/DD/YYYY")}
+                              </span>
+                              <span style={{ marginLeft: "5px" }}>,</span>
+                              <span>
+                                {moment
+                                  .unix(
+                                    campaignDocument.last_crawled_date.seconds,
+                                    campaignDocument.last_crawled_date
+                                      .nanoseconds,
+                                    ["HH:mm"]
+                                  )
+                                  .format("hh:mm A")}
+                              </span>
+                            </>
                           ) : (
                             "NA"
                           )}
