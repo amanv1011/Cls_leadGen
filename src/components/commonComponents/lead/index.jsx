@@ -140,13 +140,46 @@ const Lead = (props) => {
       // (ele) => ele.owner === ownerNameFilter && ele.name === campaignNameFilter
       (ele) => ele.name === campaignNameFilter
     );
+
     filterAllLeads = filterLeads(
       campaignIds,
       genratedLeadData,
       searchDate,
       searchQuery
     );
-    // AppendAssignedLeadtoOwner(ownerNameFilterId[0]?);
+    const campIds = campaignList?.filter(
+      (ele) => ele.name === campaignNameFilter
+    );
+    /*getting assigned lead*/
+    const arr = [];
+    assignedLeads &&
+      assignedLeads.length &&
+      assignedLeads.forEach((lead) => {
+        if (lead.userId.includes(ownerNameFilterId)) {
+          arr.push(lead.leadId);
+        }
+      });
+    const filtered = [];
+    arr.forEach((assignLead) => {
+      genratedLeadData.forEach((genLead) => {
+        if (genLead.id === assignLead) {
+          filtered.push(genLead);
+        }
+      });
+    });
+    /*filtering assigned leads of a perticular campaign */
+    const fltdLdsofSlctCamp = filterLeads(
+      campIds,
+      filtered,
+      searchDate,
+      searchQuery
+    );
+    filterAllLeads = filterAllLeads.concat(
+      fltdLdsofSlctCamp.filter((bo) =>
+        filterAllLeads.every((ao) => ao.id !== bo.id)
+      )
+    );
+    xyz = filterAllLeads;
   }
 
   if (countriesNameFilter !== "All Countries") {
@@ -154,12 +187,10 @@ const Lead = (props) => {
       (ele) => ele.country === countriesNameFilter
     );
     filterAllLeads = arr;
-    // leadListForCount = filterAllLeads;
   }
 
   function AppendAssignedLeadtoOwner(filterProp) {
     const arr = [];
-
     assignedLeads &&
       assignedLeads.length &&
       assignedLeads.forEach((lead) => {

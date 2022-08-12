@@ -7,6 +7,7 @@ import "./popup.scss";
 import PlusIcon from "./PlusIcon";
 import moment from "moment";
 import { openAlertAction } from "../../../redux/actions/alertActions";
+import * as commonFunctions from "../../pageComponents/campaign/commonFunctions";
 
 const style = {
   position: "absolute",
@@ -60,7 +61,6 @@ const AddCampaginModal = ({ countryList }) => {
   } = addCampaignDetails;
   const [tags, setTags] = useState([]);
   const [onGoing, setOnGoing] = useState(false);
-  const endLessDate = moment().add(5, "Y").format("YYYY-MM-DD");
 
   useEffect(() => {
     if (
@@ -73,6 +73,25 @@ const AddCampaginModal = ({ countryList }) => {
       dispatch(campaignActions.showModal());
     }
   }, [errorFromStore]);
+
+  let minStartTime;
+  let maxStartTime;
+  let todaysDate = moment().format("YYYY-MM-DD");
+  const difference = moment(start_date).diff(todaysDate, "days");
+  const minTimeDiff = moment(start_time, "HH:mm").add(60, "m").format("HH:mm");
+  const currentTime = moment().format("HH:mm");
+  const difference_startDate_endDate = moment(end_date).diff(
+    start_date,
+    "days"
+  );
+  const endLessDate = moment(start_date).add(5, "Y").format("YYYY-MM-DD");
+  if (difference === 0) {
+    minStartTime = currentTime;
+    maxStartTime = "24:00";
+  } else {
+    minStartTime = "00:00";
+    maxStartTime = "24:00";
+  }
 
   const onInputChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -181,25 +200,6 @@ const AddCampaginModal = ({ countryList }) => {
       );
     }
   };
-
-  let minStartTime;
-  let maxStartTime;
-  let todaysDate = moment().format("YYYY-MM-DD");
-  const difference = moment(start_date).diff(todaysDate, "days");
-  const minTimeDiff = moment(start_time, "HH:mm").add(5, "m").format("HH:mm");
-  const currentTime = moment().format("HH:mm");
-  const difference_startDate_endDate = moment(end_date).diff(
-    start_date,
-    "days"
-  );
-
-  if (difference === 0) {
-    minStartTime = currentTime;
-    maxStartTime = "24:00";
-  } else {
-    minStartTime = "00:00";
-    maxStartTime = "24:00";
-  }
 
   return (
     <React.Fragment>
@@ -319,18 +319,11 @@ const AddCampaginModal = ({ countryList }) => {
                   <option value="" disabled defaultValue>
                     Select the source
                   </option>
-                  <option value="indeed_aus">Indeed Australia</option>
-                  <option value="indeed_ca">Indeed Canada</option>
-                  <option value="indeed_ch">Indeed China</option>
-                  <option value="indeed_fi">Indeed Finland</option>
-                  <option value="indeed_il">Indeed Italy</option>
-                  <option value="indeed_pt">Indeed Portugal</option>
-                  <option value="indeed_sg">Indeed Singapore</option>
-                  <option value="indeed_se">Indeed Sweden</option>
-                  <option value="indeed_ae">Indeed UAE</option>
-                  <option value="indeed_uk">Indeed United Kingdom</option>
-                  <option value="seek_aus">Seek Australia</option>
-                  <option value="linkedin">LinkedIn</option>
+                  {commonFunctions.typesOfSource.map((source) => (
+                    <React.Fragment key={source.value}>
+                      <option value={source.value}>{source.sourceName}</option>
+                    </React.Fragment>
+                  ))}
                 </select>
               </Grid>
               <Grid
@@ -428,6 +421,7 @@ const AddCampaginModal = ({ countryList }) => {
                   style={{ marginRight: "5px" }}
                   onChange={onOngoing}
                   value={onGoing}
+                  disabled={start_date ? false : true}
                 />
                 <label className="addCampaignModal-labels">On going</label>
                 <span> )</span>
@@ -436,14 +430,10 @@ const AddCampaginModal = ({ countryList }) => {
                   type="date"
                   className="addCampaignModal-datePicker"
                   name="end_date"
-                  value={
-                    onGoing
-                      ? Timestamp.fromDate(new Date(endLessDate))
-                      : end_date
-                  }
+                  value={onGoing ? endLessDate : end_date}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  disabled={onGoing ? true : false}
+                  disabled={start_date ? (onGoing ? true : false) : true}
                   required={onGoing ? false : true}
                   min={start_date}
                 />
