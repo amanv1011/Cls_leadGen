@@ -37,3 +37,54 @@ export const ownerFilter = (
   const combinedFilteredCampaigns = [...filteredCampaigns, ...filtered];
   return combinedFilteredCampaigns;
 };
+
+export const typesOfSource = [
+  {
+    value: "indeed_aus",
+    sourceName: "Indeed Australia",
+  },
+  {
+    value: "indeed_ca",
+    sourceName: "Indeed Canada",
+  },
+  {
+    value: "indeed_ch",
+    sourceName: "Indeed China",
+  },
+  {
+    value: "indeed_fi",
+    sourceName: "Indeed Finland",
+  },
+  {
+    value: "indeed_il",
+    sourceName: "Indeed Italy",
+  },
+  {
+    value: "indeed_pt",
+    sourceName: "Indeed Portugal",
+  },
+  {
+    value: "indeed_sg",
+    sourceName: "Indeed Singapore",
+  },
+  {
+    value: "indeed_se",
+    sourceName: "Indeed Sweden",
+  },
+  {
+    value: "indeed_ae",
+    sourceName: "Indeed UAE",
+  },
+  {
+    value: "indeed_uk",
+    sourceName: "Indeed United Kingdom",
+  },
+  {
+    value: "seek_aus",
+    sourceName: "Seek Australia",
+  },
+  {
+    value: "linkedin",
+    sourceName: "Linkedin",
+  },
+];

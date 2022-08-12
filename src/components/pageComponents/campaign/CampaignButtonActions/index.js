@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import Download from "../../../themeComponents/campTable/Download";
 import Delete from "../../../themeComponents/campTable/Delete";
 import Edit from "../../../themeComponents/campTable/Edit";
-import Cancel from "../../../themeComponents/campTable/Cancel";
 import * as commonFunctions from "../commonFunctions";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
 import AlertBeforeAction from "../../../themeComponents/campTable/AlertBeforeAction";
