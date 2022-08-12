@@ -78,7 +78,7 @@ const AddCampaginModal = ({ countryList }) => {
   let maxStartTime;
   let todaysDate = moment().format("YYYY-MM-DD");
   const difference = moment(start_date).diff(todaysDate, "days");
-  const minTimeDiff = moment(start_time, "HH:mm").add(5, "m").format("HH:mm");
+  const minTimeDiff = moment(start_time, "HH:mm").add(60, "m").format("HH:mm");
   const currentTime = moment().format("HH:mm");
   const difference_startDate_endDate = moment(end_date).diff(
     start_date,
