@@ -335,20 +335,7 @@ const LeadsDisplay = ({
                   </div>
                 </div>
               ))}
-            <Pagination
-              count={Math.ceil(leadsListData.length / pageSize)}
-              page={page}
-              color="primary"
-              size="small"
-              sx={{
-                marginTop: "8px",
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-              }}
-              boundaryCount={1}
-              onChange={handleChange}
-            />
+
             {/* <Pagination
               prev
               last
@@ -380,6 +367,20 @@ const LeadsDisplay = ({
           </>
         )}
       </div>
+      <Pagination
+        count={Math.ceil(leadsListData.length / pageSize)}
+        page={page}
+        color="primary"
+        size="small"
+        sx={{
+          marginTop: "8px",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+        boundaryCount={1}
+        onChange={handleChange}
+      />
     </React.Fragment>
   );
 };
