@@ -38,6 +38,7 @@ export const getLeadsFullDescription = async () => {
 };
 
 export const approvRejectLeads = async (leadsId, leadStatus, reason) => {
+  console.log("approvRejectLeads", leadsId, leadStatus, reason);
   try {
     if (leadStatus === -1) {
       leadsId.forEach(async (lead) => {
@@ -47,7 +48,9 @@ export const approvRejectLeads = async (leadsId, leadStatus, reason) => {
           reason: reason,
         });
       });
-    } else {
+    }
+    // Blocking future leads
+    else {
       leadsId.forEach(async (lead) => {
         const updateApproveReject = doc(leadsCollection, lead);
         await updateDoc(updateApproveReject, { status: leadStatus });

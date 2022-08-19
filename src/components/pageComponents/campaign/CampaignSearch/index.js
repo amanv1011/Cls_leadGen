@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import * as campaignActions from "../../../../redux/actions/campaignActions";
-import * as campaignCountActions from "../../../../redux/actions/campaignCountActions";
 import search from "../../../../assets/icons/search.svg";
 import "./campaignSearch.scss";
-import { Tooltip } from "@mui/material";
 
 const CampaignSearch = ({ campaignsList, searchValue, campgaignId }) => {
   const dispatch = useDispatch();
@@ -13,7 +11,6 @@ const CampaignSearch = ({ campaignsList, searchValue, campgaignId }) => {
     dispatch(campaignActions.getSearchedCampaignList(campaignsList));
   }, [campaignsList]);
 
-  const keysInJSON = ["name", "location", "owner"];
   return (
     <React.Fragment>
       {/* <Tooltip title={"Search the campaign by name, location and owner"}> */}

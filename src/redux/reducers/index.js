@@ -23,6 +23,7 @@ import { campaignFilterReducer } from "./campaignFilterReducer";
 import { countryReducer } from "./countryReducer";
 import { campaignCountReducer } from "./campaignCountReducer";
 import { getLastCrawledDateReducer } from "./lastCrawledDateReducer";
+import { blockedCompaniesReducer } from "./blockedCompaniesReducer";
 
 const rootReducer = combineReducers({
   allCampaigns: getAllCampaignsReducer,
@@ -45,6 +46,7 @@ const rootReducer = combineReducers({
   lastCrawledDateList: getLastCrawledDateReducer,
   getLoggedInUserAction: getLoggedInUserAction,
   addUsersReducer: addUsersReducer,
+  blockedCompaniesReducer: blockedCompaniesReducer,
 });
 
 export default rootReducer;

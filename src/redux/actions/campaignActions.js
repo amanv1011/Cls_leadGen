@@ -32,17 +32,11 @@ export const getAllCampaignsAction = () => {
     try {
       const response = await campaignServices.getCampaignList();
       dispatch(closeLoader());
-      // if (response.length === undefined) {
-      //   dispatch({
-      //     type: types.GET_CAMPAIGN_LIST_ERROR,
-      //   });
-      //   return dispatch(openAlertAction(response.message, true, "error"));
-      // } else {
+
       dispatch({
         type: types.GET_CAMPAIGN_LIST_SUCCESS,
         payload: response,
       });
-      // }
     } catch (err) {
       dispatch(closeLoader());
       dispatch({
