@@ -140,6 +140,15 @@ export default function IPopup(props) {
                   required
                   onChange={(e) => props.setReason(e.target.value)}
                 />
+                <label>
+                  <input
+                    type="checkbox"
+                    onChange={(event) => {
+                      props.setBlockedCompanies(event.target.checked);
+                    }}
+                  />
+                  Block all leads from this company
+                </label>
               </>
             ) : (
               "Are you sure you want to perform this action ?"

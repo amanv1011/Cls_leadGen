@@ -35,3 +35,7 @@ export const countryCollection = collection(
   firestore,
   `web/${process.env.REACT_APP_ENV}/country`
 );
+export const blockedCompaniesListCollection = collection(
+  firestore,
+  `web/${process.env.REACT_APP_ENV}/blockedCompaniesList`
+);

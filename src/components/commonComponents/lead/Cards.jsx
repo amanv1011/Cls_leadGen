@@ -21,6 +21,11 @@ import { getSingleLeadDetail } from "../../../redux/actions/PopupAction";
 import IPopup from "../../themeComponents/popup/leadPopup";
 import NotesPopup from "../../themeComponents/popup/notesPopup";
 import RestrictedComponent from "../../higherOrderComponents/restrictedComponent";
+import {
+  postBlockedCompanyAction,
+  getBlockedCompaniesListAction,
+} from "../../../redux/actions/blockedCompaniesAction";
+import { deleteBlockedCompaniesList } from "../../../services/api/campaign";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -36,6 +41,7 @@ const Cards = (props) => {
   const [showNotesState, setShowNotesState] = useState(false);
   const [filteredUsers, setfilteredUsers] = useState([]);
   const [reason, setReason] = useState("");
+  const [blockedCompanies, setBlockedCompanies] = useState(false);
   const leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
   const userRole = useSelector(
@@ -72,6 +78,10 @@ const Cards = (props) => {
     (state) => state.getLoggedInUserAction.loggedInUser
   );
 
+  const blockedCompaniesList = useSelector(
+    (state) => state.blockedCompaniesReducer.blockedCompainesList
+  );
+
   leadsData.sort(
     (a, b) =>
       new Date(b.leadGeneratedDate.seconds).getTime() -
@@ -101,6 +111,10 @@ const Cards = (props) => {
   }, [assignLeadResponse]);
 
   useEffect(() => {
+    dispatch(getBlockedCompaniesListAction());
+  }, [blockedCompaniesList.length]);
+
+  useEffect(() => {
     if (
       (allLeadData && Object.keys(allLeadData).length === 0) ||
       allLeadData === undefined
@@ -125,7 +139,7 @@ const Cards = (props) => {
   useEffect(() => {
     if (approveRejectResponse && approveRejectResponse.leadsId) {
       approveRejectResponse.leadsId.forEach((ele) => {
-        if (displayLeadData.id === ele) {
+        if (displayLeadData && displayLeadData.id === ele) {
           let data = allLeadData;
           data.status = approveRejectResponse.status;
           setdisplayLeadData(data);
@@ -157,7 +171,6 @@ const Cards = (props) => {
       });
     }
   }, [NotesResponse]);
-
   useEffect(() => {
     dispatch(cardsDisplayAction(leadsData));
   }, [leadsData.length]);
@@ -218,8 +231,36 @@ const Cards = (props) => {
     setOpenMultipleLeadPopup(true);
     setStatus(status);
   };
+
+  // This is to delete the documents present in firebasedatabase without using the firebase webapp
+  // blockedCompaniesList.map((item) => deleteBlockedCompaniesList(item.id));
+
+  //Blocking the companies list
+  let res =
+    leadsData &&
+    allLeadData &&
+    leadsData.filter((lead) => lead.companyName === allLeadData.companyName);
+  let leadIdValue = res && res.map((lead) => lead.id);
+
   const handleApply = () => {
-    if (selectedLeadId && status !== null) {
+    if (blockedCompanies === true) {
+      dispatch(
+        postBlockedCompanyAction({
+          leadId: leadIdValue,
+          companyName: allLeadData.companyName,
+        })
+      );
+      if (selectedLeadId && status !== null) {
+        if (reason.length > 0) {
+          dispatch(updateLeadStatus(leadIdValue, status, reason));
+        } else {
+          dispatch(updateLeadStatus(leadIdValue, status));
+        }
+        onClosePopup();
+        setReason("");
+      }
+    }
+    if (blockedCompanies === false && selectedLeadId && status !== null) {
       if (reason.length > 0) {
         dispatch(updateLeadStatus([selectedLeadId], status, reason));
       } else {
@@ -228,6 +269,7 @@ const Cards = (props) => {
       onClosePopup();
       setReason("");
     }
+    setBlockedCompanies(false);
   };
 
   useEffect(() => {
@@ -247,6 +289,9 @@ const Cards = (props) => {
           status={status}
           reason={reason}
           setReason={setReason}
+          blockedCompanies={blockedCompanies}
+          setBlockedCompanies={setBlockedCompanies}
+          allLeadData={allLeadData}
           disabled={
             status && status === -1 && reason && reason.length === 0
               ? true
