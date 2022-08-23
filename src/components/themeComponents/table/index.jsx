@@ -10,7 +10,22 @@ const Table = (props) => {
   let [currentSort, setCurrentSort] = useState("startdefault");
   let leadData = props.leadData;
 
-  const GenratedleadData = useSelector((state) => state.allLeads.leadsList);
+  const GenratedleadData1 = useSelector((state) => state.allLeads.leadsList);
+  const blockedCompaniesList = useSelector(
+    (state) => state.blockedCompaniesReducer.blockedCompainesList
+  );
+
+  let array1 = [];
+
+  blockedCompaniesList.length > 0 &&
+    blockedCompaniesList.map((blocked) =>
+      blocked.leadId.map((item) => array1.push(item))
+    );
+
+  let GenratedleadData = GenratedleadData1.filter(function (item) {
+    return !array1.includes(item.id);
+  }).filter((lead) => lead.companyName !== null);
+
   leadData.forEach((element) => {
     let leadsCount = 0;
     GenratedleadData.map((ele) => {

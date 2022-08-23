@@ -25,7 +25,7 @@ import {
   postBlockedCompanyAction,
   getBlockedCompaniesListAction,
 } from "../../../redux/actions/blockedCompaniesAction";
-import { deleteBlockedCompaniesList } from "../../../services/api/campaign";
+import { deleteBlockedCompaniesList } from "../../../services/api/blockedCompanies";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const Cards = (props) => {
   const [filteredUsers, setfilteredUsers] = useState([]);
   const [reason, setReason] = useState("");
   const [blockedCompanies, setBlockedCompanies] = useState(false);
-  const leadsData = props.leadData;
+  let leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
   const userRole = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
@@ -82,11 +82,23 @@ const Cards = (props) => {
     (state) => state.blockedCompaniesReducer.blockedCompainesList
   );
 
-  leadsData.sort(
-    (a, b) =>
-      new Date(b.leadGeneratedDate.seconds).getTime() -
-      new Date(a.leadGeneratedDate.seconds).getTime()
-  );
+  let array1 = [];
+
+  blockedCompaniesList.length > 0 &&
+    blockedCompaniesList.map((blocked) =>
+      blocked.leadId.map((item) => array1.push(item))
+    );
+
+  leadsData = leadsData
+    .filter(function (item) {
+      return !array1.includes(item.id);
+    })
+    .filter((lead) => lead.companyName !== null)
+    .sort(
+      (a, b) =>
+        new Date(b.leadGeneratedDate.seconds).getTime() -
+        new Date(a.leadGeneratedDate.seconds).getTime()
+    );
 
   useEffect(() => {
     setSelectedUsers([]);
@@ -234,8 +246,9 @@ const Cards = (props) => {
 
   // This is to delete the documents present in firebasedatabase without using the firebase webapp
   // blockedCompaniesList.map((item) => deleteBlockedCompaniesList(item.id));
+  console.log("blockedCompaniesList", blockedCompaniesList);
 
-  //Blocking the companies list
+  //Blocking the companies list for single leads
   let res =
     leadsData &&
     allLeadData &&

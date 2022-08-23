@@ -55,12 +55,9 @@ export const blockedCompaniesReducer = (
       };
 
     case types.DELETE_BLOCKED_COMPANY_NAME_SUCCESS:
-      console.log("payloadpayloadpayloadpayload", payload);
-      console.log("state.blockedCompainesList--->", state.blockedCompainesList);
       const newList = state.blockedCompainesList.filter(
         (item) => item.leadId !== payload.id
       );
-      console.log("newList", newList);
       return {
         ...state,
         blockedCompainesList: newList,

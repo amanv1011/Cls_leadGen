@@ -20,7 +20,7 @@ export default function IPopup(props) {
           background: "#FFFFFF",
           boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.07)",
           borderRadius: "15px",
-          height: "240px",
+          height: "260px",
           width: "460px",
         },
       }}
@@ -57,7 +57,7 @@ export default function IPopup(props) {
         </IconButton>
       </DialogTitle>
       <DialogContent className={"dialoge-content"} style={{ padding: "10px" }}>
-        <div className="title_area" style={{ marginBottom: "10px" }}>
+        <div className="title_area">
           {props.title ? (
             <>
               {props.subtitle ? (
@@ -95,7 +95,6 @@ export default function IPopup(props) {
               lineHeight: "26px",
               color: "#1F4173",
               textAlign: "justify",
-              overflow: "auto",
             }}
           >
             {props.body ? (
@@ -140,13 +139,14 @@ export default function IPopup(props) {
                   required
                   onChange={(e) => props.setReason(e.target.value)}
                 />
-                <label>
-                  <input
-                    type="checkbox"
-                    onChange={(event) => {
-                      props.setBlockedCompanies(event.target.checked);
-                    }}
-                  />
+                <input
+                  type="checkbox"
+                  style={{ marginTop: "15px" }}
+                  onChange={(event) => {
+                    props.setBlockedCompanies(event.target.checked);
+                  }}
+                />
+                <label style={{ marginLeft: "5px" }}>
                   Block all leads from this company
                 </label>
               </>
