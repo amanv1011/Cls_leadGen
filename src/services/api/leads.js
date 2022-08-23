@@ -38,7 +38,6 @@ export const getLeadsFullDescription = async () => {
 };
 
 export const approvRejectLeads = async (leadsId, leadStatus, reason) => {
-  console.log("approvRejectLeads", leadsId, leadStatus, reason);
   try {
     if (leadStatus === -1) {
       leadsId.forEach(async (lead) => {

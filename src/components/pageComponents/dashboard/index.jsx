@@ -23,9 +23,25 @@ import "./dashboard.scss";
 const Dashboard = ({ children }) => {
   const dispatch = useDispatch();
   var leadData = useSelector((state) => state.allCampaigns.campaignList);
-  const genratedLeadData = useSelector((state) => state.allLeads.leadsList);
+  const genratedLeadData1 = useSelector((state) => state.allLeads.leadsList);
   const leadReduxState = useSelector((state) => state.allCampaigns.loading);
   const leadReduxStateErr = useSelector((state) => state.allCampaigns.err);
+  const blockedCompaniesList = useSelector(
+    (state) => state.blockedCompaniesReducer.blockedCompainesList
+  );
+
+  let array1 = [];
+
+  blockedCompaniesList.length > 0 &&
+    blockedCompaniesList.map((blocked) =>
+      blocked.leadId.map((item) => array1.push(item))
+    );
+
+  let genratedLeadData = genratedLeadData1
+    .filter(function (item) {
+      return !array1.includes(item.id);
+    })
+    .filter((lead) => lead.companyName !== null);
 
   let [activeCampPer, setActiveCampPer] = useState(0);
   let [activeCamp, setActiveCamp] = useState(0);
