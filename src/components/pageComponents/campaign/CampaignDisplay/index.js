@@ -59,7 +59,7 @@ const CampaignDisplay = ({
     // }
   }, [campaignsListData]);
 
-  const keysInJSON = ["name", "location", "owner"];
+  const keysInJSON = ["name", "location"];
 
   const searchingTable = (searchTerm, campaignsToSearch) => {
     const lowerCasedValue = searchTerm.toLowerCase().trim();

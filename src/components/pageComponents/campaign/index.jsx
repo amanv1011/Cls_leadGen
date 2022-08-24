@@ -22,7 +22,7 @@ const Campaign = () => {
 
   const campaignsList = useSelector((state) => state.allCampaigns.campaignList);
   const campaignDoc = useSelector((state) => state.allCampaigns.campaignDoc);
-  const leadsList = useSelector((state) => state.allLeads.leadsList);
+  const leadsList1 = useSelector((state) => state.allLeads.leadsList);
   const searchValue = useSelector(
     (state) => state.allCampaigns.initialSearchValue
   );
@@ -70,6 +70,22 @@ const Campaign = () => {
   const loggedInUser = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser
   );
+  const blockedCompaniesList = useSelector(
+    (state) => state.blockedCompaniesReducer.blockedCompainesList
+  );
+
+  let array1 = [];
+
+  blockedCompaniesList.length > 0 &&
+    blockedCompaniesList.map((blocked) =>
+      blocked.leadId.map((item) => array1.push(item))
+    );
+
+  let leadsList = leadsList1
+    .filter(function (item) {
+      return !array1.includes(item.id);
+    })
+    .filter((lead) => lead.companyName !== null);
 
   const [campaignsListData, setCampaignsListData] = useState([]);
   const [campaignDocument, setCampaignDocument] = useState({});

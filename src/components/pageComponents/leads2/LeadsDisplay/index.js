@@ -18,6 +18,7 @@ import RestrictedComponent from "../../../higherOrderComponents/restrictedCompon
 import PaginationComponent from "../../../commonComponents/PaginationComponent/index";
 //import { Pagination } from "rsuite";
 import Pagination from "@mui/material/Pagination";
+import { postBlockedCompanyAction } from "../../../../redux/actions/blockedCompaniesAction";
 
 const firstIndex = 0;
 const LeadsDisplay = ({
@@ -44,6 +45,7 @@ const LeadsDisplay = ({
   const [isChecked, setIsChecked] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openAssignModel, setOpenAssignModel] = useState(false);
+  const [blockedCompanies, setBlockedCompanies] = useState(false);
   //pagination state
   //const [activePage, setActivePage] = React.useState(2);
   const [pageSize, setPageSize] = React.useState(10);
@@ -124,15 +126,77 @@ const LeadsDisplay = ({
     }
   };
 
+  // For multiple blocking
+  let array1 = leadsList
+    .filter(function (item) {
+      return selectedArray.includes(item.id);
+    })
+    .map((item) => item.companyName)
+    .filter((value) => value !== null);
+  array1 = [...new Set(array1)];
+
+  let array2 = array1.map((companyName) =>
+    leadsList.filter((lead) => lead.companyName === companyName)
+  );
+  let array3 = array2.map((filteredLead) =>
+    filteredLead.map((item) => ({
+      leadId: item.id,
+      companyName: item.companyName,
+    }))
+  );
+
+  let ans =
+    array3.length > 0 &&
+    array3.map((item) =>
+      item.reduce((agg, curr) => {
+        let found = agg.find((x) => x.companyName === curr.companyName);
+        if (found) {
+          found.leadId.push(curr.leadId);
+        } else {
+          agg.push({
+            companyName: curr.companyName,
+            leadId: [curr.leadId],
+          });
+        }
+        return agg;
+      }, [])
+    );
+  let array5 = [];
+  ans && ans.map((item) => item.map((value) => array5.push(value)));
+
+  const ids = array5.map((o) => o.companyName);
+  array5 = array5.filter(
+    ({ companyName }, index) => !ids.includes(companyName, index + 1)
+  );
+
+  let array6 = [];
+  ans &&
+    ans.map((item) =>
+      item.map((value) => value.leadId.map((id) => array6.push(id)))
+    );
+  array6 = [...new Set(array6)];
+
   const handleBatchApply = () => {
-    handleClose();
-    if (reason.length > 0) {
-      dispatch(updateLeadStatus(selectedArray, status, reason));
-    } else {
-      dispatch(updateLeadStatus(selectedArray, status));
+    if (blockedCompanies === true) {
+      array5.map((item) => dispatch(postBlockedCompanyAction(item)));
+      handleClose();
+      if (reason.length > 0) {
+        dispatch(updateLeadStatus(array6, status, reason));
+      } else {
+        dispatch(updateLeadStatus(array6, status));
+      }
+    }
+    if (blockedCompanies === false) {
+      handleClose();
+      if (reason.length > 0) {
+        dispatch(updateLeadStatus(selectedArray, status, reason));
+      } else {
+        dispatch(updateLeadStatus(selectedArray, status));
+      }
     }
     setselectedArray([]);
     onClosePopup();
+    setBlockedCompanies(false);
   };
 
   const assignBatchUsers = (e, option, multiple = true) => {
@@ -176,6 +240,8 @@ const LeadsDisplay = ({
           reason={reason}
           setReason={setReason}
           disabled={disabled}
+          blockedCompanies={blockedCompanies}
+          setBlockedCompanies={setBlockedCompanies}
         />
       }
       {

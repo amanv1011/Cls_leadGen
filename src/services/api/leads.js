@@ -47,7 +47,9 @@ export const approvRejectLeads = async (leadsId, leadStatus, reason) => {
           reason: reason,
         });
       });
-    } else {
+    }
+    // Blocking future leads
+    else {
       leadsId.forEach(async (lead) => {
         const updateApproveReject = doc(leadsCollection, lead);
         await updateDoc(updateApproveReject, { status: leadStatus });

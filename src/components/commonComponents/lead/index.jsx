@@ -23,7 +23,7 @@ const Lead = (props) => {
   const dispatch = useDispatch();
   const searchQuery = useSelector((state) => state.leadsFilter.searchQuery);
   const searchDate = useSelector((state) => state.leadsFilter.filterDate);
-  let genratedLeadData = useSelector((state) => state.allLeads.leadsList);
+  const genratedLeadData1 = useSelector((state) => state.allLeads.leadsList);
   // const campgainData = useSelector((state) => state.allCampaigns.campaignList);
   const campgainData = campaign;
   const allUsers = useSelector((state) => state.users.users);
@@ -40,13 +40,25 @@ const Lead = (props) => {
   const approveRejectResponse = useSelector(
     (state) => state.allLeads.approveRejectResponse
   );
-  const ownerNameFilterId = allUsers?.filter(
-    (user) => user.name === ownerNameFilter
-  );
+
   const loggedInUser = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser
   );
+  const blockedCompaniesList = useSelector(
+    (state) => state.blockedCompaniesReducer.blockedCompainesList
+  );
 
+  let array1 = [];
+
+  blockedCompaniesList.length > 0 &&
+    blockedCompaniesList.map((blocked) =>
+      blocked.leadId.map((item) => array1.push(item))
+    );
+
+  let genratedLeadData = genratedLeadData1.filter(function (item) {
+    return !array1.includes(item.id);
+  });
+  // .filter((lead) => lead.companyName !== null);
   useEffect(() => {
     if (
       approveRejectResponse &&

@@ -127,14 +127,14 @@ const CampaignButtonActions = ({
                 disabled={
                   selectedArray.length !== 0 ||
                   difference_startDate_endDate > 0 ||
-                  campaignDocument.start_time < moment().format("HH:mm")
+                  campaignDocument.start_time <= moment().format("HH:mm")
                     ? true
                     : false
                 }
                 style={
                   selectedArray.length !== 0 ||
                   difference_startDate_endDate > 0 ||
-                  campaignDocument.start_time < moment().format("HH:mm")
+                  campaignDocument.start_time <= moment().format("HH:mm")
                     ? {
                         pointerEvents: "auto",
                         cursor: "not-allowed",
