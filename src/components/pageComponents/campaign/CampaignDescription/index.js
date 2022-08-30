@@ -129,6 +129,8 @@ const CampaignDescription = ({
     sourceType = "Indeed China";
   } else if (campaignDocument && campaignDocument.source === "indeed_se") {
     sourceType = "Indeed Sweden";
+  } else if (campaignDocument && campaignDocument.source === "indeed_usa") {
+    sourceType = "Indeed USA";
   } else if (campaignDocument && campaignDocument.source === "indeed_pt") {
     sourceType = "Indeed Portugal";
   } else if (campaignDocument && campaignDocument.source === "indeed_sg") {
@@ -204,7 +206,8 @@ const CampaignDescription = ({
       source === "indeed_pt" ||
       source === "indeed_sg" ||
       source === "indeed_ae" ||
-      source === "indeed_se"
+      source === "indeed_se" ||
+      source === "indeed_usa"
     ) {
       if (tags.length > 10) {
         alert(
@@ -680,7 +683,6 @@ const CampaignDescription = ({
                               className="addCampaign-inputs"
                               name="lastCrawledDate"
                               value={
-                                lastCrawledDateList?.campaignDocument &&
                                 campaignDocument?.last_crawled_date
                                   ? moment
                                       .unix(

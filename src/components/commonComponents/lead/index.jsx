@@ -55,10 +55,12 @@ const Lead = (props) => {
       blocked.leadId.map((item) => array1.push(item))
     );
 
-  let genratedLeadData = genratedLeadData1.filter(function (item) {
-    return !array1.includes(item.id);
-  });
-  // .filter((lead) => lead.companyName !== null);
+  let genratedLeadData = genratedLeadData1
+    .filter(function (item) {
+      return !array1.includes(item.id);
+    })
+    .filter((lead) => lead.companyName !== null);
+
   useEffect(() => {
     if (
       approveRejectResponse &&
@@ -246,7 +248,6 @@ const Lead = (props) => {
   }
 
   leadsCountByOption(option);
-
   const rejectList = filterAllLeads?.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;
   const underReviewList = filterAllLeads?.filter((ele) => ele.status === 0);
