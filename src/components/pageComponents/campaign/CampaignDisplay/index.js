@@ -557,6 +557,8 @@ const CampaignDisplay = ({
         sourceType = "Indeed Portugal";
       } else if (campaign.source === "indeed_sg") {
         sourceType = "Indeed Singapore";
+      } else if (campaign.source === "indeed_usa") {
+        sourceType = "Indeed USA";
       } else {
         sourceType = "LinkedIn";
       }

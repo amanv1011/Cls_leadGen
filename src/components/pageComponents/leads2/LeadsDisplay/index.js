@@ -177,6 +177,7 @@ const LeadsDisplay = ({
   array6 = [...new Set(array6)];
 
   const handleBatchApply = () => {
+    handleClose();
     if (blockedCompanies === true) {
       array5.map((item) => dispatch(postBlockedCompanyAction(item)));
       handleClose();
@@ -187,7 +188,6 @@ const LeadsDisplay = ({
       }
     }
     if (blockedCompanies === false) {
-      handleClose();
       if (reason.length > 0) {
         dispatch(updateLeadStatus(selectedArray, status, reason));
       } else {
@@ -387,7 +387,17 @@ const LeadsDisplay = ({
                         selectedLeadId === lead.id ? "selected-sub" : ""
                       }`}
                     >
-                      <div>
+                      <div
+                        style={
+                          {
+                            // textOverflow: "ellipsis",
+                            // width: "50%",
+                            // whiteSpace: "nowrap",
+                            // overflow: "hidden",
+                            // textAlign: "start",
+                          }
+                        }
+                      >
                         {lead.companyName === null ? "NA" : lead.companyName}
                       </div>
                       <span

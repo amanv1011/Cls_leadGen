@@ -128,7 +128,8 @@ const AddCampaginModal = ({ countryList }) => {
         source === "indeed_pt" ||
         source === "indeed_sg" ||
         source === "indeed_ae" ||
-        source === "indeed_se"
+        source === "indeed_se" ||
+        source === "indeed_usa"
       ) {
         if (tags.length > 10) {
           alert(

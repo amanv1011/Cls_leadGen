@@ -16,14 +16,10 @@ export const blockedCompaniesReducer = (
         error: null,
       };
     case types.GET_BLOCKED_LIST_SUCCESS:
-      const ids = payload.map((o) => o.companyName);
-      const filtered = payload.filter(
-        ({ companyName }, index) => !ids.includes(companyName, index + 1)
-      );
       return {
         ...state,
         loading: false,
-        blockedCompainesList: filtered,
+        blockedCompainesList: payload,
         error: null,
       };
     case types.GET_BLOCKED_LIST_ERROR:
