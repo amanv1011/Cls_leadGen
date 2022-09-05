@@ -40,7 +40,6 @@ const Lead = (props) => {
   const approveRejectResponse = useSelector(
     (state) => state.allLeads.approveRejectResponse
   );
-
   const loggedInUser = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser
   );

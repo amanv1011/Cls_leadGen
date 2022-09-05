@@ -1,5 +1,6 @@
 import * as firebaseMethods from "firebase/firestore";
 import { blockedCompaniesListCollection } from "../firebase/collections";
+import { firestore } from "../firebase/firebaseInit";
 
 export const getBlockedCompaniesList = async () => {
   try {
@@ -16,15 +17,31 @@ export const getBlockedCompaniesList = async () => {
   }
 };
 
-export const postBlockedCompany = async (blockedCompany) => {
-  try {
-    return await firebaseMethods.addDoc(
-      blockedCompaniesListCollection,
-      blockedCompany
-    );
-  } catch (err) {
-    return err;
-  }
+export const postBlockedCompany = async (objectsToAdd) => {
+  const batchArray = [];
+  batchArray.push(firebaseMethods.writeBatch(firestore));
+  let operationCounter = 0;
+  let batchIndex = 0;
+  let newDocRef;
+  objectsToAdd.forEach((document) => {
+    newDocRef = firebaseMethods.doc(blockedCompaniesListCollection);
+    batchArray[batchIndex].set(newDocRef, document);
+
+    operationCounter++;
+    if (operationCounter === 499) {
+      batchArray.push(firebaseMethods.writeBatch(firestore));
+      batchIndex++;
+      operationCounter = 0;
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
+    }
+  });
+  batchArray.forEach(async (batch) => await batch.commit());
+  setTimeout(() => {
+    window.location.reload();
+  }, 2000);
+  return newDocRef.id;
 };
 
 export const deleteBlockedCompaniesList = async (id) => {

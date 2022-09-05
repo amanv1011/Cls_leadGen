@@ -15,6 +15,7 @@ import {
 import { getCountryAction } from "../../../redux/actions/countryActions";
 import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
 import * as campaignFilterActions from "../../../redux/actions/campaignFilterActions";
+import { getBlockedCompaniesListAction } from "../../../redux/actions/blockedCompaniesAction";
 import "./campaign.scss";
 
 const Campaign = () => {
@@ -101,6 +102,7 @@ const Campaign = () => {
     dispatch(campaignActions.getAssignedCampaignsAction());
     dispatch(getlastCrawledDateAction());
     dispatch(campaignFilterActions.campaignFilterClearAction());
+    dispatch(getBlockedCompaniesListAction());
   }, []);
 
   // useEffect(() => {
