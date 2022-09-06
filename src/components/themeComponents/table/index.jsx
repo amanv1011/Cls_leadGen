@@ -24,7 +24,7 @@ const Table = (props) => {
 
   let GenratedleadData = GenratedleadData1.filter(function (item) {
     return !array1.includes(item.id);
-  }).filter((lead) => lead.companyName !== null);
+  });
 
   leadData.forEach((element) => {
     let leadsCount = 0;
