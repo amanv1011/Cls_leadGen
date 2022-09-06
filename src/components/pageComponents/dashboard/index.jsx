@@ -18,6 +18,7 @@ import {
 } from "../../../redux/actions/leadActions";
 import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
 import { getCountryAction } from "../../../redux/actions/countryActions";
+import { getBlockedCompaniesListAction } from "../../../redux/actions/blockedCompaniesAction";
 import "./dashboard.scss";
 
 const Dashboard = ({ children }) => {
@@ -68,6 +69,7 @@ const Dashboard = ({ children }) => {
     dispatch(getCountryAction());
     dispatch(getAssignedCampaignsAction());
     dispatch(getlastCrawledDateAction());
+    dispatch(getBlockedCompaniesListAction());
   }, []);
 
   useEffect(() => {

@@ -246,6 +246,7 @@ const Cards = (props) => {
 
   // This is to delete the documents present in firebasedatabase without using the firebase webapp
   // blockedCompaniesList.map((item) => deleteBlockedCompaniesList(item.id));
+
   console.log("blockedCompaniesList", blockedCompaniesList);
 
   //Blocking the companies list for single leads
@@ -258,10 +259,12 @@ const Cards = (props) => {
   const handleApply = () => {
     if (blockedCompanies === true) {
       dispatch(
-        postBlockedCompanyAction({
-          leadId: leadIdValue,
-          companyName: allLeadData.companyName,
-        })
+        postBlockedCompanyAction([
+          {
+            leadId: leadIdValue,
+            companyName: allLeadData.companyName,
+          },
+        ])
       );
       if (selectedLeadId && status !== null) {
         if (reason.length > 0) {
@@ -282,7 +285,6 @@ const Cards = (props) => {
       onClosePopup();
       setReason("");
     }
-    setBlockedCompanies(false);
   };
 
   useEffect(() => {
