@@ -42,7 +42,7 @@ const Dashboard = ({ children }) => {
     .filter(function (item) {
       return !array1.includes(item.id);
     })
-    .filter((lead) => lead.companyName !== null);
+    // .filter((lead) => lead.companyName !== null);
 
   let [activeCampPer, setActiveCampPer] = useState(0);
   let [activeCamp, setActiveCamp] = useState(0);

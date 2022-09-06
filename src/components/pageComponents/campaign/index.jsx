@@ -82,11 +82,9 @@ const Campaign = () => {
       blocked.leadId.map((item) => array1.push(item))
     );
 
-  let leadsList = leadsList1
-    .filter(function (item) {
-      return !array1.includes(item.id);
-    })
-    .filter((lead) => lead.companyName !== null);
+  let leadsList = leadsList1.filter(function (item) {
+    return !array1.includes(item.id);
+  });
 
   const [campaignsListData, setCampaignsListData] = useState([]);
   const [campaignDocument, setCampaignDocument] = useState({});

@@ -93,7 +93,6 @@ const Cards = (props) => {
     .filter(function (item) {
       return !array1.includes(item.id);
     })
-    .filter((lead) => lead.companyName !== null)
     .sort(
       (a, b) =>
         new Date(b.leadGeneratedDate.seconds).getTime() -

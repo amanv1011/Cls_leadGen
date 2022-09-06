@@ -69,7 +69,6 @@ const LeadsDisplay = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
@@ -128,6 +127,7 @@ const LeadsDisplay = ({
   useEffect(() => {
     dispatch(getBlockedCompaniesListAction());
   }, [blockedCompaniesList.length]);
+
   let array1 = leadsList
     .filter(function (item) {
       return selectedArray.includes(item.id);
