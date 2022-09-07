@@ -111,6 +111,23 @@ const AddCampaginModal = ({ countryList }) => {
     event.preventDefault();
 
     try {
+      let alertMessage = "";
+      if (
+        name.trim().length === 0 ||
+        tags.length === 0 ||
+        location.trim().length === 0
+      ) {
+        if (name.trim().length === 0) {
+          alertMessage = "Campaign name cannot be empty";
+        }
+        if (location.trim().length === 0) {
+          alertMessage = "Location cannot be empty";
+        }
+
+        alert(alertMessage);
+        return;
+      }
+
       if (source === "seek_aus") {
         if (tags.length > 1) {
           alert(
@@ -149,6 +166,9 @@ const AddCampaginModal = ({ countryList }) => {
       const newCampaign = {
         ...addCampaignDetails,
         frequency: parseInt(frequency),
+        name: name.trim(),
+        location: location.trim(),
+        queryURL: queryURL?.trim(),
         tags,
         onGoing,
         start_date: Timestamp.fromDate(new Date(start_date)),
