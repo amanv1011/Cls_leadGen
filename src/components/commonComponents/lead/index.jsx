@@ -40,7 +40,6 @@ const Lead = (props) => {
   const approveRejectResponse = useSelector(
     (state) => state.allLeads.approveRejectResponse
   );
-
   const loggedInUser = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser
   );
@@ -58,7 +57,7 @@ const Lead = (props) => {
   let genratedLeadData = genratedLeadData1.filter(function (item) {
     return !array1.includes(item.id);
   });
-  // .filter((lead) => lead.companyName !== null);
+
   useEffect(() => {
     if (
       approveRejectResponse &&
@@ -246,7 +245,6 @@ const Lead = (props) => {
   }
 
   leadsCountByOption(option);
-
   const rejectList = filterAllLeads?.filter((ele) => ele.status === -1);
   const rejectCount = rejectList.length;
   const underReviewList = filterAllLeads?.filter((ele) => ele.status === 0);

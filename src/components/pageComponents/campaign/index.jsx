@@ -15,6 +15,7 @@ import {
 import { getCountryAction } from "../../../redux/actions/countryActions";
 import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
 import * as campaignFilterActions from "../../../redux/actions/campaignFilterActions";
+import { getBlockedCompaniesListAction } from "../../../redux/actions/blockedCompaniesAction";
 import "./campaign.scss";
 
 const Campaign = () => {
@@ -81,11 +82,9 @@ const Campaign = () => {
       blocked.leadId.map((item) => array1.push(item))
     );
 
-  let leadsList = leadsList1
-    .filter(function (item) {
-      return !array1.includes(item.id);
-    })
-    .filter((lead) => lead.companyName !== null);
+  let leadsList = leadsList1.filter(function (item) {
+    return !array1.includes(item.id);
+  });
 
   const [campaignsListData, setCampaignsListData] = useState([]);
   const [campaignDocument, setCampaignDocument] = useState({});
@@ -101,6 +100,7 @@ const Campaign = () => {
     dispatch(campaignActions.getAssignedCampaignsAction());
     dispatch(getlastCrawledDateAction());
     dispatch(campaignFilterActions.campaignFilterClearAction());
+    dispatch(getBlockedCompaniesListAction());
   }, []);
 
   // useEffect(() => {

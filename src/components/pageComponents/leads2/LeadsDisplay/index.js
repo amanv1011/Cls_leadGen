@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSingleLeadDetail } from "../../../../redux/actions/PopupAction";
 import LeadsMenu from "../LeadsMenu";
 import moment from "moment";
-import { Popover } from "@mui/material";
+import { Button, Popover } from "@mui/material";
 import IButton from "../../../themeComponents/button";
 import {
   assignLeadToUsersAction,
@@ -15,12 +15,10 @@ import DownArrow from "../../../../assets/jsxIcon/DownArrow";
 import IPopup from "../../../themeComponents/popup/leadPopup";
 import IModal from "../../../themeComponents/popup/modal";
 import RestrictedComponent from "../../../higherOrderComponents/restrictedComponent";
-import PaginationComponent from "../../../commonComponents/PaginationComponent/index";
-//import { Pagination } from "rsuite";
 import Pagination from "@mui/material/Pagination";
 import { postBlockedCompanyAction } from "../../../../redux/actions/blockedCompaniesAction";
+import { getBlockedCompaniesListAction } from "../../../../redux/actions/blockedCompaniesAction";
 
-const firstIndex = 0;
 const LeadsDisplay = ({
   leadsList,
   selectedLeadIdFun,
@@ -47,15 +45,11 @@ const LeadsDisplay = ({
   const [openAssignModel, setOpenAssignModel] = useState(false);
   const [blockedCompanies, setBlockedCompanies] = useState(false);
   //pagination state
-  //const [activePage, setActivePage] = React.useState(2);
-  const [pageSize, setPageSize] = React.useState(10);
-  const [page, setPage] = React.useState(1);
-  const [index, setIndex] = React.useState(1);
-  const [data, setData] = React
-    .useState
-    // leadsListData.slice(firstIndex, pageSize)
-    ();
-
+  const [pageSize] = useState(10);
+  const [page, setPage] = useState(1);
+  const [index, setIndex] = useState(1);
+  const [data, setData] = useState();
+  const firstIndex = 0;
   //functions for popover
   const handlePopClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -67,16 +61,19 @@ const LeadsDisplay = ({
   const userRole = useSelector(
     (state) => state.getLoggedInUserAction.loggedInUser.user_role_id
   );
+
+  const blockedCompaniesList = useSelector(
+    (state) => state.blockedCompaniesReducer.blockedCompainesList
+  );
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
   useEffect(() => {
     setLeadsListData(leadsList);
-    // setData(leadsList.slice(index, pageSize));
     setData(
       leadsList.slice(firstIndex + pageSize * (index - 1), pageSize * index)
     );
@@ -127,6 +124,10 @@ const LeadsDisplay = ({
   };
 
   // For multiple blocking
+  useEffect(() => {
+    dispatch(getBlockedCompaniesListAction());
+  }, [blockedCompaniesList.length]);
+
   let array1 = leadsList
     .filter(function (item) {
       return selectedArray.includes(item.id);
@@ -177,9 +178,10 @@ const LeadsDisplay = ({
   array6 = [...new Set(array6)];
 
   const handleBatchApply = () => {
+    handleClose();
     if (blockedCompanies === true) {
-      array5.map((item) => dispatch(postBlockedCompanyAction(item)));
-      handleClose();
+      dispatch(postBlockedCompanyAction(array5));
+
       if (reason.length > 0) {
         dispatch(updateLeadStatus(array6, status, reason));
       } else {
@@ -187,7 +189,6 @@ const LeadsDisplay = ({
       }
     }
     if (blockedCompanies === false) {
-      handleClose();
       if (reason.length > 0) {
         dispatch(updateLeadStatus(selectedArray, status, reason));
       } else {
@@ -222,11 +223,6 @@ const LeadsDisplay = ({
       leadsList.slice(firstIndex + pageSize * (value - 1), pageSize * value)
     );
   };
-
-  // //Change widths
-  // const changeWidth = (e) => {
-  //   setPageSize(parseInt(e.target.value, 10));
-  // };
 
   return (
     <React.Fragment>
@@ -387,7 +383,17 @@ const LeadsDisplay = ({
                         selectedLeadId === lead.id ? "selected-sub" : ""
                       }`}
                     >
-                      <div>
+                      <div
+                        style={
+                          {
+                            // textOverflow: "ellipsis",
+                            // width: "50%",
+                            // whiteSpace: "nowrap",
+                            // overflow: "hidden",
+                            // textAlign: "start",
+                          }
+                        }
+                      >
                         {lead.companyName === null ? "NA" : lead.companyName}
                       </div>
                       <span

@@ -29,13 +29,13 @@ export const getBlockedCompaniesListAction = () => {
 export const postBlockedCompanyAction = (data) => {
   return async (dispatch) => {
     dispatch({ type: types.POST_BLOCKED_COMPANY_NAME_PENDING, loading: true });
+
     try {
       const addDoc = await blockedCompaniesServices.postBlockedCompany(data);
-
       if (addDoc.id) {
         dispatch({
           type: types.POST_BLOCKED_COMPANY_NAME_SUCCESS,
-          payload: { ...data, id: addDoc.id },
+          payload: { ...data, id: addDoc },
         });
       }
     } catch (err) {
@@ -46,28 +46,3 @@ export const postBlockedCompanyAction = (data) => {
     }
   };
 };
-
-// export const deleteBlockedCompaniesListAction = (leadId) => {
-//   return async (dispatch) => {
-//     try {
-//       const response =
-//         await blockedCompaniesServices.deleteBlockedCompaniesList(leadId);
-//       if (response.id) {
-//         dispatch({
-//           type: types.DELETE_BLOCKED_COMPANY_NAME_SUCCESS,
-//           payload: response,
-//         });
-//       } else {
-//         dispatch({
-//           type: types.DELETE_BLOCKED_COMPANY_NAME_ERROR,
-//           payload: response.message,
-//         });
-//       }
-//     } catch (err) {
-//       dispatch({
-//         type: types.DELETE_BLOCKED_COMPANY_NAME_ERROR,
-//         payload: err.message,
-//       });
-//     }
-//   };
-// };

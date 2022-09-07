@@ -6,12 +6,15 @@ import {
   query,
   setDoc,
   arrayUnion,
+  writeBatch,
 } from "firebase/firestore";
 import {
   leadsCollection,
   fullDescriptionCollection,
   assignedLeadCollection,
+  blockedCompaniesListCollection,
 } from "../firebase/collections";
+import { firestore } from "../firebase/firebaseInit";
 
 export const getLeadsList = async () => {
   const leadsSnapshot = await getDocs(
@@ -38,23 +41,35 @@ export const getLeadsFullDescription = async () => {
 };
 
 export const approvRejectLeads = async (leadsId, leadStatus, reason) => {
+  const batchArray = [];
+  batchArray.push(writeBatch(firestore));
+  let operationCounter = 0;
+  let batchIndex = 0;
+
   try {
-    if (leadStatus === -1) {
-      leadsId.forEach(async (lead) => {
-        const updateApproveReject = doc(leadsCollection, lead);
-        await updateDoc(updateApproveReject, {
+    leadsId.forEach(async (lead) => {
+      const updateApproveReject = doc(leadsCollection, lead);
+      if (leadStatus === -1) {
+        batchArray[batchIndex].update(updateApproveReject, {
           status: leadStatus,
           reason: reason,
         });
-      });
-    }
-    // Blocking future leads
-    else {
-      leadsId.forEach(async (lead) => {
-        const updateApproveReject = doc(leadsCollection, lead);
-        await updateDoc(updateApproveReject, { status: leadStatus });
-      });
-    }
+      } else {
+        batchArray[batchIndex].update(updateApproveReject, {
+          status: leadStatus,
+        });
+      }
+
+      operationCounter++;
+      if (operationCounter === 499) {
+        batchArray.push(writeBatch(firestore));
+        batchIndex++;
+        operationCounter = 0;
+      }
+    });
+
+    batchArray.forEach(async (batch) => await batch.commit());
+
     return { leadsId: leadsId, status: leadStatus };
   } catch (err) {
     return err;

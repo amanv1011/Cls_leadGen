@@ -80,6 +80,10 @@ export const typesOfSource = [
     sourceName: "Indeed United Kingdom",
   },
   {
+    value: "indeed_usa",
+    sourceName: "Indeed USA",
+  },
+  {
     value: "seek_aus",
     sourceName: "Seek Australia",
   },

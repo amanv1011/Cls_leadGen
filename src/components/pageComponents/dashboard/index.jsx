@@ -18,6 +18,7 @@ import {
 } from "../../../redux/actions/leadActions";
 import { getlastCrawledDateAction } from "../../../redux/actions/lastCrawledDateActions";
 import { getCountryAction } from "../../../redux/actions/countryActions";
+import { getBlockedCompaniesListAction } from "../../../redux/actions/blockedCompaniesAction";
 import "./dashboard.scss";
 
 const Dashboard = ({ children }) => {
@@ -41,7 +42,7 @@ const Dashboard = ({ children }) => {
     .filter(function (item) {
       return !array1.includes(item.id);
     })
-    .filter((lead) => lead.companyName !== null);
+    // .filter((lead) => lead.companyName !== null);
 
   let [activeCampPer, setActiveCampPer] = useState(0);
   let [activeCamp, setActiveCamp] = useState(0);
@@ -68,6 +69,7 @@ const Dashboard = ({ children }) => {
     dispatch(getCountryAction());
     dispatch(getAssignedCampaignsAction());
     dispatch(getlastCrawledDateAction());
+    dispatch(getBlockedCompaniesListAction());
   }, []);
 
   useEffect(() => {
