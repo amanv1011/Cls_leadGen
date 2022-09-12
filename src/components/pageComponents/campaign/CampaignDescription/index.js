@@ -227,6 +227,9 @@ const CampaignDescription = ({
     const updateDetails = {
       ...addCampaignDetails,
       frequency: parseInt(frequency),
+      name: name?.trim(),
+      location: location?.trim(),
+      queryURL: queryURL?.trim(),
       tags,
       onGoing,
       campaignSeen: true,
