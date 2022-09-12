@@ -335,7 +335,7 @@ const LeadsDisplay = ({
                 <div
                   className={`lead-display-subcontainers ${
                     selectedLeadId === lead.id ? "selected" : ""
-                  }  ${lead && lead.seen && lead.seen === true ? "seen" : ""} `}
+                  } ${lead && lead.seen && lead.seen === true ? "seen" : ""}`}
                   onClick={() => handleClick(lead.id)}
                   key={idx}
                 >
@@ -371,7 +371,7 @@ const LeadsDisplay = ({
                       <div
                         className={`lead-display-btn-text ${
                           selectedLeadId === lead.id ? "selected" : ""
-                        }  ${
+                        } ${
                           lead && lead.seen && lead.seen === true ? "seen" : ""
                         }`}
                       >

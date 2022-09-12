@@ -163,3 +163,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #fafafa;
   border-radius: 15px 15px 0 0;
 }
+.TagQueryNote {
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 17px;
+  color: red;
+  opacity: 0.8;
+  margin-bottom: 15px;
+}
+.TagQueryNote span {
+  font-weight: 800;
+  font-size: 11px;
+  line-height: 17px;
+  color: red;
+  margin-bottom: 15px;
+}

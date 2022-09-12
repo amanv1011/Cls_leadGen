@@ -293,14 +293,8 @@ const AddCampaginModal = ({ countryList }) => {
             </div>
           </div>
           <form onSubmit={onSubmitEventhandler} style={{ margin: "20px" }}>
-            <Grid container spacing={2}>
-              <Grid
-                item
-                xs={4}
-                style={{
-                  marginTop: "10px",
-                }}
-              >
+            <Grid container>
+              <Grid item xs={4}>
                 <label
                   style={{ fontSize: "14px" }}
                   className="addCampaignModal-labels"
@@ -320,13 +314,7 @@ const AddCampaginModal = ({ countryList }) => {
                   required
                 />
               </Grid>
-              <Grid
-                item
-                xs={4}
-                style={{
-                  marginTop: "10px",
-                }}
-              >
+              <Grid item xs={4}>
                 <label className="addCampaignModal-labels">Source Type</label>
                 <br />
                 <select
@@ -347,25 +335,24 @@ const AddCampaginModal = ({ countryList }) => {
                   ))}
                 </select>
               </Grid>
-              <Grid
-                item
-                xs={4}
-                style={{
-                  marginTop: "10px",
-                }}
-              >
+              <Grid item xs={4}>
                 <label className="addCampaignModal-labels">Tag</label>
                 <br />
                 <input
                   type="text"
                   className="addCampaignModal-inputs"
-                  placeholder="eg: JIRA, React Js, etc., "
+                  placeholder="eg: React/Node developer,etc., "
                   name="tags"
                   value={tags}
                   onChange={tagInputChange}
                   autoComplete="off"
                   required
+                  style={{ marginBottom: "0px" }}
                 />
+                <div className="TagQueryNote">
+                  Note: Use exact tag names like{" "}
+                  <span>React developer, Node developer, etc.,</span>
+                </div>
               </Grid>
               <Grid item xs={4}>
                 <label className="addCampaignModal-labels">
@@ -532,8 +519,16 @@ const AddCampaginModal = ({ countryList }) => {
                   value={queryURL}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  style={{ width: "100%" }}
+                  style={{ width: "100%", marginBottom: "0px" }}
                 />
+                <div className="TagQueryNote">
+                  Note: Copy and paste part of filter query string like
+                  <span style={{ opacity: "1" }}>
+                    {" "}
+                    "&fansw&sca03Aattr(0SQF7/38&sortdate"
+                  </span>
+                  .
+                </div>
               </Grid>
               <Grid item xs={12}>
                 <Divider style={{ marginBottom: "30px" }} />
