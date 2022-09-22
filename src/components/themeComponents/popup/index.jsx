@@ -27,6 +27,7 @@ const style = {
 const AddCampaginModal = ({ countryList }) => {
   const dispatch = useDispatch();
 
+  const campaignsList = useSelector((state) => state.allCampaigns.campaignList);
   const isModalOpen = useSelector((state) => state.allCampaigns.isModalVisible);
   const a__campgaignId = useSelector(
     (state) => state.allCampaigns.a__campgaign__Id
@@ -112,6 +113,17 @@ const AddCampaginModal = ({ countryList }) => {
 
     try {
       let alertMessage = "";
+      // Code for same campaign name : If same campaign name then returns with n alert
+      // const foundSameCampaignName = campaignsList.find(
+      //   (campaign) => name.trim().toLowerCase() === campaign.name.toLowerCase()
+      // );
+
+      // if (foundSameCampaignName) {
+      //   alertMessage =
+      //     "A similar campaign was found.Campaign names cannot be same";
+      //   alert(alertMessage);
+      //   return;
+      // }
       if (
         name.trim().length === 0 ||
         tags.length === 0 ||
