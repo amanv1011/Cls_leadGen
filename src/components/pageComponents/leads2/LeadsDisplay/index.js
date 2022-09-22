@@ -36,6 +36,10 @@ const LeadsDisplay = ({
   reason,
   setReason,
   disabled,
+  page,
+  setPage,
+  index,
+  setIndex,
 }) => {
   const dispatch = useDispatch();
 
@@ -46,15 +50,13 @@ const LeadsDisplay = ({
   const [blockedCompanies, setBlockedCompanies] = useState(false);
   //pagination state
   const [pageSize] = useState(10);
-  const [page, setPage] = useState(1);
-  const [index, setIndex] = useState(1);
+  // Lifted 2 states of pagination to parent Component
   const [data, setData] = useState();
   const firstIndex = 0;
   //functions for popover
   const handlePopClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const leadViewUpdate = useSelector(
     (state) => state.updateLeadViewStatusReducer.leadViewStatus
   );

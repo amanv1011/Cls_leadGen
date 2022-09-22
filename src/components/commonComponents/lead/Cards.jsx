@@ -42,6 +42,9 @@ const Cards = (props) => {
   const [filteredUsers, setfilteredUsers] = useState([]);
   const [reason, setReason] = useState("");
   const [blockedCompanies, setBlockedCompanies] = useState(false);
+  const [page, setPage] = useState(1);
+  const [index, setIndex] = useState(1);
+
   let leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
   const userRole = useSelector(
@@ -339,7 +342,12 @@ const Cards = (props) => {
                 padding: "2px 12px",
               }}
             >
-              <LeadsSearch />
+              <LeadsSearch
+                page={page}
+                setPage={setPage}
+                index={index}
+                setIndex={setIndex}
+              />
             </div>
             <LeadsDisplay
               leadsList={leadsData}
@@ -366,6 +374,10 @@ const Cards = (props) => {
                   ? true
                   : false
               }
+              page={page}
+              setPage={setPage}
+              index={index}
+              setIndex={setIndex}
             />
           </Box>
           <Box component={"div"} className="section leads-details">
