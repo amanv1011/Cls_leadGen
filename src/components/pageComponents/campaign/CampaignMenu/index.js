@@ -79,18 +79,16 @@ const CampaignMenu = ({
       }}
     >
       <MenuItem value="AllCampaigns" className="select-option" sx={style}>
-        {`All (${allCamapignsCount && allCamapignsCount.length})`}
+        {`All (${allCamapignsCount})`}
       </MenuItem>
       <MenuItem className="select-option" sx={style} value="activeCampaigns">
-        {`Active (${activeCamapignsCount && activeCamapignsCount.length})`}
+        {`Active (${activeCamapignsCount})`}
       </MenuItem>
       <MenuItem
         className="select-option"
         sx={style}
         value="inActiveCampaigns"
-      >{`In-Active (${
-        inActiveCamapignsCount && inActiveCamapignsCount.length
-      })`}</MenuItem>
+      >{`In-Active (${inActiveCamapignsCount})`}</MenuItem>
     </Select>
   );
 };

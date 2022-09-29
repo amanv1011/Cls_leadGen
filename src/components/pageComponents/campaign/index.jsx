@@ -121,15 +121,17 @@ const Campaign = () => {
       ownerFilterValue === "Owner" &&
       searchValue === ""
     ) {
-      dispatch(campaignCountActions.getAllCampaignsCountAction(campaignsList));
+      dispatch(
+        campaignCountActions.getAllCampaignsCountAction(campaignsList.length)
+      );
       dispatch(
         campaignCountActions.getActiveCampaignsCountAction(
-          campaignsList?.filter((campaign) => campaign?.status === 1)
+          campaignsList?.filter((campaign) => campaign?.status === 1).length
         )
       );
       dispatch(
         campaignCountActions.getInActiveCampaignsCountAction(
-          campaignsList?.filter((campaign) => campaign?.status === 0)
+          campaignsList?.filter((campaign) => campaign?.status === 0).length
         )
       );
       if (campaignStateFilterValue === "AllCampaigns") {
