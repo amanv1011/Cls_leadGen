@@ -1,9 +1,9 @@
 import * as types from "../type";
 
 const initialState = {
-  allCamapignsCount: [],
-  activeCamapignsCount: [],
-  inActiveCamapignsCount: [],
+  allCamapignsCount: 0,
+  activeCamapignsCount: 0,
+  inActiveCamapignsCount: 0,
 };
 
 export const campaignCountReducer = (

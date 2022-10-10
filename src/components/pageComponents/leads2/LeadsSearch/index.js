@@ -4,7 +4,7 @@ import { leadsFilterSearch } from "../../../../redux/actions/leadsFilter";
 import "./leadsSearch.scss";
 import search from "../../../../assets/icons/search.svg";
 
-const LeadsSearch = () => {
+const LeadsSearch = ({ setPage, setIndex }) => {
   const dispatch = useDispatch();
 
   const [SearchInput, setSearchInput] = useState("");
@@ -13,8 +13,12 @@ const LeadsSearch = () => {
     await setSearchInput(event.target.value);
     if (event.target.value.length > 2) {
       dispatch(leadsFilterSearch(event.target.value));
+      setIndex(1);
+      setPage(1);
     } else if (event.target.value.length === 0) {
       dispatch(leadsFilterSearch(""));
+      setIndex(1);
+      setPage(1);
     }
   };
 

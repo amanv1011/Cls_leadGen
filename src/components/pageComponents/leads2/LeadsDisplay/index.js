@@ -18,6 +18,7 @@ import RestrictedComponent from "../../../higherOrderComponents/restrictedCompon
 import Pagination from "@mui/material/Pagination";
 import { postBlockedCompanyAction } from "../../../../redux/actions/blockedCompaniesAction";
 import { getBlockedCompaniesListAction } from "../../../../redux/actions/blockedCompaniesAction";
+import { Timestamp } from "firebase/firestore";
 
 const LeadsDisplay = ({
   leadsList,
@@ -36,6 +37,10 @@ const LeadsDisplay = ({
   reason,
   setReason,
   disabled,
+  page,
+  setPage,
+  index,
+  setIndex,
 }) => {
   const dispatch = useDispatch();
 
@@ -46,15 +51,13 @@ const LeadsDisplay = ({
   const [blockedCompanies, setBlockedCompanies] = useState(false);
   //pagination state
   const [pageSize] = useState(10);
-  const [page, setPage] = useState(1);
-  const [index, setIndex] = useState(1);
+  // Lifted 2 states of pagination to parent Component
   const [data, setData] = useState();
   const firstIndex = 0;
   //functions for popover
   const handlePopClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const leadViewUpdate = useSelector(
     (state) => state.updateLeadViewStatusReducer.leadViewStatus
   );
@@ -157,6 +160,8 @@ const LeadsDisplay = ({
           agg.push({
             companyName: curr.companyName,
             leadId: [curr.leadId],
+            reasonForBlock: reason.length > 0 ? reason : "",
+            companyBlockedAt: Timestamp.fromDate(new Date()),
           });
         }
         return agg;
@@ -325,7 +330,7 @@ const LeadsDisplay = ({
             </Popover>
           </div>
         </div>
-        <LeadsMenu />
+        <LeadsMenu setPage={setPage} setIndex={setIndex} />
       </div>
       <div className="lead-display-container">
         {data && data.length > 0 ? (
@@ -335,12 +340,11 @@ const LeadsDisplay = ({
                 <div
                   className={`lead-display-subcontainers ${
                     selectedLeadId === lead.id ? "selected" : ""
-                  }  ${lead && lead.seen && lead.seen === true ? "seen" : ""} `}
+                  } ${lead && lead.seen && lead.seen === true ? "seen" : ""}`}
                   onClick={() => handleClick(lead.id)}
                   key={idx}
                 >
                   <div className="lead-display-check">
-                    {/* <LeadsCheckbox /> */}
                     <input
                       type="checkbox"
                       name={lead.id}
@@ -371,7 +375,7 @@ const LeadsDisplay = ({
                       <div
                         className={`lead-display-btn-text ${
                           selectedLeadId === lead.id ? "selected" : ""
-                        }  ${
+                        } ${
                           lead && lead.seen && lead.seen === true ? "seen" : ""
                         }`}
                       >
@@ -383,17 +387,7 @@ const LeadsDisplay = ({
                         selectedLeadId === lead.id ? "selected-sub" : ""
                       }`}
                     >
-                      <div
-                        style={
-                          {
-                            // textOverflow: "ellipsis",
-                            // width: "50%",
-                            // whiteSpace: "nowrap",
-                            // overflow: "hidden",
-                            // textAlign: "start",
-                          }
-                        }
-                      >
+                      <div>
                         {lead.companyName === null ? "NA" : lead.companyName}
                       </div>
                       <span
@@ -407,19 +401,6 @@ const LeadsDisplay = ({
                   </div>
                 </div>
               ))}
-
-            {/* <Pagination
-              prev
-              last
-              next
-              first
-              size="sm"
-              total={leadsList.length}
-              limit={20}
-              activePage={activePage}
-              onChangePage={setActivePage}
-            /> */}
-            {/* <PaginationComponent dataPerPage={10} dataLength={leadsList.length} /> */}
           </>
         ) : (
           <>
@@ -439,20 +420,24 @@ const LeadsDisplay = ({
           </>
         )}
       </div>
-      <Pagination
-        count={Math.ceil(leadsListData.length / pageSize)}
-        page={page}
-        color="primary"
-        size="small"
-        sx={{
-          marginTop: "8px",
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-        }}
-        boundaryCount={1}
-        onChange={handleChange}
-      />
+      {Math.ceil(leadsListData.length / pageSize) === 0 ? (
+        <></>
+      ) : (
+        <Pagination
+          count={Math.ceil(leadsListData.length / pageSize)}
+          page={page}
+          color="primary"
+          size="small"
+          sx={{
+            marginTop: "8px",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          boundaryCount={1}
+          onChange={handleChange}
+        />
+      )}
     </React.Fragment>
   );
 };

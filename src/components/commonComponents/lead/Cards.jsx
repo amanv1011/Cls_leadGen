@@ -8,6 +8,7 @@ import {
   assignLeadToUsersAction,
   getAssignedLeadsAction,
   updateLeadStatus,
+  getAllLeadsAction,
 } from "../../../redux/actions/leadActions";
 import { cardsDisplayAction } from "../../../redux/actions/leadActions";
 import IButton from "../../themeComponents/button";
@@ -25,7 +26,8 @@ import {
   postBlockedCompanyAction,
   getBlockedCompaniesListAction,
 } from "../../../redux/actions/blockedCompaniesAction";
-import { deleteBlockedCompaniesList } from "../../../services/api/blockedCompanies";
+import { Timestamp } from "firebase/firestore";
+// import { deleteBlockedCompaniesList } from "../../../services/api/blockedCompanies";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
@@ -42,6 +44,9 @@ const Cards = (props) => {
   const [filteredUsers, setfilteredUsers] = useState([]);
   const [reason, setReason] = useState("");
   const [blockedCompanies, setBlockedCompanies] = useState(false);
+  const [page, setPage] = useState(1);
+  const [index, setIndex] = useState(1);
+
   let leadsData = props.leadData;
   let allLeadData = useSelector((state) => state.PopupReducer.popupData);
   const userRole = useSelector(
@@ -81,14 +86,15 @@ const Cards = (props) => {
   const blockedCompaniesList = useSelector(
     (state) => state.blockedCompaniesReducer.blockedCompainesList
   );
-
+  const leadsDropDownFilter = useSelector(
+    (state) => state.leadsFilter.leadsDropDownFilter
+  );
   let array1 = [];
 
   blockedCompaniesList.length > 0 &&
     blockedCompaniesList.map((blocked) =>
       blocked.leadId.map((item) => array1.push(item))
     );
-
   leadsData = leadsData
     .filter(function (item) {
       return !array1.includes(item.id);
@@ -246,8 +252,6 @@ const Cards = (props) => {
   // This is to delete the documents present in firebasedatabase without using the firebase webapp
   // blockedCompaniesList.map((item) => deleteBlockedCompaniesList(item.id));
 
-  console.log("blockedCompaniesList", blockedCompaniesList);
-
   //Blocking the companies list for single leads
   let res =
     leadsData &&
@@ -262,6 +266,8 @@ const Cards = (props) => {
           {
             leadId: leadIdValue,
             companyName: allLeadData.companyName,
+            reasonForBlock: reason.length > 0 ? reason : "",
+            companyBlockedAt: Timestamp.fromDate(new Date()),
           },
         ])
       );
@@ -339,7 +345,12 @@ const Cards = (props) => {
                 padding: "2px 12px",
               }}
             >
-              <LeadsSearch />
+              <LeadsSearch
+                page={page}
+                setPage={setPage}
+                index={index}
+                setIndex={setIndex}
+              />
             </div>
             <LeadsDisplay
               leadsList={leadsData}
@@ -366,6 +377,10 @@ const Cards = (props) => {
                   ? true
                   : false
               }
+              page={page}
+              setPage={setPage}
+              index={index}
+              setIndex={setIndex}
             />
           </Box>
           <Box component={"div"} className="section leads-details">

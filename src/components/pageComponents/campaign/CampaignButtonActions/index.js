@@ -22,7 +22,7 @@ const CampaignButtonActions = ({
   const [idForDelete, setIdForDelete] = useState("");
 
   const current_date = moment().format("YYYY-MM-DD");
-  const difference_startDate_endDate = moment(current_date).diff(
+  const difference_startDate_currentDate = moment(current_date).diff(
     campaignDocument?.start_date &&
       moment
         .unix(
@@ -89,6 +89,23 @@ const CampaignButtonActions = ({
     );
   };
 
+  const editDisable = () => {
+    if (difference_startDate_currentDate > 0) {
+      return true;
+    }
+    if (difference_startDate_currentDate < 0) {
+      return false;
+    }
+    if (difference_startDate_currentDate === 0) {
+      if (campaignDocument.start_time < moment().format("HH:mm")) {
+        return true;
+      }
+      if (campaignDocument.start_time >= moment().format("HH:mm")) {
+        return false;
+      }
+    }
+  };
+
   if (campgaignId) {
     return (
       <form id="campaignUpdate-form">
@@ -124,17 +141,9 @@ const CampaignButtonActions = ({
                     campaignActions.campaignIDAction(campaignDocument.id)
                   );
                 }}
-                disabled={
-                  selectedArray.length !== 0 ||
-                  difference_startDate_endDate > 0 ||
-                  campaignDocument.start_time <= moment().format("HH:mm")
-                    ? true
-                    : false
-                }
+                disabled={selectedArray.length !== 0 || editDisable()}
                 style={
-                  selectedArray.length !== 0 ||
-                  difference_startDate_endDate > 0 ||
-                  campaignDocument.start_time <= moment().format("HH:mm")
+                  selectedArray.length !== 0 || editDisable()
                     ? {
                         pointerEvents: "auto",
                         cursor: "not-allowed",

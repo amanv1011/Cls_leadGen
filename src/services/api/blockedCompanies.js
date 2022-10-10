@@ -32,15 +32,10 @@ export const postBlockedCompany = async (objectsToAdd) => {
       batchArray.push(firebaseMethods.writeBatch(firestore));
       batchIndex++;
       operationCounter = 0;
-      setTimeout(() => {
-        window.location.reload();
-      }, 5000);
     }
   });
   batchArray.forEach(async (batch) => await batch.commit());
-  setTimeout(() => {
-    window.location.reload();
-  }, 2000);
+
   return newDocRef.id;
 };
 

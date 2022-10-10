@@ -37,7 +37,6 @@ const AppBar = styled(MuiAppBar, {
   },
 }));
 
-// const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Navbar = ({ handleDrawer }) => {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);

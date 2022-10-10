@@ -11,7 +11,6 @@ import { getApproveRejectCountReducer } from "./approveRejectCountReducer";
 import { PopupReducers } from "./PopupReducers";
 import { leadsFilterReducer } from "./leadsFilterReducer";
 import { dateModalReducer } from "./dateModalReducer";
-import { paginationReducer } from "./paginationReducer";
 import { alertReducer } from "./alertReducer";
 import loaderReducer from "./globalLoaderReducer";
 import {
@@ -33,7 +32,6 @@ const rootReducer = combineReducers({
   PopupReducer: PopupReducers,
   leadsFilter: leadsFilterReducer,
   dateModal: dateModalReducer,
-  paginationStates: paginationReducer,
   snackBar: alertReducer,
   loaderReducer: loaderReducer,
   users: getUsersReducer,

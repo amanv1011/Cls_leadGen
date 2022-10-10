@@ -27,6 +27,7 @@ const style = {
 const AddCampaginModal = ({ countryList }) => {
   const dispatch = useDispatch();
 
+  const campaignsList = useSelector((state) => state.allCampaigns.campaignList);
   const isModalOpen = useSelector((state) => state.allCampaigns.isModalVisible);
   const a__campgaignId = useSelector(
     (state) => state.allCampaigns.a__campgaign__Id
@@ -111,6 +112,34 @@ const AddCampaginModal = ({ countryList }) => {
     event.preventDefault();
 
     try {
+      let alertMessage = "";
+      // Code for same campaign name : If same campaign name then returns with n alert
+      // const foundSameCampaignName = campaignsList.find(
+      //   (campaign) => name.trim().toLowerCase() === campaign.name.toLowerCase()
+      // );
+
+      // if (foundSameCampaignName) {
+      //   alertMessage =
+      //     "A similar campaign was found.Campaign names cannot be same";
+      //   alert(alertMessage);
+      //   return;
+      // }
+      if (
+        name.trim().length === 0 ||
+        tags.length === 0 ||
+        location.trim().length === 0
+      ) {
+        if (name.trim().length === 0) {
+          alertMessage = "Campaign name cannot be empty";
+        }
+        if (location.trim().length === 0) {
+          alertMessage = "Location cannot be empty";
+        }
+
+        alert(alertMessage);
+        return;
+      }
+
       if (source === "seek_aus") {
         if (tags.length > 1) {
           alert(
@@ -149,6 +178,9 @@ const AddCampaginModal = ({ countryList }) => {
       const newCampaign = {
         ...addCampaignDetails,
         frequency: parseInt(frequency),
+        name: name.trim(),
+        location: location.trim(),
+        queryURL: queryURL?.trim(),
         tags,
         onGoing,
         start_date: Timestamp.fromDate(new Date(start_date)),
@@ -273,14 +305,8 @@ const AddCampaginModal = ({ countryList }) => {
             </div>
           </div>
           <form onSubmit={onSubmitEventhandler} style={{ margin: "20px" }}>
-            <Grid container spacing={2}>
-              <Grid
-                item
-                xs={4}
-                style={{
-                  marginTop: "10px",
-                }}
-              >
+            <Grid container>
+              <Grid item xs={4}>
                 <label
                   style={{ fontSize: "14px" }}
                   className="addCampaignModal-labels"
@@ -300,13 +326,7 @@ const AddCampaginModal = ({ countryList }) => {
                   required
                 />
               </Grid>
-              <Grid
-                item
-                xs={4}
-                style={{
-                  marginTop: "10px",
-                }}
-              >
+              <Grid item xs={4}>
                 <label className="addCampaignModal-labels">Source Type</label>
                 <br />
                 <select
@@ -327,25 +347,24 @@ const AddCampaginModal = ({ countryList }) => {
                   ))}
                 </select>
               </Grid>
-              <Grid
-                item
-                xs={4}
-                style={{
-                  marginTop: "10px",
-                }}
-              >
+              <Grid item xs={4}>
                 <label className="addCampaignModal-labels">Tag</label>
                 <br />
                 <input
                   type="text"
                   className="addCampaignModal-inputs"
-                  placeholder="eg: JIRA, React Js, etc., "
+                  placeholder="eg: React/Node developer,etc., "
                   name="tags"
                   value={tags}
                   onChange={tagInputChange}
                   autoComplete="off"
                   required
+                  style={{ marginBottom: "0px" }}
                 />
+                <div className="TagQueryNote">
+                  Note: Use exact tag names like{" "}
+                  <span>React developer, Node developer, etc.,</span>
+                </div>
               </Grid>
               <Grid item xs={4}>
                 <label className="addCampaignModal-labels">
@@ -512,8 +531,16 @@ const AddCampaginModal = ({ countryList }) => {
                   value={queryURL}
                   onChange={onInputChangeHandler}
                   autoComplete="off"
-                  style={{ width: "100%" }}
+                  style={{ width: "100%", marginBottom: "0px" }}
                 />
+                <div className="TagQueryNote">
+                  Note: Copy and paste part of filter query string like
+                  <span style={{ opacity: "1" }}>
+                    {" "}
+                    "&fansw&sca03Aattr(0SQF7/38&sortdate"
+                  </span>
+                  .
+                </div>
               </Grid>
               <Grid item xs={12}>
                 <Divider style={{ marginBottom: "30px" }} />
