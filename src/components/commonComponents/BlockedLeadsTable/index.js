@@ -40,34 +40,31 @@ export const BlockedLeadsTable = () => {
     dispatch(getBlockedCompaniesListAction());
   }, []);
 
-  if (blockedCompaniesList.length === 0)
-    return (
-      <Box component="div" className="campaign-container">
-        <Box component={"div"} className="campaign-body">
-          <Box
-            component={"div"}
+  return blockedCompaniesList?.length === 0 ? (
+    <Box component="div" className="campaign-container">
+      <Box component={"div"} className="campaign-body">
+        <Box
+          component={"div"}
+          style={{
+            height: " 87vh",
+            width: "87vw",
+          }}
+          className="section campaign-details"
+        >
+          <div
             style={{
-              height: " 87vh",
-              width: "87vw",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              fontSize: "20px",
             }}
-            className="section campaign-details"
           >
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                fontSize: "20px",
-              }}
-            >
-              No Blocked Companies
-            </div>
-          </Box>
+            No Blocked Companies
+          </div>
         </Box>
       </Box>
-    );
-
-  return (
+    </Box>
+  ) : (
     <Box component="div" className="campaign-container">
       <Box component={"div"} className="campaign-body">
         <Box
