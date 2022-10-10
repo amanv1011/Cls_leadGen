@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import WysiwygIcon from "@mui/icons-material/Wysiwyg";
+import BlockIcon from "@mui/icons-material/Block";
+
 import { roles } from "../../../utils/constants";
 import {
   clearFilters,
@@ -106,6 +108,11 @@ export default function MiniDrawer({
             icon: <WysiwygIcon />,
             title: "Leads",
             url: "/leads",
+          },
+          {
+            icon: <BlockIcon />,
+            title: "Companies",
+            url: "/blockedCompanies",
           },
         ]
       : [

@@ -41,35 +41,21 @@ export const getLeadsFullDescription = async () => {
 };
 
 export const approvRejectLeads = async (leadsId, leadStatus, reason) => {
-  const batchArray = [];
-  batchArray.push(writeBatch(firestore));
-  let operationCounter = 0;
-  let batchIndex = 0;
-
   try {
-    leadsId.forEach(async (lead) => {
-      const updateApproveReject = doc(leadsCollection, lead);
-      if (leadStatus === -1) {
-        batchArray[batchIndex].update(updateApproveReject, {
+    if (leadStatus === -1) {
+      leadsId.forEach(async (lead) => {
+        const updateApproveReject = doc(leadsCollection, lead);
+        await updateDoc(updateApproveReject, {
           status: leadStatus,
           reason: reason,
         });
-      } else {
-        batchArray[batchIndex].update(updateApproveReject, {
-          status: leadStatus,
-        });
-      }
-
-      operationCounter++;
-      if (operationCounter === 499) {
-        batchArray.push(writeBatch(firestore));
-        batchIndex++;
-        operationCounter = 0;
-      }
-    });
-
-    batchArray.forEach(async (batch) => await batch.commit());
-
+      });
+    } else {
+      leadsId.forEach(async (lead) => {
+        const updateApproveReject = doc(leadsCollection, lead);
+        await updateDoc(updateApproveReject, { status: leadStatus });
+      });
+    }
     return { leadsId: leadsId, status: leadStatus };
   } catch (err) {
     return err;

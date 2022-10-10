@@ -6,7 +6,7 @@ import { leadsDropDownFilterAction } from "../../../../redux/actions/leadsFilter
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./leadsMenu.scss";
 
-const LeadsMenu = () => {
+const LeadsMenu = ({ setPage, setIndex }) => {
   const dispatch = useDispatch();
   const style = {
     fontSize: "14px",
@@ -44,6 +44,8 @@ const LeadsMenu = () => {
       value={leadsDropDownFilter}
       onChange={(event) => {
         dispatch(leadsDropDownFilterAction(event.target.value));
+        setPage(1);
+        setIndex(1);
       }}
       size="small"
       className="select-container"

@@ -18,6 +18,7 @@ import RestrictedComponent from "../../../higherOrderComponents/restrictedCompon
 import Pagination from "@mui/material/Pagination";
 import { postBlockedCompanyAction } from "../../../../redux/actions/blockedCompaniesAction";
 import { getBlockedCompaniesListAction } from "../../../../redux/actions/blockedCompaniesAction";
+import { Timestamp } from "firebase/firestore";
 
 const LeadsDisplay = ({
   leadsList,
@@ -159,6 +160,8 @@ const LeadsDisplay = ({
           agg.push({
             companyName: curr.companyName,
             leadId: [curr.leadId],
+            reasonForBlock: reason.length > 0 ? reason : "",
+            companyBlockedAt: Timestamp.fromDate(new Date()),
           });
         }
         return agg;
@@ -327,7 +330,7 @@ const LeadsDisplay = ({
             </Popover>
           </div>
         </div>
-        <LeadsMenu />
+        <LeadsMenu setPage={setPage} setIndex={setIndex} />
       </div>
       <div className="lead-display-container">
         {data && data.length > 0 ? (
@@ -342,7 +345,6 @@ const LeadsDisplay = ({
                   key={idx}
                 >
                   <div className="lead-display-check">
-                    {/* <LeadsCheckbox /> */}
                     <input
                       type="checkbox"
                       name={lead.id}
@@ -385,17 +387,7 @@ const LeadsDisplay = ({
                         selectedLeadId === lead.id ? "selected-sub" : ""
                       }`}
                     >
-                      <div
-                        style={
-                          {
-                            // textOverflow: "ellipsis",
-                            // width: "50%",
-                            // whiteSpace: "nowrap",
-                            // overflow: "hidden",
-                            // textAlign: "start",
-                          }
-                        }
-                      >
+                      <div>
                         {lead.companyName === null ? "NA" : lead.companyName}
                       </div>
                       <span
@@ -409,19 +401,6 @@ const LeadsDisplay = ({
                   </div>
                 </div>
               ))}
-
-            {/* <Pagination
-              prev
-              last
-              next
-              first
-              size="sm"
-              total={leadsList.length}
-              limit={20}
-              activePage={activePage}
-              onChangePage={setActivePage}
-            /> */}
-            {/* <PaginationComponent dataPerPage={10} dataLength={leadsList.length} /> */}
           </>
         ) : (
           <>
@@ -441,20 +420,24 @@ const LeadsDisplay = ({
           </>
         )}
       </div>
-      <Pagination
-        count={Math.ceil(leadsListData.length / pageSize)}
-        page={page}
-        color="primary"
-        size="small"
-        sx={{
-          marginTop: "8px",
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-        }}
-        boundaryCount={1}
-        onChange={handleChange}
-      />
+      {Math.ceil(leadsListData.length / pageSize) === 0 ? (
+        <></>
+      ) : (
+        <Pagination
+          count={Math.ceil(leadsListData.length / pageSize)}
+          page={page}
+          color="primary"
+          size="small"
+          sx={{
+            marginTop: "8px",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          boundaryCount={1}
+          onChange={handleChange}
+        />
+      )}
     </React.Fragment>
   );
 };
