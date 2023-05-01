@@ -75,5 +75,12 @@
   "browser": {
     "fs": false,
     "os": false
-  }
+  },
+
+"engines": {
+  "npm": ">=8.7.0"
+},
+"overrides": {
+  "react": "$react"
+}
 }
